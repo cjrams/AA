@@ -2,13 +2,13 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v1.72</title>
+<title>AA+ v1.73</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-<h2>AA+ v1.72</h2>
+<h2>AA+ v1.73</h2>
 <p>Welcome to <strong>AA+</strong>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -1113,6 +1113,18 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>Fixed a compiler warning in CAAEaster::Calculate as reported at
 	<a href="http://stackoverflow.com/questions/2348415/objective-c-astronomy-library">
 	http://stackoverflow.com/questions/2348415/objective-c-astronomy-library</a>. </li>
+</ul>
+<p><strong>v1.73 (16 October 2016) </strong></p>
+<ul>
+	<li>Improved the accuracy of CAASun::ApparentEclipticLongitude when the 
+	bHighPrecision parameter is true. The code now uses a new 
+	VariationGeometricEclipticLongitude method which provides a new higher 
+	precision method to calculate the effect of aberration. This takes into 
+	account that Earth's orbit around the Sun is not a purely unperturbed 
+	elliptical orbit. This improves the accuracy of the sample 25.a/b from the 
+	book by a couple of hundreds of arc seconds. The results now are exactly in 
+	sync with the results as reported in the book. Thanks to &quot;Pavel&quot; for 
+	reporting this issue. </li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -5994,6 +6006,8 @@ refers to Chapter 25 &amp; 26 in the book.</p>
 <p><a href="#CAASun_EquatorialRectangularCoordinatesJ2000">EquatorialRectangularCoordinatesJ2000</a></p>
 <p><a href="#CAASun_EquatorialRectangularCoordinatesB1950">EquatorialRectangularCoordinatesB1950</a></p>
 <p><a href="#CAASun_EquatorialRectangularCoordinatesAnyEquinox">EquatorialRectangularCoordinatesAnyEquinox</a></p>
+<p><a href="#CAASun_VariationGeometricEclipticLongitude">
+VariationGeometricEclipticLongitude</a></p>
 <p>&nbsp;</p>
 <p><strong><a name="CAASun_GeometricEclipticLongitude"></a>CAASun::GeometricEclipticLongitude</strong></p>
 <p><strong>static double GeometricEclipticLongitude(double </strong><i>JD</i><strong>, 
@@ -6117,6 +6131,17 @@ units referred to the specified equinox defined in the FK5 theory.</p>
 <p>JDEquinox The date in Dynamical time specifying the equinox to use.</p>
 <p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
+<p>&nbsp;</p>
+<p><strong><a name="CAASun_VariationGeometricEclipticLongitude"></a>CAASun::VariationGeometricEclipticLongitude</strong></p>
+<p><strong>static double VariationGeometricEclipticLongitude(double </strong><i>
+JD</i><strong>)</strong></p>
+<p><strong>Return Value</strong></p>
+<p>The variation in ecliptic longitude in arcseconds per day of the Sun due to 
+aberation. </p>
+<p><strong>Parameters</strong></p>
+<p><em>JD</em> The date in Dynamical time to calculate for. The value returned 
+by this method is used to convert the geometric ecliptic longitude of the Sun to 
+the apparent longitude. This refers to equation on page 168.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong><a name="CAAUranus"></a>CAAUranus</strong></p>
@@ -9090,7 +9115,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>7 July 2016</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>16 October 2016</p>
 
 </body>
 
