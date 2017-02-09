@@ -1,5 +1,5 @@
 /*
-Module : AAMOONPERIGEEAPOGEE.CPP
+Module : AAMoonPerigeeApogee.cpp
 Purpose: Implementation for the algorithms which obtain the dates of Lunar Apogee and Perigee
 Created: PJN / 29-12-2003
 History: PJN / 07-02-2009 1. Fixed a seemingly copy and paste bug in CAAMoonPerigeeApogee::TruePerigee. The 
@@ -23,7 +23,7 @@ History: PJN / 07-02-2009 1. Fixed a seemingly copy and paste bug in CAAMoonPeri
                           precision of a kilometer which is well within the claimed accuracy of 12 KM as mentioned in 
                           Meeus's book on page 361.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

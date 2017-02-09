@@ -1,5 +1,5 @@
 /*
-Module : AAMOONPHASES.CPP
+Module : AAMoonPhases.cpp
 Purpose: Implementation for the algorithms which obtain the dates for the phases of the Moon
 Created: PJN / 11-01-2004
 History: PJN / 22-02-2004 1. Fixed a bug in the calculation of the phase type from the k value in
@@ -10,7 +10,7 @@ History: PJN / 22-02-2004 1. Fixed a bug in the calculation of the phase type fr
          PJN / 29-03-2015 1. Fixed up some variable initializations around the use of modf. Thanks to Arnaud Cueille for
                           reporting this issue.
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

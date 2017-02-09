@@ -1,12 +1,12 @@
 /*
-Module : AAMOONILLUMINATEDFRACTION.CPP
+Module : AAMoonIlluminatedFraction.cpp
 Purpose: Implementation for the algorithms for the Moon's Elongation, Phase Angle and Illuminated Fraction
 Created: PJN / 29-12-2003
 History: PJN / 26-01-2007 1. Changed name of CAAMoonIlluminatedFraction::IluminatedFraction to 
                           CAAMoonIlluminatedFraction::IlluminatedFraction. Thanks to Ing. Taras Kapuszczak
                           for reporting this typo!.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -1,10 +1,10 @@
 /*
-Module : AAJEWISHCALENDAR.CPP
+Module : AAJewishCalendar.cpp
 Purpose: Implementation for the algorithms which convert between the Gregorian and Julian calendars and the Jewish calendar
 Created: PJN / 04-02-2004
 History: PJN / 28-01-2007 1. Minor updates to fit in with new layout of CAADate class
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -1,5 +1,5 @@
 /*
-Module : AADYNAMICALTIME.CPP
+Module : AADynamicalTime.cpp
 Purpose: Implementation for the algorithms which provides for conversion between Universal Time (both UT1 and UTC) and Terrestrial Time (TT) aka Terrestrial Dynamical Time (TDT) 
          aka Ephemeris Time (ET)
 Created: PJN / 29-12-2003
@@ -60,8 +60,11 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
                           http://maia.usno.navy.mil/ser7/tai-utc.dat to include the leap second which will occur on 1 January 2017.
                           2. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st July 2016
                           3. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to July 2026
+         PJN / 05-02-2017 1. Updated copyright details.
+                          2. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st January 2017
+                          3. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to Jan 2026
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -96,7 +99,7 @@ struct DeltaTValue
 
 const DeltaTValue g_DeltaTValues[] = 
 {
-//All the initial values are observed values from 1 February 1973 to 1 July 2016 as taken from http://maia.usno.navy.mil/ser7/deltat.data 
+//All the initial values are observed values from 1 February 1973 to 1 January 2017 as taken from http://maia.usno.navy.mil/ser7/deltat.data 
   { 2441714.5,	43.4724 },
   { 2441742.5,	43.5648 },
   { 2441773.5,	43.6737 },
@@ -619,28 +622,34 @@ const DeltaTValue g_DeltaTValues[] =
   { 2457509.5,  68.3188 }, //1 May 2016
   { 2457540.5,  68.3703 }, //1 June 2016
   { 2457570.5,  68.3964 }, //1 July 2016
+  { 2457601.5,  68.4094 }, //1 August 2016
+  { 2457632.5,  68.4305 }, //1 September 2016
+  { 2457662.5,  68.4630 }, //1 October 2016
+  { 2457693.5,  68.5078 }, //1 November 2016
+  { 2457723.5,  68.5537 }, //1 December 2016
+  { 2457754.5,  68.5928 }, //1 January 2017
 
-//All these final values are predicted values from Year 2016.75 to Year 2026.5 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
-  { 2457663.00, 68.51   }, //2016.75
-  { 2457754.50, 68.66   }, //2017.0
-  { 2457845.75, 68.8    }, //2017.25
-  { 2457937.00, 69.0    }, //2017.5
-  { 2458028.25, 69.1    }, //2017.75
-  { 2458119.50, 69.2    }, //2018.0
-  { 2458210.75, 69.4    }, //2018.25
-  { 2458302.00, 69.5    }, //2018.5
-  { 2458393.25, 69.7    }, //2018.75
-  { 2458484.50, 69.8    }, //2019.0
-  { 2458575.75, 69.9    }, //2019.25
-  { 2458667.00, 70      }, //2019.5
-  { 2458941.00, 70      }, //2020.25
-  { 2459032.50, 71      }, //2020.5
-  { 2459763.00, 71      }, //2022.5
+//All these final values are predicted values from Year 2017.25 to Year 2026.0 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
+  { 2457845.75, 68.72   }, //2017.25
+  { 2457937.0,  68.86   }, //2017.5
+  { 2458028.25, 69.0    }, //2017.75
+  { 2458119.5,  69.1    }, //2018.0
+  { 2458210.75, 69.2    }, //2018.25
+  { 2458302.0,  69.3    }, //2018.5
+  { 2458393.25, 69.4    }, //2018.75
+  { 2458484.5,  69.6    }, //2019.0
+  { 2458575.75, 69.7    }, //2019.25
+  { 2458667.0,  69.9    }, //2019.5
+  { 2458941.0,  70      }, //2020.25
+  { 2459032.5,  70      }, //2020.5
+  { 2459124.0,  71      }, //2020.75
+  { 2459763.0,  71      }, //2022.5
   { 2459854.25, 72      }, //2022.75
-  { 2460493.50, 72      }, //2024.5
-  { 2460585.00, 73      }, //2024.75
-  { 2461224.00, 73      }, //2026.5
-//Note as currently coded there is a single discontinuity of c. 2.4 seconds on 3 July 2026. At this point http://maia.usno.navy.mil/ser7/deltat.preds indicates an error value for DeltaT of about 5 seconds anyway.
+  { 2460493.5,  72      }, //2024.5
+  { 2460585.0,  73      }, //2024.75
+  { 2461041.5,  73      }, //2026.0
+
+//Note as currently coded there is a single discontinuity of c. 2.074 seconds on 1 January 2026. At this point http://maia.usno.navy.mil/ser7/deltat.preds indicates an error value for DeltaT of about 5 seconds anyway.
 };
 
 struct LeapSecondCoefficient

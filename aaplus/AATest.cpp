@@ -552,7 +552,7 @@ int main()
 
     //Prepare for the next loop
     ++JDUT1;
-    if (JDUT1 >= 2460494.000000)
+    if (JDUT1 >= 2461224.0)
       bContinue2 = false;
   }
   return 0;
@@ -573,7 +573,7 @@ int main()
 
     //Prepare for the next loop
     ++JDD;
-    if (JDD >= 2460859.0)
+    if (JDD >= 2461224.0)
       bContinue3 = false;
   }
   return 0;

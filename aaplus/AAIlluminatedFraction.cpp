@@ -1,5 +1,5 @@
 /*
-Module : AAILLUMINATEDFRACTION.CPP
+Module : AAIlluminatedFraction.cpp
 Purpose: Implementation for the algorithms for a planet's Phase Angle, Illuminated Fraction and Magnitude
 Created: PJN / 29-12-2003
 History: PJN / 21-01-2005 1. Fixed a small but important error in the function PhaseAngle(r, R, Delta). The code 
@@ -7,7 +7,7 @@ History: PJN / 21-01-2005 1. Fixed a small but important error in the function P
                           when calculating phase angles for the inner planets. Thanks to MICHAEL R. MEYER for 
                           reporting this problem.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

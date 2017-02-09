@@ -1,6 +1,6 @@
 /*
-Module : AANEARPARABOLIC.CPP
-Purpose: Implementation for the algorithms for a Near parabolic orbit
+Module : AANearParabolic.cpp
+Purpose: Implementation for the algorithms for a near parabolic orbit
 Created: PJN / 21-11-2006
 History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double JD, 
                           const CAANearParabolicObjectElements& elements) in the calculation of the 
@@ -18,7 +18,7 @@ History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double J
                           if set to true means the code uses the full VSOP87 theory rather than the truncated
                           theory as presented in Meeus's book.
 
-Copyright (c) 2006 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2006 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

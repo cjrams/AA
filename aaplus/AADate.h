@@ -1,9 +1,9 @@
 /*
-Module : AADATE.H
+Module : AADate.h
 Purpose: Implementation for the algorithms which convert between the Gregorian and Julian calendars and the Julian Day
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

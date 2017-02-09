@@ -7,7 +7,7 @@ History: PJN / 31-12-2015 1. Initial public release.
                           faster and easier to maintain going forward.
                           2. Updated copyright details
 
-Copyright (c) 2015 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

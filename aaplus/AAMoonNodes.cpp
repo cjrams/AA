@@ -1,5 +1,5 @@
 /*
-Module : AAMOONNODES.CPP
+Module : AAMoonNodes.cpp
 Purpose: Implementation for the algorithms which obtain the dates when the Moon passes thro its nodes
 Created: PJN / 29-12-2003
 History: PJN / 28-03-2016 1. Fixed two transcription errors in CAAMoonNodes::PassageThroNode. The first 
@@ -9,7 +9,7 @@ History: PJN / 28-03-2016 1. Fixed two transcription errors in CAAMoonNodes::Pas
                           Meeus's book is within 2 seconds of the value he reports. Thanks to Alejandro 
                           Krohn for prompting this bug fix.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

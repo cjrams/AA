@@ -1,5 +1,5 @@
 /*
-Module : AASATURNMOONS.CPP
+Module : AASaturnMoons.cpp
 Purpose: Implementation for the algorithms which obtain the positions of the moons of Saturn
 Created: PJN / 09-01-2004
 History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a1 and a2 constants 
@@ -9,7 +9,7 @@ History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a
                           which if set to true means the code uses the full VSOP87 theory rather than the
                           truncated theory as presented in Meeus's book.
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

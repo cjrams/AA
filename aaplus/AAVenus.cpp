@@ -1,5 +1,5 @@
 /*
-Module : AAVENUS.CPP
+Module : AAVenus.cpp
 Purpose: Implementation for the algorithms which obtain the heliocentric position of Venus
 Created: PJN / 29-12-2003
 History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
@@ -13,7 +13,7 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
                           "bool bHighPrecision" parameter which if set to true means the code uses the full
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -1,5 +1,5 @@
 /*
-Module : AARPRECESSION.CPP
+Module : AARPrecession.cpp
 Purpose: Implementation for the algorithms for Precession
 Created: PJN / 29-12-2003
 History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::PrecessEquatorial method. The "0.000344*T" term was 
@@ -23,7 +23,7 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           7. Optimized the code in CAAPrecession::PrecessEquatorial, CAAPrecession::PrecessEquatorialFK4 &
                           CAAPrecession::PrecessEcliptic.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

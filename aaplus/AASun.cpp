@@ -1,5 +1,5 @@
 /*
-Module : AASUN.CPP
+Module : AASun.cpp
 Purpose: Implementation for the algorithms which obtain the position of the Sun
 Created: PJN / 29-12-2003
 History: PJN / 17-01-2007 1. Changed name of CAASun::ApparentEclipticLongtitude to 
@@ -23,7 +23,7 @@ History: PJN / 17-01-2007 1. Changed name of CAASun::ApparentEclipticLongtitude 
                           a couple of hundreds of arc seconds. The results now are exactly in sync with the 
                           results as reported in the book. Thanks to "Pavel" for reporting this issue.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

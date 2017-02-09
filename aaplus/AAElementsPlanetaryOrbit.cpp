@@ -1,5 +1,5 @@
 /*
-Module : AAELEMENTSPLANETARYORBIT.CPP
+Module : AAElementsPlanetaryOrbit.cpp
 Purpose: Implementation for the algorithms to calculate the elements of the planetary orbits
 Created: PJN / 29-12-2003
 History: PJN / 27-10-2012 1. Fixed a transcription bug in CAAElementsPlanetaryOrbit::SaturnLongitudePerihelion. The correct
@@ -10,7 +10,7 @@ History: PJN / 27-10-2012 1. Fixed a transcription bug in CAAElementsPlanetaryOr
                           century after the epoch J2000.0 = 2000 January 1.5 TD = JDE 2451545.0. Thanks to Sudhakar 
                           Gumparthi for reporting this bug.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

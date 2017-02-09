@@ -1,9 +1,9 @@
 /*
-Module : AAMOONMAXDECLINATIONS.H
-Purpose: Implementation for the algorithms which obtain the dates and values for Maximum declination of the Moon
+Module : AAMoonMaxDeclinations.h
+Purpose: Implementation for the algorithms which obtain the dates and values for maximum declination of the Moon
 Created: PJN / 13-01-2004
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

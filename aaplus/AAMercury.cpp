@@ -1,5 +1,5 @@
 /*
-Module : AAMERCURY.CPP
+Module : AAMercury.cpp
 Purpose: Implementation for the algorithms which obtain the heliocentric position of Mercury
 Created: PJN / 29-12-2003
 History: PJN / 16-11-2005 1. Fixed a transcription error in the second coefficient used to calculate 
@@ -32,7 +32,7 @@ History: PJN / 16-11-2005 1. Fixed a transcription error in the second coefficie
                           "bool bHighPrecision" parameter which if set to true means the code uses the full 
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

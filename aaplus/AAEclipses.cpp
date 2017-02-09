@@ -1,5 +1,5 @@
 /*
-Module : AAECLIPSES.CPP
+Module : AAEclipses.cpp
 Purpose: Implementation for the algorithms which obtain the principal characteristics of an eclipse of the Sun or the Moon
 Created: PJN / 21-01-2004
 History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated only when required
@@ -9,7 +9,7 @@ History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated onl
                           eclipse in CAASolarEclipseDetails::Details. These attributes correspond to the values as discussed
                           in Meeus's book on Pages 381 & 382. Thanks to "Pavel" for providing this nice addition.
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

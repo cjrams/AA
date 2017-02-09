@@ -1,12 +1,12 @@
 /*
-Module : AAPARALLAX.CPP
+Module : AAParallax.cpp
 Purpose: Implementation for the algorithms which convert a geocentric set of coordinates to their topocentric equivalent
 Created: PJN / 29-12-2003
 History: PJN / 04-07-2010 Removed unnecessary "Longitude" parameter from method Ecliptic2Topocentric.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

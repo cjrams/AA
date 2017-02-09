@@ -1,5 +1,5 @@
 /*
-Module : AARISETRANSITSET.CPP
+Module : AARiseTransitSet.cpp
 Purpose: Implementation for the algorithms which obtain the Rise, Transit and Set times
 Created: PJN / 29-12-2003
 History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTransitSet::Rise if the objects does 
@@ -32,7 +32,7 @@ History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTran
                           variables of bRiseValid, bTransitValid & bSetValid. Thanks to "Pavel" for reporting this 
                           issue.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -1,5 +1,5 @@
 /*
-Module : AADATE.CPP
+Module : AADate.cpp
 Purpose: Implementation for the algorithms which convert between the Gregorian and Julian calendars and the Julian Day
 Created: PJN / 29-12-2003
 History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for propalactive calendar dates
@@ -43,7 +43,7 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
          PJN / 29-03-2015 1. Fixed up some variable initializations around the use of modf. Thanks to Arnaud Cueille for
                           reporting this issue.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

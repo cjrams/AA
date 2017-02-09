@@ -1,5 +1,5 @@
 /*
-Module : AAGALILEANMOONS.CPP
+Module : AAGalileanMoons.cpp
 Purpose: Implementation for the algorithms which obtain the positions of the 4 great moons of Jupiter
 Created: PJN / 06-01-2004
 History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper where the periodic terms in longitude for
@@ -9,7 +9,7 @@ History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper wh
                           true means the code uses the full VSOP87 theory rather than the truncated theory as 
                           presented in Meeus's book.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

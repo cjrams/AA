@@ -1,9 +1,9 @@
 /*
-Module : AA3DCOORDINATE.H
+Module : AA3DCoordinate.h
 Purpose: Implementation for the simple class to encapsulate a three dimensional coordinate
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

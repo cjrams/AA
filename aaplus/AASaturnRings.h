@@ -1,9 +1,9 @@
 /*
-Module : AASATURNRINGS.H
+Module : AASaturnRings.h
 Purpose: Implementation for the algorithms which calculate various parameters related to the Rings of Saturn
 Created: PJN / 08-01-2004
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

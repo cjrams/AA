@@ -1,5 +1,5 @@
 /*
-Module : AAEQUINOXESANDSOLTICES.CPP
+Module : AAEquinoxesAndSoltices.cpp
 Purpose: Implementation for the algorithms to calculate the dates of the Equinoxes and Solstices
 Created: PJN / 29-12-2003
 History: PJN / 28-10-2013 1. Renamed the method SpringEquinox to NorthwardEquinox to avoid the northern hemisphere
@@ -11,22 +11,22 @@ History: PJN / 28-10-2013 1. Renamed the method SpringEquinox to NorthwardEquino
                           4. Renamed the method WinterSolstice to SouthernSolstice to avoid the northern hemisphere
                           bias in the name. Thanks to Marius Gleeson for prompting this update.
                           5. The method LengthOfSpring now takes a boolean to indicate which hemisphere the observer
-                          is located it as previously the code assumed a northern hemisphere bias. Thanks to Marius 
+                          is located in as previously the code assumed a northern hemisphere bias. Thanks to Marius 
                           Gleeson for prompting this update.
                           6. The method LengthOfSummer now takes a boolean to indicate which hemisphere the observer
-                          is located it as previously the code assumed a northern hemisphere bias. Thanks to Marius 
+                          is located in as previously the code assumed a northern hemisphere bias. Thanks to Marius 
                           Gleeson for prompting this update.
                           7. The method LengthOfAutumn now takes a boolean to indicate which hemisphere the observer
-                          is located it as previously the code assumed a northern hemisphere bias. Thanks to Marius 
+                          is located in as previously the code assumed a northern hemisphere bias. Thanks to Marius 
                           Gleeson for prompting this update.
                           8. The method LengthOfWinter now takes a boolean to indicate which hemisphere the observer
-                          is located it as previously the code assumed a northern hemisphere bias. Thanks to Marius 
+                          is located in as previously the code assumed a northern hemisphere bias. Thanks to Marius 
                           Gleeson for prompting this update.
          PJN / 30-08-2015 1. All the methods in CAAEquinoxesAndSolstices now include a "bool bHighPrecision" parameter
                           which if set to true means the code uses the full VSOP87 theory rather than the truncated 
                           theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

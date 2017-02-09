@@ -1,5 +1,5 @@
 /*
-Module : AASATURNRINGS.CPP
+Module : AASaturnRings.cpp
 Purpose: Implementation for the algorithms which calculate various parameters related to the Rings of Saturn
 Created: PJN / 08-01-2004
 History: PJN / 05-07-2015 1. U1 (the Saturnicentric longitude of the Sun) and U2 (the Saturnicentic longitude 
@@ -16,7 +16,7 @@ History: PJN / 05-07-2015 1. U1 (the Saturnicentric longitude of the Sun) and U2
                           which if set to true means the code uses the full VSOP87 theory rather than the
                           truncated theory as presented in Meeus's book. 
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

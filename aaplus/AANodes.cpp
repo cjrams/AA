@@ -1,10 +1,10 @@
 /*
-Module : AANODES.CPP
-Purpose: Implementation for the algorithms which calculate passage thro the nodes
+Module : AANodes.cpp
+Purpose: Implementation for the algorithms which calculate passage through the nodes
 Created: PJN / 29-12-2003
 History: None
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

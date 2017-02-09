@@ -1,9 +1,9 @@
 /*
-Module : AAPHYSICALMARS.H
+Module : AAPhysicalMars.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of Mars
 Created: PJN / 04-01-2004
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

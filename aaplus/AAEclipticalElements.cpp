@@ -1,12 +1,12 @@
 /*
-Module : AAECLIPTICALELEMENTS.CPP
+Module : AAEclipticalElements.cpp
 Purpose: Implementation for the algorithms which map the ecliptical elements from one equinox to another
 Created: PJN / 29-12-2003
 History: PJN / 29-11-2006 1. Fixed a bug where CAAEclipticalElements::Calculate and CAAEclipticalElements::FK4B1950ToFK5J2000
                           would return the incorrect value for the reduced inclination when the initial inclination value
                           was > 90 degrees. 
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

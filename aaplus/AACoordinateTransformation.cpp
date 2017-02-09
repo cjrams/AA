@@ -1,5 +1,5 @@
 /*
-Module : AACOORDINATETRANSFORMATION.CPP
+Module : AACoordinateTransformation.cpp
 Purpose: Implementation for the algorithms which convert between the various celestial coordinate systems
 Created: PJN / 29-12-2003
 History: PJN / 14-02-2004 1. Fixed a "minus zero" bug in the function CAACoordinateTransformation::DMSToDegrees.
@@ -14,7 +14,7 @@ History: PJN / 14-02-2004 1. Fixed a "minus zero" bug in the function CAACoordin
                           2. Updated the MapTo0To24Range to use the fmod C runtime function.
                           3. Added new MapTo0To2PIRange & MapToMinus180To180Range methods.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

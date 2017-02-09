@@ -1,5 +1,5 @@
 /*
-Module : AAMOON.CPP
+Module : AAMoon.cpp
 Purpose: Implementation for the algorithms which obtain the position of the Moon
 Created: PJN / 29-12-2003
 History: PJN / 07-02-2009 1. Optimized the layout of the MoonCoefficient1 structure by making all elements
@@ -20,7 +20,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the MoonCoefficient1 struct
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

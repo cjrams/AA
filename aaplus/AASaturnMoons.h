@@ -1,9 +1,9 @@
 /*
-Module : AASATURNMOONS.H
-Purpose: Implementation for the algorithms which obtain the positions of Saturn
+Module : AASaturnMoons.h
+Purpose: Implementation for the algorithms which obtain the positions of the moons of Saturn
 Created: PJN / 09-01-2004
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

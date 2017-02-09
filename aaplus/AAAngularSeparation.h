@@ -1,9 +1,9 @@
 /*
-Module : AAANGULARSEPARATION.H
+Module : AAAngularSeparation.h
 Purpose: Implementation for the algorithms which obtain various separation distances between celestial objects
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

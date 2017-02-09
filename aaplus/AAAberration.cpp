@@ -1,5 +1,5 @@
 /*
-Module : AAABERRATION.CPP
+Module : AAAberration.cpp
 Purpose: Implementation for the algorithms for Aberration
 Created: PJN / 29-12-2003
 History: PJN / 21-04-2005 1. Renamed "AAAberation.cpp" to "AAAberration.cpp" so that all source code filenames 
@@ -12,7 +12,7 @@ History: PJN / 21-04-2005 1. Renamed "AAAberation.cpp" to "AAAberration.cpp" so 
                           the full  VSOP87 theory rather than the truncated theory as presented in Meeus's 
                           book.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

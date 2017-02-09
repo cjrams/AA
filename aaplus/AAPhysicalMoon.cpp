@@ -1,5 +1,5 @@
 /*
-Module : AAPHYSICALMOON.CPP
+Module : AAPhysicalMoon.cpp
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Moon
 Created: PJN / 17-01-2004
 History: PJN / 19-02-2004 1. The optical libration in longitude is now returned in the range -180 - 180 degrees
@@ -10,7 +10,7 @@ History: PJN / 19-02-2004 1. The optical libration in longitude is now returned 
                           to true means the code uses the full VSOP87 theory rather than the truncated theory 
                           as presented in Meeus's book.
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
