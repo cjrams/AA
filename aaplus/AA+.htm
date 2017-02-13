@@ -2,13 +2,13 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v1.74</title>
+<title>AA+ v1.76</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-<h2>AA+ v1.74</h2>
+<h2>AA+ v1.76</h2>
 <p>Welcome to <strong>AA+</strong>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -1135,6 +1135,20 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>Updated the predicted DeltaT values from
 	<a href="http://maia.usno.navy.mil/ser7/deltat.preds">
 	http://maia.usno.navy.mil/ser7/deltat.preds</a> to Jan 2026 </li>
+</ul>
+<p><strong>v1.75 (11 February 2017) </strong></p>
+<ul>
+	<li>Applied a bug fix to CAAMoon::EclipticLatitude and 
+	CAAMoon::RadiusVector along the same lines as the fix to 
+	CAAMoon::EclipticLongitude on February 2009. The bug fix should in fact have 
+	been applied to the later two methods. Thanks to Jeffrey Roe for reporting 
+	this issue. </li>
+</ul>
+<p><strong>v1.76 (12 February 2017) </strong></p>
+<ul>
+	<li>Fixed a copy and paste bug in CAASaturnMoons::CalculateHelper in the 
+	calculation of the value mu for the eight moon (Iapetus). Thanks to Cedric 
+	Foellmi for reporting this issue. </li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -9125,7 +9139,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>5 February 
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>12 February 
 2017</p>
 
 </body>

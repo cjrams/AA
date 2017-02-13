@@ -1081,6 +1081,7 @@ int main()
   UNREFERENCED_PARAMETER(PlutoRadius);
 
 
+
   //Test out the CAAMoon class
   MoonLong = CAAMoon::EclipticLongitude(2448724.5);
   MoonLat = CAAMoon::EclipticLatitude(2448724.5);
@@ -1093,6 +1094,49 @@ int main()
   UNREFERENCED_PARAMETER(TrueMeanAscendingNode);
   double MoonMeanPerigee = CAAMoon::MeanLongitudePerigee(2448724.5);
   UNREFERENCED_PARAMETER(MoonMeanPerigee);
+
+  //Calculate the geocentric position of the moon for Midnight 12 April 1992 TT using both CAAMoon & CAAELP2000 for comparison purposes
+  MoonLong = CAAMoon::EclipticLongitude(2448724.5);
+  MoonLat = CAAMoon::EclipticLatitude(2448724.5);
+  MoonRad = CAAMoon::RadiusVector(2448724.5);
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+  CAA3DCoordinate MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2448724.5);
+  double MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
+  double MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
+  double MoonLat2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Z, sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y))));
+  double NutationInLongitude2 = CAANutation::NutationInLongitude(2448724.5);
+  MoonLong2 += CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInLongitude2);
+  CAA2DCoordinate MoonPrecess = CAAPrecession::PrecessEcliptic(MoonLong2, MoonLat2, 2451545, 2448724.5);
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+
+  //Calculate the geocentric position of the moon for Midnight 1 January 1900 TT using both CAAMoon & CAAELP2000 for comparison purposes
+  MoonLong = CAAMoon::EclipticLongitude(2415020.5);
+  MoonLat = CAAMoon::EclipticLatitude(2415020.5);
+  MoonRad = CAAMoon::RadiusVector(2415020.5);
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+  MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2415020.5);
+  MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
+  MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
+  MoonLat2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Z, sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y))));
+  NutationInLongitude2 = CAANutation::NutationInLongitude(2415020.5);
+  MoonLong2 += CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInLongitude2);
+  MoonPrecess = CAAPrecession::PrecessEcliptic(MoonLong2, MoonLat2, 2451545, 2415020.5);
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+
+  //Calculate the geocentric position of the moon for Midnight 1 January 2100 TT using both CAAMoon & CAAELP2000 for comparison purposes
+  MoonLong = CAAMoon::EclipticLongitude(2488069.5);
+  MoonLat = CAAMoon::EclipticLatitude(2488069.5);
+  MoonRad = CAAMoon::RadiusVector(2488069.5);
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+  MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2488069.5);
+  MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
+  MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
+  MoonLat2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Z, sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y))));
+  NutationInLongitude2 = CAANutation::NutationInLongitude(2488069.5);
+  MoonLong2 += CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInLongitude2);
+  MoonPrecess = CAAPrecession::PrecessEcliptic(MoonLong2, MoonLat2, 2451545, 2488069.5);
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+
 
   //Test out the CAAPlanetPerihelionAphelion class
   long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);

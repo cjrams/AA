@@ -19,6 +19,9 @@ History: PJN / 07-02-2009 1. Optimized the layout of the MoonCoefficient1 struct
                           Carsten A. Arnholm and Andrew Hammond for reporting this bug.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 11-02-2017 1. Applied a bug fix to CAAMoon::EclipticLatitude and CAAMoon::RadiusVector along the same lines 
+                          as the fix to CAAMoon::EclipticLongitude on February 2009. The bug fix should in fact have been 
+                          applied to the later two methods. Thanks to Jeffrey Roe for reporting this issue.
 
 Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -420,6 +423,7 @@ double CAAMoon::RadiusVector(double JD)
   double F = ArgumentOfLatitude(JD);
   F = CAACoordinateTransformation::DegreesToRadians(F);
   double E = CAAEarth::Eccentricity(JD);
+  double Esquared = E*E;
 
   size_t nRCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
   assert(nRCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
@@ -428,8 +432,10 @@ double CAAMoon::RadiusVector(double JD)
   {
     double ThisSigma = g_MoonCoefficients2[i].B * cos(g_MoonCoefficients1[i].D*D + g_MoonCoefficients1[i].M*M +
                                                       g_MoonCoefficients1[i].Mdash*Mdash + g_MoonCoefficients1[i].F*F);
-    if (g_MoonCoefficients1[i].M)
+    if ((g_MoonCoefficients1[i].M == 1) || (g_MoonCoefficients1[i].M == -1))
       ThisSigma *= E;
+    else if ((g_MoonCoefficients1[i].M == 2) || (g_MoonCoefficients1[i].M == -2))
+      ThisSigma *= Esquared;
 
     SigmaR += ThisSigma;
   }
@@ -451,6 +457,7 @@ double CAAMoon::EclipticLatitude(double JD)
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
   double E = CAAEarth::Eccentricity(JD);
+  double Esquared = E*E;
   double T = (JD - 2451545) / 36525;
 
   double A1 = CAACoordinateTransformation::MapTo0To360Range(119.75 + 131.849*T);
@@ -466,8 +473,10 @@ double CAAMoon::EclipticLatitude(double JD)
     double ThisSigma = g_MoonCoefficients4[i] * sin(g_MoonCoefficients3[i].D*D + g_MoonCoefficients3[i].M*M + 
                                                     g_MoonCoefficients3[i].Mdash*Mdash + g_MoonCoefficients3[i].F*F);
 
-    if (g_MoonCoefficients3[i].M)
+    if ((g_MoonCoefficients3[i].M == 1) || (g_MoonCoefficients3[i].M == -1))
       ThisSigma *= E;
+    else if ((g_MoonCoefficients3[i].M == 2) || (g_MoonCoefficients3[i].M == -2))
+      ThisSigma *= Esquared;
 
     SigmaB += ThisSigma;
   }

@@ -8,6 +8,9 @@ History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a
          PJN / 16-09-2015 1. CAASaturnMoons::Calculate now includes a "bool bHighPrecision" parameter
                           which if set to true means the code uses the full VSOP87 theory rather than the
                           truncated theory as presented in Meeus's book.
+         PJN / 12-02-2017 1. Fixed a copy and paste bug in CAASaturnMoons::CalculateHelper in the calculation
+                          of the value mu for the eight moon (Iapetus). Thanks to Cedric Foellmi for 
+                          reporting this issue.
 
 Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -310,7 +313,6 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   edash = 0.028298 + 0.001156*t11;
   double w_0 = 352.91 + 11.71*t11;
   double mu = CAACoordinateTransformation::MapTo0To360Range(76.3852 + 4.53795125*t10);
-  mu = CAACoordinateTransformation::MapTo0To360Range(189097.71668440815);
   idash = 18.4602 - 0.9518*t11 - 0.072*t112 + 0.0054*t113;
   idashrad = CAACoordinateTransformation::DegreesToRadians(idash);
   omegadash = 143.198 - 3.919*t11 + 0.116*t112 + 0.008*t113;
