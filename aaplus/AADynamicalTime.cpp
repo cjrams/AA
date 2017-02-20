@@ -63,6 +63,20 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
          PJN / 05-02-2017 1. Updated copyright details.
                           2. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st January 2017
                           3. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to Jan 2026
+         PJN / 18-02-2017 1. Fixed a transcription error on the DeltaT value for 1 May 2015. The correct value is 67.8012 instead 
+                          of 67.8011. Thanks to Luigi Candurro for reporting this error.
+                          2. Fixed a number of transcription errors on the predicted DeltaT values from 2019.75 to 2025.75. Thanks 
+                          to Luigi Candurro for reporting these errors.
+                          3. CAADynamicalTime::TT2UTC is now implemented as TT2UT1 for date ranges prior to 1 January 1961 and 500
+                          days after the last leap second (which is currently 1 January 2017). Also CAADynamicalTime::UTC2TT is 
+                          now implemented as UT12TT for date ranges prior to 1 January 1961 and 500 days after the last leap 
+                          second. These changes address problems where these two methods would end up using a constant offset
+                          between UTC and TT for dates away from the current epoch. This problem was discovered while calculating 
+                          rise, transit and set times for the Moon in B.C.E years. Thanks to Luigi Candurro for prompting this 
+                          update.
+         PJN / 19-02-2017 1. Fixed a bug in the CAADynamicalTime::UTC2TT & CAADynamicalTime::TT2UTC methods where the code would
+                          incorrectly use BaseMJD instead of JD when determining if the date is in the valid range of UTC. Thanks
+                          to Luigi Candurro for reporting this bug.
 
 Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -607,7 +621,7 @@ const DeltaTValue g_DeltaTValues[] =
   { 2457054.5,  67.6765 }, //1 February 2015
   { 2457082.5,  67.7117 }, //1 March 2015
   { 2457113.5,  67.7591 }, //1 April 2015
-  { 2457143.5,  67.8011 }, //1 May 2015
+  { 2457143.5,  67.8012 }, //1 May 2015
   { 2457174.5,  67.8402 }, //1 June 2015
   { 2457204.5,  67.8606 }, //1 July 2015
   { 2457235.5,  67.8822 }, //1 August 2015
@@ -640,6 +654,8 @@ const DeltaTValue g_DeltaTValues[] =
   { 2458484.5,  69.6    }, //2019.0
   { 2458575.75, 69.7    }, //2019.25
   { 2458667.0,  69.9    }, //2019.5
+  { 2458758.25, 70      }, //2019.75
+  { 2458849.5,  70.2    }, //2020.0
   { 2458941.0,  70      }, //2020.25
   { 2459032.5,  70      }, //2020.5
   { 2459124.0,  71      }, //2020.75
@@ -899,6 +915,12 @@ double CAADynamicalTime::CumulativeLeapSeconds(double JD)
 
 double CAADynamicalTime::TT2UTC(double JD)
 {
+  //Outside of the range 1 January 1961 to 500 days after the last leap second,
+  //we implement TT2UTC as TT2UT1
+  size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  if ((JD < g_LeapSecondCoefficients[0].JD) || (JD > (g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
+    return TT2UT1(JD);
+
   double DT = DeltaT(JD);
   double UT1 = JD - (DT / 86400.0);
   double LeapSeconds = CumulativeLeapSeconds(JD); 
@@ -907,6 +929,12 @@ double CAADynamicalTime::TT2UTC(double JD)
 
 double CAADynamicalTime::UTC2TT(double JD)
 {
+  //Outside of the range 1 January 1961 to 500 days after the last leap second,
+  //we implement TT2UTC as TT2UT1
+  size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  if ((JD < g_LeapSecondCoefficients[0].JD) || (JD >(g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
+    return UT12TT(JD);
+
   double DT = DeltaT(JD);
   double LeapSeconds = CumulativeLeapSeconds(JD); 
   double UT1 = JD - ((DT - LeapSeconds - 32.184) / 86400.0);

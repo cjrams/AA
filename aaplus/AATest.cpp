@@ -519,6 +519,18 @@ int main()
   }
 
 
+  //Test out the CAADynamicalTime UTC time frame conversion methods
+  double TT = CAADynamicalTime::UTC2TT(2433282.5);
+  double TT2 = CAADynamicalTime::UT12TT(2433282.5);
+  double UTC = CAADynamicalTime::TT2UTC(TT);
+  TT = CAADynamicalTime::UTC2TT(2451544.5);
+  TT2 = CAADynamicalTime::UT12TT(2451544.5);
+  UTC = CAADynamicalTime::TT2UTC(TT);
+  TT = CAADynamicalTime::UTC2TT(2469807.5);
+  TT2 = CAADynamicalTime::UTC2TT(2469807.5);
+  UTC = CAADynamicalTime::TT2UTC(TT);
+
+
   /*
   //Code to write out all the JD of year values from 2012 to 2023
   year = 2012;
@@ -542,6 +554,27 @@ int main()
   */
 
   /*
+  //Code to write out the values of TT-UTC for a specific range
+  double JDUT1 = 2325882.5;
+
+  bool bContinue2 = true;
+  while (bContinue2)
+  {
+    TT = CAADynamicalTime::UTC2TT(JDUT1);
+    TT2 = CAADynamicalTime::UT12TT(JDUT1);
+    CAADate date(JDUT1, true);
+    date.Get(Year, Month, Day, Hour, Minute, Second);
+    printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", Year, Month, Day, JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
+
+    //Prepare for the next loop
+    JDUT1 += 10;
+    if (JDUT1 >= 2473682)
+      bContinue2 = false;
+  }
+  return 0;
+  */
+
+  /*
   //Code to write out the values of UT1-UTC for a specific range
   CAADate Datex(1972, 1, 1, true);
   double JDUT1 = Datex.Julian();
@@ -553,7 +586,7 @@ int main()
     //Prepare for the next loop
     ++JDUT1;
     if (JDUT1 >= 2461224.0)
-      bContinue2 = false;
+    bContinue2 = false;
   }
   return 0;
   */

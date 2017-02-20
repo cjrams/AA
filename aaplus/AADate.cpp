@@ -42,6 +42,7 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
          PJN / 07-02-2009 1. Updated the static version of CAADate::DaysInMonth to compile cleanly using code analysis
          PJN / 29-03-2015 1. Fixed up some variable initializations around the use of modf. Thanks to Arnaud Cueille for
                           reporting this issue.
+         PJN / 18-02-2017 1. Reworked the CAADate::SetInGregorianCalendar method to use the AfterPapalReform method.
 
 Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -194,10 +195,10 @@ void CAADate::Set(double JD, bool bGregorianCalendar)
 
 void CAADate::SetInGregorianCalendar(bool bGregorianCalendar)
 {
-  bool bAfterPapalReform = (m_dblJulian >= 2299160.5);
+  bool bAfterPapalReform = AfterPapalReform(m_dblJulian);
 
 #ifdef _DEBUG
-  if (bGregorianCalendar) //We do not allow storage of propalatic Gregorian dates
+  if (bGregorianCalendar) //We do not allow storage of proleptic Gregorian dates
     assert(bAfterPapalReform);
 #endif //#ifdef _DEBUG
 
