@@ -7,7 +7,9 @@ History: PJN / 16-06-2004 1. Fixed a typo in the calculation of SunLongDash in C
          PJN / 16-09-2015 1. CAAPhysicalSun::Calculate now includes a "bool bHighPrecision" parameter
                           which if set to true means the code uses the full VSOP87 theory rather than the
                           truncated theory as presented in Meeus's book.
-
+         PJN / 15-05-2017 1. Fixed an issue in CAAPhysicalSun::Calculate where the value "eta" would 
+                          sometimes not be returned in the correct quadrant. Thanks to Alexandru 
+                          Garofide for reporting this issue.
 
 Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -62,11 +64,10 @@ CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
   double y = atan(-cos(SunLong - K)*tan(I));
 
   CAAPhysicalSunDetails details;
-
   details.P = CAACoordinateTransformation::RadiansToDegrees(x + y);
   details.B0 = CAACoordinateTransformation::RadiansToDegrees(asin(sin(SunLong - K)*sin(I)));
-
-  double eta = atan(tan(SunLong - K)*cos(I));
+  double SunLongMinusK = SunLong - K;
+  double eta = atan2(-sin(SunLongMinusK)*cos(I), -cos(SunLongMinusK));
   details.L0 = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(eta - theta));
 
   return details;

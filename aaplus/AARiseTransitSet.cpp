@@ -31,6 +31,9 @@ History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTran
                           has been added to AATest.cpp to fully exercise all the cases for the three boolean member 
                           variables of bRiseValid, bTransitValid & bSetValid. Thanks to "Pavel" for reporting this 
                           issue.
+         PJN / 74-04-2017 1. Revisited the fix for interpolating RA values which was made on 28-03-2009. This new
+                          fix should resolve this issue for good. Thanks to Gudni G. Sigurdsson for reporting this 
+                          bug.
 
 Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -106,14 +109,37 @@ void CAARiseTransitSet::CalculateRiseSet(double M0, double cosH0, CAARiseTransit
 void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3)
 {
   //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interopolation of RA values
-  if ((Alpha2 - Alpha1) > 12.0)
-    Alpha1 += 24;
-  else if ((Alpha2 - Alpha1) < -12.0)
-    Alpha2 += 24;  
-  if ((Alpha3 - Alpha2) > 12.0)
-    Alpha2 += 24;
-  else if ((Alpha3 - Alpha2) < -12.0)
-    Alpha3 += 24;  
+  Alpha1 = CAACoordinateTransformation::MapTo0To24Range(Alpha1);
+  Alpha2 = CAACoordinateTransformation::MapTo0To24Range(Alpha2);
+  Alpha3 = CAACoordinateTransformation::MapTo0To24Range(Alpha3);
+  if (fabs(Alpha2 - Alpha1) > 12.0)
+  {
+    if (Alpha2 > Alpha1)
+      Alpha1 += 24;
+    else
+      Alpha2 += 24;
+  }
+  if (fabs(Alpha3 - Alpha2) > 12.0)
+  {
+    if (Alpha3 > Alpha2)
+      Alpha2 += 24;
+    else
+      Alpha3 += 24;
+  }
+  if (fabs(Alpha2 - Alpha1) > 12.0)
+  {
+    if (Alpha2 > Alpha1)
+      Alpha1 += 24;
+    else
+      Alpha2 += 24;
+  }
+  if (fabs(Alpha3 - Alpha2) > 12.0)
+  {
+    if (Alpha3 > Alpha2)
+      Alpha2 += 24;
+    else
+      Alpha3 += 24;
+  }
 }
 
 void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1)

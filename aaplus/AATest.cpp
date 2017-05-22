@@ -333,6 +333,101 @@ void PrintMercuryInfo(double JD, double longitude, double latitude, bool bHighPr
 
 int main()
 {
+  //Calculate an ephemeris for the physical sun
+  /*
+  {
+    CAADate CalcDate(2000, 1, 1, true);
+    double JD = CalcDate.Julian();
+    for (int i = 0; i < 10000; i++)
+    {
+      JD += 1.000;
+      CAAPhysicalSunDetails psd = CAAPhysicalSun::Calculate(JD, false);
+      CAADate calcDate(JD, true);
+      long Year = 0;
+      long Month = 0;
+      long Day = 0;
+      long Hours;
+      long Minutes;
+      double Sec;
+      calcDate.Get(Year, Month, Day, Hours, Minutes, Sec);
+      printf("%f\t%d/%02d/%02d\t", JD, static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
+      printf("%10.6f\t%10.6f\t%10.6f\n", psd.B0, psd.L0, psd.P);
+    }
+    return 0;
+  }
+  */
+
+  //Calculate an ephemeris for the the rise / transit & set of Venus
+  /*
+  {
+    long Year = 0;
+    long Month = 0;
+    long Day = 0;
+    long Hours;
+    long Minutes;
+    double Sec;
+    CAADate CalcDate(2020, 4, 10, true);
+    double JD = CalcDate.Julian();
+    double Longitude = 21.9267; //Reykjavík
+    double Latitude = 64.1417; //Reykjavík
+    double Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3;
+    double riseJD, transitJD, setJD;
+
+    for (int i = 0; i < 10000; i++)
+    {
+      JD += 1.000;
+      CAAEllipticalPlanetaryDetails VenusDetails = CAAElliptical::Calculate(JD - 1, CAAElliptical::VENUS, false);
+      Alpha1 = VenusDetails.ApparentGeocentricRA;
+      Delta1 = VenusDetails.ApparentGeocentricDeclination;
+      VenusDetails = CAAElliptical::Calculate(JD, CAAElliptical::VENUS, false);
+      Alpha2 = VenusDetails.ApparentGeocentricRA;
+      Delta2 = VenusDetails.ApparentGeocentricDeclination;
+      VenusDetails = CAAElliptical::Calculate(JD + 1, CAAElliptical::VENUS, false);
+      Alpha3 = VenusDetails.ApparentGeocentricRA;
+      Delta3 = VenusDetails.ApparentGeocentricDeclination;
+      printf("%f\t", JD);
+      CAADate calcDate(JD, true);
+      calcDate.Get(Year, Month, Day, Hours, Minutes, Sec);
+      printf("%d/%02d/%02d\t", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
+      printf("%10.6f\t%10.6f\t%10.6f\t%10.6f\t%10.6f\t%10.6f\t", Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3);
+      CAARiseTransitSetDetails RiseTransitSetTime = CAARiseTransitSet::Calculate(JD, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, -0.5667);
+
+      if (RiseTransitSetTime.bRiseValid)
+      {
+        riseJD = (JD + (RiseTransitSetTime.Rise / 24.00));
+        CAADate rtsDate(riseJD, true);
+        rtsDate.Get(Year, Month, Day, Hours, Minutes, Sec);
+        printf("%02.2f\t", RiseTransitSetTime.Rise);
+      }
+      else
+        printf("-1\t");
+
+      if (RiseTransitSetTime.bTransitValid)
+      {
+        transitJD = (JD + (RiseTransitSetTime.Transit / 24.00));
+        CAADate rtsDate(transitJD, true);
+        rtsDate.Get(Year, Month, Day, Hours, Minutes, Sec);
+        printf("%02.2f\t", RiseTransitSetTime.Transit);
+      }
+      else
+        printf("-1\t");
+
+      if (RiseTransitSetTime.bSetValid)
+      {
+        setJD = (JD + (RiseTransitSetTime.Set / 24.00));
+        CAADate rtsDate(setJD, true);
+        rtsDate.Get(Year, Month, Day, Hours, Minutes, Sec);
+        printf("%02.2f\t", RiseTransitSetTime.Set);
+      }
+      else
+        printf("-1\t");
+
+      printf("\n");
+    }
+    return 0;
+  }
+  */
+
   PrintMoonInfo3("random", 2012, 10, 30, 0, -5.6306649983214818, 71.646778771324804); //An interesting case is Rise, Transit and Set for the Moon on October 30 2012 at the specified position
   PrintMoonInfo3("random", 2012, 10, 31, 0, -5.6306649983214818, 71.646778771324804); //An interesting case is Rise, Transit and Set for the Moon on October 31 2012 at the specified position
 

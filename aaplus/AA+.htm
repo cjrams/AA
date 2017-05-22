@@ -2,13 +2,13 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v1.78</title>
+<title>AA+ v1.80</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-<h2>AA+ v1.78</h2>
+<h2>AA+ v1.80</h2>
 <p>Welcome to <strong>AA+</strong>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -47,8 +47,8 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <ul>
 	<li>Simple C++ interface using static functions and class instances as return 
 	values where appropriate.</li>
-	<li>All code compiles cleanly at the highest warning level of 4. This is the 
-	case with all of my other code on my web site as well.</li>
+	<li>All code compiles cleanly at the highest warning level of 4 in Visual 
+	Studio. The code also is /permissive- and /analyze clean.</li>
 	<li>A simple test app has been provided to test and verify all the functions 
 	of the library based on examples as provided in the book.</li>
 </ul>
@@ -1178,6 +1178,24 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	CAADynamicalTime::TT2UTC methods where the code would incorrectly use 
 	BaseMJD instead of JD when determining if the date is in the valid range of 
 	UTC. Thanks to Luigi Candurro for reporting this bug. </li>
+</ul>
+<p><strong>23 April 2017</strong></p>
+<ul>
+	<li>Updated the documentation for CAAPrecession::AdjustPositionUsingMotionInSpace to clarify 
+	the units used. Thanks to Matthew Prowse for reporting this issue. </li>
+</ul>
+<p><strong>v1.79 (27 April 2017)</strong></p>
+<ul>
+	<li>Revisited the fix for interpolating RA values in the 
+	CAARiseTransitSet class which was made on 28 March 2009. This new fix should 
+	resolve this issue for good. Thanks to Gudni G. Sigurdsson for reporting 
+	this bug. </li>
+</ul>
+<p><strong>v1.80 (15 May 2017)</strong></p>
+<ul>
+	<li>Fixed an issue in CAAPhysicalSun::Calculate where the value &quot;eta&quot; 
+	would sometimes not be returned in the correct quadrant. Thanks to Alexandru 
+	Garofide for reporting this issue. </li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -5666,7 +5684,7 @@ JD</i><strong>)</strong></p>
 <p><strong>Return Value</strong></p>
 <p>Returns the converted ecliptic coordinates in a CAA2DCoordinate class. The x 
 value in the class corresponds to the ecliptical longitude in degrees and the y 
-value corresponds to the ecliptical latitude in degrees.&nbsp; </p>
+value corresponds to the ecliptical latitude in degrees.</p>
 <p><strong>Parameters</strong></p>
 <p><em>Lambda </em>The ecliptical longitude in degrees.</p>
 <p><i>Beta</i> The ecliptical latitude of the star in degrees.</p>
@@ -5725,7 +5743,7 @@ and the y value corresponds to the declination in degrees.</p>
 positive in the future.</p>
 <p><em>Alpha </em>The right ascension expression as an hour angle.</p>
 <p><i>Delta </i>The declination in degrees. </p>
-<p><em>PMAlpha </em>The proper motion in right ascension in seconds of time per year.
+<p><em>PMAlpha </em>The proper motion in right ascension in arc seconds per year.
 </p>
 <p><i>PMDelta </i>The proper motion in declination in arc seconds per year.</p>
 <p>&nbsp;</p>
@@ -9184,8 +9202,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>19 February 
-2017</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>15 May 2017</p>
 
 </body>
 
