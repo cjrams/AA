@@ -52,6 +52,9 @@ to maintain a single distribution point for the source code.
 #ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
 #include "AAELP2000.h"
 #endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
+#include "AAELPMPP02.h"
+#endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AAEquationOfTime.h"
 #include "AAEquinoxesAndSolstices.h"
 #include "AAFK5.h"

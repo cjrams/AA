@@ -83,6 +83,3 @@ double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int 
   //The value returned is in per days
   return Result / 365250;
 }
-
-
-

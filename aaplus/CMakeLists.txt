@@ -26,6 +26,7 @@ SET ( SRCS_LIB
   AAElementsPlanetaryOrbit.cpp
   AAElliptical.cpp
   AAELP2000.cpp
+  AAELPMPP02.cpp
   AAEquationOfTime.cpp
   AAEquinoxesAndSolstices.cpp
   AAFK5.cpp

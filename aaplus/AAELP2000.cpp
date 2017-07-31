@@ -6,6 +6,8 @@ History: PJN / 31-12-2015 1. Initial public release.
          PJN / 04-01-2016 1. Major cleanup and refactoring of the code. The new reimplementation should prove
                           faster and easier to maintain going forward.
                           2. Updated copyright details
+         PJN / 30-07-2017 1. Removed unnecessary SECOND_2_RAD define. 
+                          2. Updated various CAAELP2000 methods to use "const" parameters.
 
 Copyright (c) 2015 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -40,7 +42,6 @@ using namespace std;
 #endif //#ifndef UNREFERENCED_PARAMETER
 
 //Lunar constants
-const double SECOND_2_RAD = 206264.80624709636; //648000 / PI
 const double AM = .074801329518;
 const double DTASM = 0.022921886117733679; //ALFA * 2.0 / (AM * 3.0) where ALFA .002571881335
 
@@ -38128,7 +38129,7 @@ const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient g_ELP36[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAELP2000::MoonMeanLongitude(double* pT, int nTSize) //Aka W1
+double CAAELP2000::MoonMeanLongitude(const double* pT, int nTSize) //Aka W1
 {
   //Validate our parameters
   assert(pT);
@@ -38153,10 +38154,10 @@ double CAAELP2000::MoonMeanLongitude(double JD) //Aka W1
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanLongitude(t, sizeof(t) / sizeof(double));
+  return MoonMeanLongitude(t, 5);
 }
 
-double CAAELP2000::MoonMeanLongitudeLunarPerigee(double* pT, int nTSize) //Aka W2
+double CAAELP2000::MoonMeanLongitudeLunarPerigee(const double* pT, int nTSize) //Aka W2
 {
   //Validate our parameters
   assert(pT);
@@ -38181,10 +38182,10 @@ double CAAELP2000::MoonMeanLongitudeLunarPerigee(double JD) //Aka W2
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanLongitudeLunarPerigee(t, sizeof(t)/sizeof(double));
+  return MoonMeanLongitudeLunarPerigee(t, 5);
 }
 
-double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(double* pT, int nTSize) //Aka W3
+double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(const double* pT, int nTSize) //Aka W3
 {
   //Validate our parameters
   assert(pT);
@@ -38209,10 +38210,10 @@ double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(double JD) //Aka W3
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanLongitudeLunarAscendingNode(t, sizeof(t) / sizeof(double));
+  return MoonMeanLongitudeLunarAscendingNode(t, 5);
 }
 
-double CAAELP2000::EarthMoonBarycentreMeanLongitude(double* pT, int nTSize) //Aka T
+double CAAELP2000::EarthMoonBarycentreMeanLongitude(const double* pT, int nTSize) //Aka T
 {
   //Validate our parameters
   assert(pT);
@@ -38237,10 +38238,10 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitude(double JD) //Aka T
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return EarthMoonBarycentreMeanLongitude(t, sizeof(t)/sizeof(double));
+  return EarthMoonBarycentreMeanLongitude(t, 5);
 }
 
-double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(double* pT, int nTSize) //Aka Omega'
+double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(const double* pT, int nTSize) //Aka Omega'
 {
   //Validate our parameters
   assert(pT);
@@ -38266,10 +38267,10 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(double JD) //Aka
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return EarthMoonBarycentreMeanLongitudeOfPerihelion(t, sizeof(t) / sizeof(double));
+  return EarthMoonBarycentreMeanLongitudeOfPerihelion(t, 5);
 }
 
-double CAAELP2000::MoonMeanSolarElongation(double* pT, int nTSize) //Aka D
+double CAAELP2000::MoonMeanSolarElongation(const double* pT, int nTSize) //Aka D
 {
   //Implement D in terms of W1 and T
   return MoonMeanLongitude(pT, nTSize) - EarthMoonBarycentreMeanLongitude(pT, nTSize) + CAACoordinateTransformation::PI();
@@ -38285,10 +38286,10 @@ double CAAELP2000::MoonMeanSolarElongation(double JD) //Aka D
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanSolarElongation(t, sizeof(t)/sizeof(double));
+  return MoonMeanSolarElongation(t, 5);
 }
 
-double CAAELP2000::SunMeanAnomaly(double* pT, int nTSize) //Aka l'
+double CAAELP2000::SunMeanAnomaly(const double* pT, int nTSize) //Aka l'
 {
   //Implement l' in terms of T and Omega'
   return EarthMoonBarycentreMeanLongitude(pT, nTSize) - EarthMoonBarycentreMeanLongitudeOfPerihelion(pT, nTSize);
@@ -38303,10 +38304,10 @@ double CAAELP2000::SunMeanAnomaly(double JD) //Aka l'
   t[2] = t[1] * t[1];
   t[3] = t[2] * t[1];
 
-  return SunMeanAnomaly(t, sizeof(t)/sizeof(double));
+  return SunMeanAnomaly(t, 5);
 }
 
-double CAAELP2000::MoonMeanAnomaly(double* pT, int nTSize) //Aka l
+double CAAELP2000::MoonMeanAnomaly(const double* pT, int nTSize) //Aka l
 {
   //Implement L in terms of W1 and W2
   return MoonMeanLongitude(pT, nTSize) - MoonMeanLongitudeLunarPerigee(pT, nTSize);
@@ -38322,10 +38323,10 @@ double CAAELP2000::MoonMeanAnomaly(double JD) //Aka l
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanAnomaly(t, sizeof(t)/sizeof(double));
+  return MoonMeanAnomaly(t, 5);
 }
 
-double CAAELP2000::MoonMeanArgumentOfLatitude(double* pT, int nTSize) //Aka F
+double CAAELP2000::MoonMeanArgumentOfLatitude(const double* pT, int nTSize) //Aka F
 {
   //Implement F in terms of W1 and W3
   return MoonMeanLongitude(pT, nTSize) - MoonMeanLongitudeLunarAscendingNode(pT, nTSize);
@@ -38341,42 +38342,42 @@ double CAAELP2000::MoonMeanArgumentOfLatitude(double JD) //Aka F
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanArgumentOfLatitude(t, sizeof(t)/sizeof(double));
+  return MoonMeanArgumentOfLatitude(t, 5);
 }
 
 double CAAELP2000::MercuryMeanLongitude(double T)
 {
-  return g_P[0][0] + g_P[0][1] * T;
+  return g_P[0][0] + g_P[0][1]*T;
 }
 
 double CAAELP2000::VenusMeanLongitude(double T)
 {
-  return g_P[1][0] + g_P[1][1] * T;
+  return g_P[1][0] + g_P[1][1]*T;
 }
 
 double CAAELP2000::MarsMeanLongitude(double T)
 {
-  return g_P[3][0] + g_P[3][1] * T;
+  return g_P[3][0] + g_P[3][1]*T;
 }
 
 double CAAELP2000::JupiterMeanLongitude(double T)
 {
-  return g_P[4][0] + g_P[4][1] * T;
+  return g_P[4][0] + g_P[4][1]*T;
 }
 
 double CAAELP2000::SaturnMeanLongitude(double T)
 {
-  return g_P[5][0] + g_P[5][1] * T;
+  return g_P[5][0] + g_P[5][1]*T;
 }
 
 double CAAELP2000::UranusMeanLongitude(double T)
 {
-  return g_P[6][0] + g_P[6][1] * T;
+  return g_P[6][0] + g_P[6][1]*T;
 }
 
 double CAAELP2000::NeptuneMeanLongitude(double T)
 {
-  return g_P[7][0] + g_P[7][1] * T;
+  return g_P[7][0] + g_P[7][1]*T;
 }
 
 //Handle the main problem calculation (Longitude & Latitude)
@@ -38438,7 +38439,7 @@ double CAAELP2000::Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficien
 
 
 //Handle the Earth figure perturbations, Tidal Effects, Moon figure & Relativistic perturbations calculation
-double CAAELP2000::Accumulate(double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero)
+double CAAELP2000::Accumulate(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero)
 {
   //Validate our parameters
   assert(pT);
@@ -38475,7 +38476,7 @@ double CAAELP2000::Accumulate(double* pT, int nTSize, const ELP2000EarthTidalMoo
 }
 
 //Handle the Earth figure perturbations & Tidal Effects /t calculation
-double CAAELP2000::Accumulate_2(double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero)
+double CAAELP2000::Accumulate_2(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero)
 {
   //Validate our parameters
   assert(pT);
@@ -38546,7 +38547,7 @@ double CAAELP2000::AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoeffic
 }
 
 //Handle the Planetary perturbations Table 1 /t calculation
-double CAAELP2000::AccumulateTable1_2(double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN)
+double CAAELP2000::AccumulateTable1_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN)
 {
   //Validate our parameters
   assert(pT);
@@ -38618,7 +38619,7 @@ double CAAELP2000::AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoeffic
 }
 
 //Handle the Planetary perturbations Table 2 /t calculation
-double CAAELP2000::AccumulateTable2_2(double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU)
+double CAAELP2000::AccumulateTable2_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU)
 {
   //Validate our parameters
   assert(pT);
@@ -38656,7 +38657,7 @@ double CAAELP2000::AccumulateTable2_2(double* pT, int nTSize, const ELP2000Plane
 }
 
 //Handle the Planetary perturbations (solar eccentricity) /t squared calculation
-double CAAELP2000::Accumulate_3(double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF)
+double CAAELP2000::Accumulate_3(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF)
 {
   //Validate our parameters
   assert(pT);
@@ -38686,145 +38687,166 @@ double CAAELP2000::Accumulate_3(double* pT, int nTSize, const ELP2000EarthTidalM
   return fResult;
 }
 
-//Calculate the geocentric ecliptic longitude of the Moon in degrees referred to standard equinox of J2000
+double CAAELP2000::EclipticLongitude(const double* pT, int nTSize)
+{
+  //Validate our parameters
+  assert(nTSize >= 2);
+
+  //Compute the delaney arguments for the specified time
+  double fD = MoonMeanSolarElongation(pT, nTSize);
+  double fldash = SunMeanAnomaly(pT, nTSize);
+  double fl = MoonMeanAnomaly(pT, nTSize);
+  double fF = MoonMeanArgumentOfLatitude(pT, nTSize);
+  double fD2 = MoonMeanSolarElongation(pT, 2);
+  double fldash2 = SunMeanAnomaly(pT, 2);
+  double fl2 = MoonMeanAnomaly(pT, 2);
+  double fF2 = MoonMeanArgumentOfLatitude(pT, 2);
+
+  //Compute the planet mean longitudes for the specified time
+  double fMe = MercuryMeanLongitude(pT[1]);
+  double fV = VenusMeanLongitude(pT[1]);
+  double fT = EarthMoonBarycentreMeanLongitude(pT, 2);
+  double fMa = MarsMeanLongitude(pT[1]);
+  double fJ = JupiterMeanLongitude(pT[1]);
+  double fS = SaturnMeanLongitude(pT[1]);
+  double fU = UranusMeanLongitude(pT[1]);
+  double fN = NeptuneMeanLongitude(pT[1]);
+
+  //Calculate the Longitude
+  double A = Accumulate        (g_ELP1,  sizeof(g_ELP1)/sizeof(ELP2000MainProblemCoefficient), fD, fldash, fl, fF) +
+             Accumulate        (pT, nTSize, g_ELP4,  sizeof(g_ELP4)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
+             Accumulate_2      (pT, nTSize, g_ELP7,  sizeof(g_ELP7)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
+             AccumulateTable1  (g_ELP10, sizeof(g_ELP10)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+             AccumulateTable1_2(pT, nTSize, g_ELP13, sizeof(g_ELP13)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+             AccumulateTable2  (g_ELP16, sizeof(g_ELP16)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+             AccumulateTable2_2(pT, nTSize, g_ELP19, sizeof(g_ELP19)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+             Accumulate        (pT, nTSize, g_ELP22, sizeof(g_ELP22)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate_2      (pT, nTSize, g_ELP25, sizeof(g_ELP25)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate        (pT, nTSize, g_ELP28, sizeof(g_ELP28)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate        (pT, nTSize, g_ELP31, sizeof(g_ELP31)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate_3      (pT, nTSize, g_ELP34, sizeof(g_ELP34)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2);
+  return CAACoordinateTransformation::MapTo0To360Range(A/3600.0 + CAACoordinateTransformation::RadiansToDegrees(MoonMeanLongitude(pT, nTSize)));
+}
+
 double CAAELP2000::EclipticLongitude(double JD)
 {
   //Calculate Julian centuries
   double t[5];
-  t[0] = 1; 
+  t[0] = 1;
   t[1] = (JD - 2451545.0) / 36525.0;
   t[2] = t[1] * t[1];
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  //Compute the delaney arguments for the specified time
-  double fD = MoonMeanSolarElongation(t, sizeof(t)/sizeof(double));
-  double fldash = SunMeanAnomaly(t, sizeof(t) / sizeof(double));
-  double fl = MoonMeanAnomaly(t, sizeof(t) / sizeof(double));
-  double fF = MoonMeanArgumentOfLatitude(t, sizeof(t) / sizeof(double));
-  double fD2 = MoonMeanSolarElongation(t, 2);
-  double fldash2 = SunMeanAnomaly(t, 2);
-  double fl2 = MoonMeanAnomaly(t, 2);
-  double fF2 = MoonMeanArgumentOfLatitude(t, 2);
-
-  //Compute the planet mean longitudes for the specified time
-  double fMe = MercuryMeanLongitude(t[1]);
-  double fV = VenusMeanLongitude(t[1]);
-  double fT = EarthMoonBarycentreMeanLongitude(t, 2);
-  double fMa = MarsMeanLongitude(t[1]);
-  double fJ = JupiterMeanLongitude(t[1]);
-  double fS = SaturnMeanLongitude(t[1]);
-  double fU = UranusMeanLongitude(t[1]);
-  double fN = NeptuneMeanLongitude(t[1]);
-
-  //Calculate the Longitude
-  double A = Accumulate        (g_ELP1,  sizeof(g_ELP1)/sizeof(ELP2000MainProblemCoefficient), fD, fldash, fl, fF) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP4,  sizeof(g_ELP4)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
-             Accumulate_2      (t, sizeof(t) / sizeof(double), g_ELP7,  sizeof(g_ELP7)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
-             AccumulateTable1  (g_ELP10, sizeof(g_ELP10)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-             AccumulateTable1_2(t, sizeof(t) / sizeof(double), g_ELP13, sizeof(g_ELP13)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-             AccumulateTable2  (g_ELP16, sizeof(g_ELP16)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-             AccumulateTable2_2(t, sizeof(t) / sizeof(double), g_ELP19, sizeof(g_ELP19)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP22, sizeof(g_ELP22)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate_2      (t, sizeof(t) / sizeof(double), g_ELP25, sizeof(g_ELP25)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP28, sizeof(g_ELP28)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP31, sizeof(g_ELP31)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate_3      (t, sizeof(t) / sizeof(double), g_ELP34, sizeof(g_ELP34)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2);
-  return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(A/SECOND_2_RAD + g_W[0] + g_W[3]*t[1] + g_W[6]*t[2] + g_W[9]*t[3] + g_W[12]*t[4]));
+  return EclipticLongitude(t, 5);
 }
 
-//Calculate the geocentric ecliptic latitude of the Moon in degrees referred to standard equinox of J2000
+double CAAELP2000::EclipticLatitude(const double* pT, int nTSize)
+{
+  //Validate our parameters
+  assert(nTSize >= 2);
+
+  //Compute the delaney arguments for the specified time
+  double fD = MoonMeanSolarElongation(pT, nTSize);
+  double fldash = SunMeanAnomaly(pT, nTSize);
+  double fl = MoonMeanAnomaly(pT, nTSize);
+  double fF = MoonMeanArgumentOfLatitude(pT, nTSize);
+  double fD2 = MoonMeanSolarElongation(pT, 2);
+  double fldash2 = SunMeanAnomaly(pT, 2);
+  double fl2 = MoonMeanAnomaly(pT, 2);
+  double fF2 = MoonMeanArgumentOfLatitude(pT, 2);
+
+  //Compute the planet mean longitudes for the specified time
+  double fMe = MercuryMeanLongitude(pT[1]);
+  double fV = VenusMeanLongitude(pT[1]);
+  double fT = EarthMoonBarycentreMeanLongitude(pT, 2);
+  double fMa = MarsMeanLongitude(pT[1]);
+  double fJ = JupiterMeanLongitude(pT[1]);
+  double fS = SaturnMeanLongitude(pT[1]);
+  double fU = UranusMeanLongitude(pT[1]);
+  double fN = NeptuneMeanLongitude(pT[1]);
+
+  //Calculate the Longitude
+  double B = Accumulate        (g_ELP2,  sizeof(g_ELP2)/sizeof(ELP2000MainProblemCoefficient), fD, fldash, fl, fF) +
+             Accumulate        (pT, nTSize, g_ELP5,  sizeof(g_ELP5)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
+             Accumulate_2      (pT, nTSize, g_ELP8,  sizeof(g_ELP8)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
+             AccumulateTable1  (g_ELP11, sizeof(g_ELP11)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+             AccumulateTable1_2(pT, nTSize, g_ELP14, sizeof(g_ELP14)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+             AccumulateTable2  (g_ELP17, sizeof(g_ELP17)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+             AccumulateTable2_2(pT, nTSize, g_ELP20, sizeof(g_ELP20)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+             Accumulate        (pT, nTSize, g_ELP23, sizeof(g_ELP23)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate_2      (pT, nTSize, g_ELP26, sizeof(g_ELP26)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate        (pT, nTSize, g_ELP29, sizeof(g_ELP29)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate        (pT, nTSize, g_ELP32, sizeof(g_ELP32)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+             Accumulate_3      (pT, nTSize, g_ELP35, sizeof(g_ELP35)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2);
+  return CAACoordinateTransformation::MapToMinus90To90Range(B/3600.0);
+}
+
 double CAAELP2000::EclipticLatitude(double JD)
 {
   //Calculate Julian centuries
   double t[5];
-  t[0] = 1; 
+  t[0] = 1;
   t[1] = (JD - 2451545.0) / 36525.0;
   t[2] = t[1] * t[1];
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  //Compute the delaney arguments for the specified time
-  double fD = MoonMeanSolarElongation(t, sizeof(t) / sizeof(double));
-  double fldash = SunMeanAnomaly(t, sizeof(t) / sizeof(double));
-  double fl = MoonMeanAnomaly(t, sizeof(t) / sizeof(double));
-  double fF = MoonMeanArgumentOfLatitude(t, sizeof(t) / sizeof(double));
-  double fD2 = MoonMeanSolarElongation(t, 2);
-  double fldash2 = SunMeanAnomaly(t, 2);
-  double fl2 = MoonMeanAnomaly(t, 2);
-  double fF2 = MoonMeanArgumentOfLatitude(t, 2);
-
-  //Compute the planet mean longitudes for the specified time
-  double fMe = MercuryMeanLongitude(t[1]);
-  double fV = VenusMeanLongitude(t[1]);
-  double fT = EarthMoonBarycentreMeanLongitude(t, 2);
-  double fMa = MarsMeanLongitude(t[1]);
-  double fJ = JupiterMeanLongitude(t[1]);
-  double fS = SaturnMeanLongitude(t[1]);
-  double fU = UranusMeanLongitude(t[1]);
-  double fN = NeptuneMeanLongitude(t[1]);
-
-  //Calculate the Longitude
-  double B = Accumulate        (g_ELP2,  sizeof(g_ELP2)/sizeof(ELP2000MainProblemCoefficient), fD, fldash, fl, fF) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP5,  sizeof(g_ELP5)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
-             Accumulate_2      (t, sizeof(t) / sizeof(double), g_ELP8,  sizeof(g_ELP8)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
-             AccumulateTable1  (g_ELP11, sizeof(g_ELP11)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-             AccumulateTable1_2(t, sizeof(t) / sizeof(double), g_ELP14, sizeof(g_ELP14)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-             AccumulateTable2  (g_ELP17, sizeof(g_ELP17)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-             AccumulateTable2_2(t, sizeof(t) / sizeof(double), g_ELP20, sizeof(g_ELP20)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP23, sizeof(g_ELP23)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate_2      (t, sizeof(t) / sizeof(double), g_ELP26, sizeof(g_ELP26)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP29, sizeof(g_ELP29)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate        (t, sizeof(t) / sizeof(double), g_ELP32, sizeof(g_ELP32)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-             Accumulate_3      (t, sizeof(t) / sizeof(double), g_ELP35, sizeof(g_ELP35)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2);
-  return CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(B/SECOND_2_RAD));
+  return EclipticLatitude(t, 5);
 }
 
-//Calculate the radius vector Moon in Kilometers
+double CAAELP2000::RadiusVector(const double* pT, int nTSize)
+{
+  //Validate our parameters
+  assert(nTSize >= 2);
+
+  //Compute the delaney arguments for the specified time
+  double fD = MoonMeanSolarElongation(pT, nTSize);
+  double fldash = SunMeanAnomaly(pT, nTSize);
+  double fl = MoonMeanAnomaly(pT, nTSize);
+  double fF = MoonMeanArgumentOfLatitude(pT, nTSize);
+  double fD2 = MoonMeanSolarElongation(pT, 2);
+  double fldash2 = SunMeanAnomaly(pT, 2);
+  double fl2 = MoonMeanAnomaly(pT, 2);
+  double fF2 = MoonMeanArgumentOfLatitude(pT, 2);
+
+  //Compute the planet mean longitudes for the specified time
+  double fMe = MercuryMeanLongitude(pT[1]);
+  double fV = VenusMeanLongitude(pT[1]);
+  double fT = EarthMoonBarycentreMeanLongitude(pT, 2);
+  double fMa = MarsMeanLongitude(pT[1]);
+  double fJ = JupiterMeanLongitude(pT[1]);
+  double fS = SaturnMeanLongitude(pT[1]);
+  double fU = UranusMeanLongitude(pT[1]);
+  double fN = NeptuneMeanLongitude(pT[1]);
+
+  //Calculate the Longitude
+  double fValue = Accumulate_2      (g_ELP3,  sizeof(g_ELP3)/sizeof(ELP2000MainProblemCoefficient), fD, fldash, fl, fF) + 
+                  Accumulate        (pT, nTSize, g_ELP6,  sizeof(g_ELP6)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
+                  Accumulate_2      (pT, nTSize, g_ELP9,  sizeof(g_ELP9)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
+                  AccumulateTable1  (g_ELP12, sizeof(g_ELP12)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                  AccumulateTable1_2(pT, nTSize, g_ELP15, sizeof(g_ELP15)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                  AccumulateTable2  (g_ELP18, sizeof(g_ELP18)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                  AccumulateTable2_2(pT, nTSize, g_ELP21, sizeof(g_ELP21)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                  Accumulate        (pT, nTSize, g_ELP24, sizeof(g_ELP24)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+                  Accumulate_2      (pT, nTSize, g_ELP27, sizeof(g_ELP27)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+                  Accumulate        (pT, nTSize, g_ELP30, sizeof(g_ELP30)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+                  Accumulate        (pT, nTSize, g_ELP33, sizeof(g_ELP33)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
+                  Accumulate_3      (pT, nTSize, g_ELP36, sizeof(g_ELP36)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2);
+  return fValue * 384747.9806448954 / 384747.9806743165;
+}
+
 double CAAELP2000::RadiusVector(double JD)
 {
   //Calculate Julian centuries
   double t[5];
-  t[0] = 1; 
+  t[0] = 1;
   t[1] = (JD - 2451545.0) / 36525.0;
   t[2] = t[1] * t[1];
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  //Compute the delaney arguments for the specified time
-  double fD = MoonMeanSolarElongation(t, sizeof(t) / sizeof(double));
-  double fldash = SunMeanAnomaly(t, sizeof(t) / sizeof(double));
-  double fl = MoonMeanAnomaly(t, sizeof(t) / sizeof(double));
-  double fF = MoonMeanArgumentOfLatitude(t, sizeof(t) / sizeof(double));
-  double fD2 = MoonMeanSolarElongation(t, 2);
-  double fldash2 = SunMeanAnomaly(t, 2);
-  double fl2 = MoonMeanAnomaly(t, 2);
-  double fF2 = MoonMeanArgumentOfLatitude(t, 2);
-
-  //Compute the planet mean longitudes for the specified time
-  double fMe = MercuryMeanLongitude(t[1]);
-  double fV = VenusMeanLongitude(t[1]);
-  double fT = EarthMoonBarycentreMeanLongitude(t, 2);
-  double fMa = MarsMeanLongitude(t[1]);
-  double fJ = JupiterMeanLongitude(t[1]);
-  double fS = SaturnMeanLongitude(t[1]);
-  double fU = UranusMeanLongitude(t[1]);
-  double fN = NeptuneMeanLongitude(t[1]);
-
-  //Calculate the Longitude
-  double fValue = Accumulate_2      (g_ELP3,  sizeof(g_ELP3)/sizeof(ELP2000MainProblemCoefficient), fD, fldash, fl, fF) + 
-                  Accumulate        (t, sizeof(t) / sizeof(double), g_ELP6,  sizeof(g_ELP6)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
-                  Accumulate_2      (t, sizeof(t) / sizeof(double), g_ELP9,  sizeof(g_ELP9)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, false) +
-                  AccumulateTable1  (g_ELP12, sizeof(g_ELP12)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                  AccumulateTable1_2(t, sizeof(t) / sizeof(double), g_ELP15, sizeof(g_ELP15)/sizeof(ELP2000PlanetPertCoefficient), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                  AccumulateTable2  (g_ELP18, sizeof(g_ELP18)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                  AccumulateTable2_2(t, sizeof(t) / sizeof(double), g_ELP21, sizeof(g_ELP21)/sizeof(ELP2000PlanetPertCoefficient), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                  Accumulate        (t, sizeof(t) / sizeof(double), g_ELP24, sizeof(g_ELP24)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-                  Accumulate_2      (t, sizeof(t) / sizeof(double), g_ELP27, sizeof(g_ELP27)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-                  Accumulate        (t, sizeof(t) / sizeof(double), g_ELP30, sizeof(g_ELP30)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-                  Accumulate        (t, sizeof(t) / sizeof(double), g_ELP33, sizeof(g_ELP33)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2, true) +
-                  Accumulate_3      (t, sizeof(t) / sizeof(double), g_ELP36, sizeof(g_ELP36)/sizeof(ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient), fD2, fldash2, fl2, fF2);
-  return fValue * 384747.9806448954 / 384747.9806743165;
+  return RadiusVector(t, 5);
 }
 
 CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinates(double JD)

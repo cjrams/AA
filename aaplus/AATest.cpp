@@ -491,7 +491,6 @@ int main()
   UNREFERENCED_PARAMETER(fLatitude);
   double fRadius = CAAELP2000::RadiusVector(2469000.5);
   UNREFERENCED_PARAMETER(fRadius);
-
   CAA3DCoordinate ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2469000.5);
   //correct values for above is ELP2000.X = -361602.98536, .Y=44996.99510, .Z=-30696.65316
   CAA3DCoordinate ELP2000FK5 = CAAELP2000::EquatorialRectangularCoordinatesFK5(2469000.5);
@@ -509,6 +508,53 @@ int main()
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2409000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2389000.5);
 #endif
+
+#ifndef AAPLUS_NO_ELPMPP02
+  double fLongitudeDerivative = 0;
+  double fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::LLR, &fLongitudeDerivative);
+  UNREFERENCED_PARAMETER(fLongitudeDerivative);
+  fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::LLR, NULL);
+  double fLongitude22 = CAAELP2000::EclipticLongitude(2444239.5);
+  UNREFERENCED_PARAMETER(fLongitude22);
+  double fLatitudeDerivative = 0;
+  double fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::LLR, &fLatitudeDerivative);
+  UNREFERENCED_PARAMETER(fLatitudeDerivative);
+  fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::LLR, NULL);
+  double fLatitude22 = CAAELP2000::EclipticLatitude(2444239.5);
+  UNREFERENCED_PARAMETER(fLatitude22);
+  double fRadiusDerivative = 0;
+  double fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::LLR, &fRadiusDerivative);
+  UNREFERENCED_PARAMETER(fRadiusDerivative);
+  fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::LLR, NULL);
+  double fRadius22 = CAAELP2000::RadiusVector(2444239.5);
+  UNREFERENCED_PARAMETER(fRadius22);
+  CAA3DCoordinate ELPMPP02Derivative;
+  CAA3DCoordinate ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::LLR, NULL);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2446239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2448239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2450239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
+
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2500000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2300000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2100000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1900000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1700000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
+
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2500000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2300000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2100000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1900000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1700000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
+
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2446239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2448239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2450239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
+#endif //#ifndef AAPLUS_NO_ELPMPP02
+
 
   /*
   //Code to write out the Moon Perigee from 1984 to 2026
@@ -617,7 +663,9 @@ int main()
   //Test out the CAADynamicalTime UTC time frame conversion methods
   double TT = CAADynamicalTime::UTC2TT(2433282.5);
   double TT2 = CAADynamicalTime::UT12TT(2433282.5);
+  UNREFERENCED_PARAMETER(TT2);
   double UTC = CAADynamicalTime::TT2UTC(TT);
+  UNREFERENCED_PARAMETER(UTC);
   TT = CAADynamicalTime::UTC2TT(2451544.5);
   TT2 = CAADynamicalTime::UT12TT(2451544.5);
   UTC = CAADynamicalTime::TT2UTC(TT);
@@ -1227,21 +1275,22 @@ int main()
   MoonLong = CAAMoon::EclipticLongitude(2448724.5);
   MoonLat = CAAMoon::EclipticLatitude(2448724.5);
   MoonRad = CAAMoon::RadiusVector(2448724.5);
-#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   CAA3DCoordinate MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2448724.5);
   double MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
+  UNREFERENCED_PARAMETER(MoonRad2);
   double MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
   double MoonLat2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Z, sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y))));
   double NutationInLongitude2 = CAANutation::NutationInLongitude(2448724.5);
   MoonLong2 += CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInLongitude2);
   CAA2DCoordinate MoonPrecess = CAAPrecession::PrecessEcliptic(MoonLong2, MoonLat2, 2451545, 2448724.5);
-#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
 
   //Calculate the geocentric position of the moon for Midnight 1 January 1900 TT using both CAAMoon & CAAELP2000 for comparison purposes
   MoonLong = CAAMoon::EclipticLongitude(2415020.5);
   MoonLat = CAAMoon::EclipticLatitude(2415020.5);
   MoonRad = CAAMoon::RadiusVector(2415020.5);
-#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2415020.5);
   MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
   MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
@@ -1255,7 +1304,7 @@ int main()
   MoonLong = CAAMoon::EclipticLongitude(2488069.5);
   MoonLat = CAAMoon::EclipticLatitude(2488069.5);
   MoonRad = CAAMoon::RadiusVector(2488069.5);
-#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2488069.5);
   MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
   MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
@@ -1263,7 +1312,7 @@ int main()
   NutationInLongitude2 = CAANutation::NutationInLongitude(2488069.5);
   MoonLong2 += CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInLongitude2);
   MoonPrecess = CAAPrecession::PrecessEcliptic(MoonLong2, MoonLat2, 2451545, 2488069.5);
-#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION  
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
 
 
   //Test out the CAAPlanetPerihelionAphelion class

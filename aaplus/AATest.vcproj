@@ -457,6 +457,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AAELPMPP02.cpp"
+				>
+			</File>
+			<File
 				RelativePath="AAEquationOfTime.cpp"
 				>
 				<FileConfiguration
@@ -1637,6 +1641,10 @@
 			</File>
 			<File
 				RelativePath=".\AAELP2000.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AAELPMPP02.h"
 				>
 			</File>
 			<File
