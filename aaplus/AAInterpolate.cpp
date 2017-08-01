@@ -125,7 +125,7 @@ double CAAInterpolate::Extremum(double Y1, double Y2, double Y3, double Y4, doub
     double NMprev3 = NMprev2*nmprev;
     nm = (6*B + 6*C - H - J +3*NMprev2*(H+J) + 2*NMprev3*K) / (K - 12*F);
 
-    bRecalc = (fabs(nm - nmprev) > 1E-12);
+    bRecalc = (fabs(nm - nmprev) > 1e-12);
     if (bRecalc)
       nmprev = nm;
   }
@@ -146,7 +146,7 @@ double CAAInterpolate::Zero(double Y1, double Y2, double Y3)
   {
     n0 = -2*Y2/(a + b + c*n0prev);
 
-    bRecalc = (fabs(n0 - n0prev) > 1E-12);
+    bRecalc = (fabs(n0 - n0prev) > 1e-12);
     if (bRecalc)
       n0prev = n0;
   }
@@ -178,7 +178,7 @@ double CAAInterpolate::Zero(double Y1, double Y2, double Y3, double Y4, double Y
 
     n0 = (-24*Y3 + n0prev2*(K - 12*F) - 2*n0prev3*(H+J) - n0prev4*K)/(2*(6*B + 6*C - H - J));
 
-    bRecalc = (fabs(n0 - n0prev) > 1E-12);
+    bRecalc = (fabs(n0 - n0prev) > 1e-12);
     if (bRecalc)
       n0prev = n0;
   }
@@ -201,7 +201,7 @@ double CAAInterpolate::Zero2(double Y1, double Y2, double Y3)
     double deltan0 = - (2*Y2 + n0prev*(a + b + c*n0prev)) / (a + b + 2*c*n0prev);
     n0 = n0prev + deltan0;
 
-    bRecalc = (fabs(deltan0) > 1E-12);
+    bRecalc = (fabs(deltan0) > 1e-12);
     if (bRecalc)
       n0prev = n0;
   }
@@ -238,7 +238,7 @@ double CAAInterpolate::Zero2(double Y1, double Y2, double Y3, double Y4, double 
     double deltan0 = - (M * n0prev4 + N*n0prev3 + P*n0prev2 + Q*n0prev + Y3) / (4*M*n0prev3 + 3*N*n0prev2 + 2*P*n0prev + Q);
     n0 = n0prev + deltan0;
 
-    bRecalc = (fabs(deltan0) > 1E-12);
+    bRecalc = (fabs(deltan0) > 1e-12);
     if (bRecalc)
       n0prev = n0;
   }

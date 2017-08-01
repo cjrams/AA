@@ -75,7 +75,7 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
     LightTravelTime = CAAElliptical::DistanceToLightTime(DELTA);
 
     //Prepare for the next loop around
-    bIterate = (fabs(LightTravelTime - PreviousLightTravelTime) > 2E-6); //2E-6 corresponds to 0.17 of a second
+    bIterate = (fabs(LightTravelTime - PreviousLightTravelTime) > 2e-6); //2e-6 corresponds to 0.17 of a second
     if (bIterate)
     {
       JD1 = JD - LightTravelTime;
@@ -545,7 +545,7 @@ CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD, bool bHighPrecisi
     EarthLightTravelTime = CAAElliptical::DistanceToLightTime(DELTA);
 
     //Prepare for the next loop around
-    bIterate = (fabs(EarthLightTravelTime - PreviousEarthLightTravelTime) > 2E-6); //2E-6 corresponds to 0.17 of a second
+    bIterate = (fabs(EarthLightTravelTime - PreviousEarthLightTravelTime) > 2e-6); //2e-6 corresponds to 0.17 of a second
     if (bIterate)
     {
       JD1 = JD - EarthLightTravelTime;

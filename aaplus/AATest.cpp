@@ -1247,7 +1247,6 @@ int main()
   SaturnRadius2 = CAASaturn::RadiusVector(2451385.5, true);
 
 
-
   //Test out the CAAPluto class
   double PlutoLong = CAAPluto::EclipticLongitude(2448908.5);
   UNREFERENCED_PARAMETER(PlutoLong);
@@ -1255,7 +1254,6 @@ int main()
   UNREFERENCED_PARAMETER(PlutoLat);
   double PlutoRadius = CAAPluto::RadiusVector(2448908.5);
   UNREFERENCED_PARAMETER(PlutoRadius);
-
 
 
   //Test out the CAAMoon class

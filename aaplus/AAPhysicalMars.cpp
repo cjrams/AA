@@ -89,7 +89,7 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD, bool bHighPrecision
     LightTravelTime = CAAElliptical::DistanceToLightTime(DELTA);
 
     //Prepare for the next loop around
-    bIterate = (fabs(LightTravelTime - PreviousLightTravelTime) > 2E-6); //2E-6 correponds to 0.17 of a second
+    bIterate = (fabs(LightTravelTime - PreviousLightTravelTime) > 2e-6); //2e-6 correponds to 0.17 of a second
     if (bIterate)
       PreviousLightTravelTime = LightTravelTime;
   }
