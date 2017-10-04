@@ -13,8 +13,8 @@ add_library(aaplus ${HEADER_FILES} ${SOURCE_FILES})
 target_include_directories(aaplus PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/)
 target_link_libraries(aaplus)
 
-enable_testing()
+#enable_testing()
 
 add_executable(test ${TEST_SOURCES} )
 target_link_libraries(test aaplus)
-add_test(test test)
+#add_test(test test)
