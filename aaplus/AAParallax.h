@@ -3,7 +3,7 @@ Module : AAParallax.h
 Purpose: Implementation for the algorithms which convert a geocentric set of coordinates to their topocentric equivalent
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

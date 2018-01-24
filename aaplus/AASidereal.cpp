@@ -5,7 +5,7 @@ Created: PJN / 29-12-2003
          PJN / 26-01-2007 1. Update to fit in with new layout of CAADate class
          PJN / 28-01-2007 1. Minor updates to fit in with new layout of CAADate class
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

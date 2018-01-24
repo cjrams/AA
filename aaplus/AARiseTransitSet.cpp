@@ -35,7 +35,7 @@ History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTran
                           fix should resolve this issue for good. Thanks to Gudni G. Sigurdsson for reporting this 
                           bug.
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

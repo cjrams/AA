@@ -23,7 +23,7 @@ History: PJN / 07-02-2009 1. Fixed a seemingly copy and paste bug in CAAMoonPeri
                           precision of a kilometer which is well within the claimed accuracy of 12 KM as mentioned in 
                           Meeus's book on page 361.
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

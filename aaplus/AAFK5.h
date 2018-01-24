@@ -3,7 +3,7 @@ Module : AAFK5.h
 Purpose: Implementation for the algorithms to convert to the FK5 standard reference frame
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

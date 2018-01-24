@@ -9,7 +9,7 @@ History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated onl
                           eclipse in CAASolarEclipseDetails::Details. These attributes correspond to the values as discussed
                           in Meeus's book on Pages 381 & 382. Thanks to "Pavel" for providing this nice addition.
 
-Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

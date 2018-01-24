@@ -12,7 +12,7 @@ History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a
                           of the value mu for the eight moon (Iapetus). Thanks to Cedric Foellmi for 
                           reporting this issue.
 
-Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

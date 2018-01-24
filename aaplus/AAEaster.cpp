@@ -5,7 +5,7 @@ Created: PJN / 29-12-2003
 History: PJN / 07-07-2016 1. Fixed a compiler warning in CAAEaster::Calculate as reported at 
                           http://stackoverflow.com/questions/2348415/objective-c-astronomy-library.
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

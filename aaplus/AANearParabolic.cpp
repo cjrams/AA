@@ -18,7 +18,7 @@ History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double J
                           if set to true means the code uses the full VSOP87 theory rather than the truncated
                           theory as presented in Meeus's book.
 
-Copyright (c) 2006 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2006 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -3,7 +3,7 @@ Module : AAGalileanMoons.h
 Purpose: Implementation for the algorithms which obtain the positions of the 4 great moons of Jupiter
 Created: PJN / 06-01-2004
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

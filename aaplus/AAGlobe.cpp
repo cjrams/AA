@@ -6,7 +6,7 @@ History: PJN / 20-03-2016 1. Fixed a transcription error in the CAAGlobe::RhoSin
                           CAAGlobe::RhoCosThetaPrime functions. The value 6378149 was being used instead of 
                           the correct value 6378140. Thanks to "Pavel" for reporting this bug.
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

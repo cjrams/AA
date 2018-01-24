@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for the semi diameters of the Sun, Mo
 Created: PJN / 15-01-2004
 History: None
 
-Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

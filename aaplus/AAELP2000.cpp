@@ -9,7 +9,7 @@ History: PJN / 31-12-2015 1. Initial public release.
          PJN / 30-07-2017 1. Removed unnecessary SECOND_2_RAD define. 
                           2. Updated various CAAELP2000 methods to use "const" parameters.
 
-Copyright (c) 2015 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

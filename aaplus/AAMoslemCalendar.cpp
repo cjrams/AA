@@ -7,7 +7,7 @@ History: PJN / 12-02-2004 1. Replaced all calls to the macro "INT" with the func
          PJN / 26-01-2007 1. Update to fit in with new layout of CAADate class    
          PJN / 28-01-2007 1. Minor updates to fit in with new layout of CAADate class                          
 
-Copyright (c) 2004 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

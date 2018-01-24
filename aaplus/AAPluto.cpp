@@ -8,7 +8,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the PlutoCoefficient1 struc
                           issue when compiling AA+ on ARM.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAPluto.cpp module
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

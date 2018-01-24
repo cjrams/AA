@@ -11,7 +11,7 @@ History: PJN / 16-06-2004 1. Fixed a typo in the calculation of SunLongDash in C
                           sometimes not be returned in the correct quadrant. Thanks to Alexandru 
                           Garofide for reporting this issue.
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

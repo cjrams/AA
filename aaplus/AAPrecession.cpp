@@ -23,7 +23,7 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           7. Optimized the code in CAAPrecession::PrecessEquatorial, CAAPrecession::PrecessEquatorialFK4 &
                           CAAPrecession::PrecessEcliptic.
 
-Copyright (c) 2003 - 2017 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
