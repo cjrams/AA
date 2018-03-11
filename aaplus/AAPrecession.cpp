@@ -22,6 +22,12 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           Thanks to "Pavel" for reporting this issue.
                           7. Optimized the code in CAAPrecession::PrecessEquatorial, CAAPrecession::PrecessEquatorialFK4 &
                           CAAPrecession::PrecessEcliptic.
+         PJN / 02-03-2018 1. Fixed a transcription bug in the CAAPrecession::PrecessEquatorial method. The "0.017998*tcubed" term 
+                          was incorrectly using "0.017988*tcubed" when calculating "sigma". Thanks to Michael McLaughlin for reporting 
+                          this bug. The errors were so small that the values from the worked example of 21.b from the book ended up 
+                          giving the same results. If a longer timespan was used for the example instead of the 28 years then the 
+                          errors would  have been easier to spot from the incorrect terms. Hopefully this is the same transcription 
+                          error in this method!
 
 Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -103,7 +109,7 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, dou
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (0.30188 - 0.000344*T)*tsquared + 0.017988*tcubed));
+  double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (0.30188 - 0.000344*T)*tsquared + 0.017998*tcubed));
   double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (1.09468 + 0.000066*T)*tsquared + 0.018203*tcubed));
   double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.3109 - 0.8533*T - 0.000217*Tsquared)*t -  (0.42665 + 0.000217*T)*tsquared - 0.041833*tcubed));
   double A = cos(Delta) * sin(Alpha + sigma);
