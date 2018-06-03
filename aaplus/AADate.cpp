@@ -121,15 +121,15 @@ double CAADate::DateToJD(long Year, long Month, double Day, bool bGregorianCalen
 }
 
 bool CAADate::IsLeap(long Year, bool bGregorianCalendar)
-{     
-  if (bGregorianCalendar)    
-  {                                       
-    if ((Year % 100) == 0)                
+{
+  if (bGregorianCalendar)
+  {
+    if ((Year % 100) == 0)
       return ((Year % 400) == 0) ? true : false;
     else
       return ((Year % 4) == 0) ? true : false;
   }
-  else                                        
+  else
     return ((Year % 4) == 0) ? true : false;
 }
 
