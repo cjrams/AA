@@ -40,9 +40,9 @@ public:
 //Static methods
   static double NutationInLongitude(double JD);
   static double NutationInObliquity(double JD);
-  static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity);
-  static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity);
-  static double MeanObliquityOfEcliptic(double JD);
+  static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
+  static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
+  static double MeanObliquityOfEcliptic(double JD) noexcept;
   static double TrueObliquityOfEcliptic(double JD);
 };
 

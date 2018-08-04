@@ -40,7 +40,7 @@ using namespace std;
 
 /////////////////////// Implementation ////////////////////////////////////////
 
-CAA2DCoordinate CAACoordinateTransformation::Equatorial2Ecliptic(double Alpha, double Delta, double Epsilon)
+CAA2DCoordinate CAACoordinateTransformation::Equatorial2Ecliptic(double Alpha, double Delta, double Epsilon) noexcept
 {
   Alpha = HoursToRadians(Alpha);
   Delta = DegreesToRadians(Delta);
@@ -55,7 +55,7 @@ CAA2DCoordinate CAACoordinateTransformation::Equatorial2Ecliptic(double Alpha, d
   return Ecliptic;
 }
 
-CAA2DCoordinate CAACoordinateTransformation::Ecliptic2Equatorial(double Lambda, double Beta, double Epsilon)
+CAA2DCoordinate CAACoordinateTransformation::Ecliptic2Equatorial(double Lambda, double Beta, double Epsilon) noexcept
 {
   Lambda = DegreesToRadians(Lambda);
   Beta = DegreesToRadians(Beta);
@@ -66,11 +66,11 @@ CAA2DCoordinate CAACoordinateTransformation::Ecliptic2Equatorial(double Lambda, 
   if (Equatorial.X < 0)
     Equatorial.X += 24;
   Equatorial.Y = RadiansToDegrees(asin(sin(Beta)*cos(Epsilon) + cos(Beta)*sin(Epsilon)*sin(Lambda)));
-  
+
   return Equatorial;
 }
 
-CAA2DCoordinate CAACoordinateTransformation::Equatorial2Horizontal(double LocalHourAngle, double Delta, double Latitude)
+CAA2DCoordinate CAACoordinateTransformation::Equatorial2Horizontal(double LocalHourAngle, double Delta, double Latitude) noexcept
 {
   LocalHourAngle = HoursToRadians(LocalHourAngle);
   Delta = DegreesToRadians(Delta);
@@ -81,11 +81,11 @@ CAA2DCoordinate CAACoordinateTransformation::Equatorial2Horizontal(double LocalH
   if (Horizontal.X < 0)
     Horizontal.X += 360;
   Horizontal.Y = RadiansToDegrees(asin(sin(Latitude)*sin(Delta) + cos(Latitude)*cos(Delta)*cos(LocalHourAngle)));
-    
+
   return Horizontal;
 }
 
-CAA2DCoordinate CAACoordinateTransformation::Horizontal2Equatorial(double Azimuth, double Altitude, double Latitude)
+CAA2DCoordinate CAACoordinateTransformation::Horizontal2Equatorial(double Azimuth, double Altitude, double Latitude) noexcept
 {
   //Convert from degress to radians
   Azimuth = DegreesToRadians(Azimuth);
@@ -97,11 +97,11 @@ CAA2DCoordinate CAACoordinateTransformation::Horizontal2Equatorial(double Azimut
   if (Equatorial.X < 0)
     Equatorial.X += 24;
   Equatorial.Y = RadiansToDegrees(asin(sin(Latitude)*sin(Altitude) - cos(Latitude)*cos(Altitude)*cos(Azimuth)));
-  
+
   return Equatorial;
 }
 
-CAA2DCoordinate CAACoordinateTransformation::Equatorial2Galactic(double Alpha, double Delta)
+CAA2DCoordinate CAACoordinateTransformation::Equatorial2Galactic(double Alpha, double Delta) noexcept
 {
   Alpha = 192.25 - HoursToDegrees(Alpha);
   Alpha = DegreesToRadians(Alpha);
@@ -117,7 +117,7 @@ CAA2DCoordinate CAACoordinateTransformation::Equatorial2Galactic(double Alpha, d
   return Galactic;
 }
 
-CAA2DCoordinate CAACoordinateTransformation::Galactic2Equatorial(double l, double b)
+CAA2DCoordinate CAACoordinateTransformation::Galactic2Equatorial(double l, double b) noexcept
 {
   l -= 123;
   l = DegreesToRadians(l);
@@ -130,11 +130,11 @@ CAA2DCoordinate CAACoordinateTransformation::Galactic2Equatorial(double l, doubl
     Equatorial.X += 360;
   Equatorial.X = DegreesToHours(Equatorial.X);
   Equatorial.Y = RadiansToDegrees(asin(sin(b)*sin(DegreesToRadians(27.4)) + cos(b)*cos(DegreesToRadians(27.4))*cos(l)));
-    
+
   return Equatorial;
 }
 
-double CAACoordinateTransformation::DMSToDegrees(double Degrees, double Minutes, double Seconds, bool bPositive)
+double CAACoordinateTransformation::DMSToDegrees(double Degrees, double Minutes, double Seconds, bool bPositive) noexcept
 {
   //validate our parameters
   if (!bPositive)

@@ -31,32 +31,32 @@ using namespace std;
 
 /////////////////////// Implementation ////////////////////////////////////////
 
-double CAAFK5::CorrectionInLongitude(double Longitude, double Latitude, double JD)
+double CAAFK5::CorrectionInLongitude(double Longitude, double Latitude, double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
+  const double T = (JD - 2451545) / 36525;
   double Ldash = Longitude - 1.397*T - 0.00031*T*T;
 
   //Convert to radians
   Ldash = CAACoordinateTransformation::DegreesToRadians(Ldash);
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
 
-  double value = -0.09033 + 0.03916*(std::cos(Ldash) + std::sin(Ldash))*tan(Latitude);
+  const double value = -0.09033 + 0.03916*(std::cos(Ldash) + std::sin(Ldash))*tan(Latitude);
   return CAACoordinateTransformation::DMSToDegrees(0, 0, value);
 }
 
-double CAAFK5::CorrectionInLatitude(double Longitude, double JD)
+double CAAFK5::CorrectionInLatitude(double Longitude, double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
+  const double T = (JD - 2451545) / 36525;
   double Ldash = Longitude - 1.397*T - 0.00031*T*T;
 
   //Convert to radians
   Ldash = CAACoordinateTransformation::DegreesToRadians(Ldash);
 
-  double value = 0.03916*(std::cos(Ldash) - std::sin(Ldash));
+  const double value = 0.03916*(std::cos(Ldash) - std::sin(Ldash));
   return CAACoordinateTransformation::DMSToDegrees(0, 0, value);
 }
 
-CAA3DCoordinate CAAFK5::ConvertVSOPToFK5J2000(const CAA3DCoordinate& value)
+CAA3DCoordinate CAAFK5::ConvertVSOPToFK5J2000(const CAA3DCoordinate& value) noexcept
 {
   CAA3DCoordinate result;
   result.X = value.X + 0.000000440360 * value.Y - 0.000000190919 * value.Z;
@@ -66,7 +66,7 @@ CAA3DCoordinate CAAFK5::ConvertVSOPToFK5J2000(const CAA3DCoordinate& value)
   return result;
 }
 
-CAA3DCoordinate CAAFK5::ConvertVSOPToFK5B1950(const CAA3DCoordinate& value)
+CAA3DCoordinate CAAFK5::ConvertVSOPToFK5B1950(const CAA3DCoordinate& value) noexcept
 {
   CAA3DCoordinate result;
   result.X = 0.999925702634 * value.X + 0.012189716217 * value.Y + 0.000011134016 * value.Z;
@@ -76,11 +76,11 @@ CAA3DCoordinate CAAFK5::ConvertVSOPToFK5B1950(const CAA3DCoordinate& value)
   return result;
 }
 
-CAA3DCoordinate CAAFK5::ConvertVSOPToFK5AnyEquinox(const CAA3DCoordinate& value, double JDEquinox)
+CAA3DCoordinate CAAFK5::ConvertVSOPToFK5AnyEquinox(const CAA3DCoordinate& value, double JDEquinox) noexcept
 {
-  double t = (JDEquinox - 2451545.0) / 36525;
-  double tsquared = t*t;
-  double tcubed  = tsquared * t;
+  const double t = (JDEquinox - 2451545.0) / 36525;
+  const double tsquared = t*t;
+  const double tcubed  = tsquared * t;
 
   double sigma = 2306.2181*t + 0.30188*tsquared + 0.017988*tcubed;
   sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, sigma));
@@ -91,22 +91,22 @@ CAA3DCoordinate CAAFK5::ConvertVSOPToFK5AnyEquinox(const CAA3DCoordinate& value,
   double phi = 2004.3109*t - 0.42665*tsquared - 0.041833*tcubed;
   phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, phi));
 
-  double cossigma = std::cos(sigma);
-  double coszeta = std::cos(zeta);
-  double cosphi = std::cos(phi);
-  double sinsigma = std::sin(sigma);
-  double sinzeta = std::sin(zeta);
-  double sinphi = std::sin(phi);
+  const double cossigma = std::cos(sigma);
+  const double coszeta = std::cos(zeta);
+  const double cosphi = std::cos(phi);
+  const double sinsigma = std::sin(sigma);
+  const double sinzeta = std::sin(zeta);
+  const double sinphi = std::sin(phi);
 
-  double xx = cossigma * coszeta * cosphi -sinsigma*sinzeta;
-  double xy = sinsigma * coszeta + cossigma * sinzeta * cosphi;
-  double xz = cossigma * sinphi;
-  double yx = -cossigma * sinzeta - sinsigma * coszeta * cosphi;
-  double yy = cossigma * coszeta - sinsigma * sinzeta * cosphi;
-  double yz = -sinsigma * sinphi;
-  double zx = -coszeta * sinphi;
-  double zy = -sinzeta * sinphi;
-  double zz = cosphi;
+  const double xx = cossigma * coszeta * cosphi -sinsigma*sinzeta;
+  const double xy = sinsigma * coszeta + cossigma * sinzeta * cosphi;
+  const double xz = cossigma * sinphi;
+  const double yx = -cossigma * sinzeta - sinsigma * coszeta * cosphi;
+  const double yy = cossigma * coszeta - sinsigma * sinzeta * cosphi;
+  const double yz = -sinsigma * sinphi;
+  const double zx = -coszeta * sinphi;
+  const double zy = -sinzeta * sinphi;
+  const double zz = cosphi;
 
   CAA3DCoordinate result;
   result.X = xx * value.X + yx * value.Y + zx * value.Z;

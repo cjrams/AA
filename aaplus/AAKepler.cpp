@@ -30,11 +30,11 @@ using namespace std;
 
 //////////////////// Implementation ///////////////////////////////////////////
 
-double CAAKepler::Calculate(double M, double e, int nIterations)
-{ 
+double CAAKepler::Calculate(double M, double e, int nIterations) noexcept
+{
   //Convert from degrees to radians
   M = CAACoordinateTransformation::DegreesToRadians(M);
-  double PI = CAACoordinateTransformation::PI();
+  constexpr double PI = CAACoordinateTransformation::PI();
 
   double F = 1;
   if (M < 0)
@@ -53,7 +53,7 @@ double CAAKepler::Calculate(double M, double e, int nIterations)
   double scale = PI / 4;
   for (int i=0; i<nIterations; i++)
   {
-    double R = E - e*sin(E);
+    const double R = E - e*sin(E);
     if (M > R)
       E += scale;
     else

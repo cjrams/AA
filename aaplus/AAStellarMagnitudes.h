@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAStellarMagnitudes
 {
 public:
 //functions
-  static double CombinedMagnitude(double m1, double m2);
-  static double CombinedMagnitude(int Magnitudes, const double* pMagnitudes);
-  static double BrightnessRatio(double m1, double m2);
-  static double MagnitudeDifference(double brightnessRatio);
+  static double CombinedMagnitude(double m1, double m2) noexcept;
+  static double CombinedMagnitude(int Magnitudes, const double* pMagnitudes) noexcept;
+  static double BrightnessRatio(double m1, double m2) noexcept;
+  static double MagnitudeDifference(double brightnessRatio) noexcept;
 };
 
 

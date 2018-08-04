@@ -41,18 +41,18 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
 {
   //Are we looking for a solar or lunar eclipse
   double intp = 0;
-  bool bSolarEclipse = (modf(k, &intp) == 0);
+  const bool bSolarEclipse = (modf(k, &intp) == 0);
 
   //What will be the return value
   CAASolarEclipseDetails details;
 
   //convert from K to T
-  double T = k/1236.85;
-  double T2 = T*T;
-  double T3 = T2*T;
-  double T4 = T3*T;
+  const double T = k/1236.85;
+  const double T2 = T*T;
+  const double T3 = T2*T;
+  const double T4 = T3*T;
 
-  double E = 1 - 0.002516*T - 0.0000074*T2;
+  const double E = 1 - 0.002516*T - 0.0000074*T2;
 
   double M = CAACoordinateTransformation::MapTo0To360Range(2.5534 + 29.10535670*k - 0.0000014*T2 - 0.00000011*T3);
   M = CAACoordinateTransformation::DegreesToRadians(M);
@@ -103,22 +103,22 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
 
   details.TimeOfMaximumEclipse += DeltaJD;
 
-  double P = 0.2070*E*sin(M) +
-             0.0024*E*sin(2*M) +
-            -0.0392*sin(Mdash) +
-             0.0116*sin(2*Mdash) +
-            -0.0073*E*sin(Mdash + M) +
-             0.0067*E*sin(Mdash - M) +
-             0.0118*sin(2*Fdash);
+  const double P = 0.2070*E*sin(M) +
+                   0.0024*E*sin(2*M) +
+                  -0.0392*sin(Mdash) +
+                   0.0116*sin(2*Mdash) +
+                  -0.0073*E*sin(Mdash + M) +
+                   0.0067*E*sin(Mdash - M) +
+                   0.0118*sin(2*Fdash);
 
-  double Q = 5.2207 +
-            -0.0048*E*cos(M) +
-             0.0020*E*cos(2*M) +
-            -0.3299*cos(Mdash) +
-            -0.0060*E*cos(Mdash + M) +
-             0.0041*E*cos(Mdash - M);
+  const double Q = 5.2207 +
+                  -0.0048*E*cos(M) +
+                   0.0020*E*cos(2*M) +
+                  -0.3299*cos(Mdash) +
+                  -0.0060*E*cos(Mdash + M) +
+                   0.0041*E*cos(Mdash - M);
 
-  double W = fabs(cos(Fdash));
+  const double W = fabs(cos(Fdash));
 
   details.gamma = (P*cos(Fdash) + Q*sin(Fdash))*(1 - 0.0048*W);
 
@@ -129,7 +129,7 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
              -0.0005*cos(M + Mdash);
 
   //Check to see if the eclipse is visible from the Earth's surface
-  double fgamma = fabs(details.gamma);
+  const double fgamma = fabs(details.gamma);
   if (fgamma > (1.5433 + details.u))
     return details;
 
@@ -142,7 +142,7 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
       details.Flags = CAASolarEclipseDetails::ANNULAR_ECLIPSE;
     else if (details.u >= 0 && details.u <= 0.0047)
     {
-      double w = 0.00464 * sqrt(1 - (details.gamma * details.gamma));
+      const double w = 0.00464 * sqrt(1 - (details.gamma * details.gamma));
       if (details.u < w)
         details.Flags = CAASolarEclipseDetails::ANNULAR_TOTAL_ECLIPSE;
       else
@@ -161,7 +161,7 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
         details.Flags = CAASolarEclipseDetails::ANNULAR_ECLIPSE;
       else if (details.u >= 0 && details.u <= 0.0047)
       {
-        double w = 0.00464 * sqrt(1 - (details.gamma * details.gamma));
+        const double w = 0.00464 * sqrt(1 - (details.gamma * details.gamma));
         if (details.u < w)
           details.Flags = CAASolarEclipseDetails::ANNULAR_TOTAL_ECLIPSE;
         else
@@ -184,7 +184,7 @@ CAASolarEclipseDetails CAAEclipses::CalculateSolar(double k)
 {
 #ifdef _DEBUG
   double intp = 0;
-  bool bSolarEclipse = (modf(k, &intp) == 0);
+  const bool bSolarEclipse = (modf(k, &intp) == 0);
   assert(bSolarEclipse);
 #endif //#ifdef _DEBUG
 
@@ -196,12 +196,12 @@ CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k)
 {
 #ifdef _DEBUG
   double intp = 0;
-  bool bSolarEclipse = (modf(k, &intp) == 0);
+  const bool bSolarEclipse = (modf(k, &intp) == 0);
   assert(!bSolarEclipse);
 #endif //#ifdef _DEBUG
 
   double Mdash = 0;
-  CAASolarEclipseDetails solarDetails = Calculate(k, Mdash);
+  const CAASolarEclipseDetails solarDetails = Calculate(k, Mdash);
 
   //What will be the return value
   CAALunarEclipseDetails details;
@@ -215,25 +215,25 @@ CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k)
   {
     details.PenumbralRadii = 1.2848 + details.u;
     details.UmbralRadii = 0.7403 - details.u;
-    double fgamma = fabs(details.gamma);
+    const double fgamma = fabs(details.gamma);
     details.PenumbralMagnitude = (1.5573 + details.u - fgamma) / 0.5450;
     details.UmbralMagnitude = (1.0128 - details.u - fgamma) / 0.5450;
 
-    double p = 1.0128 - details.u;
-    double t = 0.4678 - details.u;
-    double n = 0.5458 + 0.0400*cos(Mdash);
+    const double p = 1.0128 - details.u;
+    const double t = 0.4678 - details.u;
+    const double n = 0.5458 + 0.0400*cos(Mdash);
 
-    double gamma2 = details.gamma*details.gamma;
-    double p2 = p*p;
+    const double gamma2 = details.gamma*details.gamma;
+    const double p2 = p*p;
     if (p2 >= gamma2)
       details.PartialPhaseSemiDuration = 60/n*sqrt(p2 - gamma2);
-    
-    double t2 = t*t;
-    if (t2 >= gamma2)    
+
+    const double t2 = t*t;
+    if (t2 >= gamma2)
       details.TotalPhaseSemiDuration = 60/n*sqrt(t2 - gamma2);
 
-    double h = 1.5573 + details.u;
-    double h2 = h*h;
+    const double h = 1.5573 + details.u;
+    const double h2 = h*h;
     if (h2 >= gamma2)
       details.PartialPhasePenumbraSemiDuration = 60/n*sqrt(h2 - gamma2);
   }

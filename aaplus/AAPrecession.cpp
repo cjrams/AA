@@ -82,9 +82,9 @@ CAA2DCoordinate CAAPrecession::AdjustPositionUsingMotionInSpace(double r, double
   double y = r * cos(Delta) * sin(Alpha);
   double z = r * sin(Delta);
 
-  double DeltaX = x/r*DeltaR - z*PMDelta*cos(Alpha) - y*PMAlpha;
-  double DeltaY = y/r*DeltaR - z*PMDelta*sin(Alpha) + x*PMAlpha;
-  double DeltaZ = z/r*DeltaR + r*PMDelta*cos(Delta);
+  const double DeltaX = x/r*DeltaR - z*PMDelta*cos(Alpha) - y*PMAlpha;
+  const double DeltaY = y/r*DeltaR - z*PMDelta*sin(Alpha) + x*PMAlpha;
+  const double DeltaZ = z/r*DeltaR + r*PMDelta*cos(Delta);
 
   x += t*DeltaX;
   y += t*DeltaY;
@@ -99,22 +99,22 @@ CAA2DCoordinate CAAPrecession::AdjustPositionUsingMotionInSpace(double r, double
 
 CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, double JD0, double JD)
 {
-  double T = (JD0 - 2451545.0) / 36525;
-  double Tsquared = T*T;
-  double t = (JD - JD0) / 36525;
-  double tsquared = t*t;
-  double tcubed  = tsquared * t;
+  const double T = (JD0 - 2451545.0) / 36525;
+  const double Tsquared = T*T;
+  const double t = (JD - JD0) / 36525;
+  const double tsquared = t*t;
+  const double tcubed  = tsquared * t;
 
   //Now convert to radians
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (0.30188 - 0.000344*T)*tsquared + 0.017998*tcubed));
-  double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (1.09468 + 0.000066*T)*tsquared + 0.018203*tcubed));
-  double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.3109 - 0.8533*T - 0.000217*Tsquared)*t -  (0.42665 + 0.000217*T)*tsquared - 0.041833*tcubed));
-  double A = cos(Delta) * sin(Alpha + sigma);
-  double B = cos(phi)*cos(Delta)*cos(Alpha + sigma) - sin(phi)*sin(Delta);
-  double C = sin(phi)*cos(Delta)*cos(Alpha + sigma) + cos(phi)*sin(Delta);
+  const double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (0.30188 - 0.000344*T)*tsquared + 0.017998*tcubed));
+  const double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (1.09468 + 0.000066*T)*tsquared + 0.018203*tcubed));
+  const double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.3109 - 0.8533*T - 0.000217*Tsquared)*t -  (0.42665 + 0.000217*T)*tsquared - 0.041833*tcubed));
+  const double A = cos(Delta) * sin(Alpha + sigma);
+  const double B = cos(phi)*cos(Delta)*cos(Alpha + sigma) - sin(phi)*sin(Delta);
+  const double C = sin(phi)*cos(Delta)*cos(Alpha + sigma) + cos(phi)*sin(Delta);
 
   CAA2DCoordinate value;
   value.X = CAACoordinateTransformation::MapTo0To24Range(CAACoordinateTransformation::RadiansToHours(atan2(A, B) + zeta));
@@ -125,23 +125,23 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, dou
 
 CAA2DCoordinate CAAPrecession::PrecessEquatorialFK4(double Alpha, double Delta, double JD0, double JD)
 {
-  double T = (JD0 - 2415020.3135) / 36524.2199;
-  double t = (JD - JD0) / 36524.2199;
-  double tsquared = t*t;
-  double tcubed  = tsquared * t;
+  const double T = (JD0 - 2415020.3135) / 36524.2199;
+  const double t = (JD - JD0) / 36524.2199;
+  const double tsquared = t*t;
+  const double tcubed  = tsquared * t;
 
   //Now convert to radians
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2304.250 + 1.396*T)*t + 0.302*tsquared + 0.018*tcubed));
-  double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 0.791*tsquared + 0.001*tcubed)) + sigma;
-  double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.682 - 0.853*T)*t - 0.426*tsquared - 0.042*tcubed));
-  double A = cos(Delta) * sin(Alpha + sigma);
-  double B = cos(phi)*cos(Delta)*cos(Alpha + sigma) - sin(phi)*sin(Delta);
-  double C = sin(phi)*cos(Delta)*cos(Alpha + sigma) + cos(phi)*sin(Delta);
+  const double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2304.250 + 1.396*T)*t + 0.302*tsquared + 0.018*tcubed));
+  const double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 0.791*tsquared + 0.001*tcubed)) + sigma;
+  const double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.682 - 0.853*T)*t - 0.426*tsquared - 0.042*tcubed));
+  const double A = cos(Delta) * sin(Alpha + sigma);
+  const double B = cos(phi)*cos(Delta)*cos(Alpha + sigma) - sin(phi)*sin(Delta);
+  const double C = sin(phi)*cos(Delta)*cos(Alpha + sigma) + cos(phi)*sin(Delta);
 
-  double DeltaAlpha = CAACoordinateTransformation::DMSToDegrees(0, 0, 0.0775 + 0.0850*T);
+  const double DeltaAlpha = CAACoordinateTransformation::DMSToDegrees(0, 0, 0.0775 + 0.0850*T);
   CAA2DCoordinate value;
   value.X = CAACoordinateTransformation::MapTo0To24Range(CAACoordinateTransformation::RadiansToHours(atan2(A, B) + zeta) + DeltaAlpha);
   value.Y = CAACoordinateTransformation::RadiansToDegrees(asin(C));
@@ -151,22 +151,22 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorialFK4(double Alpha, double Delta, 
 
 CAA2DCoordinate CAAPrecession::PrecessEcliptic(double Lambda, double Beta, double JD0, double JD)
 {
-  double T = (JD0 - 2451545.0) / 36525;
-  double Tsquared = T*T;
-  double t = (JD - JD0) / 36525;
-  double tsquared = t*t;
-  double tcubed  = tsquared * t;
+  const double T = (JD0 - 2451545.0) / 36525;
+  const double Tsquared = T*T;
+  const double t = (JD - JD0) / 36525;
+  const double tsquared = t*t;
+  const double tcubed  = tsquared * t;
 
   //Now convert to radians
   Lambda = CAACoordinateTransformation::DegreesToRadians(Lambda);
   Beta = CAACoordinateTransformation::DegreesToRadians(Beta);
 
-  double eta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (47.0029 - 0.06603*T + 0.000598*Tsquared)*t + (-0.03302 + 0.000598*T)*tsquared + 0.00006*tcubed));
-  double pi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 174.876384*3600 + 3289.4789*T + 0.60622*Tsquared - (869.8089 + 0.50491*T)*t + 0.03536*tsquared));
-  double p = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (5029.0966 + 2.22226*T - 0.000042*Tsquared)*t + (1.11113 - 0.000042*T)*tsquared - 0.000006*tcubed));
-  double A = cos(eta)*cos(Beta)*sin(pi - Lambda) - sin(eta)*sin(Beta);
-  double B = cos(Beta)*cos(pi - Lambda);
-  double C = cos(eta)*sin(Beta) + sin(eta)*cos(Beta)*sin(pi - Lambda);
+  const double eta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (47.0029 - 0.06603*T + 0.000598*Tsquared)*t + (-0.03302 + 0.000598*T)*tsquared + 0.00006*tcubed));
+  const double pi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 174.876384*3600 + 3289.4789*T + 0.60622*Tsquared - (869.8089 + 0.50491*T)*t + 0.03536*tsquared));
+  const double p = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (5029.0966 + 2.22226*T - 0.000042*Tsquared)*t + (1.11113 - 0.000042*T)*tsquared - 0.000006*tcubed));
+  const double A = cos(eta)*cos(Beta)*sin(pi - Lambda) - sin(eta)*sin(Beta);
+  const double B = cos(Beta)*cos(pi - Lambda);
+  const double C = cos(eta)*sin(Beta) + sin(eta)*cos(Beta)*sin(pi - Lambda);
 
   CAA2DCoordinate value;
   value.X = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(p + pi - atan2(A, B)));
@@ -175,7 +175,7 @@ CAA2DCoordinate CAAPrecession::PrecessEcliptic(double Lambda, double Beta, doubl
   return value;
 }
 
-CAA2DCoordinate CAAPrecession::EquatorialPMToEcliptic(double Alpha, double Delta, double Beta, double PMAlpha, double PMDelta, double Epsilon)
+CAA2DCoordinate CAAPrecession::EquatorialPMToEcliptic(double Alpha, double Delta, double Beta, double PMAlpha, double PMDelta, double Epsilon) noexcept
 {
   //Convert to radians
   Epsilon = CAACoordinateTransformation::DegreesToRadians(Epsilon);
@@ -183,8 +183,8 @@ CAA2DCoordinate CAAPrecession::EquatorialPMToEcliptic(double Alpha, double Delta
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
   Beta = CAACoordinateTransformation::DegreesToRadians(Beta);
 
-  double cosb = cos(Beta);
-  double sinEpsilon = sin(Epsilon);
+  const double cosb = cos(Beta);
+  const double sinEpsilon = sin(Epsilon);
 
   CAA2DCoordinate value;
   value.X = (PMDelta*sinEpsilon*cos(Alpha) + PMAlpha*cos(Delta)*(cos(Epsilon)*cos(Delta) + sinEpsilon*sin(Delta)*sin(Alpha)))/(cosb*cosb);

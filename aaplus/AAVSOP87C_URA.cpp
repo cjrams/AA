@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87C_X0_URANUS[] =
 {
   {       19.16944479396,        5.48129363987,       75.02541605080 },
@@ -7127,33 +7131,32 @@ const VSOP87Coefficient2 g_VSOP87C_Z_URANUS[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87C_Uranus::X(double JD)
+double CAAVSOP87C_Uranus::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_X_URANUS, sizeof(g_VSOP87C_X_URANUS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Uranus::X_DASH(double JD)
+double CAAVSOP87C_Uranus::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_X_URANUS, sizeof(g_VSOP87C_X_URANUS)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87C_Uranus::Y(double JD)
+double CAAVSOP87C_Uranus::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_Y_URANUS, sizeof(g_VSOP87C_Y_URANUS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Uranus::Y_DASH(double JD)
+double CAAVSOP87C_Uranus::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Y_URANUS, sizeof(g_VSOP87C_Y_URANUS)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87C_Uranus::Z(double JD)
+double CAAVSOP87C_Uranus::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_Z_URANUS, sizeof(g_VSOP87C_Z_URANUS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Uranus::Z_DASH(double JD)
+double CAAVSOP87C_Uranus::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Z_URANUS, sizeof(g_VSOP87C_Z_URANUS)/sizeof(VSOP87Coefficient2));
 }
-

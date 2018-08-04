@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAKepler
 {
 public:
 //Static methods
-  static double Calculate(double M, double e, int nIterations = 53);
+  static double Calculate(double M, double e, int nIterations = 53) noexcept;
 };
 
 

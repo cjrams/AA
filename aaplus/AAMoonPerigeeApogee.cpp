@@ -49,6 +49,10 @@ using namespace std;
 
 ////////////////////////////////// Macros / Defines ///////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26481 26482)
+#endif //#ifdef _MSC_VER
+
 struct MoonPerigeeApogeeCoefficient
 {
   int D;
@@ -232,37 +236,15 @@ const MoonPerigeeApogeeCoefficient g_MoonPerigeeApogeeCoefficients4[] =
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-double CAAMoonPerigeeApogee::K(double Year)
-{
-  return 13.2555*(Year - 1999.97);
-}
-
-double CAAMoonPerigeeApogee::MeanPerigee(double k)
-{
-  //convert from K to T
-  double T = k/1325.55;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
-
-  return 2451534.6698 + 27.55454989*k - 0.0006691*Tsquared - 0.000001098*Tcubed + 0.0000000052*T4;
-}
-
-double CAAMoonPerigeeApogee::MeanApogee(double k)
-{
-  //Uses the same formula as MeanPerigee
-  return MeanPerigee(k);
-}
-
 double CAAMoonPerigeeApogee::TruePerigee(double k)
 {
-  double MeanJD = MeanPerigee(k);
+  const double MeanJD = MeanPerigee(k);
 
   //convert from K to T
-  double T = k/1325.55;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = k/1325.55;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
 
   double D = CAACoordinateTransformation::MapTo0To360Range(171.9179 + 335.9106046*k - 0.0100383*Tsquared - 0.00001156*Tcubed + 0.000000055*T4);
   D = CAACoordinateTransformation::DegreesToRadians(D);
@@ -271,7 +253,7 @@ double CAAMoonPerigeeApogee::TruePerigee(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients1) / sizeof(MoonPerigeeApogeeCoefficient);
+  const int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients1) / sizeof(MoonPerigeeApogeeCoefficient);
   double Sigma = 0;
   for (int i=0; i<nPerigeeCoefficients; i++)
   {
@@ -285,10 +267,10 @@ double CAAMoonPerigeeApogee::TruePerigee(double k)
 double CAAMoonPerigeeApogee::PerigeeParallax(double k)
 {
   //convert from K to T
-  double T = k/1325.55;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = k/1325.55;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
 
   double D = CAACoordinateTransformation::MapTo0To360Range(171.9179 + 335.9106046*k - 0.0100383*Tsquared - 0.00001156*Tcubed + 0.000000055*T4);
   D = CAACoordinateTransformation::DegreesToRadians(D);
@@ -297,7 +279,7 @@ double CAAMoonPerigeeApogee::PerigeeParallax(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients3) / sizeof(MoonPerigeeApogeeCoefficient);
+  const int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients3) / sizeof(MoonPerigeeApogeeCoefficient);
   double Parallax = 3629.215;
   for (int i=0; i<nPerigeeCoefficients; i++)
   {
@@ -310,13 +292,13 @@ double CAAMoonPerigeeApogee::PerigeeParallax(double k)
 
 double CAAMoonPerigeeApogee::TrueApogee(double k)
 {
-  double MeanJD = MeanApogee(k);
+  const double MeanJD = MeanApogee(k);
 
   //convert from K to T
-  double T = k/1325.55;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = k/1325.55;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
 
   double D = CAACoordinateTransformation::MapTo0To360Range(171.9179 + 335.9106046*k - 0.0100383*Tsquared - 0.00001156*Tcubed + 0.000000055*T4);
   D = CAACoordinateTransformation::DegreesToRadians(D);
@@ -325,7 +307,7 @@ double CAAMoonPerigeeApogee::TrueApogee(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients2) / sizeof(MoonPerigeeApogeeCoefficient);
+  const int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients2) / sizeof(MoonPerigeeApogeeCoefficient);
   double Sigma = 0;
   for (int i=0; i<nApogeeCoefficients; i++)
   {
@@ -339,10 +321,10 @@ double CAAMoonPerigeeApogee::TrueApogee(double k)
 double CAAMoonPerigeeApogee::ApogeeParallax(double k)
 {
   //convert from K to T
-  double T = k/1325.55;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = k/1325.55;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
 
   double D = CAACoordinateTransformation::MapTo0To360Range(171.9179 + 335.9106046*k - 0.0100383*Tsquared - 0.00001156*Tcubed + 0.000000055*T4);
   D = CAACoordinateTransformation::DegreesToRadians(D);
@@ -351,7 +333,7 @@ double CAAMoonPerigeeApogee::ApogeeParallax(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients4) / sizeof(MoonPerigeeApogeeCoefficient);
+  const int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients4) / sizeof(MoonPerigeeApogeeCoefficient);
   double Parallax = 3245.251;
   for (int i=0; i<nApogeeCoefficients; i++)
   {

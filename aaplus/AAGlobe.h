@@ -38,11 +38,11 @@ class AAPLUS_EXT_CLASS CAAGlobe
 {
 public:
 //Static methods
-	static double RhoSinThetaPrime(double GeographicalLatitude, double Height);
-	static double RhoCosThetaPrime(double GeographicalLatitude, double Height);
-	static double RadiusOfParallelOfLatitude(double GeographicalLatitude);
-	static double RadiusOfCurvature(double GeographicalLatitude);
-	static double DistanceBetweenPoints(double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2);
+	static double RhoSinThetaPrime(double GeographicalLatitude, double Height) noexcept;
+	static double RhoCosThetaPrime(double GeographicalLatitude, double Height) noexcept;
+	static double RadiusOfParallelOfLatitude(double GeographicalLatitude) noexcept;
+	static double RadiusOfCurvature(double GeographicalLatitude) noexcept;
+	static double DistanceBetweenPoints(double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2) noexcept;
 };
 
 

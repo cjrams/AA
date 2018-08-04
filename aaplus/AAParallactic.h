@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAParallactic
 {
 public:
 //Static methods
-  static double ParallacticAngle(double HourAngle, double Latitude, double delta);
+  static double ParallacticAngle(double HourAngle, double Latitude, double delta) noexcept;
   static double EclipticLongitudeOnHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude);
   static double AngleBetweenEclipticAndHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude);
   static double AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(double Lambda, double Beta, double ObliquityOfEcliptic);

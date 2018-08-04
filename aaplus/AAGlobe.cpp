@@ -32,43 +32,43 @@ using namespace std;
 
 /////////////////////////// Implementation ////////////////////////////////////
 
-double CAAGlobe::RhoSinThetaPrime(double GeographicalLatitude, double Height)
+double CAAGlobe::RhoSinThetaPrime(double GeographicalLatitude, double Height) noexcept
 {
   //Convert from degress to radians
   GeographicalLatitude = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude);
 
-  double U = atan(0.99664719 * tan(GeographicalLatitude));
+  const double U = atan(0.99664719 * tan(GeographicalLatitude));
   return 0.99664719 * sin(U) + (Height/6378140 * sin(GeographicalLatitude));
 }
 
-double CAAGlobe::RhoCosThetaPrime(double GeographicalLatitude, double Height)
+double CAAGlobe::RhoCosThetaPrime(double GeographicalLatitude, double Height) noexcept
 {
   //Convert from degress to radians
   GeographicalLatitude = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude);
 
-  double U = atan(0.99664719 * tan(GeographicalLatitude));
+  const double U = atan(0.99664719 * tan(GeographicalLatitude));
   return cos(U) + (Height/6378140 * cos(GeographicalLatitude));
 }
 
-double CAAGlobe::RadiusOfParallelOfLatitude(double GeographicalLatitude)
+double CAAGlobe::RadiusOfParallelOfLatitude(double GeographicalLatitude) noexcept
 {
   //Convert from degress to radians
   GeographicalLatitude = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude);
 
-  double sinGeo = sin(GeographicalLatitude);
+  const double sinGeo = sin(GeographicalLatitude);
   return (6378.14 * cos(GeographicalLatitude)) / (sqrt(1 - 0.0066943847614084*sinGeo*sinGeo));
 }
 
-double CAAGlobe::RadiusOfCurvature(double GeographicalLatitude)
+double CAAGlobe::RadiusOfCurvature(double GeographicalLatitude) noexcept
 {
   //Convert from degress to radians
   GeographicalLatitude = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude);
 
-  double sinGeo = sin(GeographicalLatitude);
+  const double sinGeo = sin(GeographicalLatitude);
   return (6378.14 * (1 - 0.0066943847614084)) / pow((1 - 0.0066943847614084 * sinGeo * sinGeo), 1.5);
 }
 
-double CAAGlobe::DistanceBetweenPoints(double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2)
+double CAAGlobe::DistanceBetweenPoints(double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2) noexcept
 {
   //Convert from degress to radians
   GeographicalLatitude1 = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude1);
@@ -76,23 +76,23 @@ double CAAGlobe::DistanceBetweenPoints(double GeographicalLatitude1, double Geog
   GeographicalLongitude1 = CAACoordinateTransformation::DegreesToRadians(GeographicalLongitude1);
   GeographicalLongitude2 = CAACoordinateTransformation::DegreesToRadians(GeographicalLongitude2);
 
-  double F = (GeographicalLatitude1 + GeographicalLatitude2) / 2;
-  double G = (GeographicalLatitude1 - GeographicalLatitude2) / 2;
-  double lambda = (GeographicalLongitude1 - GeographicalLongitude2) / 2;
-  double sinG = sin(G);
-  double cosG = cos(G);
-  double cosF = cos(F);
-  double sinF = sin(F);
-  double sinLambda = sin(lambda);
-  double cosLambda = cos(lambda);
-  double S = (sinG*sinG*cosLambda*cosLambda) + (cosF*cosF*sinLambda*sinLambda);
-  double C = (cosG*cosG*cosLambda*cosLambda) + (sinF*sinF*sinLambda*sinLambda);
-  double w = atan(sqrt(S/C));
-  double R = sqrt(S*C)/w;
-  double D = 2*w*6378.14;
-  double Hprime = (3*R - 1) / (2*C);
-  double Hprime2 = (3*R + 1) / (2*S);
-  double f = 0.0033528131778969144060323814696721;
+  const double F = (GeographicalLatitude1 + GeographicalLatitude2) / 2;
+  const double G = (GeographicalLatitude1 - GeographicalLatitude2) / 2;
+  const double lambda = (GeographicalLongitude1 - GeographicalLongitude2) / 2;
+  const double sinG = sin(G);
+  const double cosG = cos(G);
+  const double cosF = cos(F);
+  const double sinF = sin(F);
+  const double sinLambda = sin(lambda);
+  const double cosLambda = cos(lambda);
+  const double S = (sinG*sinG*cosLambda*cosLambda) + (cosF*cosF*sinLambda*sinLambda);
+  const double C = (cosG*cosG*cosLambda*cosLambda) + (sinF*sinF*sinLambda*sinLambda);
+  const double w = atan(sqrt(S/C));
+  const double R = sqrt(S*C)/w;
+  const double D = 2*w*6378.14;
+  const double Hprime = (3*R - 1) / (2*C);
+  const double Hprime2 = (3*R + 1) / (2*S);
+  const double f = 0.0033528131778969144060323814696721;
 
   return D * (1 + (f*Hprime*sinF*sinF*cosG*cosG) - (f*Hprime2*cosF*cosF*sinG*sinG));
 }

@@ -52,8 +52,8 @@ class AAPLUS_EXT_CLASS CVSOP87
 {
 public:
 //Static methods
-  static double Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle);
-  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize);
+  static double Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle) noexcept;
+  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize) noexcept;
 };
 
 

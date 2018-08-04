@@ -44,8 +44,8 @@ class AAPLUS_EXT_CLASS CAANodeObjectDetails
 {
 public:
 //Constructors / Destructors
-  CAANodeObjectDetails() : t(0), 
-                           radius(0) 
+  CAANodeObjectDetails() noexcept : t(0),
+                                    radius(0)
   {
   };
 

@@ -38,15 +38,14 @@ class AAPLUS_EXT_CLASS CAASaturnRingDetails
 {
 public:
 //Constructors / Destructors
-  CAASaturnRingDetails() : B(0), 
-                           Bdash(0), 
-                           P(0),
-                           a(0), 
-                           b(0), 
-                           DeltaU(0),
-                           U1(0),
-                           U2(0)
-
+  CAASaturnRingDetails() noexcept : B(0),
+                                    Bdash(0),
+                                    P(0),
+                                    a(0),
+                                    b(0),
+                                    DeltaU(0),
+                                    U1(0),
+                                    U2(0)
   {
   };
 

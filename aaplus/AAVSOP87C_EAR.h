@@ -38,12 +38,12 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87C_Earth
 {
 public:
-  static double X(double JD);
-  static double X_DASH(double JD);
-  static double Y(double JD);
-  static double Y_DASH(double JD);
-  static double Z(double JD);
-  static double Z_DASH(double JD);
+  static double X(double JD) noexcept;
+  static double X_DASH(double JD) noexcept;
+  static double Y(double JD) noexcept;
+  static double Y_DASH(double JD) noexcept;
+  static double Z(double JD) noexcept;
+  static double Z_DASH(double JD) noexcept;
 };
 
 

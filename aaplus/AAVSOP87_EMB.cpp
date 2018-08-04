@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87_A0_EMB[] =
 {
   {        1.00000101778,        0.00000000000,        0.00000000000 },
@@ -4422,33 +4426,32 @@ const VSOP87Coefficient2 g_VSOP87_P_EMB[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_EMB::A(double JD)
+double CAAVSOP87_EMB::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_EMB, sizeof(g_VSOP87_A_EMB)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_EMB::L(double JD)
+double CAAVSOP87_EMB::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_EMB, sizeof(g_VSOP87_L_EMB)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_EMB::K(double JD)
+double CAAVSOP87_EMB::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_EMB, sizeof(g_VSOP87_K_EMB)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_EMB::H(double JD)
+double CAAVSOP87_EMB::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_EMB, sizeof(g_VSOP87_H_EMB)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_EMB::Q(double JD)
+double CAAVSOP87_EMB::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_EMB, sizeof(g_VSOP87_Q_EMB)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_EMB::P(double JD)
+double CAAVSOP87_EMB::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_EMB, sizeof(g_VSOP87_P_EMB)/sizeof(VSOP87Coefficient2), true);
 }
-

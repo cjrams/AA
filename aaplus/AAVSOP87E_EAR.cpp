@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87E_X0_EARTH[] =
 {
   {        0.99982624851,        1.75348568475,     6283.07584999140 },
@@ -5691,33 +5695,32 @@ const VSOP87Coefficient2 g_VSOP87E_Z_EARTH[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87E_Earth::X(double JD)
+double CAAVSOP87E_Earth::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_X_EARTH, sizeof(g_VSOP87E_X_EARTH)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Earth::X_DASH(double JD)
+double CAAVSOP87E_Earth::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_X_EARTH, sizeof(g_VSOP87E_X_EARTH)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Earth::Y(double JD)
+double CAAVSOP87E_Earth::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Y_EARTH, sizeof(g_VSOP87E_Y_EARTH)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Earth::Y_DASH(double JD)
+double CAAVSOP87E_Earth::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Y_EARTH, sizeof(g_VSOP87E_Y_EARTH)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Earth::Z(double JD)
+double CAAVSOP87E_Earth::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Z_EARTH, sizeof(g_VSOP87E_Z_EARTH)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Earth::Z_DASH(double JD)
+double CAAVSOP87E_Earth::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Z_EARTH, sizeof(g_VSOP87E_Z_EARTH)/sizeof(VSOP87Coefficient2));
 }
-

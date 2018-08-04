@@ -2,13 +2,13 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v1.95</title>
+<title>AA+ v1.96</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-<h2>AA+ v1.95</h2>
+<h2>AA+ v1.96</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -68,6 +68,8 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	until you arrive at a minimum set for your requirements.</li>
 	<li>To see the classes in action, have a look at the code in the main function 
 	in the module &quot;aatest.cpp&quot;. </li>
+	<li>The download includes a VC 2017 project and has been tested on VC 2017 
+	15.7 on Windows 10 and GCC 7.3 on Ubuntu 18.04.</li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -86,6 +88,22 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v1.96 (24 July 2018)</b></p>
+<ul>
+	<li>Fixed a number of GCC warnings in the method 
+	CAAGalileanMoons::CalculateHelper. Thanks to Todd Carnes for reporting this 
+	issue.</li>
+	<li>Fixed a number of GCC warnings in the methods CAAPlanetaryPhenomena::K, 
+	CAAPlanetaryPhenomena::Mean, CAAPlanetaryPhenomena::True &amp; 
+	CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes for reporting 
+	this issue.</li>
+	<li>Fixed a GCC warning in the method CAASaturnMoons::HelperSubroutine. 
+	Thanks to Todd Carnes for reporting this issue. </li>
+	<li>Fixed a GCC warning in the CAARiseTransitSetDetails constructor. Thanks 
+	to Todd Carnes for reporting this issue.</li>
+	<li>Fixed a number of VC 2017 15.7 C++ core guidelines compiler warnings.</li>
+	<li>Replaced enum with enum class throughout the code.</li>
+</ul>
 <p><b>24 April 2018</b></p>
 <ul>
 	<li>Updated the documentation to mention that geographical longitudes are 
@@ -2487,7 +2505,7 @@ and Gregorian calendars. This refers to Chapter 8 in the book.</p>
 <p><a href="#CAAEaster_Calculate">Calculate</a></p>
 <p>&nbsp;</p>
 <p><b><a name="CAAEaster_Calculate"></a>CAAEaster::Calculate</b></p>
-<p><b>static CAAEasterDetails Calculate(long nYear, bool </b><i>bGregorianCalendar</i><b>)</b></p>
+<p><b>static CAAEasterDetails Calculate(int </b><i>nYear</i><b>, bool </b><i>bGregorianCalendar</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing</p>
 <p><i>Month</i> The month on which Easter Sunday occurs.</p>
@@ -4227,7 +4245,7 @@ provided.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAInterpolate_LagrangeInterpolate"></a>CAAInterpolate::LagrangeInterpolate</b></p>
 <p><b>static double LagrangeInterpolate(double </b><i>X</i><b>, int</b><i> n</i><b>, 
-double* </b><i>pX</i><b>, double* </b><i>pY</i><b>)</b></p>
+const double* </b><i>pX</i><b>, const double* </b><i>pY</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>The interpolated Y value.</p>
 <p><b>Parameters</b></p>
@@ -9397,7 +9415,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>24 April 2018</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>24 July 2018</p>
 
 </body>
 

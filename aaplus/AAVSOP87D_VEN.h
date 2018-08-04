@@ -38,12 +38,12 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87D_Venus
 {
 public:
-  static double L(double JD);
-  static double L_DASH(double JD);
-  static double B(double JD);
-  static double B_DASH(double JD);
-  static double R(double JD);
-  static double R_DASH(double JD);
+  static double L(double JD) noexcept;
+  static double L_DASH(double JD) noexcept;
+  static double B(double JD) noexcept;
+  static double B_DASH(double JD) noexcept;
+  static double R(double JD) noexcept;
+  static double R_DASH(double JD) noexcept;
 };
 
 

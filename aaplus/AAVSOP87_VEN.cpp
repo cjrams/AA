@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87_A0_VENUS[] =
 {
   {        0.72332981996,        0.00000000000,        0.00000000000 },
@@ -3199,33 +3203,32 @@ const VSOP87Coefficient2 g_VSOP87_P_VENUS[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_Venus::A(double JD)
+double CAAVSOP87_Venus::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_VENUS, sizeof(g_VSOP87_A_VENUS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_Venus::L(double JD)
+double CAAVSOP87_Venus::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_VENUS, sizeof(g_VSOP87_L_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::K(double JD)
+double CAAVSOP87_Venus::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_VENUS, sizeof(g_VSOP87_K_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::H(double JD)
+double CAAVSOP87_Venus::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_VENUS, sizeof(g_VSOP87_H_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::Q(double JD)
+double CAAVSOP87_Venus::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_VENUS, sizeof(g_VSOP87_Q_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::P(double JD)
+double CAAVSOP87_Venus::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_VENUS, sizeof(g_VSOP87_P_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
-

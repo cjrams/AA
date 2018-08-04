@@ -34,6 +34,10 @@ using namespace std;
 
 //////////////////////// Macros / Defines /////////////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482 26485)
+#endif //#ifdef _MSC_VER
+
 struct PlutoCoefficient1
 {
   int J;
@@ -240,14 +244,14 @@ const PlutoCoefficient2 g_PlutoRadiusCoefficients[] =
 
 double CAAPluto::EclipticLongitude(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double J = 34.35 + 3034.9057*T;
-  double S = 50.08 + 1222.1138*T;
-  double P = 238.96 + 144.9600*T;
+  const double T = (JD - 2451545) / 36525;
+  const double J = 34.35 + 3034.9057*T;
+  const double S = 50.08 + 1222.1138*T;
+  const double P = 238.96 + 144.9600*T;
 
   //Calculate Longitude
   double L = 0;
-  int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
+  const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
   for (int i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
@@ -263,14 +267,14 @@ double CAAPluto::EclipticLongitude(double JD)
 
 double CAAPluto::EclipticLatitude(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double J = 34.35 + 3034.9057*T;
-  double S = 50.08 + 1222.1138*T;
-  double P = 238.96 + 144.9600*T;
+  const double T = (JD - 2451545) / 36525;
+  const double J = 34.35 + 3034.9057*T;
+  const double S = 50.08 + 1222.1138*T;
+  const double P = 238.96 + 144.9600*T;
 
   //Calculate Latitude
   double L = 0;
-  int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
+  const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
   for (int i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
@@ -283,16 +287,16 @@ double CAAPluto::EclipticLatitude(double JD)
   return CAACoordinateTransformation::MapToMinus90To90Range(L);
 }
 
-double CAAPluto::RadiusVector(double JD)
+double CAAPluto::RadiusVector(double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
-  double J = 34.35 + 3034.9057*T;
-  double S = 50.08 + 1222.1138*T;
-  double P = 238.96 + 144.9600*T;
+  const double T = (JD - 2451545) / 36525;
+  const double J = 34.35 + 3034.9057*T;
+  const double S = 50.08 + 1222.1138*T;
+  const double P = 238.96 + 144.9600*T;
 
   //Calculate Radius
   double R = 0;
-  int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
+  const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
   for (int i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;

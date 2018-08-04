@@ -28,41 +28,41 @@ to maintain a single distribution point for the source code.
 
 /////////////////////////////////// Implementation ////////////////////////////
 
-CAAEasterDetails CAAEaster::Calculate(long nYear, bool GregorianCalendar)
+CAAEasterDetails CAAEaster::Calculate(int nYear, bool GregorianCalendar) noexcept
 {
   CAAEasterDetails details;
 
   if (GregorianCalendar)
-  {                      
-    int a = nYear % 19;
-    int b = static_cast<int>(nYear) / 100;
-    int c = nYear % 100;
-    int d = b / 4;
-    int e = b % 4;
-    int f = (b+8) / 25;
-    int g = (b - f + 1) / 3;
-    int h = (19*a + b - d - g + 15) % 30;
-    int i = c / 4;
-    int k = c % 4;
-    int l = (32 + 2*e + 2*i - h -k) % 7;
-    int m = (a + 11*h +22*l) / 451;
-    int n = (h + l - 7*m + 114) / 31;
-    int p = (h + l - 7*m + 114) % 31;
+  {
+    const int a = nYear % 19;
+    const int b = nYear / 100;
+    const int c = nYear % 100;
+    const int d = b / 4;
+    const int e = b % 4;
+    const int f = (b+8) / 25;
+    const int g = (b - f + 1) / 3;
+    const int h = (19*a + b - d - g + 15) % 30;
+    const int i = c / 4;
+    const int k = c % 4;
+    const int l = (32 + 2*e + 2*i - h -k) % 7;
+    const int m = (a + 11*h +22*l) / 451;
+    const int n = (h + l - 7*m + 114) / 31;
+    const int p = (h + l - 7*m + 114) % 31;
     details.Month = n;
     details.Day = p + 1;
   }
   else
-  {                          
-    int a = nYear % 4;
-    int b = nYear % 7;
-    int c = nYear % 19;
-    int d = (19*c + 15) % 30;
-    int e = (2*a + 4*b - d + 34) % 7;
-    int f = (d + e + 114) / 31;
-    int g = (d + e + 114) % 31;
+  {
+    const int a = nYear % 4;
+    const int b = nYear % 7;
+    const int c = nYear % 19;
+    const int d = (19*c + 15) % 30;
+    const int e = (2*a + 4*b - d + 34) % 7;
+    const int f = (d + e + 114) / 31;
+    const int g = (d + e + 114) % 31;
     details.Month = f;
     details.Day = g + 1;
-  }  
+  }
 
   return details;
 }

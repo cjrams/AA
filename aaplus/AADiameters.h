@@ -32,38 +32,131 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
+/////////////////////// Includes //////////////////////////////////////////////
+
+#include "AACoordinateTransformation.h"
+
+
 /////////////////////// Classes ///////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAADiameters
 {
 public:
 //Static methods
-  static double SunSemidiameterA(double Delta);
-  static double MercurySemidiameterA(double Delta);
-  static double VenusSemidiameterA(double Delta);
-  static double MarsSemidiameterA(double Delta);
-  static double JupiterEquatorialSemidiameterA(double Delta);
-  static double JupiterPolarSemidiameterA(double Delta);
-  static double SaturnEquatorialSemidiameterA(double Delta);
-  static double SaturnPolarSemidiameterA(double Delta);
-  static double ApparentSaturnPolarSemidiameterA(double Delta, double B);
-  static double UranusSemidiameterA(double Delta);
-  static double NeptuneSemidiameterA(double Delta);
-  static double MercurySemidiameterB(double Delta);
-  static double VenusSemidiameterB(double Delta);
-  static double MarsSemidiameterB(double Delta);
-  static double JupiterEquatorialSemidiameterB(double Delta);
-  static double JupiterPolarSemidiameterB(double Delta);
-  static double SaturnEquatorialSemidiameterB(double Delta);
-  static double SaturnPolarSemidiameterB(double Delta);
-  static double ApparentSaturnPolarSemidiameterB(double Delta, double B);
-  static double UranusSemidiameterB(double Delta);
-  static double NeptuneSemidiameterB(double Delta);
-  static double PlutoSemidiameterB(double Delta);
-  static double GeocentricMoonSemidiameter(double Delta);
-  static double TopocentricMoonSemidiameter(double DistanceDelta, double Delta, double H, double Latitude, double Height);
-  static double AsteroidDiameter(double H, double A);
-  static double ApparentAsteroidDiameter(double H, double A);
+  constexpr static double SunSemidiameterA(double Delta)
+  {
+    return 959.63 / Delta;
+  }
+
+  constexpr static double MercurySemidiameterA(double Delta)
+  {
+    return 3.34 / Delta;
+  }
+
+  constexpr static double VenusSemidiameterA(double Delta)
+  {
+    return 8.41 / Delta;
+  }
+
+  constexpr static double MarsSemidiameterA(double Delta)
+  {
+    return 4.68 / Delta;
+  }
+
+  constexpr static double JupiterEquatorialSemidiameterA(double Delta)
+  {
+    return 98.47 / Delta;
+  }
+
+  constexpr static double JupiterPolarSemidiameterA(double Delta)
+  {
+    return 91.91 / Delta;
+  }
+
+  constexpr static double SaturnEquatorialSemidiameterA(double Delta)
+  {
+    return 83.33 / Delta;
+  }
+
+  constexpr static double SaturnPolarSemidiameterA(double Delta)
+  {
+    return 74.57 / Delta;
+  }
+
+  constexpr static double UranusSemidiameterA(double Delta)
+  {
+    return 34.28/Delta;
+  }
+
+  constexpr static double NeptuneSemidiameterA(double Delta)
+  {
+    return 36.56/Delta;
+  }
+
+  constexpr static double MercurySemidiameterB(double Delta)
+  {
+    return 3.36/Delta;
+  }
+
+  constexpr static double VenusSemidiameterB(double Delta)
+  {
+    return 8.34/Delta;
+  }
+
+  constexpr static double MarsSemidiameterB(double Delta)
+  {
+    return 4.68/Delta;
+  }
+
+  constexpr static double JupiterEquatorialSemidiameterB(double Delta)
+  {
+    return 98.44/Delta;
+  }
+
+  constexpr static double JupiterPolarSemidiameterB(double Delta)
+  {
+    return 92.06/Delta;
+  }
+
+  constexpr static double SaturnEquatorialSemidiameterB(double Delta)
+  {
+    return 82.73/Delta;
+  }
+
+  constexpr static double SaturnPolarSemidiameterB(double Delta)
+  {
+    return 73.82/Delta;
+  }
+
+  constexpr static double UranusSemidiameterB(double Delta)
+  {
+    return 35.02 / Delta;
+  }
+
+  constexpr static double NeptuneSemidiameterB(double Delta)
+  {
+    return 33.50 / Delta;
+  }
+
+  constexpr static double PlutoSemidiameterB(double Delta)
+  {
+    return 2.07 / Delta;
+  }
+
+  constexpr static double GeocentricMoonSemidiameter(double Delta)
+  {
+    return CAACoordinateTransformation::RadiansToDegrees(0.272481*6378.14 / Delta) * 3600;
+  }
+
+  constexpr static double ApparentAsteroidDiameter(double Delta, double d)
+  {
+    return 0.0013788*d / Delta;
+  }
+
+  static double ApparentSaturnPolarSemidiameterA(double Delta, double B) noexcept;
+  static double ApparentSaturnPolarSemidiameterB(double Delta, double B) noexcept;
+  static double TopocentricMoonSemidiameter(double DistanceDelta, double Delta, double H, double Latitude, double Height) noexcept;
+  static double AsteroidDiameter(double H, double A) noexcept;
 };
 
 

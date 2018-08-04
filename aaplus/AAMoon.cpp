@@ -54,6 +54,10 @@ using namespace std;
 
 //////////////////////////////// Macros / Defines /////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482 26485)
+#endif //#ifdef _MSC_VER
+
 struct MoonCoefficient1
 {
   int D;
@@ -329,44 +333,44 @@ const double g_MoonCoefficients4[] =
 
 double CAAMoon::MeanLongitude(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
   return CAACoordinateTransformation::MapTo0To360Range(218.3164477 + 481267.88123421*T - 0.0015786*Tsquared + Tcubed/538841 - T4/65194000);
 }
 
 double CAAMoon::MeanElongation(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
   return CAACoordinateTransformation::MapTo0To360Range(297.8501921 + 445267.1114034*T - 0.0018819*Tsquared + Tcubed/545868 - T4/113065000);
 }
 
 double CAAMoon::MeanAnomaly(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
   return CAACoordinateTransformation::MapTo0To360Range(134.9633964 + 477198.8675055*T + 0.0087414*Tsquared + Tcubed/69699 - T4/14712000); 
 }
 
 double CAAMoon::ArgumentOfLatitude(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
   return CAACoordinateTransformation::MapTo0To360Range(93.2720950 + 483202.0175233*T - 0.0036539*Tsquared - Tcubed/3526000 + T4/863310000);
 }
 
 double CAAMoon::EclipticLongitude(double JD)
 {
   double Ldash = MeanLongitude(JD);
-  double LdashDegrees = Ldash;
+  const double LdashDegrees = Ldash;
   Ldash = CAACoordinateTransformation::DegreesToRadians(Ldash);
   double D = MeanElongation(JD);
   D = CAACoordinateTransformation::DegreesToRadians(D);
@@ -377,16 +381,16 @@ double CAAMoon::EclipticLongitude(double JD)
   double F = ArgumentOfLatitude(JD);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  double E = CAAEarth::Eccentricity(JD);
-  double Esquared = E*E;
-  double T = (JD - 2451545) / 36525;
+  const double E = CAAEarth::Eccentricity(JD);
+  const double Esquared = E*E;
+  const double T = (JD - 2451545) / 36525;
 
   double A1 = CAACoordinateTransformation::MapTo0To360Range(119.75 + 131.849*T);
   A1 = CAACoordinateTransformation::DegreesToRadians(A1);
   double A2 = CAACoordinateTransformation::MapTo0To360Range(53.09 + 479264.290*T);
   A2 = CAACoordinateTransformation::DegreesToRadians(A2);
 
-  size_t nLCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
+  const size_t nLCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
   assert(nLCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
   double SigmaL = 0;
   for (size_t i=0; i<nLCoefficients; i++)
@@ -408,7 +412,7 @@ double CAAMoon::EclipticLongitude(double JD)
   SigmaL += 318*sin(A2);
 
   //And finally apply the nutation in longitude
-  double NutationInLong = CAANutation::NutationInLongitude(JD);
+  const double NutationInLong = CAANutation::NutationInLongitude(JD);
 
   return CAACoordinateTransformation::MapTo0To360Range(LdashDegrees + SigmaL/1000000 + NutationInLong/3600);
 }
@@ -423,10 +427,10 @@ double CAAMoon::RadiusVector(double JD)
   Mdash = CAACoordinateTransformation::DegreesToRadians(Mdash);
   double F = ArgumentOfLatitude(JD);
   F = CAACoordinateTransformation::DegreesToRadians(F);
-  double E = CAAEarth::Eccentricity(JD);
-  double Esquared = E*E;
+  const double E = CAAEarth::Eccentricity(JD);
+  const double Esquared = E*E;
 
-  size_t nRCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
+  const size_t nRCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
   assert(nRCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
   double SigmaR = 0;
   for (size_t i=0; i<nRCoefficients; i++)
@@ -457,16 +461,16 @@ double CAAMoon::EclipticLatitude(double JD)
   double F = ArgumentOfLatitude(JD);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  double E = CAAEarth::Eccentricity(JD);
-  double Esquared = E*E;
-  double T = (JD - 2451545) / 36525;
+  const double E = CAAEarth::Eccentricity(JD);
+  const double Esquared = E*E;
+  const double T = (JD - 2451545) / 36525;
 
   double A1 = CAACoordinateTransformation::MapTo0To360Range(119.75 + 131.849*T);
   A1 = CAACoordinateTransformation::DegreesToRadians(A1);
   double A3 = CAACoordinateTransformation::MapTo0To360Range(313.45 + 481266.484*T);
   A3 = CAACoordinateTransformation::DegreesToRadians(A3);
 
-  size_t nBCoefficients = sizeof(g_MoonCoefficients3) / sizeof(MoonCoefficient1);
+  const size_t nBCoefficients = sizeof(g_MoonCoefficients3) / sizeof(MoonCoefficient1);
   assert(nBCoefficients == sizeof(g_MoonCoefficients4) / sizeof(double));
   double SigmaB = 0;
   for (size_t i=0; i<nBCoefficients; i++)
@@ -493,31 +497,31 @@ double CAAMoon::EclipticLatitude(double JD)
   return SigmaB/1000000;
 }
 
-double CAAMoon::RadiusVectorToHorizontalParallax(double RadiusVector)
+double CAAMoon::RadiusVectorToHorizontalParallax(double RadiusVector) noexcept
 {
   return CAACoordinateTransformation::RadiansToDegrees(asin(6378.14 / RadiusVector));
 }
 
-double CAAMoon::HorizontalParallaxToRadiusVector(double Parallax)
+double CAAMoon::HorizontalParallaxToRadiusVector(double Parallax) noexcept
 {
   return 6378.14 / sin(CAACoordinateTransformation::DegreesToRadians(Parallax));
 }
 
 double CAAMoon::MeanLongitudeAscendingNode(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
   return CAACoordinateTransformation::MapTo0To360Range(125.0445479 - 1934.1362891*T + 0.0020754*Tsquared + Tcubed/467441 - T4/60616000);
 }
 
 double CAAMoon::MeanLongitudePerigee(double JD)
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
   return CAACoordinateTransformation::MapTo0To360Range(83.3532465 + 4069.0137287*T - 0.0103200*Tsquared - Tcubed/80053 + T4/18999000);
 }
 

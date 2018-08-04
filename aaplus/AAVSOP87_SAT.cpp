@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87_A0_SATURN[] =
 {
   {        9.55490959574,        0.00000000000,        0.00000000000 },
@@ -12568,33 +12572,32 @@ const VSOP87Coefficient2 g_VSOP87_P_SATURN[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_Saturn::A(double JD)
+double CAAVSOP87_Saturn::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_SATURN, sizeof(g_VSOP87_A_SATURN)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_Saturn::L(double JD)
+double CAAVSOP87_Saturn::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_SATURN, sizeof(g_VSOP87_L_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::K(double JD)
+double CAAVSOP87_Saturn::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_SATURN, sizeof(g_VSOP87_K_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::H(double JD)
+double CAAVSOP87_Saturn::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_SATURN, sizeof(g_VSOP87_H_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::Q(double JD)
+double CAAVSOP87_Saturn::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_SATURN, sizeof(g_VSOP87_Q_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::P(double JD)
+double CAAVSOP87_Saturn::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_SATURN, sizeof(g_VSOP87_P_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
-

@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAA2DCoordinate
 {
 public:
 //Constructors / Destructors
-  CAA2DCoordinate(): X(0), 
-                     Y(0) 
+  CAA2DCoordinate() noexcept : X(0),
+                               Y(0)
   {
   };
 

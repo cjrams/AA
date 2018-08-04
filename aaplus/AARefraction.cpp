@@ -33,7 +33,7 @@ using namespace std;
 
 /////////////////////////////////// Implementation ////////////////////////////
 
-double CAARefraction::RefractionFromApparent(double Altitude, double Pressure, double Temperature)
+double CAARefraction::RefractionFromApparent(double Altitude, double Pressure, double Temperature) noexcept
 {
   //return a constant value from this method if the altitude is below a specific value
   if (Altitude <= -1.6962987799993996)
@@ -45,7 +45,7 @@ double CAARefraction::RefractionFromApparent(double Altitude, double Pressure, d
   return value;
 }
 
-double CAARefraction::RefractionFromTrue(double Altitude, double Pressure, double Temperature)
+double CAARefraction::RefractionFromTrue(double Altitude, double Pressure, double Temperature) noexcept
 {
   //return a constant value from this method if the altitude is below a specific value
   if (Altitude <= -1.9006387000003735)

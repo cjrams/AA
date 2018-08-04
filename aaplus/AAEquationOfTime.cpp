@@ -40,21 +40,21 @@ using namespace std;
 
 double CAAEquationOfTime::Calculate(double JD, bool bHighPrecision)
 {
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
-  double rho5 = rho4*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
+  const double rho5 = rho4*rho;
 
   //Calculate the Suns mean longitude
-  double L0 = CAACoordinateTransformation::MapTo0To360Range(280.4664567 + 360007.6982779*rho + 0.03032028*rhosquared +   
-                                                            rhocubed / 49931 - rho4 / 15300 - rho5 / 2000000);
+  const double L0 = CAACoordinateTransformation::MapTo0To360Range(280.4664567 + 360007.6982779*rho + 0.03032028*rhosquared +
+                                                                  rhocubed / 49931 - rho4 / 15300 - rho5 / 2000000);
 
   //Calculate the Suns apparent right ascension
-  double SunLong = CAASun::ApparentEclipticLongitude(JD, bHighPrecision);
-  double SunLat = CAASun::ApparentEclipticLatitude(JD, bHighPrecision);
+  const double SunLong = CAASun::ApparentEclipticLongitude(JD, bHighPrecision);
+  const double SunLat = CAASun::ApparentEclipticLatitude(JD, bHighPrecision);
   double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);
-  CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, epsilon);
+  const CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, epsilon);
 
   epsilon = CAACoordinateTransformation::DegreesToRadians(epsilon);
   double E = L0 - 0.0057183 - Equatorial.X*15 + CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD))*cos(epsilon);

@@ -52,6 +52,10 @@ using namespace std;
 
 ////////////////////// Macros / Defines ///////////////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482 26485)
+#endif //#ifdef _MSC_VER
+
 struct VSOP87Coefficient
 {
   double A;
@@ -645,47 +649,46 @@ double CAAJupiter::EclipticLongitude(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
-  double rho5 = rho4*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
+  const double rho5 = rho4*rho;
 
   //Calculate L0
-  int nL0Coefficients = sizeof(g_L0JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL0Coefficients = sizeof(g_L0JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  int i;
-  for (i=0; i<nL0Coefficients; i++)
+  for (int i=0; i<nL0Coefficients; i++)
     L0 += g_L0JupiterCoefficients[i].A * cos(g_L0JupiterCoefficients[i].B + g_L0JupiterCoefficients[i].C*rho);
 
   //Calculate L1
-  int nL1Coefficients = sizeof(g_L1JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL1Coefficients = sizeof(g_L1JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (i=0; i<nL1Coefficients; i++)
+  for (int i=0; i<nL1Coefficients; i++)
     L1 += g_L1JupiterCoefficients[i].A * cos(g_L1JupiterCoefficients[i].B + g_L1JupiterCoefficients[i].C*rho);
 
   //Calculate L2
-  int nL2Coefficients = sizeof(g_L2JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL2Coefficients = sizeof(g_L2JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (i=0; i<nL2Coefficients; i++)
+  for (int i=0; i<nL2Coefficients; i++)
     L2 += g_L2JupiterCoefficients[i].A * cos(g_L2JupiterCoefficients[i].B + g_L2JupiterCoefficients[i].C*rho);
 
   //Calculate L3
-  int nL3Coefficients = sizeof(g_L3JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL3Coefficients = sizeof(g_L3JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (i=0; i<nL3Coefficients; i++)
+  for (int i=0; i<nL3Coefficients; i++)
     L3 += g_L3JupiterCoefficients[i].A * cos(g_L3JupiterCoefficients[i].B + g_L3JupiterCoefficients[i].C*rho);
 
   //Calculate L4
-  int nL4Coefficients = sizeof(g_L4JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL4Coefficients = sizeof(g_L4JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (i=0; i<nL4Coefficients; i++)
+  for (int i=0; i<nL4Coefficients; i++)
     L4 += g_L4JupiterCoefficients[i].A * cos(g_L4JupiterCoefficients[i].B + g_L4JupiterCoefficients[i].C*rho);
 
   //Calculate L5
-  int nL5Coefficients = sizeof(g_L5JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL5Coefficients = sizeof(g_L5JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L5 = 0;
-  for (i=0; i<nL5Coefficients; i++)
+  for (int i=0; i<nL5Coefficients; i++)
     L5 += g_L5JupiterCoefficients[i].A * cos(g_L5JupiterCoefficients[i].B + g_L5JupiterCoefficients[i].C*rho);
 
   double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4 + L5*rho5) / 100000000;
@@ -704,47 +707,46 @@ double CAAJupiter::EclipticLatitude(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
-  double rho5 = rho4*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
+  const double rho5 = rho4*rho;
 
   //Calculate B0
-  int nB0Coefficients = sizeof(g_B0JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB0Coefficients = sizeof(g_B0JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  int i;
-  for (i=0; i<nB0Coefficients; i++)
+  for (int i=0; i<nB0Coefficients; i++)
     B0 += g_B0JupiterCoefficients[i].A * cos(g_B0JupiterCoefficients[i].B + g_B0JupiterCoefficients[i].C*rho);
 
   //Calculate B1
-  int nB1Coefficients = sizeof(g_B1JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB1Coefficients = sizeof(g_B1JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (i=0; i<nB1Coefficients; i++)
+  for (int i=0; i<nB1Coefficients; i++)
     B1 += g_B1JupiterCoefficients[i].A * cos(g_B1JupiterCoefficients[i].B + g_B1JupiterCoefficients[i].C*rho);
 
   //Calculate B2
-  int nB2Coefficients = sizeof(g_B2JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB2Coefficients = sizeof(g_B2JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (i=0; i<nB2Coefficients; i++)
+  for (int i=0; i<nB2Coefficients; i++)
     B2 += g_B2JupiterCoefficients[i].A * cos(g_B2JupiterCoefficients[i].B + g_B2JupiterCoefficients[i].C*rho);
 
   //Calculate B3
-  int nB3Coefficients = sizeof(g_B3JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB3Coefficients = sizeof(g_B3JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (i=0; i<nB3Coefficients; i++)
+  for (int i=0; i<nB3Coefficients; i++)
     B3 += g_B3JupiterCoefficients[i].A * cos(g_B3JupiterCoefficients[i].B + g_B3JupiterCoefficients[i].C*rho);
 
   //Calculate B4
-  int nB4Coefficients = sizeof(g_B4JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB4Coefficients = sizeof(g_B4JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (i=0; i<nB4Coefficients; i++)
+  for (int i=0; i<nB4Coefficients; i++)
     B4 += g_B4JupiterCoefficients[i].A * cos(g_B4JupiterCoefficients[i].B + g_B4JupiterCoefficients[i].C*rho);
 
   //Calculate B5
-  int nB5Coefficients = sizeof(g_B5JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB5Coefficients = sizeof(g_B5JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B5 = 0;
-  for (i=0; i<nB5Coefficients; i++)
+  for (int i=0; i<nB5Coefficients; i++)
     B5 += g_B5JupiterCoefficients[i].A * cos(g_B5JupiterCoefficients[i].B + g_B5JupiterCoefficients[i].C*rho);
 
   double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4 + B5*rho5) / 100000000;
@@ -754,7 +756,7 @@ double CAAJupiter::EclipticLatitude(double JD, bool bHighPrecision)
   return value;
 }
 
-double CAAJupiter::RadiusVector(double JD, bool bHighPrecision)
+double CAAJupiter::RadiusVector(double JD, bool bHighPrecision) noexcept
 {
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
   if (bHighPrecision)
@@ -763,47 +765,46 @@ double CAAJupiter::RadiusVector(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
-  double rho5 = rho4*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
+  const double rho5 = rho4*rho;
 
   //Calculate R0
-  int nR0Coefficients = sizeof(g_R0JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR0Coefficients = sizeof(g_R0JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  int i;
-  for (i=0; i<nR0Coefficients; i++)
+  for (int i=0; i<nR0Coefficients; i++)
     R0 += g_R0JupiterCoefficients[i].A * cos(g_R0JupiterCoefficients[i].B + g_R0JupiterCoefficients[i].C*rho);
 
   //Calculate R1
-  int nR1Coefficients = sizeof(g_R1JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR1Coefficients = sizeof(g_R1JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (i=0; i<nR1Coefficients; i++)
+  for (int i=0; i<nR1Coefficients; i++)
     R1 += g_R1JupiterCoefficients[i].A * cos(g_R1JupiterCoefficients[i].B + g_R1JupiterCoefficients[i].C*rho);
 
   //Calculate R2
-  int nR2Coefficients = sizeof(g_R2JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR2Coefficients = sizeof(g_R2JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (i=0; i<nR2Coefficients; i++)
+  for (int i=0; i<nR2Coefficients; i++)
     R2 += g_R2JupiterCoefficients[i].A * cos(g_R2JupiterCoefficients[i].B + g_R2JupiterCoefficients[i].C*rho);
 
   //Calculate R3
-  int nR3Coefficients = sizeof(g_R3JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR3Coefficients = sizeof(g_R3JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (i=0; i<nR3Coefficients; i++)
+  for (int i=0; i<nR3Coefficients; i++)
     R3 += g_R3JupiterCoefficients[i].A * cos(g_R3JupiterCoefficients[i].B + g_R3JupiterCoefficients[i].C*rho);
 
   //Calculate R4
-  int nR4Coefficients = sizeof(g_R4JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR4Coefficients = sizeof(g_R4JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R4 = 0;
-  for (i=0; i<nR4Coefficients; i++)
+  for (int i=0; i<nR4Coefficients; i++)
     R4 += g_R4JupiterCoefficients[i].A * cos(g_R4JupiterCoefficients[i].B + g_R4JupiterCoefficients[i].C*rho);
 
 //Calculate R5
-  int nR5Coefficients = sizeof(g_R5JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR5Coefficients = sizeof(g_R5JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R5 = 0;
-  for (i=0; i<nR5Coefficients; i++)
+  for (int i=0; i<nR5Coefficients; i++)
     R5 += g_R5JupiterCoefficients[i].A * cos(g_R5JupiterCoefficients[i].B + g_R5JupiterCoefficients[i].C*rho);
 
   return (R0 + R1*rho + R2*rhosquared + R3*rhocubed + R4*rho4 + R5*rho5) / 100000000;

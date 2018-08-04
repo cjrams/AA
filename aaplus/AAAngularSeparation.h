@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAAngularSeparation
 {
 public:
 //Static methods
-  static double Separation(double Alpha1, double Delta1, double Alpha2, double Delta2);
-  static double PositionAngle(double Alpha1, double Delta1, double Alpha2, double Delta2);
-  static double DistanceFromGreatArc(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3);
-  static double SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1);
+  static double Separation(double Alpha1, double Delta1, double Alpha2, double Delta2) noexcept;
+  static double PositionAngle(double Alpha1, double Delta1, double Alpha2, double Delta2) noexcept;
+  static double DistanceFromGreatArc(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3) noexcept;
+  static double SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1) noexcept;
 };
 
 

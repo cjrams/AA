@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAMoonIlluminatedFraction
 {
 public:
 //Static methods
-  static double GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta);
+  static double GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta) noexcept;
   static double PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance);
-  static double IlluminatedFraction(double PhaseAngle);
+  static double IlluminatedFraction(double PhaseAngle) noexcept;
   static double PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta);
 };
 

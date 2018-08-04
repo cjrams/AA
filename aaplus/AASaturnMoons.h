@@ -43,10 +43,10 @@ class AAPLUS_EXT_CLASS CAASaturnMoonDetail
 {
 public:
 //Constructors / Destructors
-  CAASaturnMoonDetail() : bInTransit(false), 
-                          bInOccultation(false), 
-                          bInEclipse(false), 
-                          bInShadowTransit(false) 
+  CAASaturnMoonDetail() noexcept : bInTransit(false),
+                                   bInOccultation(false),
+                                   bInEclipse(false),
+                                   bInShadowTransit(false)
   {
   };
 
@@ -81,9 +81,9 @@ public:
 
 protected:
   static CAASaturnMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision);
-  static void HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& C, double& r, double& lambda, double& w);
-  static void Rotations(double X, double Y, double Z, double c1, double s1, double c2, double s2, double lambda0, double beta0, double& A4, double& B4, double& C4);
-  static void FillInPhenomenaDetails(CAASaturnMoonDetail& detail);
+  static void HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& r, double& lambda, double& gamma, double& w);
+  static void Rotations(double X, double Y, double Z, double c1, double s1, double c2, double s2, double lambda0, double beta0, double& A4, double& B4, double& C4) noexcept;
+  static void FillInPhenomenaDetails(CAASaturnMoonDetail& detail) noexcept;
 };
 
 

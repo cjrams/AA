@@ -41,23 +41,28 @@ public:
   static double PhaseAngle(double r, double R, double Delta);
   static double PhaseAngle(double R, double R0, double B, double L, double L0, double Delta);
   static double PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta);
-  static double IlluminatedFraction(double PhaseAngle);
-  static double IlluminatedFraction(double r, double R, double Delta);
-  static double MercuryMagnitudeMuller(double r, double Delta, double i);
-  static double VenusMagnitudeMuller(double r, double Delta, double i);
-  static double MarsMagnitudeMuller(double r, double Delta, double i);
-  static double JupiterMagnitudeMuller(double r, double Delta);
-  static double SaturnMagnitudeMuller(double r, double Delta, double DeltaU, double B);
-  static double UranusMagnitudeMuller(double r, double Delta);
-  static double NeptuneMagnitudeMuller(double r, double Delta);
-  static double MercuryMagnitudeAA(double r, double Delta, double i);
-  static double VenusMagnitudeAA(double r, double Delta, double i);
-  static double MarsMagnitudeAA(double r, double Delta, double i);
-  static double JupiterMagnitudeAA(double r, double Delta, double i);
-  static double SaturnMagnitudeAA(double r, double Delta, double DeltaU, double B);
-  static double UranusMagnitudeAA(double r, double Delta);
-  static double NeptuneMagnitudeAA(double r, double Delta);
-  static double PlutoMagnitudeAA(double r, double Delta);
+  static double IlluminatedFraction(double PhaseAngle) noexcept;
+
+  constexpr static double IlluminatedFraction(double r, double R, double Delta) noexcept
+  {
+    return (((r + Delta)*(r + Delta) - R * R) / (4 * r*Delta));
+  }
+
+  static double MercuryMagnitudeMuller(double r, double Delta, double i) noexcept;
+  static double VenusMagnitudeMuller(double r, double Delta, double i) noexcept;
+  static double MarsMagnitudeMuller(double r, double Delta, double i) noexcept;
+  static double JupiterMagnitudeMuller(double r, double Delta) noexcept;
+  static double SaturnMagnitudeMuller(double r, double Delta, double DeltaU, double B) noexcept;
+  static double UranusMagnitudeMuller(double r, double Delta) noexcept;
+  static double NeptuneMagnitudeMuller(double r, double Delta) noexcept;
+  static double MercuryMagnitudeAA(double r, double Delta, double i) noexcept;
+  static double VenusMagnitudeAA(double r, double Delta, double i) noexcept;
+  static double MarsMagnitudeAA(double r, double Delta, double i) noexcept;
+  static double JupiterMagnitudeAA(double r, double Delta, double i) noexcept;
+  static double SaturnMagnitudeAA(double r, double Delta, double DeltaU, double B) noexcept;
+  static double UranusMagnitudeAA(double r, double Delta) noexcept;
+  static double NeptuneMagnitudeAA(double r, double Delta) noexcept;
+  static double PlutoMagnitudeAA(double r, double Delta) noexcept;
 };
 
 

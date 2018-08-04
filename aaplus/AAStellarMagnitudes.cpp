@@ -24,33 +24,45 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AAStellarMagnitudes.h"
 #include <cmath>
+#include <cassert>
 using namespace std;
 
 
 ////////////////////////// Implementation /////////////////////////////////////
 
-double CAAStellarMagnitudes::CombinedMagnitude(double m1, double m2)
+double CAAStellarMagnitudes::CombinedMagnitude(double m1, double m2) noexcept
 {
-  double x = 0.4*(m2 - m1);
+  const double x = 0.4*(m2 - m1);
   return m2 - 2.5*log10(pow(10.0, x) + 1);
 }
 
-double CAAStellarMagnitudes::CombinedMagnitude(int Magnitudes, const double* pMagnitudes)
+#ifdef _MSC_VER
+#pragma warning(suppress : 26429)
+#endif //#ifdef _MSC_VER
+double CAAStellarMagnitudes::CombinedMagnitude(int Magnitudes, const double* pMagnitudes) noexcept
 {
+//Validate our parameters
+  assert(pMagnitudes != nullptr);
+
   double value = 0;
   for (int i=0; i<Magnitudes; i++)
+  {
+  #ifdef _MSC_VER
+    #pragma warning(suppress : 26481)
+  #endif //#ifdef _MSC_VER
     value += pow(10.0, -0.4*pMagnitudes[i]);
+  }
 
   return -2.5 * log10(value);
 }
 
-double CAAStellarMagnitudes::BrightnessRatio(double m1, double m2)
+double CAAStellarMagnitudes::BrightnessRatio(double m1, double m2) noexcept
 {
-  double x = 0.4*(m2 - m1);
+  const double x = 0.4*(m2 - m1);
   return pow(10.0, x);
 }
 
-double CAAStellarMagnitudes::MagnitudeDifference(double brightnessRatio)
+double CAAStellarMagnitudes::MagnitudeDifference(double brightnessRatio) noexcept
 {
   return 2.5*log10(brightnessRatio);
 }

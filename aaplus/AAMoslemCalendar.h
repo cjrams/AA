@@ -9,11 +9,11 @@ All rights reserved.
 
 Copyright / Usage Details:
 
-You are allowed to include the source code in any product (commercial, shareware, freeware or otherwise) 
-when your product is released in binary form. You are allowed to modify the source code in any way you want 
-except you cannot modify the copyright details at the top of each module. If you want to distribute source 
-code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+You are allowed to include the source code in any product (commercial, shareware, freeware or otherwise)
+when your product is released in binary form. You are allowed to modify the source code in any way you want
+except you cannot modify the copyright details at the top of each module. If you want to distribute source
+code with your application, then you are only allowed to distribute versions released by the author. This is
+to maintain a single distribution point for the source code.
 
 */
 
@@ -43,9 +43,17 @@ class AAPLUS_EXT_CLASS CAAMoslemCalendar
 {
 public:
 //Static methods
-  static CAACalendarDate MoslemToJulian(long Year, long Month, long Day);
-  static CAACalendarDate JulianToMoslem(long Year, long Month, long Day);
-  static bool            IsLeap(long Year);
+  static CAACalendarDate MoslemToJulian(long Year, long Month, long Day) noexcept;
+  static CAACalendarDate JulianToMoslem(long Year, long Month, long Day) noexcept;
+
+#ifdef _MSC_VER
+  #pragma warning(suppress : 26497)
+#endif //#ifdef _MSC_VER
+  static bool IsLeap(long Year) noexcept
+  {
+    const long R = Year % 30;
+    return ((11 * R + 3) % 30) > 18;
+  }
 };
 
 

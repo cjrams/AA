@@ -30,7 +30,7 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAAAngularSeparation::Separation(double Alpha1, double Delta1, double Alpha2, double Delta2)
+double CAAAngularSeparation::Separation(double Alpha1, double Delta1, double Alpha2, double Delta2) noexcept
 {
   Delta1 = CAACoordinateTransformation::DegreesToRadians(Delta1);
   Delta2 = CAACoordinateTransformation::DegreesToRadians(Delta2);
@@ -38,9 +38,9 @@ double CAAAngularSeparation::Separation(double Alpha1, double Delta1, double Alp
   Alpha1 = CAACoordinateTransformation::HoursToRadians(Alpha1);
   Alpha2 = CAACoordinateTransformation::HoursToRadians(Alpha2);
 
-  double x = cos(Delta1)*sin(Delta2) - sin(Delta1)*cos(Delta2)*cos(Alpha2 - Alpha1);
-  double y = cos(Delta2)*sin(Alpha2 - Alpha1);
-  double z = sin(Delta1)*sin(Delta2) + cos(Delta1)*cos(Delta2)*cos(Alpha2 - Alpha1);
+  const double x = cos(Delta1)*sin(Delta2) - sin(Delta1)*cos(Delta2)*cos(Alpha2 - Alpha1);
+  const double y = cos(Delta2)*sin(Alpha2 - Alpha1);
+  const double z = sin(Delta1)*sin(Delta2) + cos(Delta1)*cos(Delta2)*cos(Alpha2 - Alpha1);
 
   double value = atan2(sqrt(x*x + y*y), z);
   value = CAACoordinateTransformation::RadiansToDegrees(value);
@@ -50,7 +50,7 @@ double CAAAngularSeparation::Separation(double Alpha1, double Delta1, double Alp
   return value;
 }
 
-double CAAAngularSeparation::PositionAngle(double Alpha1, double Delta1, double Alpha2, double Delta2)
+double CAAAngularSeparation::PositionAngle(double Alpha1, double Delta1, double Alpha2, double Delta2) noexcept
 {
   Delta1 = CAACoordinateTransformation::DegreesToRadians(Delta1);
   Delta2 = CAACoordinateTransformation::DegreesToRadians(Delta2);
@@ -58,7 +58,7 @@ double CAAAngularSeparation::PositionAngle(double Alpha1, double Delta1, double 
   Alpha1 = CAACoordinateTransformation::HoursToRadians(Alpha1);
   Alpha2 = CAACoordinateTransformation::HoursToRadians(Alpha2);
 
-  double DeltaAlpha = Alpha1 - Alpha2;
+  const double DeltaAlpha = Alpha1 - Alpha2;
   double value = atan2(sin(DeltaAlpha), cos(Delta2)*tan(Delta1) - sin(Delta2)*cos(DeltaAlpha));
   value = CAACoordinateTransformation::RadiansToDegrees(value);
   if (value < 0)
@@ -67,7 +67,7 @@ double CAAAngularSeparation::PositionAngle(double Alpha1, double Delta1, double 
   return value;
 }
 
-double CAAAngularSeparation::DistanceFromGreatArc(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3)
+double CAAAngularSeparation::DistanceFromGreatArc(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3) noexcept
 {
   Delta1 = CAACoordinateTransformation::DegreesToRadians(Delta1);
   Delta2 = CAACoordinateTransformation::DegreesToRadians(Delta2);
@@ -77,21 +77,21 @@ double CAAAngularSeparation::DistanceFromGreatArc(double Alpha1, double Delta1, 
   Alpha2 = CAACoordinateTransformation::HoursToRadians(Alpha2);
   Alpha3 = CAACoordinateTransformation::HoursToRadians(Alpha3);
 
-  double X1 = cos(Delta1)*cos(Alpha1);
-  double X2 = cos(Delta2)*cos(Alpha2);
-  
-  double Y1 = cos(Delta1)*sin(Alpha1);
-  double Y2 = cos(Delta2)*sin(Alpha2);
+  const double X1 = cos(Delta1)*cos(Alpha1);
+  const double X2 = cos(Delta2)*cos(Alpha2);
 
-  double Z1 = sin(Delta1);
-  double Z2 = sin(Delta2);
+  const double Y1 = cos(Delta1)*sin(Alpha1);
+  const double Y2 = cos(Delta2)*sin(Alpha2);
 
-  double A = Y1*Z2 - Z1*Y2;
-  double B = Z1*X2 - X1*Z2;
-  double C = X1*Y2 - Y1*X2;
+  const double Z1 = sin(Delta1);
+  const double Z2 = sin(Delta2);
 
-  double m = tan(Alpha3);
-  double n = tan(Delta3)/cos(Alpha3);
+  const double A = Y1*Z2 - Z1*Y2;
+  const double B = Z1*X2 - X1*Z2;
+  const double C = X1*Y2 - Y1*X2;
+
+  const double m = tan(Alpha3);
+  const double n = tan(Delta3)/cos(Alpha3);
 
   double value = asin((A + B*m + C*n)/(sqrt(A*A + B*B + C*C)*sqrt(1 + m*m + n*n)));
   value = CAACoordinateTransformation::RadiansToDegrees(value);
@@ -101,11 +101,11 @@ double CAAAngularSeparation::DistanceFromGreatArc(double Alpha1, double Delta1, 
   return value;
 }
 
-double CAAAngularSeparation::SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1)
+double CAAAngularSeparation::SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1) noexcept
 {
-  double d1 = Separation(Alpha1, Delta1, Alpha2, Delta2);
-  double d2 = Separation(Alpha1, Delta1, Alpha3, Delta3);
-  double d3 = Separation(Alpha2, Delta2, Alpha3, Delta3);
+  const double d1 = Separation(Alpha1, Delta1, Alpha2, Delta2);
+  const double d2 = Separation(Alpha1, Delta1, Alpha3, Delta3);
+  const double d3 = Separation(Alpha2, Delta2, Alpha3, Delta3);
 
   double a = d1;
   double b = d2; 
@@ -123,7 +123,7 @@ double CAAAngularSeparation::SmallestCircle(double Alpha1, double Delta1, double
     c = d2;
   }
 
-  double value;
+  double value = 0;
   if (a > sqrt(b*b + c*c))
   {
     bType1 = true;

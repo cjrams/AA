@@ -43,13 +43,13 @@ class AAPLUS_EXT_CLASS CAAEllipticalObjectElements
 {
 public:
 //Constructors / Destructors
-  CAAEllipticalObjectElements() : a(0), 
-                                  e(0), 
-                                  i(0), 
-                                  w(0), 
-                                  omega(0), 
-                                  JDEquinox(0), 
-                                  T(0) 
+  CAAEllipticalObjectElements() noexcept : a(0),
+                                           e(0),
+                                           i(0),
+                                           w(0),
+                                           omega(0),
+                                           JDEquinox(0),
+                                           T(0)
   {
   };
 
@@ -67,12 +67,12 @@ class AAPLUS_EXT_CLASS CAAEllipticalPlanetaryDetails
 {
 public:
 //Constructors / Destructors
-  CAAEllipticalPlanetaryDetails() : ApparentGeocentricLongitude(0), 
-                                    ApparentGeocentricLatitude(0),
-                                    ApparentGeocentricDistance(0), 
-                                    ApparentLightTime(0),
-                                    ApparentGeocentricRA(0), 
-                                    ApparentGeocentricDeclination(0) 
+  CAAEllipticalPlanetaryDetails() noexcept : ApparentGeocentricLongitude(0), 
+                                             ApparentGeocentricLatitude(0),
+                                             ApparentGeocentricDistance(0), 
+                                             ApparentLightTime(0),
+                                             ApparentGeocentricRA(0), 
+                                             ApparentGeocentricDeclination(0) 
   {
   };
 
@@ -89,18 +89,18 @@ class AAPLUS_EXT_CLASS CAAEllipticalObjectDetails
 {
 public:
 //Constructors / Destructors
-  CAAEllipticalObjectDetails() : HeliocentricEclipticLongitude(0), 
-                                 HeliocentricEclipticLatitude(0), 
-                                 TrueGeocentricRA(0), 
-                                 TrueGeocentricDeclination(0),
-                                 TrueGeocentricDistance(0), 
-                                 TrueGeocentricLightTime(0),
-                                 AstrometricGeocentricRA(0), 
-                                 AstrometricGeocentricDeclination(0),
-                                 AstrometricGeocentricDistance(0), 
-                                 AstrometricGeocentricLightTime(0),
-                                 Elongation(0), 
-                                 PhaseAngle(0) 
+  CAAEllipticalObjectDetails() noexcept : HeliocentricEclipticLongitude(0),
+                                          HeliocentricEclipticLatitude(0),
+                                          TrueGeocentricRA(0),
+                                          TrueGeocentricDeclination(0),
+                                          TrueGeocentricDistance(0),
+                                          TrueGeocentricLightTime(0),
+                                          AstrometricGeocentricRA(0),
+                                          AstrometricGeocentricDeclination(0),
+                                          AstrometricGeocentricDistance(0),
+                                          AstrometricGeocentricLightTime(0),
+                                          Elongation(0),
+                                          PhaseAngle(0)
   {
   };
 
@@ -125,7 +125,7 @@ class AAPLUS_EXT_CLASS CAAElliptical
 {
 public:
 //Enums
-  enum EllipticalObject
+  enum class EllipticalObject
   {
     SUN,
     MERCURY,
@@ -139,17 +139,27 @@ public:
   };
 
 //Static methods
-  static double DistanceToLightTime(double Distance);
+
+  constexpr static double DistanceToLightTime(double Distance)
+  {
+    return Distance * 0.0057755183;
+  }
+
   static CAAEllipticalPlanetaryDetails Calculate(double JD, EllipticalObject object, bool bHighPrecision);
-  static double SemiMajorAxisFromPerihelionDistance(double q, double e);
-  static double MeanMotionFromSemiMajorAxis(double a);
+
+  constexpr static double SemiMajorAxisFromPerihelionDistance(double q, double e)
+  {
+    return q / (1 - e);
+  }
+
+  static double MeanMotionFromSemiMajorAxis(double a) noexcept;
   static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision);
-  static double InstantaneousVelocity(double r, double a);
-  static double VelocityAtPerihelion(double e, double a);
-  static double VelocityAtAphelion(double e, double a);
-  static double LengthOfEllipse(double e, double a);
-  static double CometMagnitude(double g, double delta, double k, double r);
-  static double MinorPlanetMagnitude(double H, double delta, double G, double r, double PhaseAngle);
+  static double InstantaneousVelocity(double r, double a) noexcept;
+  static double VelocityAtPerihelion(double e, double a) noexcept;
+  static double VelocityAtAphelion(double e, double a) noexcept;
+  static double LengthOfEllipse(double e, double a) noexcept;
+  static double CometMagnitude(double g, double delta, double k, double r) noexcept;
+  static double MinorPlanetMagnitude(double H, double delta, double G, double r, double PhaseAngle) noexcept;
 };
 
 

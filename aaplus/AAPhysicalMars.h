@@ -37,14 +37,14 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAPhysicalMarsDetails
 {
 public:
-  CAAPhysicalMarsDetails() : DE(0), 
-                             DS(0), 
-                             w(0), 
-                             P(0),
-                             X(0), 
-                             k(0), 
-                             q(0), 
-                             d(0) 
+  CAAPhysicalMarsDetails() noexcept : DE(0),
+                                      DS(0),
+                                      w(0),
+                                      P(0),
+                                      X(0),
+                                      k(0),
+                                      q(0),
+                                      d(0)
   {
   };
 

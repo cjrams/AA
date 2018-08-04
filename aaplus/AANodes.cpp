@@ -34,10 +34,10 @@ CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAEllipticalObjec
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(-elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
-  double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
+  const double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
   double M = E - elements.e*sin(E);
   M = CAACoordinateTransformation::RadiansToDegrees(M);
-  double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
+  const double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
 
   CAANodeObjectDetails details;
   details.t = elements.T + M/n;
@@ -50,10 +50,10 @@ CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAEllipticalObje
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(180 - elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
-  double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
+  const double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
   double M = E - elements.e*sin(E);
   M = CAACoordinateTransformation::RadiansToDegrees(M);
-  double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
+  const double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
 
   CAANodeObjectDetails details;
   details.t = elements.T + M/n;
@@ -66,8 +66,8 @@ CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAParabolicObject
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(-elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
-  double s = tan(v / 2);
-  double s2 = s*s;
+  const double s = tan(v / 2);
+  const double s2 = s*s;
 
   CAANodeObjectDetails details;
   details.t = elements.T + 27.403895*(s2*s + 3*s)*elements.q*sqrt(elements.q);
@@ -81,8 +81,8 @@ CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAParabolicObjec
   double v = CAACoordinateTransformation::MapTo0To360Range(180 - elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
 
-  double s = tan(v / 2);
-  double s2 = s*s;
+  const double s = tan(v / 2);
+  const double s2 = s*s;
 
   CAANodeObjectDetails details;
   details.t = elements.T + 27.403895*(s2*s + 3*s)*elements.q*sqrt(elements.q);

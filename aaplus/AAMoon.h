@@ -50,8 +50,8 @@ public:
   static double EclipticLatitude(double JD);
   static double RadiusVector(double JD);
 
-  static double RadiusVectorToHorizontalParallax(double RadiusVector);
-  static double HorizontalParallaxToRadiusVector(double Parallax);
+  static double RadiusVectorToHorizontalParallax(double RadiusVector) noexcept;
+  static double HorizontalParallaxToRadiusVector(double Parallax) noexcept;
 };
 
 

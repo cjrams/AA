@@ -47,14 +47,14 @@ using namespace std;
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAParabolic::CalculateBarkers(double W)
+double CAAParabolic::CalculateBarkers(double W) noexcept
 {
   double S = W / 3; 
   bool bRecalc = true;
   while (bRecalc)
   {
-    double S2 = S*S;
-    double NextS = (2*S2*S + W) / (3 * (S2 + 1));
+    const double S2 = S*S;
+    const double NextS = (2*S2*S + W) / (3 * (S2 + 1));
 
     //Prepare for the next loop around
     bRecalc = (fabs(NextS - S) > 0.000001);
@@ -74,41 +74,41 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
   CAAParabolicObjectDetails details;
 
   Epsilon = CAACoordinateTransformation::DegreesToRadians(Epsilon);
-  double omega = CAACoordinateTransformation::DegreesToRadians(elements.omega);
-  double w = CAACoordinateTransformation::DegreesToRadians(elements.w);
-  double i = CAACoordinateTransformation::DegreesToRadians(elements.i);
+  const double omega = CAACoordinateTransformation::DegreesToRadians(elements.omega);
+  const double w = CAACoordinateTransformation::DegreesToRadians(elements.w);
+  const double i = CAACoordinateTransformation::DegreesToRadians(elements.i);
 
-  double sinEpsilon = sin(Epsilon);
-  double cosEpsilon = cos(Epsilon);
-  double sinOmega = sin(omega);
-  double cosOmega = cos(omega);
-  double cosi = cos(i);
-  double sini = sin(i);
+  const double sinEpsilon = sin(Epsilon);
+  const double cosEpsilon = cos(Epsilon);
+  const double sinOmega = sin(omega);
+  const double cosOmega = cos(omega);
+  const double cosi = cos(i);
+  const double sini = sin(i);
 
-  double F = cosOmega;
-  double G = sinOmega * cosEpsilon;
-  double H = sinOmega * sinEpsilon;
-  double P = -sinOmega * cosi;
-  double Q = cosOmega*cosi*cosEpsilon - sini*sinEpsilon;
-  double R = cosOmega*cosi*sinEpsilon + sini*cosEpsilon;
-  double a = sqrt(F*F + P*P);
-  double b = sqrt(G*G + Q*Q);
-  double c = sqrt(H*H + R*R);
-  double A = atan2(F, P);
-  double B = atan2(G, Q);
-  double C = atan2(H, R);
+  const double F = cosOmega;
+  const double G = sinOmega * cosEpsilon;
+  const double H = sinOmega * sinEpsilon;
+  const double P = -sinOmega * cosi;
+  const double Q = cosOmega*cosi*cosEpsilon - sini*sinEpsilon;
+  const double R = cosOmega*cosi*sinEpsilon + sini*cosEpsilon;
+  const double a = sqrt(F*F + P*P);
+  const double b = sqrt(G*G + Q*Q);
+  const double c = sqrt(H*H + R*R);
+  const double A = atan2(F, P);
+  const double B = atan2(G, Q);
+  const double C = atan2(H, R);
 
-  CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox, bHighPrecision);
+  const CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox, bHighPrecision);
 
   for (int j=0; j<2; j++)
   {
-    double W = 0.03649116245/(elements.q * sqrt(elements.q)) * (JD0 - elements.T);
-    double s = CalculateBarkers(W);
-    double v = 2*atan(s);
-    double r = elements.q * (1 + s*s);
-    double x = r * a * sin(A + w + v);
-    double y = r * b * sin(B + w + v);
-    double z = r * c * sin(C + w + v);
+    const double W = 0.03649116245/(elements.q * sqrt(elements.q)) * (JD0 - elements.T);
+    const double s = CalculateBarkers(W);
+    const double v = 2*atan(s);
+    const double r = elements.q * (1 + s*s);
+    const double x = r * a * sin(A + w + v);
+    const double y = r * b * sin(B + w + v);
+    const double z = r * c * sin(C + w + v);
 
     if (j == 0)
     {
@@ -117,9 +117,9 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
       details.HeliocentricRectangularEquatorial.Z = z;
 
       //Calculate the heliocentric ecliptic coordinates also
-      double u = w + v;
-      double cosu = cos(u);
-      double sinu = sin(u);
+      const double u = w + v;
+      const double cosu = cos(u);
+      const double sinu = sin(u);
 
       details.HeliocentricRectangularEcliptical.X = r * (cosOmega*cosu - sinOmega*sinu*cosi);
       details.HeliocentricRectangularEcliptical.Y = r * (sinOmega*cosu + cosOmega*sinu*cosi);
@@ -129,15 +129,15 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
       details.HeliocentricEclipticLatitude = CAACoordinateTransformation::RadiansToDegrees(asin(details.HeliocentricRectangularEcliptical.Z / r));
     }
 
-    double psi = SunCoord.X + x;
-    double nu = SunCoord.Y + y;
-    double sigma = SunCoord.Z + z;
+    const double psi = SunCoord.X + x;
+    const double nu = SunCoord.Y + y;
+    const double sigma = SunCoord.Z + z;
 
     double Alpha = atan2(nu, psi);
     Alpha = CAACoordinateTransformation::RadiansToDegrees(Alpha);
     double Delta = atan2(sigma, sqrt(psi*psi + nu*nu));
     Delta = CAACoordinateTransformation::RadiansToDegrees(Delta);
-    double Distance = sqrt(psi*psi + nu*nu + sigma*sigma);
+    const double Distance = sqrt(psi*psi + nu*nu + sigma*sigma);
 
     if (j == 0)
     {
@@ -153,7 +153,7 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
       details.AstrometricGeocentricDistance = Distance;
       details.AstrometricGeocentricLightTime = CAAElliptical::DistanceToLightTime(Distance);
 
-      double RES = sqrt(SunCoord.X*SunCoord.X + SunCoord.Y*SunCoord.Y + SunCoord.Z*SunCoord.Z);
+      const double RES = sqrt(SunCoord.X*SunCoord.X + SunCoord.Y*SunCoord.Y + SunCoord.Z*SunCoord.Z);
 
       details.Elongation = CAACoordinateTransformation::RadiansToDegrees(acos((RES*RES + Distance*Distance - r*r) / (2 * RES * Distance)));
       details.PhaseAngle = CAACoordinateTransformation::RadiansToDegrees(acos((r*r + Distance*Distance - RES*RES) / (2 * r * Distance)));

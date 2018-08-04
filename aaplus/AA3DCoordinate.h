@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAA3DCoordinate
 {
 public:
 //Constructors / Destructors
-  CAA3DCoordinate() : X(0), 
-                      Y(0), 
-                      Z(0) 
+  CAA3DCoordinate() noexcept : X(0),
+                               Y(0),
+                               Z(0)
   {
   };
 

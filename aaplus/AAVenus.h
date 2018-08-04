@@ -40,7 +40,7 @@ public:
 //Static methods
   static double EclipticLongitude(double JD, bool bHighPrecision);
   static double EclipticLatitude(double JD, bool bHighPrecision);
-  static double RadiusVector(double JD, bool bHighPrecision);
+  static double RadiusVector(double JD, bool bHighPrecision) noexcept;
 };
 
 

@@ -43,12 +43,12 @@ class AAPLUS_EXT_CLASS CAAParabolicObjectElements
 {
 public:
 //Constructors / Destructors
-  CAAParabolicObjectElements() : q(0), 
-                                 i(0), 
-                                 w(0), 
-                                 omega(0), 
-                                 JDEquinox(0), 
-                                 T(0) 
+  CAAParabolicObjectElements() noexcept : q(0),
+                                          i(0),
+                                          w(0),
+                                          omega(0),
+                                          JDEquinox(0),
+                                          T(0)
   {
   };
 
@@ -65,18 +65,18 @@ class AAPLUS_EXT_CLASS CAAParabolicObjectDetails
 {
 public:
 //Constructors / Destructors
-  CAAParabolicObjectDetails() : HeliocentricEclipticLongitude(0), 
-                                HeliocentricEclipticLatitude(0),
-                                TrueGeocentricRA(0), 
-                                TrueGeocentricDeclination(0),
-                                TrueGeocentricDistance(0), 
-                                TrueGeocentricLightTime(0), 
-                                AstrometricGeocenticRA(0), 
-                                AstrometricGeocentricDeclination(0), 
-                                AstrometricGeocentricDistance(0), 
-                                AstrometricGeocentricLightTime(0),
-                                Elongation(0), 
-                                PhaseAngle(0) 
+  CAAParabolicObjectDetails() noexcept : HeliocentricEclipticLongitude(0),
+                                         HeliocentricEclipticLatitude(0),
+                                         TrueGeocentricRA(0),
+                                         TrueGeocentricDeclination(0),
+                                         TrueGeocentricDistance(0),
+                                         TrueGeocentricLightTime(0),
+                                         AstrometricGeocenticRA(0),
+                                         AstrometricGeocentricDeclination(0),
+                                         AstrometricGeocentricDistance(0),
+                                         AstrometricGeocentricLightTime(0),
+                                         Elongation(0),
+                                         PhaseAngle(0)
   {
   };
 
@@ -101,7 +101,7 @@ class AAPLUS_EXT_CLASS CAAParabolic
 {
 public:
 //Static methods
-  static double CalculateBarkers(double W);
+  static double CalculateBarkers(double W) noexcept;
   static CAAParabolicObjectDetails Calculate(double JD, const CAAParabolicObjectElements& elements, bool bHighPrecision);
 };
 

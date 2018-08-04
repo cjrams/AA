@@ -38,7 +38,11 @@ class AAPLUS_EXT_CLASS CAAMoonNodes
 {
 public:
 //Static methods
-  static double K(double Year);
+  constexpr static double K(double Year) noexcept
+  {
+    return 13.4223*(Year - 2000.05);
+  }
+
   static double PassageThroNode(double k);
 };
 

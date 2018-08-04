@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAABinaryStarDetails
 {
 public:
 //Constructors / Destructors
-  CAABinaryStarDetails() : r(0), 
-                           Theta(0), 
-                           Rho(0) 
+  CAABinaryStarDetails() noexcept : r(0),
+                                    Theta(0),
+                                    Rho(0)
   {
   };
   
@@ -55,7 +55,7 @@ class AAPLUS_EXT_CLASS CAABinaryStar
 public:
 //Static methods
   static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w);
-  static double ApparentEccentricity(double e, double i, double w);
+  static double ApparentEccentricity(double e, double i, double w) noexcept;
 };
 
 

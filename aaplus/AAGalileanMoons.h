@@ -43,15 +43,15 @@ class AAPLUS_EXT_CLASS CAAGalileanMoonDetail
 {
 public:
 //Constructors / Destructors
-  CAAGalileanMoonDetail() : MeanLongitude(0), 
-                            TrueLongitude(0), 
-                            TropicalLongitude(0), 
-                            EquatorialLatitude(0),
-                            r(0), 
-                            bInTransit(false), 
-                            bInOccultation(false),
-                            bInEclipse(false), 
-                            bInShadowTransit(false) 
+  CAAGalileanMoonDetail() noexcept : MeanLongitude(0),
+                                     TrueLongitude(0),
+                                     TropicalLongitude(0),
+                                     EquatorialLatitude(0),
+                                     r(0),
+                                     bInTransit(false),
+                                     bInOccultation(false),
+                                     bInEclipse(false),
+                                     bInShadowTransit(false)
   {
   };
 
@@ -87,8 +87,8 @@ public:
 
 protected:
   static CAAGalileanMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision);
-  static void Rotations(double X, double Y, double Z, double I, double psi, double i, double omega, double lambda0, double beta0, double& A6, double& B6, double& C6);
-  static void FillInPhenomenaDetails(CAAGalileanMoonDetail& detail);
+  static void Rotations(double X, double Y, double Z, double I, double psi, double i, double omega, double lambda0, double beta0, double& A6, double& B6, double& C6) noexcept;
+  static void FillInPhenomenaDetails(CAAGalileanMoonDetail& detail) noexcept;
 };
 
 

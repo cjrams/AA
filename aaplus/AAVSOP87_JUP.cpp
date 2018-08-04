@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87_A0_JUPITER[] =
 {
   {        5.20260319132,        0.00000000000,        0.00000000000 },
@@ -6286,33 +6290,32 @@ const VSOP87Coefficient2 g_VSOP87_P_JUPITER[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_Jupiter::A(double JD)
+double CAAVSOP87_Jupiter::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_JUPITER, sizeof(g_VSOP87_A_JUPITER)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_Jupiter::L(double JD)
+double CAAVSOP87_Jupiter::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_JUPITER, sizeof(g_VSOP87_L_JUPITER)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Jupiter::K(double JD)
+double CAAVSOP87_Jupiter::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_JUPITER, sizeof(g_VSOP87_K_JUPITER)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Jupiter::H(double JD)
+double CAAVSOP87_Jupiter::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_JUPITER, sizeof(g_VSOP87_H_JUPITER)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Jupiter::Q(double JD)
+double CAAVSOP87_Jupiter::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_JUPITER, sizeof(g_VSOP87_Q_JUPITER)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Jupiter::P(double JD)
+double CAAVSOP87_Jupiter::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_JUPITER, sizeof(g_VSOP87_P_JUPITER)/sizeof(VSOP87Coefficient2), true);
 }
-

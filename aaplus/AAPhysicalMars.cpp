@@ -46,18 +46,18 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD, bool bHighPrecision
   CAAPhysicalMarsDetails details;
 
   //Step 1
-  double T = (JD - 2451545) / 36525;
+  const double T = (JD - 2451545) / 36525;
   double Lambda0 = 352.9065 + 1.17330*T;
-  double Lambda0rad = CAACoordinateTransformation::DegreesToRadians(Lambda0);
-  double Beta0 = 63.2818 - 0.00394*T;
-  double Beta0rad = CAACoordinateTransformation::DegreesToRadians(Beta0);
+  const double Lambda0rad = CAACoordinateTransformation::DegreesToRadians(Lambda0);
+  const double Beta0 = 63.2818 - 0.00394*T;
+  const double Beta0rad = CAACoordinateTransformation::DegreesToRadians(Beta0);
 
   //Step 2
-  double l0 = CAAEarth::EclipticLongitude(JD, bHighPrecision);
-  double l0rad = CAACoordinateTransformation::DegreesToRadians(l0);
-  double b0 = CAAEarth::EclipticLatitude(JD, bHighPrecision);
-  double b0rad = CAACoordinateTransformation::DegreesToRadians(b0);
-  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
+  const double l0 = CAAEarth::EclipticLongitude(JD, bHighPrecision);
+  const double l0rad = CAACoordinateTransformation::DegreesToRadians(l0);
+  const double b0 = CAAEarth::EclipticLatitude(JD, bHighPrecision);
+  const double b0rad = CAACoordinateTransformation::DegreesToRadians(b0);
+  const double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   double PreviousLightTravelTime = 0;
   double LightTravelTime = 0;
@@ -72,13 +72,13 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD, bool bHighPrecision
   double r = 0;
   while (bIterate)
   {
-    double JD2 = JD - LightTravelTime;
+    const double JD2 = JD - LightTravelTime;
 
     //Step 3
     l = CAAMars::EclipticLongitude(JD2, bHighPrecision);
     lrad = CAACoordinateTransformation::DegreesToRadians(l);
     b = CAAMars::EclipticLatitude(JD2, bHighPrecision);
-    double brad = CAACoordinateTransformation::DegreesToRadians(b);
+    const double brad = CAACoordinateTransformation::DegreesToRadians(b);
     r = CAAMars::RadiusVector(JD2, bHighPrecision);
 
     //Step 4
@@ -95,51 +95,51 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD, bool bHighPrecision
   }
 
   //Step 5
-  double lambdarad = atan2(y, x);
+  const double lambdarad = atan2(y, x);
   double lambda = CAACoordinateTransformation::RadiansToDegrees(lambdarad);
-  double betarad = atan2(z, sqrt(x*x + y*y));
+  const double betarad = atan2(z, sqrt(x*x + y*y));
   double beta = CAACoordinateTransformation::RadiansToDegrees(betarad);
 
   //Step 6
   details.DE = CAACoordinateTransformation::RadiansToDegrees(asin(-sin(Beta0rad)*sin(betarad) - cos(Beta0rad)*cos(betarad)*cos(Lambda0rad - lambdarad)));
 
   //Step 7
-  double N = 49.5581 + 0.7721*T;
-  double Nrad = CAACoordinateTransformation::DegreesToRadians(N);
+  const double N = 49.5581 + 0.7721*T;
+  const double Nrad = CAACoordinateTransformation::DegreesToRadians(N);
 
-  double ldash = l - 0.00697/r;
-  double ldashrad = CAACoordinateTransformation::DegreesToRadians(ldash);
-  double bdash = b - 0.000225*(cos(lrad - Nrad)/r);
-  double bdashrad = CAACoordinateTransformation::DegreesToRadians(bdash);
+  const double ldash = l - 0.00697/r;
+  const double ldashrad = CAACoordinateTransformation::DegreesToRadians(ldash);
+  const double bdash = b - 0.000225*(cos(lrad - Nrad)/r);
+  const double bdashrad = CAACoordinateTransformation::DegreesToRadians(bdash);
 
   //Step 8
   details.DS = CAACoordinateTransformation::RadiansToDegrees(asin(-sin(Beta0rad)*sin(bdashrad) - cos(Beta0rad)*cos(bdashrad)*cos(Lambda0rad - ldashrad)));
 
   //Step 9
-  double W = CAACoordinateTransformation::MapTo0To360Range(11.504 + 350.89200025*(JD - LightTravelTime - 2433282.5));
+  const double W = CAACoordinateTransformation::MapTo0To360Range(11.504 + 350.89200025*(JD - LightTravelTime - 2433282.5));
 
   //Step 10
   double e0 = CAANutation::MeanObliquityOfEcliptic(JD);
-  double e0rad = CAACoordinateTransformation::DegreesToRadians(e0);
-  CAA2DCoordinate PoleEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(Lambda0, Beta0, e0);
-  double alpha0rad = CAACoordinateTransformation::HoursToRadians(PoleEquatorial.X);
-  double delta0rad = CAACoordinateTransformation::DegreesToRadians(PoleEquatorial.Y);
+  const double e0rad = CAACoordinateTransformation::DegreesToRadians(e0);
+  const CAA2DCoordinate PoleEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(Lambda0, Beta0, e0);
+  const double alpha0rad = CAACoordinateTransformation::HoursToRadians(PoleEquatorial.X);
+  const double delta0rad = CAACoordinateTransformation::DegreesToRadians(PoleEquatorial.Y);
 
   //Step 11
-  double u = y*cos(e0rad) - z*sin(e0rad);
-  double v = y*sin(e0rad) + z*cos(e0rad);
-  double alpharad = atan2(u, x);
-  double alpha = CAACoordinateTransformation::RadiansToHours(alpharad);
-  double deltarad = atan2(v, sqrt(x*x + u*u));
-  double delta = CAACoordinateTransformation::RadiansToDegrees(deltarad);
-  double xi = atan2(sin(delta0rad)*cos(deltarad)*cos(alpha0rad - alpharad) - sin(deltarad)*cos(delta0rad), cos(deltarad)*sin(alpha0rad - alpharad));
+  const double u = y*cos(e0rad) - z*sin(e0rad);
+  const double v = y*sin(e0rad) + z*cos(e0rad);
+  const double alpharad = atan2(u, x);
+  const double alpha = CAACoordinateTransformation::RadiansToHours(alpharad);
+  const double deltarad = atan2(v, sqrt(x*x + u*u));
+  const double delta = CAACoordinateTransformation::RadiansToDegrees(deltarad);
+  const double xi = atan2(sin(delta0rad)*cos(deltarad)*cos(alpha0rad - alpharad) - sin(deltarad)*cos(delta0rad), cos(deltarad)*sin(alpha0rad - alpharad));
 
   //Step 12
   details.w = CAACoordinateTransformation::MapTo0To360Range(W - CAACoordinateTransformation::RadiansToDegrees(xi));
 
   //Step 13
-  double NutationInLongitude = CAANutation::NutationInLongitude(JD);
-  double NutationInObliquity = CAANutation::NutationInObliquity(JD);
+  const double NutationInLongitude = CAANutation::NutationInLongitude(JD);
+  const double NutationInObliquity = CAANutation::NutationInObliquity(JD);
 
   //Step 14
   lambda += 0.005693*cos(l0rad - lambdarad)/cos(betarad);
@@ -151,20 +151,20 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD, bool bHighPrecision
   e0 += NutationInObliquity/3600;
 
   //Step 16
-  CAA2DCoordinate ApparentPoleEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(Lambda0, Beta0, e0);  
-  double alpha0dash = CAACoordinateTransformation::HoursToRadians(ApparentPoleEquatorial.X);
-  double delta0dash = CAACoordinateTransformation::DegreesToRadians(ApparentPoleEquatorial.Y);
-  CAA2DCoordinate ApparentMars = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, e0);  
-  double alphadash = CAACoordinateTransformation::HoursToRadians(ApparentMars.X);
-  double deltadash = CAACoordinateTransformation::DegreesToRadians(ApparentMars.Y);
+  const CAA2DCoordinate ApparentPoleEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(Lambda0, Beta0, e0);
+  const double alpha0dash = CAACoordinateTransformation::HoursToRadians(ApparentPoleEquatorial.X);
+  const double delta0dash = CAACoordinateTransformation::DegreesToRadians(ApparentPoleEquatorial.Y);
+  const CAA2DCoordinate ApparentMars = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, e0);
+  const double alphadash = CAACoordinateTransformation::HoursToRadians(ApparentMars.X);
+  const double deltadash = CAACoordinateTransformation::DegreesToRadians(ApparentMars.Y);
 
   //Step 17
   details.P = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(cos(delta0dash)*sin(alpha0dash - alphadash), sin(delta0dash)*cos(deltadash) - cos(delta0dash)*sin(deltadash)*cos(alpha0dash - alphadash))));
 
   //Step 18
-  double SunLambda = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
-  double SunBeta = CAASun::GeometricEclipticLatitude(JD, bHighPrecision);
-  CAA2DCoordinate SunEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLambda, SunBeta, e0);
+  const double SunLambda = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
+  const double SunBeta = CAASun::GeometricEclipticLatitude(JD, bHighPrecision);
+  const CAA2DCoordinate SunEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLambda, SunBeta, e0);
   details.X = CAAMoonIlluminatedFraction::PositionAngle(SunEquatorial.X, SunEquatorial.Y, alpha, delta);
 
   //Step 19

@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAEasterDetails
 {
 public:
 //Constructors / Destructors
-  CAAEasterDetails() : Month(0), 
-                       Day(0) 
+  CAAEasterDetails() noexcept : Month(0),
+                                Day(0)
   {
-  };  
+  };
 
 //Member variables
   long Month;
@@ -52,7 +52,7 @@ class AAPLUS_EXT_CLASS CAAEaster
 {
 public:
 //Static methods
-  static CAAEasterDetails Calculate(long nYear, bool GregorianCalendar);
+  static CAAEasterDetails Calculate(int nYear, bool GregorianCalendar) noexcept;
 };
 
 

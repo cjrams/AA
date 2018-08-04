@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87C_X0_NEPTUNE[] =
 {
   {       30.05973100580,        5.31188633083,       38.37685312130 },
@@ -3015,33 +3019,32 @@ const VSOP87Coefficient2 g_VSOP87C_Z_NEPTUNE[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87C_Neptune::X(double JD)
+double CAAVSOP87C_Neptune::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_X_NEPTUNE, sizeof(g_VSOP87C_X_NEPTUNE)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Neptune::X_DASH(double JD)
+double CAAVSOP87C_Neptune::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_X_NEPTUNE, sizeof(g_VSOP87C_X_NEPTUNE)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87C_Neptune::Y(double JD)
+double CAAVSOP87C_Neptune::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_Y_NEPTUNE, sizeof(g_VSOP87C_Y_NEPTUNE)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Neptune::Y_DASH(double JD)
+double CAAVSOP87C_Neptune::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Y_NEPTUNE, sizeof(g_VSOP87C_Y_NEPTUNE)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87C_Neptune::Z(double JD)
+double CAAVSOP87C_Neptune::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_Z_NEPTUNE, sizeof(g_VSOP87C_Z_NEPTUNE)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Neptune::Z_DASH(double JD)
+double CAAVSOP87C_Neptune::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Z_NEPTUNE, sizeof(g_VSOP87C_Z_NEPTUNE)/sizeof(VSOP87Coefficient2));
 }
-

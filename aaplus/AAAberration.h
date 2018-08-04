@@ -44,9 +44,9 @@ class AAPLUS_EXT_CLASS CAAAberration
 {
 public:
 //Static methods
-  static CAA3DCoordinate EarthVelocity(double JD, bool bHighPrecision); 
+  static CAA3DCoordinate EarthVelocity(double JD, bool bHighPrecision) noexcept;
   static CAA2DCoordinate EclipticAberration(double Alpha, double Delta, double JD, bool bHighPrecision);
-  static CAA2DCoordinate EquatorialAberration(double Lambda, double Beta, double JD, bool bHighPrecision);
+  static CAA2DCoordinate EquatorialAberration(double Lambda, double Beta, double JD, bool bHighPrecision) noexcept;
 };
 
 

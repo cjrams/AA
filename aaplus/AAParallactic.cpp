@@ -30,7 +30,7 @@ using namespace std;
 
 ////////////////////// Implementation /////////////////////////////////////////
 
-double CAAParallactic::ParallacticAngle(double HourAngle, double Latitude, double delta)
+double CAAParallactic::ParallacticAngle(double HourAngle, double Latitude, double delta) noexcept
 {
   HourAngle = CAACoordinateTransformation::HoursToRadians(HourAngle);
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
@@ -45,7 +45,7 @@ double CAAParallactic::EclipticLongitudeOnHorizon(double LocalSiderealTime, doub
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
   ObliquityOfEcliptic = CAACoordinateTransformation::DegreesToRadians(ObliquityOfEcliptic);
 
-  double value = CAACoordinateTransformation::RadiansToDegrees(atan2(-cos(LocalSiderealTime), sin(ObliquityOfEcliptic)*tan(Latitude) + cos(ObliquityOfEcliptic)*sin(LocalSiderealTime)));
+  const double value = CAACoordinateTransformation::RadiansToDegrees(atan2(-cos(LocalSiderealTime), sin(ObliquityOfEcliptic)*tan(Latitude) + cos(ObliquityOfEcliptic)*sin(LocalSiderealTime)));
   return CAACoordinateTransformation::MapTo0To360Range(value);
 }
 
@@ -55,7 +55,7 @@ double CAAParallactic::AngleBetweenEclipticAndHorizon(double LocalSiderealTime, 
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
   ObliquityOfEcliptic = CAACoordinateTransformation::DegreesToRadians(ObliquityOfEcliptic);
 
-  double value = CAACoordinateTransformation::RadiansToDegrees(acos(cos(ObliquityOfEcliptic)*sin(Latitude) - sin(ObliquityOfEcliptic)*cos(Latitude)*sin(LocalSiderealTime)));
+  const double value = CAACoordinateTransformation::RadiansToDegrees(acos(cos(ObliquityOfEcliptic)*sin(Latitude) - sin(ObliquityOfEcliptic)*cos(Latitude)*sin(LocalSiderealTime)));
   return CAACoordinateTransformation::MapTo0To360Range(value);
 }
 
@@ -65,6 +65,6 @@ double CAAParallactic::AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(doub
   Beta = CAACoordinateTransformation::DegreesToRadians(Beta);
   ObliquityOfEcliptic = CAACoordinateTransformation::DegreesToRadians(ObliquityOfEcliptic);
 
-  double value = CAACoordinateTransformation::RadiansToDegrees(atan2(cos(Lambda)*tan(ObliquityOfEcliptic), sin(Beta)*sin(Lambda)*tan(ObliquityOfEcliptic) - cos(Beta)));
+  const double value = CAACoordinateTransformation::RadiansToDegrees(atan2(cos(Lambda)*tan(ObliquityOfEcliptic), sin(Beta)*sin(Lambda)*tan(ObliquityOfEcliptic) - cos(Beta)));
   return CAACoordinateTransformation::MapTo0To360Range(value);
 }

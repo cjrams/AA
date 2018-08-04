@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAPhysicalSunDetails
 {
 public:
 //Constructors / Destructors
-  CAAPhysicalSunDetails() : P(0), 
-                            B0(0), 
-                            L0(0) 
+  CAAPhysicalSunDetails() noexcept : P(0),
+                                     B0(0),
+                                     L0(0)
   {
   };
 

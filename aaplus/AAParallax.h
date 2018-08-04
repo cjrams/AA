@@ -43,9 +43,9 @@ class AAPLUS_EXT_CLASS CAATopocentricEclipticDetails
 {
 public:
 //Constructors / Destructors
-  CAATopocentricEclipticDetails() : Lambda(0), 
-                                    Beta(0), 
-                                    Semidiameter(0) 
+  CAATopocentricEclipticDetails() noexcept : Lambda(0),
+                                             Beta(0),
+                                             Semidiameter(0)
   {
   };
 
@@ -63,8 +63,8 @@ public:
   static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
   static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD);
 
-  static double ParallaxToDistance(double Parallax);
-  static double DistanceToParallax(double Distance);
+  static double ParallaxToDistance(double Parallax) noexcept;
+  static double DistanceToParallax(double Distance) noexcept;
 };
 
 

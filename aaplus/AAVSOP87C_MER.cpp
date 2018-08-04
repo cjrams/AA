@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87C_X0_MERCURY[] =
 {
   {        0.37749277893,        4.40259139579,    26088.14695905770 },
@@ -8290,33 +8294,32 @@ const VSOP87Coefficient2 g_VSOP87C_Z_MERCURY[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87C_Mercury::X(double JD)
+double CAAVSOP87C_Mercury::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_X_MERCURY, sizeof(g_VSOP87C_X_MERCURY)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Mercury::X_DASH(double JD)
+double CAAVSOP87C_Mercury::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_X_MERCURY, sizeof(g_VSOP87C_X_MERCURY)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87C_Mercury::Y(double JD)
+double CAAVSOP87C_Mercury::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_Y_MERCURY, sizeof(g_VSOP87C_Y_MERCURY)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Mercury::Y_DASH(double JD)
+double CAAVSOP87C_Mercury::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Y_MERCURY, sizeof(g_VSOP87C_Y_MERCURY)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87C_Mercury::Z(double JD)
+double CAAVSOP87C_Mercury::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87C_Z_MERCURY, sizeof(g_VSOP87C_Z_MERCURY)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87C_Mercury::Z_DASH(double JD)
+double CAAVSOP87C_Mercury::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Z_MERCURY, sizeof(g_VSOP87C_Z_MERCURY)/sizeof(VSOP87Coefficient2));
 }
-

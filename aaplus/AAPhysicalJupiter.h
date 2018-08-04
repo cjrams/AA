@@ -38,13 +38,13 @@ class AAPLUS_EXT_CLASS CAAPhysicalJupiterDetails
 {
 public:
 //Constructors / Destructors
-  CAAPhysicalJupiterDetails() : DE(0), 
-                                DS(0), 
-                                Geometricw1(0), 
-                                Geometricw2(0),
-                                Apparentw1(0), 
-                                Apparentw2(0), 
-                                P(0) 
+  CAAPhysicalJupiterDetails() noexcept : DE(0),
+                                         DS(0),
+                                         Geometricw1(0),
+                                         Geometricw2(0),
+                                         Apparentw1(0),
+                                         Apparentw2(0),
+                                         P(0)
   {
   };
 

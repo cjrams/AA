@@ -46,12 +46,12 @@ public:
   static const unsigned int NON_CENTRAL_ECLIPSE   = 0x20;
 
 //Constructors / Destructors
-  CAASolarEclipseDetails() : Flags(0), 
-                             TimeOfMaximumEclipse(0), 
-                             F(0), 
-                             u(0), 
-                             gamma(0), 
-                             GreatestMagnitude(0) 
+  CAASolarEclipseDetails() noexcept : Flags(0),
+                                      TimeOfMaximumEclipse(0),
+                                      F(0),
+                                      u(0),
+                                      gamma(0),
+                                      GreatestMagnitude(0)
   {
   };
 
@@ -69,18 +69,18 @@ class AAPLUS_EXT_CLASS CAALunarEclipseDetails
 {
 public:
 //Constructors / Destructors
-  CAALunarEclipseDetails() : bEclipse(false), 
-                             TimeOfMaximumEclipse(0),
-                             F(0), 
-                             u(0), 
-                             gamma(0), 
-                             PenumbralRadii(0),
-                             UmbralRadii(0), 
-                             PenumbralMagnitude(0), 
-                             UmbralMagnitude(0), 
-                             PartialPhaseSemiDuration(0),
-                             TotalPhaseSemiDuration(0), 
-                             PartialPhasePenumbraSemiDuration(0) 
+  CAALunarEclipseDetails() noexcept : bEclipse(false),
+                                      TimeOfMaximumEclipse(0),
+                                      F(0),
+                                      u(0),
+                                      gamma(0),
+                                      PenumbralRadii(0),
+                                      UmbralRadii(0),
+                                      PenumbralMagnitude(0),
+                                      UmbralMagnitude(0),
+                                      PartialPhaseSemiDuration(0),
+                                      TotalPhaseSemiDuration(0),
+                                      PartialPhasePenumbraSemiDuration(0)
   {
   };
 

@@ -37,35 +37,19 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAAMoonPhases::K(double Year)
-{
-  return 12.3685*(Year - 2000);
-}
-
-double CAAMoonPhases::MeanPhase(double k)
-{
-  //convert from K to T
-  double T = k/1236.85;
-  double T2 = T*T;
-  double T3 = T2*T;
-  double T4 = T3*T;
-
-  return 2451550.09766 + 29.530588861*k + 0.00015437*T2 - 0.000000150*T3 + 0.00000000073*T4;
-}
-
 double CAAMoonPhases::TruePhase(double k)
 {
   //What will be the return value
   double JD = MeanPhase(k);
 
   //convert from K to T
-  double T = k/1236.85;
-  double T2 = T*T;
-  double T3 = T2*T;
-  double T4 = T3*T;
+  const double T = k/1236.85;
+  const double T2 = T*T;
+  const double T3 = T2*T;
+  const double T4 = T3*T;
 
-  double E = 1 - 0.002516*T - 0.0000074*T2;
-  double E2 = E*E;
+  const double E = 1 - 0.002516*T - 0.0000074*T2;
+  const double E2 = E*E;
 
   double M = CAACoordinateTransformation::MapTo0To360Range(2.5534 + 29.10535670*k - 0.0000014*T2 - 0.00000011*T3);
   M = CAACoordinateTransformation::DegreesToRadians(M);
@@ -111,63 +95,63 @@ double CAAMoonPhases::TruePhase(double k)
     kfrac = 1 + kfrac;
   if (kfrac == 0) //New Moon
   {
-    double DeltaJD = -0.40720*sin(Mdash) +
-          0.17241*E*sin(M) +
-          0.01608*sin(2*Mdash) +
-          0.01039*sin(2*F) +
-          0.00739*E*sin(Mdash - M) +
-          -0.00514*E*sin(Mdash + M) +
-          0.00208*E2*sin(2*M) +
-          -0.00111*sin(Mdash - 2*F) +
-          -0.00057*sin(Mdash + 2*F) +
-          0.00056*E*sin(2*Mdash + M) +
-          -0.00042*sin(3*Mdash) +
-          0.00042*E*sin(M + 2*F) +
-          0.00038*E*sin(M - 2*F) +
-          -0.00024*E*sin(2*Mdash - M) +
-          -0.00017*sin(omega) +
-          -0.00007*sin(Mdash + 2*M) +
-          0.00004*sin(2*Mdash - 2*F) +
-          0.00004*sin(3*M) +
-          0.00003*sin(Mdash + M - 2*F) +
-          0.00003*sin(2*Mdash + 2*F) +
-          -0.00003*sin(Mdash + M + 2*F) +
-          0.00003*sin(Mdash - M + 2*F) +
-          -0.00002*sin(Mdash - M - 2*F) +
-          -0.00002*sin(3*Mdash + M) +
-          0.00002*sin(4*Mdash);
+    const double DeltaJD = -0.40720*sin(Mdash) +
+                            0.17241*E*sin(M) +
+                            0.01608*sin(2*Mdash) +
+                            0.01039*sin(2*F) +
+                            0.00739*E*sin(Mdash - M) +
+                           -0.00514*E*sin(Mdash + M) +
+                            0.00208*E2*sin(2*M) +
+                           -0.00111*sin(Mdash - 2*F) +
+                           -0.00057*sin(Mdash + 2*F) +
+                            0.00056*E*sin(2*Mdash + M) +
+                           -0.00042*sin(3*Mdash) +
+                            0.00042*E*sin(M + 2*F) +
+                            0.00038*E*sin(M - 2*F) +
+                           -0.00024*E*sin(2*Mdash - M) +
+                           -0.00017*sin(omega) +
+                           -0.00007*sin(Mdash + 2*M) +
+                            0.00004*sin(2*Mdash - 2*F) +
+                            0.00004*sin(3*M) +
+                            0.00003*sin(Mdash + M - 2*F) +
+                            0.00003*sin(2*Mdash + 2*F) +
+                           -0.00003*sin(Mdash + M + 2*F) +
+                            0.00003*sin(Mdash - M + 2*F) +
+                           -0.00002*sin(Mdash - M - 2*F) +
+                           -0.00002*sin(3*Mdash + M) +
+                            0.00002*sin(4*Mdash);
     JD += DeltaJD;
   }
   else if ((kfrac == 0.25) || (kfrac == 0.75)) //First Quarter or Last Quarter
   {
-    double DeltaJD = -0.62801*sin(Mdash) +
-          0.17172*E*sin(M) +
-          -0.01183*E*sin(Mdash + M) +
-          0.00862*sin(2*Mdash) +
-          0.00804*sin(2*F) +
-          0.00454*E*sin(Mdash - M) +
-          0.00204*E2*sin(2*M) +
-          -0.00180*sin(Mdash - 2*F) +
-          -0.00070*sin(Mdash + 2*F) +
-          -0.00040*sin(3*Mdash) +
-          -0.00034*E*sin(2*Mdash - M) +
-          0.00032*E*sin(M + 2*F) +
-          0.00032*E*sin(M - 2*F) +
-          -0.00028*E2*sin(Mdash + 2*M) +
-          0.00027*E*sin(2*Mdash + M) +
-          -0.00017*sin(omega) +
-          -0.00005*sin(Mdash - M - 2*F) +
-          0.00004*sin(2*Mdash + 2*F) +
-          -0.00004*sin(Mdash + M + 2*F) +
-          0.00004*sin(Mdash - 2*M) +
-          0.00003*sin(Mdash + M - 2*F) +
-          0.00003*sin(3*M) +
-          0.00002*sin(2*Mdash - 2*F) +
-          0.00002*sin(Mdash - M + 2*F) +
-          -0.00002*sin(3*Mdash + M);
+    const double DeltaJD = -0.62801*sin(Mdash) +
+                            0.17172*E*sin(M) +
+                           -0.01183*E*sin(Mdash + M) +
+                            0.00862*sin(2*Mdash) +
+                            0.00804*sin(2*F) +
+                            0.00454*E*sin(Mdash - M) +
+                            0.00204*E2*sin(2*M) +
+                           -0.00180*sin(Mdash - 2*F) +
+                           -0.00070*sin(Mdash + 2*F) +
+                           -0.00040*sin(3*Mdash) +
+                           -0.00034*E*sin(2*Mdash - M) +
+                            0.00032*E*sin(M + 2*F) +
+                            0.00032*E*sin(M - 2*F) +
+                           -0.00028*E2*sin(Mdash + 2*M) +
+                            0.00027*E*sin(2*Mdash + M) +
+                           -0.00017*sin(omega) +
+                           -0.00005*sin(Mdash - M - 2*F) +
+                            0.00004*sin(2*Mdash + 2*F) +
+                           -0.00004*sin(Mdash + M + 2*F) +
+                            0.00004*sin(Mdash - 2*M) +
+                            0.00003*sin(Mdash + M - 2*F) +
+                            0.00003*sin(3*M) +
+                            0.00002*sin(2*Mdash - 2*F) +
+                            0.00002*sin(Mdash - M + 2*F) +
+                           -0.00002*sin(3*Mdash + M);
     JD += DeltaJD;
-          
-    double W = 0.00306 - 0.00038*E*cos(M) + 0.00026*cos(Mdash) - 0.00002*cos(Mdash - M) + 0.00002*cos(Mdash + M) + 0.00002*cos(2*F);
+
+    const double W = 0.00306 - 0.00038*E*cos(M) + 0.00026*cos(Mdash) - 0.00002*cos(Mdash - M) + 0.00002*cos(Mdash + M) + 0.00002*cos(2*F);
     if (kfrac == 0.25) //First quarter
       JD += W;
     else
@@ -175,31 +159,31 @@ double CAAMoonPhases::TruePhase(double k)
   }
   else if (kfrac == 0.5) //Full Moon
   {
-    double DeltaJD = -0.40614*sin(Mdash) +
-          0.17302*E*sin(M) +
-          0.01614*sin(2*Mdash) +
-          0.01043*sin(2*F) +
-          0.00734*E*sin(Mdash - M) +
-          -0.00514*E*sin(Mdash + M) +
-          0.00209*E2*sin(2*M) +
-          -0.00111*sin(Mdash - 2*F) +
-          -0.00057*sin(Mdash + 2*F) +
-          0.00056*E*sin(2*Mdash + M) +
-          -0.00042*sin(3*Mdash) +
-          0.00042*E*sin(M + 2*F) +
-          0.00038*E*sin(M - 2*F) +
-          -0.00024*E*sin(2*Mdash - M) +
-          -0.00017*sin(omega) +
-          -0.00007*sin(Mdash + 2*M) +
-          0.00004*sin(2*Mdash - 2*F) +
-          0.00004*sin(3*M) +
-          0.00003*sin(Mdash + M - 2*F) +
-          0.00003*sin(2*Mdash + 2*F) +
-          -0.00003*sin(Mdash + M + 2*F) +
-          0.00003*sin(Mdash - M + 2*F) +
-          -0.00002*sin(Mdash - M - 2*F) +
-          -0.00002*sin(3*Mdash + M) +
-          0.00002*sin(4*Mdash);
+    const double DeltaJD = -0.40614*sin(Mdash) +
+                            0.17302*E*sin(M) +
+                            0.01614*sin(2*Mdash) +
+                            0.01043*sin(2*F) +
+                            0.00734*E*sin(Mdash - M) +
+                           -0.00514*E*sin(Mdash + M) +
+                            0.00209*E2*sin(2*M) +
+                           -0.00111*sin(Mdash - 2*F) +
+                           -0.00057*sin(Mdash + 2*F) +
+                            0.00056*E*sin(2*Mdash + M) +
+                           -0.00042*sin(3*Mdash) +
+                            0.00042*E*sin(M + 2*F) +
+                            0.00038*E*sin(M - 2*F) +
+                           -0.00024*E*sin(2*Mdash - M) +
+                           -0.00017*sin(omega) +
+                           -0.00007*sin(Mdash + 2*M) +
+                            0.00004*sin(2*Mdash - 2*F) +
+                            0.00004*sin(3*M) +
+                            0.00003*sin(Mdash + M - 2*F) +
+                            0.00003*sin(2*Mdash + 2*F) +
+                           -0.00003*sin(Mdash + M + 2*F) +
+                            0.00003*sin(Mdash - M + 2*F) +
+                           -0.00002*sin(Mdash - M - 2*F) +
+                           -0.00002*sin(3*Mdash + M) +
+                            0.00002*sin(4*Mdash);
     JD += DeltaJD;
   }
   else
@@ -208,20 +192,20 @@ double CAAMoonPhases::TruePhase(double k)
   }
 
   //Additional corrections for all phases
-  double DeltaJD2 = 0.000325*sin(A1) +
-        0.000165*sin(A2) +
-        0.000164*sin(A3) +
-        0.000126*sin(A4) +
-        0.000110*sin(A5) +
-        0.000062*sin(A6) +
-        0.000060*sin(A7) +
-        0.000056*sin(A8) +
-        0.000047*sin(A9) +
-        0.000042*sin(A10) +
-        0.000040*sin(A11) +
-        0.000037*sin(A12) +
-        0.000035*sin(A13) +
-        0.000023*sin(A14);
+  const double DeltaJD2 = 0.000325*sin(A1) +
+                          0.000165*sin(A2) +
+                          0.000164*sin(A3) +
+                          0.000126*sin(A4) +
+                          0.000110*sin(A5) +
+                          0.000062*sin(A6) +
+                          0.000060*sin(A7) +
+                          0.000056*sin(A8) +
+                          0.000047*sin(A9) +
+                          0.000042*sin(A10) +
+                          0.000040*sin(A11) +
+                          0.000037*sin(A12) +
+                          0.000035*sin(A13) +
+                          0.000023*sin(A14);
   JD += DeltaJD2;
 
   return JD;

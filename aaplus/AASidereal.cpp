@@ -47,16 +47,16 @@ double CAASidereal::MeanGreenwichSiderealTime(double JD)
   date.Set(JD, CAADate::AfterPapalReform(JD));
   date.Get(Year, Month, Day, Hour, Minute, Second);
   date.Set(Year, Month, Day, 0, 0, 0, date.InGregorianCalendar());
-  double JDMidnight = date.Julian();
+  const double JDMidnight = date.Julian();
 
   //Calculate the sidereal time at midnight
-  double T = (JDMidnight - 2451545) / 36525;
-  double TSquared = T*T;
-  double TCubed = TSquared*T;
+  const double T = (JDMidnight - 2451545) / 36525;
+  const double TSquared = T*T;
+  const double TCubed = TSquared*T;
   double Value = 100.46061837 + (36000.770053608*T) + (0.000387933*TSquared) - (TCubed/38710000);
 
   //Adjust by the time of day
-  Value += ( ((Hour * 15) + (Minute * 0.25) + (Second * 0.0041666666666666666666666666666667)) * 1.00273790935);
+  Value += ( ((Hour * 15.0) + (Minute * 0.25) + (Second * 0.0041666666666666666666666666666667)) * 1.00273790935);
 
   Value = CAACoordinateTransformation::DegreesToHours(Value);
 
@@ -65,10 +65,10 @@ double CAASidereal::MeanGreenwichSiderealTime(double JD)
 
 double CAASidereal::ApparentGreenwichSiderealTime(double JD)
 {
-  double MeanObliquity = CAANutation::MeanObliquityOfEcliptic(JD);
-  double TrueObliquity = MeanObliquity + CAANutation::NutationInObliquity(JD) / 3600;
-  double NutationInLongitude = CAANutation::NutationInLongitude(JD);
+  const double MeanObliquity = CAANutation::MeanObliquityOfEcliptic(JD);
+  const double TrueObliquity = MeanObliquity + CAANutation::NutationInObliquity(JD) / 3600;
+  const double NutationInLongitude = CAANutation::NutationInLongitude(JD);
 
-  double Value = MeanGreenwichSiderealTime(JD) + (NutationInLongitude  * cos(CAACoordinateTransformation::DegreesToRadians(TrueObliquity)) / 54000);
+  const double Value = MeanGreenwichSiderealTime(JD) + (NutationInLongitude  * cos(CAACoordinateTransformation::DegreesToRadians(TrueObliquity)) / 54000);
   return CAACoordinateTransformation::MapTo0To24Range(Value);
 }

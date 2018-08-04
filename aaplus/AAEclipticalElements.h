@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAEclipticalElementDetails
 {
 public:
 //Constructors / Destructors
-  CAAEclipticalElementDetails() : i(0), 
-                                  w(0), 
-                                  omega(0) 
+  CAAEclipticalElementDetails() noexcept : i(0),
+                                           w(0),
+                                           omega(0)
   {
   };
 

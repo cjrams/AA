@@ -29,22 +29,22 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-CAACalendarDate CAAJewishCalendar::DateOfPesach(long Year, bool bGregorianCalendar)
+CAACalendarDate CAAJewishCalendar::DateOfPesach(long Year, bool bGregorianCalendar) noexcept
 {
   //What will be the return value
   CAACalendarDate Pesach;
 
-  long C = CAADate::INT(Year / 100.0);
-  long S = CAADate::INT((3*C - 5) / 4.0);
+  const long C = CAADate::INT(Year / 100.0);
+  long S = CAADate::INT((3.0*C - 5) / 4.0);
   if (bGregorianCalendar == false)
     S = 0;
-  long A = Year + 3760;
-  long a = (12*Year + 12) % 19;
-  long b = Year % 4;
-  double Q = -1.904412361576 + 1.554241796621*a + 0.25*b - 0.003177794022*Year + S;
-  long INTQ = CAADate::INT(Q);
-  long j = (INTQ + 3*Year + 5*b+ 2 - S) % 7; 
-  double r = Q - INTQ; 
+  const long A = Year + 3760;
+  const long a = (12*Year + 12) % 19;
+  const long b = Year % 4;
+  const double Q = -1.904412361576 + 1.554241796621*a + 0.25*b - 0.003177794022*Year + S;
+  const long INTQ = CAADate::INT(Q);
+  const long j = (INTQ + 3*Year + 5*b+ 2 - S) % 7;
+  const double r = Q - INTQ;
 
   if ((j == 2) || (j == 4) || (j == 6))
     Pesach.Day = INTQ + 23;
@@ -68,25 +68,18 @@ CAACalendarDate CAAJewishCalendar::DateOfPesach(long Year, bool bGregorianCalend
   return Pesach;
 }
 
-bool CAAJewishCalendar::IsLeap(long Year)
-{
-  long ymod19 = Year % 19;
-
-  return (ymod19 == 0) || (ymod19 == 3) || (ymod19 == 6) || (ymod19 == 8) || (ymod19 == 11) || (ymod19 == 14) || (ymod19 == 17);
-}
-
-long CAAJewishCalendar::DaysInYear(long Year)
+long CAAJewishCalendar::DaysInYear(long Year) noexcept
 {
   //Find the previous civil year corresponding to the specified jewish year
-  long CivilYear = Year - 3761;
-  
-  //Find the date of the next Jewish Year in that civil year
-  CAACalendarDate CurrentPesach = DateOfPesach(CivilYear);
-  bool bGregorian = CAADate::AfterPapalReform(CivilYear, CurrentPesach.Month, CurrentPesach.Day);
-  CAADate CurrentYear(CivilYear, CurrentPesach.Month, CurrentPesach.Day, bGregorian);
+  const long CivilYear = Year - 3761;
 
-  CAACalendarDate NextPesach = DateOfPesach(CivilYear+1);
-  CAADate NextYear(CivilYear+1, NextPesach.Month, NextPesach.Day, bGregorian);
+  //Find the date of the next Jewish Year in that civil year
+  const CAACalendarDate CurrentPesach = DateOfPesach(CivilYear);
+  const bool bGregorian = CAADate::AfterPapalReform(CivilYear, CurrentPesach.Month, CurrentPesach.Day);
+  const CAADate CurrentYear(CivilYear, CurrentPesach.Month, CurrentPesach.Day, bGregorian);
+
+  const CAACalendarDate NextPesach = DateOfPesach(CivilYear+1);
+  const CAADate NextYear(CivilYear+1, NextPesach.Month, NextPesach.Day, bGregorian);
 
   return static_cast<long>(NextYear - CurrentYear);
 }

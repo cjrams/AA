@@ -62,6 +62,10 @@ using namespace std;
 
 //////////////////////////// Macros / Defines /////////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482 26485)
+#endif //#ifdef _MSC_VER
+
 struct VSOP87Coefficient
 {
   double A;
@@ -300,47 +304,46 @@ double CAAMercury::EclipticLongitude(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
-  double rho5 = rho4*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
+  const double rho5 = rho4*rho;
 
   //Calculate L0
-  int nL0Coefficients = sizeof(g_L0MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL0Coefficients = sizeof(g_L0MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  int i;
-  for (i=0; i<nL0Coefficients; i++)
+  for (int i=0; i<nL0Coefficients; i++)
     L0 += g_L0MercuryCoefficients[i].A * cos(g_L0MercuryCoefficients[i].B + g_L0MercuryCoefficients[i].C*rho);
 
   //Calculate L1
-  int nL1Coefficients = sizeof(g_L1MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL1Coefficients = sizeof(g_L1MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (i=0; i<nL1Coefficients; i++)
+  for (int i=0; i<nL1Coefficients; i++)
     L1 += g_L1MercuryCoefficients[i].A * cos(g_L1MercuryCoefficients[i].B + g_L1MercuryCoefficients[i].C*rho);
 
   //Calculate L2
-  int nL2Coefficients = sizeof(g_L2MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL2Coefficients = sizeof(g_L2MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (i=0; i<nL2Coefficients; i++)
+  for (int i=0; i<nL2Coefficients; i++)
     L2 += g_L2MercuryCoefficients[i].A * cos(g_L2MercuryCoefficients[i].B + g_L2MercuryCoefficients[i].C*rho);
 
   //Calculate L3
-  int nL3Coefficients = sizeof(g_L3MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL3Coefficients = sizeof(g_L3MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (i=0; i<nL3Coefficients; i++)
+  for (int i=0; i<nL3Coefficients; i++)
     L3 += g_L3MercuryCoefficients[i].A * cos(g_L3MercuryCoefficients[i].B + g_L3MercuryCoefficients[i].C*rho);
 
   //Calculate L4
-  int nL4Coefficients = sizeof(g_L4MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL4Coefficients = sizeof(g_L4MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (i=0; i<nL4Coefficients; i++)
+  for (int i=0; i<nL4Coefficients; i++)
     L4 += g_L4MercuryCoefficients[i].A * cos(g_L4MercuryCoefficients[i].B + g_L4MercuryCoefficients[i].C*rho);
 
   //Calculate L5
-  int nL5Coefficients = sizeof(g_L5MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nL5Coefficients = sizeof(g_L5MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double L5 = 0;
-  for (i=0; i<nL5Coefficients; i++)
+  for (int i=0; i<nL5Coefficients; i++)
     L5 += g_L5MercuryCoefficients[i].A * cos(g_L5MercuryCoefficients[i].B + g_L5MercuryCoefficients[i].C*rho);
 
   double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4 + L5*rho5) / 100000000;
@@ -359,40 +362,39 @@ double CAAMercury::EclipticLatitude(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
 
   //Calculate B0
-  int nB0Coefficients = sizeof(g_B0MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB0Coefficients = sizeof(g_B0MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  int i;
-  for (i=0; i<nB0Coefficients; i++)
+  for (int i=0; i<nB0Coefficients; i++)
     B0 += g_B0MercuryCoefficients[i].A * cos(g_B0MercuryCoefficients[i].B + g_B0MercuryCoefficients[i].C*rho);
 
   //Calculate B1
-  int nB1Coefficients = sizeof(g_B1MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB1Coefficients = sizeof(g_B1MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (i=0; i<nB1Coefficients; i++)
+  for (int i=0; i<nB1Coefficients; i++)
     B1 += g_B1MercuryCoefficients[i].A * cos(g_B1MercuryCoefficients[i].B + g_B1MercuryCoefficients[i].C*rho);
 
   //Calculate B2
-  int nB2Coefficients = sizeof(g_B2MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB2Coefficients = sizeof(g_B2MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (i=0; i<nB2Coefficients; i++)
+  for (int i=0; i<nB2Coefficients; i++)
     B2 += g_B2MercuryCoefficients[i].A * cos(g_B2MercuryCoefficients[i].B + g_B2MercuryCoefficients[i].C*rho);
 
   //Calculate B3
-  int nB3Coefficients = sizeof(g_B3MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB3Coefficients = sizeof(g_B3MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (i=0; i<nB3Coefficients; i++)
+  for (int i=0; i<nB3Coefficients; i++)
     B3 += g_B3MercuryCoefficients[i].A * cos(g_B3MercuryCoefficients[i].B + g_B3MercuryCoefficients[i].C*rho);
 
   //Calculate B4
-  int nB4Coefficients = sizeof(g_B4MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nB4Coefficients = sizeof(g_B4MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (i=0; i<nB4Coefficients; i++)
+  for (int i=0; i<nB4Coefficients; i++)
     B4 += g_B4MercuryCoefficients[i].A * cos(g_B4MercuryCoefficients[i].B + g_B4MercuryCoefficients[i].C*rho);
 
   double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
@@ -402,7 +404,7 @@ double CAAMercury::EclipticLatitude(double JD, bool bHighPrecision)
   return value;
 }
 
-double CAAMercury::RadiusVector(double JD, bool bHighPrecision)
+double CAAMercury::RadiusVector(double JD, bool bHighPrecision) noexcept
 {
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
   if (bHighPrecision)
@@ -411,33 +413,32 @@ double CAAMercury::RadiusVector(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
 
   //Calculate R0
-  int nR0Coefficients = sizeof(g_R0MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR0Coefficients = sizeof(g_R0MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  int i;
-  for (i=0; i<nR0Coefficients; i++)
+  for (int i=0; i<nR0Coefficients; i++)
     R0 += g_R0MercuryCoefficients[i].A * cos(g_R0MercuryCoefficients[i].B + g_R0MercuryCoefficients[i].C*rho);
 
   //Calculate R1
-  int nR1Coefficients = sizeof(g_R1MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR1Coefficients = sizeof(g_R1MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (i=0; i<nR1Coefficients; i++)
+  for (int i=0; i<nR1Coefficients; i++)
     R1 += g_R1MercuryCoefficients[i].A * cos(g_R1MercuryCoefficients[i].B + g_R1MercuryCoefficients[i].C*rho);
 
   //Calculate R2
-  int nR2Coefficients = sizeof(g_R2MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR2Coefficients = sizeof(g_R2MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (i=0; i<nR2Coefficients; i++)
+  for (int i=0; i<nR2Coefficients; i++)
     R2 += g_R2MercuryCoefficients[i].A * cos(g_R2MercuryCoefficients[i].B + g_R2MercuryCoefficients[i].C*rho);
 
   //Calculate R3
-  int nR3Coefficients = sizeof(g_R3MercuryCoefficients) / sizeof(VSOP87Coefficient);
+  const int nR3Coefficients = sizeof(g_R3MercuryCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (i=0; i<nR3Coefficients; i++)
+  for (int i=0; i<nR3Coefficients; i++)
     R3 += g_R3MercuryCoefficients[i].A * cos(g_R3MercuryCoefficients[i].B + g_R3MercuryCoefficients[i].C*rho);
 
   return (R0 + R1*rho + R2*rhosquared + R3*rhocubed) / 100000000;

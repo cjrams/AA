@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAARefraction
 {
 public:
 //Static methods
-  static double RefractionFromApparent(double Altitude, double Pressure = 1010, double Temperature = 10);
-  static double RefractionFromTrue(double Altitude, double Pressure = 1010, double Temperature = 10);
+  static double RefractionFromApparent(double Altitude, double Pressure = 1010, double Temperature = 10) noexcept;
+  static double RefractionFromTrue(double Altitude, double Pressure = 1010, double Temperature = 10) noexcept;
 };
 
 

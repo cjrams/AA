@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87E_X0_MARS[] =
 {
   {        1.51769887405,        6.20403346548,     3340.61242669980 },
@@ -7710,33 +7714,32 @@ const VSOP87Coefficient2 g_VSOP87E_Z_MARS[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87E_Mars::X(double JD)
+double CAAVSOP87E_Mars::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_X_MARS, sizeof(g_VSOP87E_X_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Mars::X_DASH(double JD)
+double CAAVSOP87E_Mars::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_X_MARS, sizeof(g_VSOP87E_X_MARS)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Mars::Y(double JD)
+double CAAVSOP87E_Mars::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Y_MARS, sizeof(g_VSOP87E_Y_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Mars::Y_DASH(double JD)
+double CAAVSOP87E_Mars::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Y_MARS, sizeof(g_VSOP87E_Y_MARS)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Mars::Z(double JD)
+double CAAVSOP87E_Mars::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Z_MARS, sizeof(g_VSOP87E_Z_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Mars::Z_DASH(double JD)
+double CAAVSOP87E_Mars::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Z_MARS, sizeof(g_VSOP87E_Z_MARS)/sizeof(VSOP87Coefficient2));
 }
-

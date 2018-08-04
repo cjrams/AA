@@ -30,6 +30,10 @@ using namespace std;
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
+
 const VSOP87Coefficient g_VSOP87E_X0_SATURN[] =
 {
   {        9.51366533422,        0.87441380650,      213.29909543800 },
@@ -7657,33 +7661,32 @@ const VSOP87Coefficient2 g_VSOP87E_Z_SATURN[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87E_Saturn::X(double JD)
+double CAAVSOP87E_Saturn::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_X_SATURN, sizeof(g_VSOP87E_X_SATURN)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Saturn::X_DASH(double JD)
+double CAAVSOP87E_Saturn::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_X_SATURN, sizeof(g_VSOP87E_X_SATURN)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Saturn::Y(double JD)
+double CAAVSOP87E_Saturn::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Y_SATURN, sizeof(g_VSOP87E_Y_SATURN)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Saturn::Y_DASH(double JD)
+double CAAVSOP87E_Saturn::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Y_SATURN, sizeof(g_VSOP87E_Y_SATURN)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Saturn::Z(double JD)
+double CAAVSOP87E_Saturn::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Z_SATURN, sizeof(g_VSOP87E_Z_SATURN)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Saturn::Z_DASH(double JD)
+double CAAVSOP87E_Saturn::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Z_SATURN, sizeof(g_VSOP87E_Z_SATURN)/sizeof(VSOP87Coefficient2));
 }
-

@@ -32,7 +32,7 @@ using namespace std;
 
 //////////////////// Implementation ///////////////////////////////////////////
 
-double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta)
+double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta) noexcept
 {
   //Convert the RA's to radians
   ObjectAlpha = CAACoordinateTransformation::DegreesToRadians(ObjectAlpha*15);
@@ -55,7 +55,7 @@ double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, doubl
   return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(EarthSunDistance * sin(GeocentricElongation), EarthObjectDistance - EarthSunDistance*cos(GeocentricElongation))));
 }
 
-double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle)
+double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle) noexcept
 {
   //Convert from degrees to radians
   PhaseAngle = CAACoordinateTransformation::DegreesToRadians(PhaseAngle);

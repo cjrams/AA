@@ -44,45 +44,45 @@ class AAPLUS_EXT_CLASS CAACoordinateTransformation
 {
 public:
 //Conversion functions
-  static CAA2DCoordinate Equatorial2Ecliptic(double Alpha, double Delta, double Epsilon);
-  static CAA2DCoordinate Ecliptic2Equatorial(double Lambda, double Beta, double Epsilon);
-  static CAA2DCoordinate Equatorial2Horizontal(double LocalHourAngle, double Delta, double Latitude);
-  static CAA2DCoordinate Horizontal2Equatorial(double A, double h, double Latitude);
-  static CAA2DCoordinate Equatorial2Galactic(double Alpha, double Delta);
-  static CAA2DCoordinate Galactic2Equatorial(double l, double b);
+  static CAA2DCoordinate Equatorial2Ecliptic(double Alpha, double Delta, double Epsilon) noexcept;
+  static CAA2DCoordinate Ecliptic2Equatorial(double Lambda, double Beta, double Epsilon) noexcept;
+  static CAA2DCoordinate Equatorial2Horizontal(double LocalHourAngle, double Delta, double Latitude) noexcept;
+  static CAA2DCoordinate Horizontal2Equatorial(double A, double h, double Latitude) noexcept;
+  static CAA2DCoordinate Equatorial2Galactic(double Alpha, double Delta) noexcept;
+  static CAA2DCoordinate Galactic2Equatorial(double l, double b) noexcept;
 
 //Inlined functions
-  static inline double DegreesToRadians(double Degrees)
+  constexpr static inline double DegreesToRadians(double Degrees) noexcept
   {
     return Degrees * 0.017453292519943295769236907684886;
   }
 
-  static inline double RadiansToDegrees(double Radians)
+  constexpr static inline double RadiansToDegrees(double Radians) noexcept
   {
     return Radians * 57.295779513082320876798154814105;
   }
 
-  static inline double RadiansToHours(double Radians)
+  constexpr static inline double RadiansToHours(double Radians) noexcept
   {
     return Radians * 3.8197186342054880584532103209403;
   }
 
-  static inline double HoursToRadians(double Hours)
+  constexpr static inline double HoursToRadians(double Hours) noexcept
   {
     return Hours * 0.26179938779914943653855361527329;
   }
 
-  static inline double HoursToDegrees(double Hours)
+  constexpr static inline double HoursToDegrees(double Hours) noexcept
   {
     return Hours * 15;
   }
 
-  static inline double DegreesToHours(double Degrees)
+  constexpr static inline double DegreesToHours(double Degrees) noexcept
   {
     return Degrees / 15;
   }
 
-  static inline double PI()
+  constexpr static inline double PI() noexcept
   {
     return 3.1415926535897932384626433832795;
   }
@@ -117,7 +117,7 @@ public:
     return fResult;
   }
 
-  static inline double MapTo0To2PIRange(double Angle)
+  static inline double MapTo0To2PIRange(double Angle) noexcept
   {
     double fResult = fmod(Angle, 2 * PI());
     if (fResult < 0)
@@ -125,7 +125,7 @@ public:
     return fResult;
   }
 
-  static double DMSToDegrees(double Degrees, double Minutes, double Seconds, bool bPositive = true);
+  static double DMSToDegrees(double Degrees, double Minutes, double Seconds, bool bPositive = true) noexcept;
 };
 
 

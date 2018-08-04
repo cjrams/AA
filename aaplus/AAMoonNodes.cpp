@@ -35,18 +35,13 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAAMoonNodes::K(double Year)
-{
-  return 13.4223*(Year - 2000.05);
-}
-
 double CAAMoonNodes::PassageThroNode(double k)
 {
   //convert from K to T
-  double T = k/1342.23;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
-  double T4 = Tcubed*T;
+  const double T = k/1342.23;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
+  const double T4 = Tcubed*T;
 
   double D = CAACoordinateTransformation::MapTo0To360Range(183.6380 + 331.73735682*k + 0.0014852*Tsquared + 0.00000209*Tcubed - 0.000000010*T4);
   double M = CAACoordinateTransformation::MapTo0To360Range(17.4006 + 26.82037250*k + 0.0001186*Tsquared + 0.00000006*Tcubed);
@@ -54,20 +49,20 @@ double CAAMoonNodes::PassageThroNode(double k)
   double omega = CAACoordinateTransformation::MapTo0To360Range(123.9767 - 1.44098956*k + 0.0020608*Tsquared + 0.00000214*Tcubed - 0.000000016*T4);
   double V = CAACoordinateTransformation::MapTo0To360Range(299.75 + 132.85*T - 0.009173*Tsquared);
   double P = CAACoordinateTransformation::MapTo0To360Range(omega + 272.75 - 2.3*T);
-  double E = 1 - 0.002516*T - 0.0000074*Tsquared;
+  const double E = 1 - 0.002516*T - 0.0000074*Tsquared;
 
   //convert to radians
   D = CAACoordinateTransformation::DegreesToRadians(D);
-  double D2 = 2*D;
-  double D4 = D2*2;
+  const double D2 = 2*D;
+  const double D4 = D2*2;
   M = CAACoordinateTransformation::DegreesToRadians(M);
   Mdash = CAACoordinateTransformation::DegreesToRadians(Mdash);
-  double Mdash2 = 2*Mdash;
+  const double Mdash2 = 2*Mdash;
   omega = CAACoordinateTransformation::DegreesToRadians(omega);
   V = CAACoordinateTransformation::DegreesToRadians(V);
   P = CAACoordinateTransformation::DegreesToRadians(P);
 
-  double JD = 2451565.1619 + 27.212220817*k 
+  const double JD = 2451565.1619 + 27.212220817*k 
               + 0.0002762*Tsquared 
               + 0.000000021*Tcubed 
               - 0.000000000088*T4 

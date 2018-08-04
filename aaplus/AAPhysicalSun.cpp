@@ -47,8 +47,8 @@ CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
   double K = 73.6667 + 1.3958333*(JD - 2396758)/36525;
 
   //Calculate the apparent longitude of the sun (excluding the effect of nutation)
-  double L = CAAEarth::EclipticLongitude(JD, bHighPrecision);
-  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
+  const double L = CAAEarth::EclipticLongitude(JD, bHighPrecision);
+  const double R = CAAEarth::RadiusVector(JD, bHighPrecision);
   double SunLong = L + 180 - CAACoordinateTransformation::DMSToDegrees(0, 0, 20.4898 / R);
 
   double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);
@@ -60,14 +60,14 @@ CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
   I = CAACoordinateTransformation::DegreesToRadians(I);
   theta = CAACoordinateTransformation::DegreesToRadians(theta);
 
-  double x = atan(-cos(SunLong)*tan(epsilon));
-  double y = atan(-cos(SunLong - K)*tan(I));
+  const double x = atan(-cos(SunLong)*tan(epsilon));
+  const double y = atan(-cos(SunLong - K)*tan(I));
 
   CAAPhysicalSunDetails details;
   details.P = CAACoordinateTransformation::RadiansToDegrees(x + y);
   details.B0 = CAACoordinateTransformation::RadiansToDegrees(asin(sin(SunLong - K)*sin(I)));
-  double SunLongMinusK = SunLong - K;
-  double eta = atan2(-sin(SunLongMinusK)*cos(I), -cos(SunLongMinusK));
+  const double SunLongMinusK = SunLong - K;
+  const double eta = atan2(-sin(SunLongMinusK)*cos(I), -cos(SunLongMinusK));
   details.L0 = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(eta - theta));
 
   return details;

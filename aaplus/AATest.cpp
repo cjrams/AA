@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <cmath>
 #include <memory.h>
+#include <cassert>
+#include <vector>
 using namespace std;
 
 
@@ -12,12 +14,17 @@ using namespace std;
 #endif //#ifndef UNREFERENCED_PARAMETER
 
 
+#ifdef _MSC_VER
+#pragma warning(disable : 26472)
+#endif //#ifdef _MSC_VER
+
+
 void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
 {
-  double JDSun = CAADynamicalTime::UTC2TT(JD);
-  double lambda = CAASun::ApparentEclipticLongitude(JDSun, bHighPrecision);
-  double beta = CAASun::ApparentEclipticLatitude(JDSun, bHighPrecision);
-  double epsilon = CAANutation::TrueObliquityOfEcliptic(JDSun);
+  const double JDSun = CAADynamicalTime::UTC2TT(JD);
+  const double lambda = CAASun::ApparentEclipticLongitude(JDSun, bHighPrecision);
+  const double beta = CAASun::ApparentEclipticLatitude(JDSun, bHighPrecision);
+  const double epsilon = CAANutation::TrueObliquityOfEcliptic(JDSun);
   CAA2DCoordinate Solarcoord = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon);
   RA = Solarcoord.X;
   Dec = Solarcoord.Y;
@@ -25,10 +32,10 @@ void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& D
 
 void GetLunarRaDecByJulian(double JD, double& RA, double& Dec)
 {
-  double JDMoon = CAADynamicalTime::UTC2TT(JD);
-  double lambda = CAAMoon::EclipticLongitude(JDMoon);
-  double beta = CAAMoon::EclipticLatitude(JDMoon);
-  double epsilon = CAANutation::TrueObliquityOfEcliptic(JDMoon);
+  const double JDMoon = CAADynamicalTime::UTC2TT(JD);
+  const double lambda = CAAMoon::EclipticLongitude(JDMoon);
+  const double beta = CAAMoon::EclipticLatitude(JDMoon);
+  const double epsilon = CAANutation::TrueObliquityOfEcliptic(JDMoon);
   CAA2DCoordinate Lunarcoord = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon);
   RA = Lunarcoord.X;
   Dec = Lunarcoord.Y;
@@ -62,9 +69,9 @@ CAARiseTransitSetDetails GetMoonRiseTransitSet(double JD, double longitude, doub
   return CAARiseTransitSet::Calculate(JD, alpha1, delta1, alpha2, delta2, alpha3, delta3, longitude, latitude, 0.125);
 }
 
-void PrintTime(double JD, const char* msg)
+void PrintTime(double JD, const char* msg) noexcept
 {
-  CAADate date_time(JD, true);
+  const CAADate date_time(JD, true);
   long year = 0;
   long month = 0;
   long day = 0;
@@ -75,25 +82,25 @@ void PrintTime(double JD, const char* msg)
   printf("%s: %d-%d-%d %02d:%02d:%02d\n", msg, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 }
 
-void PrintRiseTransitSet(double JD, CAARiseTransitSetDetails& rise_transit_set)
+void PrintRiseTransitSet(double JD, const CAARiseTransitSetDetails& rise_transit_set) noexcept
 {
   if (rise_transit_set.bRiseValid)
   {
-    double riseJD = (JD + (rise_transit_set.Rise / 24.00));
+    const double riseJD = (JD + (rise_transit_set.Rise / 24.00));
     PrintTime(riseJD, "Rise");
   }
 
-  double transitJD = (JD + (rise_transit_set.Transit / 24.00));
+  const double transitJD = (JD + (rise_transit_set.Transit / 24.00));
   PrintTime(transitJD, "Transit");
 
   if (rise_transit_set.bSetValid)
   {
-    double setJD = (JD + (rise_transit_set.Set / 24.00));
+    const double setJD = (JD + (rise_transit_set.Set / 24.00));
     PrintTime(setJD, "Set");
   }
 }
 
-void PrintRiseTransitSet2(double JD, int time_zone_offset, CAARiseTransitSetDetails& rise_transit_set)
+void PrintRiseTransitSet2(double JD, int time_zone_offset, const CAARiseTransitSetDetails& rise_transit_set) noexcept
 {
   if (rise_transit_set.bRiseValid)
   {
@@ -128,23 +135,27 @@ void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fra
   double sun_alpha = 0;
   double sun_delta = 0;
   GetSolarRaDecByJulian(JD, bHighPrecision, sun_alpha, sun_delta);
-  double geo_elongation = CAAMoonIlluminatedFraction::GeocentricElongation(moon_alpha, moon_delta, sun_alpha, sun_delta);
+  const double geo_elongation = CAAMoonIlluminatedFraction::GeocentricElongation(moon_alpha, moon_delta, sun_alpha, sun_delta);
 
   position_angle = CAAMoonIlluminatedFraction::PositionAngle(sun_alpha, sun_delta, moon_alpha, moon_delta);
   phase_angle = CAAMoonIlluminatedFraction::PhaseAngle(geo_elongation, 368410.0, 149971520.0);
   illuminated_fraction = CAAMoonIlluminatedFraction::IlluminatedFraction(phase_angle);
 }
 
-void ASCIIPlot(char* buf, int buf_w, int x, int y, bool b)
+void ASCIIPlot(vector<char>& buf, int buf_w, int x, int y, bool b)
 {
-  buf[x + y * buf_w] = b ? 'X' : ' ';
+  const size_t nIndex = static_cast<size_t>(x) + (static_cast<size_t>(y) * buf_w);
+#ifdef _MSC_VER
+  #pragma warning(suppress : 26446)
+#endif //#ifdef _MSC_VER
+  buf[nIndex] = b ? 'X' : ' ';
 }
 
-void DrawFilledEllipse(char* buf, int buf_w, int c_x, int c_y, int w, int h, bool half_l, bool half_r, bool b)
+void DrawFilledEllipse(vector<char>& buf, int buf_w, int c_x, int c_y, int w, int h, bool half_l, bool half_r, bool b)
 {
-  int hh = h * h;
-  int ww = w * w;
-  int hhww = hh * ww;
+  const int hh = h * h;
+  const int ww = w * w;
+  const int hhww = hh * ww;
   int x0 = w;
   int dx = 0;
 
@@ -175,6 +186,9 @@ void DrawFilledEllipse(char* buf, int buf_w, int c_x, int c_y, int w, int h, boo
     {
       if ((half_l && x <= 0) || (half_r && x >= 0))
       {
+      #ifdef _MSC_VER
+        #pragma warning(suppress : 26486 26489)
+      #endif //#ifdef _MSC_VER
         ASCIIPlot(buf, buf_w, c_x + x, c_y - y, b);
         ASCIIPlot(buf, buf_w, c_x + x, c_y + y, b);
       }
@@ -182,7 +196,7 @@ void DrawFilledEllipse(char* buf, int buf_w, int c_x, int c_y, int w, int h, boo
   }
 }
 
-double MapRange(double new_min, double new_max, double old_min, double old_max, double old_val)
+constexpr double MapRange(double new_min, double new_max, double old_min, double old_max, double old_val) noexcept
 {
   return (((old_val - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min;
 }
@@ -196,33 +210,29 @@ void PrintMoonPhase(double position_angle, double phase_angle)
   //90 degrees = first quarter (right half illuminated)
   //180 degrees = full moon
   //270 degrees = last quarter (left half illuminated)
-  double phase(position_angle < 180 ? phase_angle + 180 : 180 - phase_angle);
+  const double phase(position_angle < 180 ? phase_angle + 180 : 180 - phase_angle);
 
   const int buf_w = 80;
   const int buf_h = 40;
-  char buf[buf_w * buf_h];
-  memset(buf, ' ', sizeof(buf));
+  vector<char> buf;
+  buf.assign(buf_w * buf_h, ' ');
 
-  int center_x = buf_w / 2;
-  int center_y = buf_h / 2;
-  int radius_w = (buf_w - 1) / 2;
-  int radius_h = (buf_h - 1) / 2;
+  const int center_x = buf_w / 2;
+  const int center_y = buf_h / 2;
+  const int radius_w = (buf_w - 1) / 2;
+  const int radius_h = (buf_h - 1) / 2;
 
   if (phase < 90)
   {
     //round right + cut out right
     DrawFilledEllipse(buf, buf_w, center_x, center_y, radius_w, radius_h, false, true, true);
-    DrawFilledEllipse(buf, buf_w, center_x, center_y,
-      static_cast<int>(radius_w * sin(MapRange(M_PI_2, 0.0f, 0.0f, 90.0f, phase))), radius_h,
-      false, true, false);
+    DrawFilledEllipse(buf, buf_w, center_x, center_y, static_cast<int>(radius_w * sin(MapRange(M_PI_2, 0.0f, 0.0f, 90.0f, phase))), radius_h, false, true, false);
   }
   else if (phase >= 90 && phase < 180)
   {
     //round right + addition left
     DrawFilledEllipse(buf, buf_w, center_x, center_y, radius_w, radius_h, false, true, true);
-    DrawFilledEllipse(buf, buf_w, center_x, center_y,
-      static_cast<int>(radius_w * sin(MapRange(0.0f, M_PI_2, 90.0f, 180.0f, phase))), radius_h,
-      true, false, true);
+    DrawFilledEllipse(buf, buf_w, center_x, center_y, static_cast<int>(radius_w * sin(MapRange(0.0f, M_PI_2, 90.0f, 180.0f, phase))), radius_h, true, false, true);
   }
   else if (phase >= 180 && phase < 270)
   {
@@ -244,7 +254,13 @@ void PrintMoonPhase(double position_angle, double phase_angle)
   for (int y=0; y<buf_h; ++y)
   {
     for (int x=0; x<buf_w; ++x)
-      printf("%c", buf[x + buf_w * y]);
+    {
+      const size_t nIndex = static_cast<size_t>(x) + (static_cast<size_t>(y) * buf_w);
+    #ifdef _MSC_VER
+      #pragma warning(suppress : 26446)
+    #endif //#ifdef _MSC_VER
+      printf("%c", buf[nIndex]);
+    }
     printf("\n");
   }
 }
@@ -261,48 +277,48 @@ void PrintMoonIlluminationAndPhase(double JD, bool bHighPrecision)
 
 void PrintSunAndMoonInfo(long year, long month, long day, double longitude, double latitude, bool bHighPrecision)
 {
-  CAADate CalcDate(year, month, day, true);
-  double JD = CalcDate.Julian();
+  const CAADate CalcDate(year, month, day, true);
+  const double JD = CalcDate.Julian();
   printf("Times are in UTC\n");
-  CAARiseTransitSetDetails sun_rise_transit_set(GetSunRiseTransitSet(JD, longitude, latitude, bHighPrecision));
+  const CAARiseTransitSetDetails sun_rise_transit_set(GetSunRiseTransitSet(JD, longitude, latitude, bHighPrecision));
   printf("Sun:\n");
   PrintRiseTransitSet(JD, sun_rise_transit_set);
   printf("Moon:\n");
-  CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
+  const CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
   PrintRiseTransitSet(JD, moon_rise_transit_set);
   PrintMoonIlluminationAndPhase(JD, bHighPrecision);
 }
 
 void PrintSunAndMoonInfo2(const char* city_name, long year, long month, long day, int time_offset, double longitude, double latitude, bool bHighPrecision)
 {
-  CAADate CalcDate(year, month, day, true);
-  double JD = CalcDate.Julian();
+  const CAADate CalcDate(year, month, day, true);
+  const double JD = CalcDate.Julian();
   printf("Information for %s.  Times are offset %d hrs from UTC\n", city_name, time_offset);
-  CAARiseTransitSetDetails sun_rise_transit_set(GetSunRiseTransitSet(JD, longitude, latitude, bHighPrecision));
+  const CAARiseTransitSetDetails sun_rise_transit_set(GetSunRiseTransitSet(JD, longitude, latitude, bHighPrecision));
   printf("\nSun:\n");
   PrintRiseTransitSet2(JD, time_offset, sun_rise_transit_set);
   printf("\nMoon:\n");
-  CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
+  const CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
   PrintRiseTransitSet2(JD, time_offset, moon_rise_transit_set);
   printf("\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n");
 }
 
 void PrintMoonInfo3(const char* /*city_name*/, int year, int month, int day, int time_offset, double longitude, double latitude)
 {
-  CAADate CalcDate(year, month, day, true);
-  double JD = CalcDate.Julian();
+  const CAADate CalcDate(year, month, day, true);
+  const double JD = CalcDate.Julian();
   printf("\nMoon:\n");
-  CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
+  const CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
   PrintRiseTransitSet2(JD, time_offset, moon_rise_transit_set);
   printf("\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n");
 }
 
 void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
 {
-  double JDMercury = CAADynamicalTime::UTC2TT(JD);
-  double lambda = CAAMercury::EclipticLongitude(JDMercury, bHighPrecision);
-  double beta = CAAMercury::EclipticLatitude(JDMercury, bHighPrecision);
-  double epsilon = CAANutation::TrueObliquityOfEcliptic(JDMercury);
+  const double JDMercury = CAADynamicalTime::UTC2TT(JD);
+  const double lambda = CAAMercury::EclipticLongitude(JDMercury, bHighPrecision);
+  const double beta = CAAMercury::EclipticLatitude(JDMercury, bHighPrecision);
+  const double epsilon = CAANutation::TrueObliquityOfEcliptic(JDMercury);
   CAA2DCoordinate Mercurycoord = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon);
   RA = Mercurycoord.X;
   Dec = Mercurycoord.Y;
@@ -325,7 +341,7 @@ CAARiseTransitSetDetails GetMercuryRiseTransitSet(double JD, double longitude, d
 
 void PrintMercuryInfo(double JD, double longitude, double latitude, bool bHighPrecision)
 {
-  CAARiseTransitSetDetails Mercury_rise_transit_set(GetMercuryRiseTransitSet(JD, longitude, latitude, bHighPrecision));
+  const CAARiseTransitSetDetails Mercury_rise_transit_set(GetMercuryRiseTransitSet(JD, longitude, latitude, bHighPrecision));
   printf("\nMercury:\n");
   PrintRiseTransitSet2(JD, 0, Mercury_rise_transit_set);
   printf("\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n");
@@ -485,9 +501,9 @@ int main()
   MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-1);
 
 #ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
-  double fLongitude = CAAELP2000::EclipticLongitude(2469000.5);
+  const double fLongitude = CAAELP2000::EclipticLongitude(2469000.5);
   UNREFERENCED_PARAMETER(fLongitude);
-  double fLatitude = CAAELP2000::EclipticLatitude(2469000.5);
+  const double fLatitude = CAAELP2000::EclipticLatitude(2469000.5);
   UNREFERENCED_PARAMETER(fLatitude);
   double fRadius = CAAELP2000::RadiusVector(2469000.5);
   UNREFERENCED_PARAMETER(fRadius);
@@ -495,12 +511,12 @@ int main()
   //correct values for above is ELP2000.X = -361602.98536, .Y=44996.99510, .Z=-30696.65316
   CAA3DCoordinate ELP2000FK5 = CAAELP2000::EquatorialRectangularCoordinatesFK5(2469000.5);
   ELP2000FK5 = CAAELP2000::EquatorialRectangularCoordinatesFK5(2449000.5);
-  double JDUTC = CAADynamicalTime::TT2UTC(2449000.5);
+  const double JDUTC = CAADynamicalTime::TT2UTC(2449000.5);
   fRadius = CAAELP2000::RadiusVector(2449000.5);
   UNREFERENCED_PARAMETER(JDUTC);
-  double fRA = CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Y, ELP2000FK5.X)) / 15;
+  const double fRA = CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Y, ELP2000FK5.X)) / 15;
   UNREFERENCED_PARAMETER(fRA);
-  double fDec = CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Z, (sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y)))));
+  const double fDec = CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Z, (sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y)))));
   UNREFERENCED_PARAMETER(fDec);
   fRadius = sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y) + (ELP2000FK5.Z * ELP2000FK5.Z));
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2449000.5);
@@ -511,51 +527,51 @@ int main()
 
 #ifndef AAPLUS_NO_ELPMPP02
   double fLongitudeDerivative = 0;
-  double fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::LLR, &fLongitudeDerivative);
+  double fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::Correction::LLR, &fLongitudeDerivative);
   UNREFERENCED_PARAMETER(fLongitudeDerivative);
   UNREFERENCED_PARAMETER(fLongitude2);
-  fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::LLR, NULL);
-  double fLongitude22 = CAAELP2000::EclipticLongitude(2444239.5);
+  fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  const double fLongitude22 = CAAELP2000::EclipticLongitude(2444239.5);
   UNREFERENCED_PARAMETER(fLongitude22);
   double fLatitudeDerivative = 0;
-  double fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::LLR, &fLatitudeDerivative);
+  double fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::Correction::LLR, &fLatitudeDerivative);
   UNREFERENCED_PARAMETER(fLatitude2);
   UNREFERENCED_PARAMETER(fLatitudeDerivative);
-  fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::LLR, NULL);
-  double fLatitude22 = CAAELP2000::EclipticLatitude(2444239.5);
+  fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  const double fLatitude22 = CAAELP2000::EclipticLatitude(2444239.5);
   UNREFERENCED_PARAMETER(fLatitude22);
   double fRadiusDerivative = 0;
-  double fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::LLR, &fRadiusDerivative);
+  double fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::Correction::LLR, &fRadiusDerivative);
   UNREFERENCED_PARAMETER(fRadius2);
   UNREFERENCED_PARAMETER(fRadiusDerivative);
-  fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::LLR, NULL);
-  double fRadius22 = CAAELP2000::RadiusVector(2444239.5);
+  fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  const double fRadius22 = CAAELP2000::RadiusVector(2444239.5);
   UNREFERENCED_PARAMETER(fRadius22);
   CAA3DCoordinate ELPMPP02Derivative;
-  CAA3DCoordinate ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::LLR, NULL);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2446239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2448239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2450239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::LLR, &ELPMPP02Derivative);
+  CAA3DCoordinate ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::Correction::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2446239.5, CAAELPMPP02::Correction::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2448239.5, CAAELPMPP02::Correction::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2450239.5, CAAELPMPP02::Correction::LLR, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Correction::LLR, &ELPMPP02Derivative);
 
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2500000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2300000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2100000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1900000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1700000.5, CAAELPMPP02::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2500000.5, CAAELPMPP02::Correction::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2300000.5, CAAELPMPP02::Correction::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2100000.5, CAAELPMPP02::Correction::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1900000.5, CAAELPMPP02::Correction::DE406, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1700000.5, CAAELPMPP02::Correction::DE406, &ELPMPP02Derivative);
 
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2500000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2300000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2100000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1900000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1700000.5, CAAELPMPP02::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2500000.5, CAAELPMPP02::Correction::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2300000.5, CAAELPMPP02::Correction::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2100000.5, CAAELPMPP02::Correction::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1900000.5, CAAELPMPP02::Correction::DE405, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(1700000.5, CAAELPMPP02::Correction::DE405, &ELPMPP02Derivative);
 
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2446239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2448239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2450239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
-  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2444239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2446239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2448239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2450239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
+  ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
 
@@ -596,55 +612,28 @@ int main()
   long Hour = 0;
   long Minute = 0;
   double Second = 0;
-
-  //Array for city name
-  const char* city_names[] = { "Buenos Aires", "Moscow", "Dublin", "Tampa", "Cape Town", "North Pole", "Tasmania" };
-
-  //Array for longitudes / latitudes {longitude, latitude}
-  //east longitude and south latitude are negative values
-  double longitudes_latitudes[7][2] = { { 58.3817, -34.6036 },{ -37.6178, 55.7517 },{ 6.2661, 53.3428 },{ 82.4586, 27.9472 },{ -18.4244, -33.9767 },{ 0.0, 90.0 },{ -146, -41 } };
-
-  //Array for time offsets {time zone. daylight savings}
-  int time_offsets[7][2] = { { -3, 0 },{ 4, 0 },{ 0, 1 },{ -5, 1 },{ 2, 0 },{ 0, 0 },{ 10, 0 } };
-
-  //Print out rise and set details for all of the locations
-  for (int i = 0; i<static_cast<int>(sizeof(city_names) / sizeof(char*)); ++i)
-  {
-    int time_zone_offset = time_offsets[i][0];
-    int daylight_savings = time_offsets[i][1];
-    int time_offset = time_zone_offset + daylight_savings;
-
-    PrintSunAndMoonInfo2(city_names[i], Year, Month, Day, time_offset, longitudes_latitudes[i][0], longitudes_latitudes[i][1], false);
-    PrintSunAndMoonInfo2(city_names[i], Year, Month, Day, time_offset, longitudes_latitudes[i][0], longitudes_latitudes[i][1], true);
-  }
+  PrintSunAndMoonInfo2("Buenos Aires", Year, Month, Day, -3, 58.3817, -34.6036, false);
+  PrintSunAndMoonInfo2("Buenos Aires", Year, Month, Day, -3, 58.3817, -34.6036, true);
+  PrintSunAndMoonInfo2("Moscow", Year, Month, Day, 4, -37.6178, 55.7517, false);
+  PrintSunAndMoonInfo2("Moscow", Year, Month, Day, 4, -37.6178, 55.7517, true);
+  PrintSunAndMoonInfo2("Dublin", Year, Month, Day, 1, 6.2661, 53.3428, false);
+  PrintSunAndMoonInfo2("Dublin", Year, Month, Day, 1, 6.2661, 53.3428, true);
+  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, false);
+  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, true);
+  PrintSunAndMoonInfo2("Cape Town", Year, Month, Day, 2, -18.4244, -33.9767, false);
+  PrintSunAndMoonInfo2("Cape Town", Year, Month, Day, 2, -18.4244, -33.9767, true);
+  PrintSunAndMoonInfo2("North Pole", Year, Month, Day, 0, 0, 90, false);
+  PrintSunAndMoonInfo2("North Pole", Year, Month, Day, 0, 0, 90, true);
+  PrintSunAndMoonInfo2("Tasmania", Year, Month, Day, 10, -146, -41, false);
+  PrintSunAndMoonInfo2("Tasmania", Year, Month, Day, 10, -146, -41, true);
 
 
   //Print out the rise transit and set times for the Moon and Sun for Tampa for May 11, 2012
   Year = 2012;
   Month = 5;
   Day = 11;
-
-  //Array for city name
-  const char* city_names2[] = {"Tampa"};
-
-  //Array for longitudes / latitudes {longitude, latitude}
-  //east longitude and south latitude are negative values
-  double longitudes_latitudes2[1][2] = { {82.4586, 27.9472} };
-
-  //Array for time offsets {time zone. daylight savings}
-  int time_offsets2[7][2] = { {-5, 1} };
-
-  //Print out rise and set details for all of the locations
-  for (int i=0; i<static_cast<int>(sizeof(city_names2)/sizeof(char*)); ++i)
-  {
-    int time_zone_offset = time_offsets2[i][0];
-    int daylight_savings = time_offsets2[i][1];
-    int time_offset = time_zone_offset + daylight_savings;
-
-    PrintSunAndMoonInfo2(city_names2[i], Year, Month, Day, time_offset, longitudes_latitudes2[i][0], longitudes_latitudes2[i][1], false);
-    PrintSunAndMoonInfo2(city_names2[i], Year, Month, Day, time_offset, longitudes_latitudes2[i][0], longitudes_latitudes2[i][1], true);
-  }
-
+  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, false);
+  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, true);
 
 
   //Print out the rise transit and set times for the Moon and Sun as well as a ASCII graphic of the
@@ -652,9 +641,9 @@ int main()
   //for providing this nice addition to AA+.
   Year = 2012;
   Month = 4;
-  int days_in_month = 30;
-  double longitude = 6.5;
-  double latitude = 52.5;
+  const int days_in_month = 30;
+  const double longitude = 6.5;
+  const double latitude = 52.5;
   for (int i=1; i <= days_in_month; ++i)
   {
     Day = i;
@@ -759,20 +748,20 @@ int main()
   */
 
   //Calculate the topocentric horizontal position of the Sun for Palomar Observatory on midnight UTC for the 21st of September 2007
-  CAADate dateSunCalc(2007, 9, 21, true);
-  double JDSun = CAADynamicalTime::UTC2TT(dateSunCalc.Julian());
+  const CAADate dateSunCalc(2007, 9, 21, true);
+  const double JDSun = CAADynamicalTime::UTC2TT(dateSunCalc.Julian());
   double SunLong = CAASun::ApparentEclipticLongitude(JDSun, false);
   double SunLong2 = CAASun::ApparentEclipticLongitude(JDSun, true);
   double SunLat = CAASun::ApparentEclipticLatitude(JDSun, false);
   double SunLat2 = CAASun::ApparentEclipticLatitude(JDSun, true);
   CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, CAANutation::TrueObliquityOfEcliptic(JDSun));
-  double SunRad = CAAEarth::RadiusVector(JDSun, false);
-  double SunRad2 = CAAEarth::RadiusVector(JDSun, true);
+  const double SunRad = CAAEarth::RadiusVector(JDSun, false);
+  const double SunRad2 = CAAEarth::RadiusVector(JDSun, true);
   UNREFERENCED_PARAMETER(SunRad2);
   double Longitude = CAACoordinateTransformation::DMSToDegrees(116, 51, 45); //West is considered positive
   double Latitude = CAACoordinateTransformation::DMSToDegrees(33, 21, 22);
   double Height = 1706;
-  CAA2DCoordinate SunTopo = CAAParallax::Equatorial2Topocentric(Equatorial.X, Equatorial.Y, SunRad, Longitude, Latitude, Height, JDSun);
+  const CAA2DCoordinate SunTopo = CAAParallax::Equatorial2Topocentric(Equatorial.X, Equatorial.Y, SunRad, Longitude, Latitude, Height, JDSun);
   double AST = CAASidereal::ApparentGreenwichSiderealTime(dateSunCalc.Julian());
   double LongtitudeAsHourAngle = CAACoordinateTransformation::DegreesToHours(Longitude);
   double LocalHourAngle = AST - LongtitudeAsHourAngle - SunTopo.X;
@@ -783,8 +772,8 @@ int main()
 
 
   //Calculate the topocentric horizontal position of the Moon for Palomar Observatory on midnight UTC for the 21st of September 2007
-  CAADate dateMoonCalc(2007, 9, 21, true);
-  double JDMoon = CAADynamicalTime::UTC2TT(dateMoonCalc.Julian());
+  const CAADate dateMoonCalc(2007, 9, 21, true);
+  const double JDMoon = CAADynamicalTime::UTC2TT(dateMoonCalc.Julian());
   double MoonLong = CAAMoon::EclipticLongitude(JDMoon);
   double MoonLat = CAAMoon::EclipticLatitude(JDMoon);
   Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(MoonLong, MoonLat, CAANutation::TrueObliquityOfEcliptic(JDMoon));
@@ -793,7 +782,7 @@ int main()
   Longitude = CAACoordinateTransformation::DMSToDegrees(116, 51, 45); //West is considered positive
   Latitude = CAACoordinateTransformation::DMSToDegrees(33, 21, 22);
   Height = 1706;
-  CAA2DCoordinate MoonTopo = CAAParallax::Equatorial2Topocentric(Equatorial.X, Equatorial.Y, MoonRad, Longitude, Latitude, Height, JDMoon);
+  const CAA2DCoordinate MoonTopo = CAAParallax::Equatorial2Topocentric(Equatorial.X, Equatorial.Y, MoonRad, Longitude, Latitude, Height, JDMoon);
   AST = CAASidereal::ApparentGreenwichSiderealTime(dateMoonCalc.Julian());
   LongtitudeAsHourAngle = CAACoordinateTransformation::DegreesToHours(Longitude);
   LocalHourAngle = AST - LongtitudeAsHourAngle - MoonTopo.X;
@@ -812,14 +801,14 @@ int main()
       printf("Doing date tests on year %d\n", YYYY);
     for (int MMMM=1; MMMM<=12; MMMM++)
     {
-      bool bLeap = CAADate::IsLeap(YYYY, (YYYY >= 1582));
+      const bool bLeap = CAADate::IsLeap(YYYY, (YYYY >= 1582));
       for (int DDDD=1; DDDD<=CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
       {
-        bool bGregorian = CAADate::AfterPapalReform(YYYY, MMMM, DDDD);
-        CAADate date(YYYY, MMMM, DDDD, 12, 0, 0, bGregorian);
+        const bool bGregorian = CAADate::AfterPapalReform(YYYY, MMMM, DDDD);
+        const CAADate date(YYYY, MMMM, DDDD, 12, 0, 0, bGregorian);
         if ((date.Year() != YYYY) || (date.Month() != MMMM)|| (date.Day() != DDDD))
           printf("Round trip bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
-        double currentJulian = date.Julian();
+        const double currentJulian = date.Julian();
         if ((prevJulian != -1) && ((prevJulian + 1) != currentJulian))
           printf("Julian Day monotonic bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
         prevJulian = currentJulian;
@@ -829,8 +818,8 @@ int main()
         //calendar, while it does fully support the propalactic Julian calendar.
         if (bGregorian)
         {
-          CAACalendarDate GregorianDate(CAADate::JulianToGregorian(YYYY, MMMM, DDDD));
-          CAACalendarDate JulianDate(CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day));
+          const CAACalendarDate GregorianDate(CAADate::JulianToGregorian(YYYY, MMMM, DDDD));
+          const CAACalendarDate JulianDate(CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day));
           if ((JulianDate.Year != YYYY) || (JulianDate.Month != MMMM)|| (JulianDate.Day != DDDD))
             printf("Round trip bug with Julian -> Gregorian Calendar %d-%d-%d\n", YYYY, MMMM, DDDD);
         }
@@ -843,19 +832,19 @@ int main()
   CAADate date;
   date.Set(2000, 1, 1, 12, 1, 2.3, true);
   date.Get(Year, Month, Day, Hour, Minute, Second);
-  long DaysInMonth = date.DaysInMonth();
+  const long DaysInMonth = date.DaysInMonth();
   UNREFERENCED_PARAMETER(DaysInMonth);
-  long DaysInYear = date.DaysInYear();
+  const long DaysInYear = date.DaysInYear();
   UNREFERENCED_PARAMETER(DaysInYear);
   bool bLeap = date.Leap();
   UNREFERENCED_PARAMETER(bLeap);
-  double Julian = date.Julian();
+  const double Julian = date.Julian();
   UNREFERENCED_PARAMETER(Julian);
-  double FractionalYear = date.FractionalYear();
+  const double FractionalYear = date.FractionalYear();
   UNREFERENCED_PARAMETER(FractionalYear);
-  double DayOfYear = date.DayOfYear();
+  const double DayOfYear = date.DayOfYear();
   UNREFERENCED_PARAMETER(DayOfYear);
-  CAADate::DAY_OF_WEEK dow = date.DayOfWeek();
+  const CAADate::DAY_OF_WEEK dow = date.DayOfWeek();
   UNREFERENCED_PARAMETER(dow);
   Year = date.Year();
   Month = date.Month();
@@ -863,20 +852,20 @@ int main()
   Hour = date.Hour();
   Minute = date.Minute();
   Second = date.Second();
-  double Julian2 = date;
+  const double Julian2 = date;
   UNREFERENCED_PARAMETER(Julian2);
 
   date.Set(1978, 11, 14, 0, 0, 0, true);
-  long DayNumber = static_cast<long>(date.DayOfYear());
+  const long DayNumber = static_cast<long>(date.DayOfYear());
   date.DayOfYearToDayAndMonth(DayNumber, date.Leap(), Day, Month);
   Year = date.Year();
 
   //Test out the AAEaster class
-  CAAEasterDetails easterDetails = CAAEaster::Calculate(1991, true);
+  const CAAEasterDetails easterDetails = CAAEaster::Calculate(1991, true);
   UNREFERENCED_PARAMETER(easterDetails);
-  CAAEasterDetails easterDetails2 = CAAEaster::Calculate(1818, true);
+  const CAAEasterDetails easterDetails2 = CAAEaster::Calculate(1818, true);
   UNREFERENCED_PARAMETER(easterDetails2);
-  CAAEasterDetails easterDetails3 = CAAEaster::Calculate(179, false);
+  const CAAEasterDetails easterDetails3 = CAAEaster::Calculate(179, false);
   UNREFERENCED_PARAMETER(easterDetails3);
 
   //Test out the AADynamicalTime class
@@ -887,28 +876,28 @@ int main()
   UNREFERENCED_PARAMETER(DeltaT);
 
   //Test out the AAGlobe class
-  double rhosintheta = CAAGlobe::RhoSinThetaPrime(33.356111, 1706);
+  const double rhosintheta = CAAGlobe::RhoSinThetaPrime(33.356111, 1706);
   UNREFERENCED_PARAMETER(rhosintheta);
-  double rhocostheta = CAAGlobe::RhoCosThetaPrime(33.356111, 1706);
+  const double rhocostheta = CAAGlobe::RhoCosThetaPrime(33.356111, 1706);
   UNREFERENCED_PARAMETER(rhocostheta);
-  double RadiusOfLatitude = CAAGlobe::RadiusOfParallelOfLatitude(42);
+  const double RadiusOfLatitude = CAAGlobe::RadiusOfParallelOfLatitude(42);
   UNREFERENCED_PARAMETER(RadiusOfLatitude);
-  double RadiusOfCurvature = CAAGlobe::RadiusOfCurvature(42);
+  const double RadiusOfCurvature = CAAGlobe::RadiusOfCurvature(42);
   UNREFERENCED_PARAMETER(RadiusOfCurvature);
-  double Distance = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(48, 50, 11), CAACoordinateTransformation::DMSToDegrees(2, 20, 14, false),
-                                                    CAACoordinateTransformation::DMSToDegrees(38, 55, 17), CAACoordinateTransformation::DMSToDegrees(77, 3, 56));
+  const double Distance = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(48, 50, 11), CAACoordinateTransformation::DMSToDegrees(2, 20, 14, false),
+                                                          CAACoordinateTransformation::DMSToDegrees(38, 55, 17), CAACoordinateTransformation::DMSToDegrees(77, 3, 56));
   UNREFERENCED_PARAMETER(Distance);
 
 
-  double Distance1 = CAAGlobe::DistanceBetweenPoints(50, 0, 50, 60);
+  const double Distance1 = CAAGlobe::DistanceBetweenPoints(50, 0, 50, 60);
   UNREFERENCED_PARAMETER(Distance1);
-  double Distance2 = CAAGlobe::DistanceBetweenPoints(50, 0, 50, 1);
+  const double Distance2 = CAAGlobe::DistanceBetweenPoints(50, 0, 50, 1);
   UNREFERENCED_PARAMETER(Distance2);
-  double Distance3 = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 0, CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 1);
+  const double Distance3 = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 0, CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 1);
   UNREFERENCED_PARAMETER(Distance3);
-  double Distance4 = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 0, CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 180);
+  const double Distance4 = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 0, CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 180);
   UNREFERENCED_PARAMETER(Distance4);
-  double Distance5 = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 0, CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 90);
+  const double Distance5 = CAAGlobe::DistanceBetweenPoints(CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 0, CAACoordinateTransformation::DMSToDegrees(89, 59, 0), 90);
   UNREFERENCED_PARAMETER(Distance5);
 
 
@@ -922,19 +911,19 @@ int main()
   UNREFERENCED_PARAMETER(MST);
 
   //Test out the AACoordinateTransformation class
-  CAA2DCoordinate Ecliptic = CAACoordinateTransformation::Equatorial2Ecliptic(CAACoordinateTransformation::DMSToDegrees(7, 45, 18.946), CAACoordinateTransformation::DMSToDegrees(28, 01, 34.26), 23.4392911);
+  const CAA2DCoordinate Ecliptic = CAACoordinateTransformation::Equatorial2Ecliptic(CAACoordinateTransformation::DMSToDegrees(7, 45, 18.946), CAACoordinateTransformation::DMSToDegrees(28, 01, 34.26), 23.4392911);
   Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(Ecliptic.X, Ecliptic.Y, 23.4392911);
-  CAA2DCoordinate Galactic = CAACoordinateTransformation::Equatorial2Galactic(CAACoordinateTransformation::DMSToDegrees(17, 48, 59.74), CAACoordinateTransformation::DMSToDegrees(14, 43, 8.2, false));
-  CAA2DCoordinate Equatorial2 = CAACoordinateTransformation::Galactic2Equatorial(Galactic.X, Galactic.Y);
+  const CAA2DCoordinate Galactic = CAACoordinateTransformation::Equatorial2Galactic(CAACoordinateTransformation::DMSToDegrees(17, 48, 59.74), CAACoordinateTransformation::DMSToDegrees(14, 43, 8.2, false));
+  const CAA2DCoordinate Equatorial2 = CAACoordinateTransformation::Galactic2Equatorial(Galactic.X, Galactic.Y);
   UNREFERENCED_PARAMETER(Equatorial2);
   date.Set(1987, 4, 10, 19, 21, 0, true);
   AST = CAASidereal::ApparentGreenwichSiderealTime(date.Julian());
   LongtitudeAsHourAngle = CAACoordinateTransformation::DegreesToHours(CAACoordinateTransformation::DMSToDegrees(77, 3, 56));
   double Alpha = CAACoordinateTransformation::DMSToDegrees(23, 9, 16.641);
   LocalHourAngle = AST - LongtitudeAsHourAngle - Alpha;
-  CAA2DCoordinate Horizontal = CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, CAACoordinateTransformation::DMSToDegrees(6, 43, 11.61, false), CAACoordinateTransformation::DMSToDegrees(38, 55, 17));
-  CAA2DCoordinate Equatorial3 = CAACoordinateTransformation::Horizontal2Equatorial(Horizontal.X, Horizontal.Y, CAACoordinateTransformation::DMSToDegrees(38, 55, 17));
-  double alpha2 = CAACoordinateTransformation::MapTo0To24Range(AST - Equatorial3.X - LongtitudeAsHourAngle);
+  const CAA2DCoordinate Horizontal = CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, CAACoordinateTransformation::DMSToDegrees(6, 43, 11.61, false), CAACoordinateTransformation::DMSToDegrees(38, 55, 17));
+  const CAA2DCoordinate Equatorial3 = CAACoordinateTransformation::Horizontal2Equatorial(Horizontal.X, Horizontal.Y, CAACoordinateTransformation::DMSToDegrees(38, 55, 17));
+  const double alpha2 = CAACoordinateTransformation::MapTo0To24Range(AST - Equatorial3.X - LongtitudeAsHourAngle);
   UNREFERENCED_PARAMETER(alpha2);
 
   //Test out the CAANutation class (on its own)
@@ -947,45 +936,45 @@ int main()
   UNREFERENCED_PARAMETER(NutationInEcliptic);
 
   //Test out the CAAParallactic class
-  double HourAngle = CAAParallactic::ParallacticAngle(-3, 10, 20);
+  const double HourAngle = CAAParallactic::ParallacticAngle(-3, 10, 20);
   UNREFERENCED_PARAMETER(HourAngle);
-  double EclipticLongitude = CAAParallactic::EclipticLongitudeOnHorizon(5, 23.44, 51);
+  const double EclipticLongitude = CAAParallactic::EclipticLongitudeOnHorizon(5, 23.44, 51);
   UNREFERENCED_PARAMETER(EclipticLongitude);
-  double EclipticAngle = CAAParallactic::AngleBetweenEclipticAndHorizon(5, 23.44, 51);
+  const double EclipticAngle = CAAParallactic::AngleBetweenEclipticAndHorizon(5, 23.44, 51);
   UNREFERENCED_PARAMETER(EclipticAngle);
-  double Angle = CAAParallactic::AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(90, 0, 23.44);
+  const double Angle = CAAParallactic::AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(90, 0, 23.44);
   UNREFERENCED_PARAMETER(Angle);
 
   //Test out the CAARefraction class
-  double R1 = CAARefraction::RefractionFromApparent(0.5);
-  double R2 = CAARefraction::RefractionFromTrue(0.5 - R1 + CAACoordinateTransformation::DMSToDegrees(0, 32, 0));
+  const double R1 = CAARefraction::RefractionFromApparent(0.5);
+  const double R2 = CAARefraction::RefractionFromTrue(0.5 - R1 + CAACoordinateTransformation::DMSToDegrees(0, 32, 0));
   UNREFERENCED_PARAMETER(R2);
-  double R3 = CAARefraction::RefractionFromApparent(90);
+  const double R3 = CAARefraction::RefractionFromApparent(90);
   UNREFERENCED_PARAMETER(R3);
 
   //Test out the CAAAngularSeparation class
-  double AngularSeparation = CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(14, 15, 39.7), CAACoordinateTransformation::DMSToDegrees(19, 10, 57),
-                                                              CAACoordinateTransformation::DMSToDegrees(13, 25, 11.6), CAACoordinateTransformation::DMSToDegrees(11, 9, 41, false));
+  const double AngularSeparation = CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(14, 15, 39.7), CAACoordinateTransformation::DMSToDegrees(19, 10, 57),
+                                                                    CAACoordinateTransformation::DMSToDegrees(13, 25, 11.6), CAACoordinateTransformation::DMSToDegrees(11, 9, 41, false));
   UNREFERENCED_PARAMETER(AngularSeparation);
-  double AngularSeparation2 = CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0),
-                                                               CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0));
+  const double AngularSeparation2 = CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0),
+                                                                     CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0));
   UNREFERENCED_PARAMETER(AngularSeparation2);
-  double AngularSeparation3 = CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0),
-                                                               CAACoordinateTransformation::DMSToDegrees(14, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0));
+  const double AngularSeparation3 = CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0),
+                                                                     CAACoordinateTransformation::DMSToDegrees(14, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0));
   UNREFERENCED_PARAMETER(AngularSeparation3);
 
-  double PA0 = CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
-                                                               CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false));
+  const double PA0 = CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
+                                                         CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false));
   UNREFERENCED_PARAMETER(PA0);
 
-  double PA1 = CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
-                                                               CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false));
+  const double PA1 = CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
+                                                         CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false));
   UNREFERENCED_PARAMETER(PA1);
 
 
-  double distance = CAAAngularSeparation::DistanceFromGreatArc(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
-                                                               CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
-                                                               CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false));
+  const double distance = CAAAngularSeparation::DistanceFromGreatArc(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
+                                                                     CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
+                                                                     CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false));
   UNREFERENCED_PARAMETER(distance);
 
   bool bType1;
@@ -1000,130 +989,130 @@ int main()
 
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 44, 11.986);
   double Delta = CAACoordinateTransformation::DMSToDegrees(49, 13, 42.48);
-  CAA2DCoordinate PA = CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69-2451545)/365.25, Alpha, Delta, 0.03425, -0.0895);
+  const CAA2DCoordinate PA = CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69-2451545)/365.25, Alpha, Delta, 0.03425, -0.0895);
 
-  CAA2DCoordinate Precessed = CAAPrecession::PrecessEquatorial(PA.X, PA.Y, 2451545, 2462088.69);
+  const CAA2DCoordinate Precessed = CAAPrecession::PrecessEquatorial(PA.X, PA.Y, 2451545, 2462088.69);
   UNREFERENCED_PARAMETER(Precessed);
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 31, 48.704);
   Delta = CAACoordinateTransformation::DMSToDegrees(89, 15, 50.72);
-  CAA2DCoordinate PA2 = CAAPrecession::AdjustPositionUsingUniformProperMotion((2415020.3135-2451545)/365.25, Alpha, Delta, 0.19877, -0.0152);
+  const CAA2DCoordinate PA2 = CAAPrecession::AdjustPositionUsingUniformProperMotion((2415020.3135-2451545)/365.25, Alpha, Delta, 0.19877, -0.0152);
   UNREFERENCED_PARAMETER(PA2);
-  CAA2DCoordinate Precessed2 = CAAPrecession::PrecessEquatorialFK4(PA2.X, PA2.Y, 2451545, 2415020.3135);
+  const CAA2DCoordinate Precessed2 = CAAPrecession::PrecessEquatorialFK4(PA2.X, PA2.Y, 2451545, 2415020.3135);
   UNREFERENCED_PARAMETER(Precessed2);
-  CAA2DCoordinate PM = CAAPrecession::EquatorialPMToEcliptic(0, 0, 0, 1, 1, 23);
+  const CAA2DCoordinate PM = CAAPrecession::EquatorialPMToEcliptic(0, 0, 0, 1, 1, 23);
   UNREFERENCED_PARAMETER(PM);
-  CAA2DCoordinate PA3 = CAAPrecession::AdjustPositionUsingMotionInSpace(2.64, -7.6, -1000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
+  const CAA2DCoordinate PA3 = CAAPrecession::AdjustPositionUsingMotionInSpace(2.64, -7.6, -1000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
   UNREFERENCED_PARAMETER(PA3);
-  CAA2DCoordinate PA4 = CAAPrecession::AdjustPositionUsingUniformProperMotion(-1000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
+  const CAA2DCoordinate PA4 = CAAPrecession::AdjustPositionUsingUniformProperMotion(-1000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
   UNREFERENCED_PARAMETER(PA4);
 
-  CAA2DCoordinate PA5 = CAAPrecession::AdjustPositionUsingMotionInSpace(2.64, -7.6, -12000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
+  const CAA2DCoordinate PA5 = CAAPrecession::AdjustPositionUsingMotionInSpace(2.64, -7.6, -12000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
   UNREFERENCED_PARAMETER(PA5);
-  CAA2DCoordinate PA6 = CAAPrecession::AdjustPositionUsingUniformProperMotion(-12000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
+  const CAA2DCoordinate PA6 = CAAPrecession::AdjustPositionUsingUniformProperMotion(-12000, CAACoordinateTransformation::DMSToDegrees(6, 45, 8.871), CAACoordinateTransformation::DMSToDegrees(16, 42, 57.99, false), -0.03847, -1.2053);
   UNREFERENCED_PARAMETER(PA6);
 
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 44, 11.986);
   Delta = CAACoordinateTransformation::DMSToDegrees(49, 13, 42.48);
   CAA2DCoordinate PA7 = CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69-2451545)/365.25, Alpha, Delta, 0.03425, -0.0895);
-  CAA3DCoordinate EarthVelocity = CAAAberration::EarthVelocity(2462088.69, false);
+  const CAA3DCoordinate EarthVelocity = CAAAberration::EarthVelocity(2462088.69, false);
   UNREFERENCED_PARAMETER(EarthVelocity);
-  CAA3DCoordinate EarthVelocity2 = CAAAberration::EarthVelocity(2462088.69, true);
+  const CAA3DCoordinate EarthVelocity2 = CAAAberration::EarthVelocity(2462088.69, true);
   UNREFERENCED_PARAMETER(EarthVelocity2);
-  CAA2DCoordinate Aberration = CAAAberration::EquatorialAberration(PA7.X, PA7.Y, 2462088.69, false);
+  const CAA2DCoordinate Aberration = CAAAberration::EquatorialAberration(PA7.X, PA7.Y, 2462088.69, false);
   PA7.X += Aberration.X;
   PA7.Y += Aberration.Y;
-  CAA2DCoordinate Aberration2 = CAAAberration::EquatorialAberration(PA7.X, PA7.Y, 2462088.69, true);
+  const CAA2DCoordinate Aberration2 = CAAAberration::EquatorialAberration(PA7.X, PA7.Y, 2462088.69, true);
   UNREFERENCED_PARAMETER(Aberration2);
   PA7 = CAAPrecession::PrecessEquatorial(PA7.X, PA7.Y, 2451545, 2462088.69);
 
   Obliquity = CAANutation::MeanObliquityOfEcliptic(2462088.69);
   NutationInLongitude = CAANutation::NutationInLongitude(2462088.69);
   NutationInEcliptic = CAANutation::NutationInObliquity(2462088.69);
-  double AlphaNutation = CAANutation::NutationInRightAscension(PA7.X, PA7.Y, Obliquity, NutationInLongitude, NutationInEcliptic);
-  double DeltaNutation = CAANutation::NutationInDeclination(PA7.X, Obliquity, NutationInLongitude, NutationInEcliptic);
+  const double AlphaNutation = CAANutation::NutationInRightAscension(PA7.X, PA7.Y, Obliquity, NutationInLongitude, NutationInEcliptic);
+  const double DeltaNutation = CAANutation::NutationInDeclination(PA7.X, Obliquity, NutationInLongitude, NutationInEcliptic);
   PA7.X += CAACoordinateTransformation::DMSToDegrees(0, 0, AlphaNutation/15);
   PA7.Y += CAACoordinateTransformation::DMSToDegrees(0, 0, DeltaNutation);
 
 
   //Try out the AA kepler class
-  double E0 = CAAKepler::Calculate(5, 0.1, 100);
+  const double E0 = CAAKepler::Calculate(5, 0.1, 100);
   UNREFERENCED_PARAMETER(E0);
-  double E02 = CAAKepler::Calculate(5, 0.9, 100);
+  const double E02 = CAAKepler::Calculate(5, 0.9, 100);
   UNREFERENCED_PARAMETER(E02);
   //double E03 = CAAKepler::Calculate(
 
 
   //Try out the binary star class
-  CAABinaryStarDetails bsdetails = CAABinaryStar::Calculate(1980, 41.623, 1934.008, 0.2763, 0.907, 59.025, 23.717, 219.907);
+  const CAABinaryStarDetails bsdetails = CAABinaryStar::Calculate(1980, 41.623, 1934.008, 0.2763, 0.907, 59.025, 23.717, 219.907);
   UNREFERENCED_PARAMETER(bsdetails);
-  double ApparentE = CAABinaryStar::ApparentEccentricity(0.2763, 59.025, 219.907);
+  const double ApparentE = CAABinaryStar::ApparentEccentricity(0.2763, 59.025, 219.907);
   UNREFERENCED_PARAMETER(ApparentE);
 
 
   //Test out the CAAStellarMagnitudes class
-  double CombinedMag = CAAStellarMagnitudes::CombinedMagnitude(1.96, 2.89);
+  const double CombinedMag = CAAStellarMagnitudes::CombinedMagnitude(1.96, 2.89);
   UNREFERENCED_PARAMETER(CombinedMag);
-  double Mags[] = { 4.73, 5.22, 5.60 };
-  double CombinedMag2 = CAAStellarMagnitudes::CombinedMagnitude(3, Mags);
+  vector<double> Mags = { 4.73, 5.22, 5.60 };
+  const double CombinedMag2 = CAAStellarMagnitudes::CombinedMagnitude(static_cast<int>(Mags.size()), Mags.data());
   UNREFERENCED_PARAMETER(CombinedMag2);
-  double BrightnessRatio = CAAStellarMagnitudes::BrightnessRatio(0.14, 2.12);
-  double MagDiff = CAAStellarMagnitudes::MagnitudeDifference(BrightnessRatio);
+  const double BrightnessRatio = CAAStellarMagnitudes::BrightnessRatio(0.14, 2.12);
+  const double MagDiff = CAAStellarMagnitudes::MagnitudeDifference(BrightnessRatio);
   UNREFERENCED_PARAMETER(MagDiff);
-  double MagDiff2 = CAAStellarMagnitudes::MagnitudeDifference(500);
+  const double MagDiff2 = CAAStellarMagnitudes::MagnitudeDifference(500);
   UNREFERENCED_PARAMETER(MagDiff2);
 
 
   //Test out the CAAVenus class
-  double VenusLong = CAAVenus::EclipticLongitude(2448976.5, false);
+  const double VenusLong = CAAVenus::EclipticLongitude(2448976.5, false);
   UNREFERENCED_PARAMETER(VenusLong);
-  double VenusLong2 = CAAVenus::EclipticLongitude(2448976.5, true);
+  const double VenusLong2 = CAAVenus::EclipticLongitude(2448976.5, true);
   UNREFERENCED_PARAMETER(VenusLong2);
-  double VenusLat = CAAVenus::EclipticLatitude(2448976.5, false);
+  const double VenusLat = CAAVenus::EclipticLatitude(2448976.5, false);
   UNREFERENCED_PARAMETER(VenusLat);
-  double VenusLat2 = CAAVenus::EclipticLatitude(2448976.5, true);
+  const double VenusLat2 = CAAVenus::EclipticLatitude(2448976.5, true);
   UNREFERENCED_PARAMETER(VenusLat2);
-  double VenusRadius = CAAVenus::RadiusVector(2448976.5, false);
+  const double VenusRadius = CAAVenus::RadiusVector(2448976.5, false);
   UNREFERENCED_PARAMETER(VenusRadius);
-  double VenusRadius2 = CAAVenus::RadiusVector(2448976.5, true);
+  const double VenusRadius2 = CAAVenus::RadiusVector(2448976.5, true);
   UNREFERENCED_PARAMETER(VenusRadius2);
 
 
   //Test out the CAAMercury class
-  double MercuryLong = CAAMercury::EclipticLongitude(2448976.5, false);
+  const double MercuryLong = CAAMercury::EclipticLongitude(2448976.5, false);
   UNREFERENCED_PARAMETER(MercuryLong);
-  double MercuryLong2 = CAAMercury::EclipticLongitude(2448976.5, true);
+  const double MercuryLong2 = CAAMercury::EclipticLongitude(2448976.5, true);
   UNREFERENCED_PARAMETER(MercuryLong2);
-  double MercuryLat = CAAMercury::EclipticLatitude(2448976.5, false);
+  const double MercuryLat = CAAMercury::EclipticLatitude(2448976.5, false);
   UNREFERENCED_PARAMETER(MercuryLat);
-  double MercuryLat2 = CAAMercury::EclipticLatitude(2448976.5, true);
+  const double MercuryLat2 = CAAMercury::EclipticLatitude(2448976.5, true);
   UNREFERENCED_PARAMETER(MercuryLat2);
-  double MercuryRadius = CAAMercury::RadiusVector(2448976.5, false);
+  const double MercuryRadius = CAAMercury::RadiusVector(2448976.5, false);
   UNREFERENCED_PARAMETER(MercuryRadius);
-  double MercuryRadius2 = CAAMercury::RadiusVector(2448976.5, true);
+  const double MercuryRadius2 = CAAMercury::RadiusVector(2448976.5, true);
   UNREFERENCED_PARAMETER(MercuryRadius2);
 
 
   //Test out the CAAEarth class
-  double EarthLong = CAAEarth::EclipticLongitude(2448908.5, false);
+  const double EarthLong = CAAEarth::EclipticLongitude(2448908.5, false);
   UNREFERENCED_PARAMETER(EarthLong);
-  double EarthLong2 = CAAEarth::EclipticLongitude(2448908.5, true);
+  const double EarthLong2 = CAAEarth::EclipticLongitude(2448908.5, true);
   UNREFERENCED_PARAMETER(EarthLong2);
-  double EarthLat = CAAEarth::EclipticLatitude(2448908.5, false);
+  const double EarthLat = CAAEarth::EclipticLatitude(2448908.5, false);
   UNREFERENCED_PARAMETER(EarthLat);
-  double EarthLat2 = CAAEarth::EclipticLatitude(2448908.5, true);
+  const double EarthLat2 = CAAEarth::EclipticLatitude(2448908.5, true);
   UNREFERENCED_PARAMETER(EarthLat2);
-  double EarthRadius = CAAEarth::RadiusVector(2448908.5, false);
+  const double EarthRadius = CAAEarth::RadiusVector(2448908.5, false);
   UNREFERENCED_PARAMETER(EarthRadius);
-  double EarthRadius2 = CAAEarth::RadiusVector(2448908.5, true);
+  const double EarthRadius2 = CAAEarth::RadiusVector(2448908.5, true);
   UNREFERENCED_PARAMETER(EarthRadius2);
 
-  double EarthLong3 = CAAEarth::EclipticLongitudeJ2000(2448908.5, false);
+  const double EarthLong3 = CAAEarth::EclipticLongitudeJ2000(2448908.5, false);
   UNREFERENCED_PARAMETER(EarthLong3);
-  double EarthLong4 = CAAEarth::EclipticLongitudeJ2000(2448908.5, true);
+  const double EarthLong4 = CAAEarth::EclipticLongitudeJ2000(2448908.5, true);
   UNREFERENCED_PARAMETER(EarthLong4);
-  double EarthLat3 = CAAEarth::EclipticLatitudeJ2000(2448908.5, false);
+  const double EarthLat3 = CAAEarth::EclipticLatitudeJ2000(2448908.5, false);
   UNREFERENCED_PARAMETER(EarthLat3);
-  double EarthLat4 = CAAEarth::EclipticLatitudeJ2000(2448908.5, true);
+  const double EarthLat4 = CAAEarth::EclipticLatitudeJ2000(2448908.5, true);
   UNREFERENCED_PARAMETER(EarthLat4);
 
 
@@ -1135,9 +1124,9 @@ int main()
   SunLat2 = CAASun::GeometricEclipticLatitude(2448908.5, true);
   UNREFERENCED_PARAMETER(SunLat2);
 
-  double SunLongCorrection = CAAFK5::CorrectionInLongitude(SunLong, SunLat, 2448908.5);
+  const double SunLongCorrection = CAAFK5::CorrectionInLongitude(SunLong, SunLat, 2448908.5);
   UNREFERENCED_PARAMETER(SunLongCorrection);
-  double SunLatCorrection = CAAFK5::CorrectionInLatitude(SunLong, 2448908.5);
+  const double SunLatCorrection = CAAFK5::CorrectionInLatitude(SunLong, 2448908.5);
   UNREFERENCED_PARAMETER(SunLatCorrection);
 
   SunLong = CAASun::ApparentEclipticLongitude(2448908.5, false);
@@ -1146,85 +1135,85 @@ int main()
   SunLat2 = CAASun::ApparentEclipticLatitude(2448908.5, true);
   Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, CAANutation::TrueObliquityOfEcliptic(2448908.5));
 
-  CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, false);
+  const CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, false);
   UNREFERENCED_PARAMETER(SunCoord);
-  CAA3DCoordinate SunCoord2 = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, true);
+  const CAA3DCoordinate SunCoord2 = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, true);
   UNREFERENCED_PARAMETER(SunCoord2);
-  CAA3DCoordinate SunCoord3 = CAASun::EquatorialRectangularCoordinatesJ2000(2448908.5, false);
+  const CAA3DCoordinate SunCoord3 = CAASun::EquatorialRectangularCoordinatesJ2000(2448908.5, false);
   UNREFERENCED_PARAMETER(SunCoord3);
-  CAA3DCoordinate SunCoord4 = CAASun::EquatorialRectangularCoordinatesJ2000(2448908.5, true);
+  const CAA3DCoordinate SunCoord4 = CAASun::EquatorialRectangularCoordinatesJ2000(2448908.5, true);
   UNREFERENCED_PARAMETER(SunCoord4);
-  CAA3DCoordinate SunCoord5 = CAASun::EquatorialRectangularCoordinatesAnyEquinox(2448908.5, 2467616.0, false);
+  const CAA3DCoordinate SunCoord5 = CAASun::EquatorialRectangularCoordinatesAnyEquinox(2448908.5, 2467616.0, false);
   UNREFERENCED_PARAMETER(SunCoord5);
-  CAA3DCoordinate SunCoord6 = CAASun::EquatorialRectangularCoordinatesAnyEquinox(2448908.5, 2467616.0, true);
+  const CAA3DCoordinate SunCoord6 = CAASun::EquatorialRectangularCoordinatesAnyEquinox(2448908.5, 2467616.0, true);
   UNREFERENCED_PARAMETER(SunCoord6);
-  CAA3DCoordinate SunCoord7 = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, false);
+  const CAA3DCoordinate SunCoord7 = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, false);
   UNREFERENCED_PARAMETER(SunCoord7);
-  CAA3DCoordinate SunCoord8 = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, true);
+  const CAA3DCoordinate SunCoord8 = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, true);
   UNREFERENCED_PARAMETER(SunCoord8);
-  CAA3DCoordinate SunCoord9 = CAASun::EquatorialRectangularCoordinatesB1950(2448908.5, false);
+  const CAA3DCoordinate SunCoord9 = CAASun::EquatorialRectangularCoordinatesB1950(2448908.5, false);
   UNREFERENCED_PARAMETER(SunCoord9);
-  CAA3DCoordinate SunCoord10 = CAASun::EquatorialRectangularCoordinatesB1950(2448908.5, true);
+  const CAA3DCoordinate SunCoord10 = CAASun::EquatorialRectangularCoordinatesB1950(2448908.5, true);
   UNREFERENCED_PARAMETER(SunCoord10);
 
 
   //Test out the CAAMars class
-  double MarsLong = CAAMars::EclipticLongitude(2448935.500683, false);
+  const double MarsLong = CAAMars::EclipticLongitude(2448935.500683, false);
   UNREFERENCED_PARAMETER(MarsLong);
-  double MarsLong2 = CAAMars::EclipticLongitude(2448935.500683, true);
+  const double MarsLong2 = CAAMars::EclipticLongitude(2448935.500683, true);
   UNREFERENCED_PARAMETER(MarsLong2);
-  double MarsLat = CAAMars::EclipticLatitude(2448935.500683, false);
+  const double MarsLat = CAAMars::EclipticLatitude(2448935.500683, false);
   UNREFERENCED_PARAMETER(MarsLat);
-  double MarsLat2 = CAAMars::EclipticLatitude(2448935.500683, true);
+  const double MarsLat2 = CAAMars::EclipticLatitude(2448935.500683, true);
   UNREFERENCED_PARAMETER(MarsLat2);
-  double MarsRadius = CAAMars::RadiusVector(2448935.500683, false);
+  const double MarsRadius = CAAMars::RadiusVector(2448935.500683, false);
   UNREFERENCED_PARAMETER(MarsRadius);
-  double MarsRadius2 = CAAMars::RadiusVector(2448935.500683, true);
+  const double MarsRadius2 = CAAMars::RadiusVector(2448935.500683, true);
   UNREFERENCED_PARAMETER(MarsRadius2);
 
 
   //Test out the CAAJupiter class
-  double JupiterLong = CAAJupiter::EclipticLongitude(2448972.50068, false);
+  const double JupiterLong = CAAJupiter::EclipticLongitude(2448972.50068, false);
   UNREFERENCED_PARAMETER(JupiterLong);
-  double JupiterLong2 = CAAJupiter::EclipticLongitude(2448972.50068, true);
+  const double JupiterLong2 = CAAJupiter::EclipticLongitude(2448972.50068, true);
   UNREFERENCED_PARAMETER(JupiterLong2);
-  double JupiterLat = CAAJupiter::EclipticLatitude(2448972.50068, false);
+  const double JupiterLat = CAAJupiter::EclipticLatitude(2448972.50068, false);
   UNREFERENCED_PARAMETER(JupiterLat);
-  double JupiterLat2 = CAAJupiter::EclipticLatitude(2448972.50068, true);
+  const double JupiterLat2 = CAAJupiter::EclipticLatitude(2448972.50068, true);
   UNREFERENCED_PARAMETER(JupiterLat2);
-  double JupiterRadius = CAAJupiter::RadiusVector(2448972.50068, false);
+  const double JupiterRadius = CAAJupiter::RadiusVector(2448972.50068, false);
   UNREFERENCED_PARAMETER(JupiterRadius);
-  double JupiterRadius2 = CAAJupiter::RadiusVector(2448972.50068, true);
+  const double JupiterRadius2 = CAAJupiter::RadiusVector(2448972.50068, true);
   UNREFERENCED_PARAMETER(JupiterRadius2);
 
 
   //Test out the CAANeptune class
-  double NeptuneLong = CAANeptune::EclipticLongitude(2448935.500683, false);
+  const double NeptuneLong = CAANeptune::EclipticLongitude(2448935.500683, false);
   UNREFERENCED_PARAMETER(NeptuneLong);
-  double NeptuneLong2 = CAANeptune::EclipticLongitude(2448935.500683, true);
+  const double NeptuneLong2 = CAANeptune::EclipticLongitude(2448935.500683, true);
   UNREFERENCED_PARAMETER(NeptuneLong2);
-  double NeptuneLat = CAANeptune::EclipticLatitude(2448935.500683, false);
+  const double NeptuneLat = CAANeptune::EclipticLatitude(2448935.500683, false);
   UNREFERENCED_PARAMETER(NeptuneLat);
-  double NeptuneLat2 = CAANeptune::EclipticLatitude(2448935.500683, true);
+  const double NeptuneLat2 = CAANeptune::EclipticLatitude(2448935.500683, true);
   UNREFERENCED_PARAMETER(NeptuneLat2);
-  double NeptuneRadius = CAANeptune::RadiusVector(2448935.500683, false);
+  const double NeptuneRadius = CAANeptune::RadiusVector(2448935.500683, false);
   UNREFERENCED_PARAMETER(NeptuneRadius);
-  double NeptuneRadius2 = CAANeptune::RadiusVector(2448935.500683, true);
+  const double NeptuneRadius2 = CAANeptune::RadiusVector(2448935.500683, true);
   UNREFERENCED_PARAMETER(NeptuneRadius2);
 
 
   //Test out the CAAUranus class
-  double UranusLong = CAAUranus::EclipticLongitude(2448976.5, false);
+  const double UranusLong = CAAUranus::EclipticLongitude(2448976.5, false);
   UNREFERENCED_PARAMETER(UranusLong);
-  double UranusLong2 = CAAUranus::EclipticLongitude(2448976.5, true);
+  const double UranusLong2 = CAAUranus::EclipticLongitude(2448976.5, true);
   UNREFERENCED_PARAMETER(UranusLong2);
-  double UranusLat = CAAUranus::EclipticLatitude(2448976.5, false);
+  const double UranusLat = CAAUranus::EclipticLatitude(2448976.5, false);
   UNREFERENCED_PARAMETER(UranusLat);
-  double UranusLat2 = CAAUranus::EclipticLatitude(2448976.5, true);
+  const double UranusLat2 = CAAUranus::EclipticLatitude(2448976.5, true);
   UNREFERENCED_PARAMETER(UranusLat2);
-  double UranusRadius = CAAUranus::RadiusVector(2448976.5, false);
+  const double UranusRadius = CAAUranus::RadiusVector(2448976.5, false);
   UNREFERENCED_PARAMETER(UranusRadius);
-  double UranusRadius2 = CAAUranus::RadiusVector(2448976.5, true);
+  const double UranusRadius2 = CAAUranus::RadiusVector(2448976.5, true);
   UNREFERENCED_PARAMETER(UranusRadius2);
 
 
@@ -1251,25 +1240,25 @@ int main()
 
 
   //Test out the CAAPluto class
-  double PlutoLong = CAAPluto::EclipticLongitude(2448908.5);
+  const double PlutoLong = CAAPluto::EclipticLongitude(2448908.5);
   UNREFERENCED_PARAMETER(PlutoLong);
-  double PlutoLat = CAAPluto::EclipticLatitude(2448908.5);
+  const double PlutoLat = CAAPluto::EclipticLatitude(2448908.5);
   UNREFERENCED_PARAMETER(PlutoLat);
-  double PlutoRadius = CAAPluto::RadiusVector(2448908.5);
+  const double PlutoRadius = CAAPluto::RadiusVector(2448908.5);
   UNREFERENCED_PARAMETER(PlutoRadius);
 
 
   //Test out the CAAMoon class
   MoonLong = CAAMoon::EclipticLongitude(2448724.5);
   MoonLat = CAAMoon::EclipticLatitude(2448724.5);
-  double MoonRadius = CAAMoon::RadiusVector(2448724.5);
-  double MoonParallax = CAAMoon::RadiusVectorToHorizontalParallax(MoonRadius);
+  const double MoonRadius = CAAMoon::RadiusVector(2448724.5);
+  const double MoonParallax = CAAMoon::RadiusVectorToHorizontalParallax(MoonRadius);
   UNREFERENCED_PARAMETER(MoonParallax);
-  double MoonMeanAscendingNode = CAAMoon::MeanLongitudeAscendingNode(2448724.5);
+  const double MoonMeanAscendingNode = CAAMoon::MeanLongitudeAscendingNode(2448724.5);
   UNREFERENCED_PARAMETER(MoonMeanAscendingNode);
-  double TrueMeanAscendingNode = CAAMoon::TrueLongitudeAscendingNode(2448724.5);
+  const double TrueMeanAscendingNode = CAAMoon::TrueLongitudeAscendingNode(2448724.5);
   UNREFERENCED_PARAMETER(TrueMeanAscendingNode);
-  double MoonMeanPerigee = CAAMoon::MeanLongitudePerigee(2448724.5);
+  const double MoonMeanPerigee = CAAMoon::MeanLongitudePerigee(2448724.5);
   UNREFERENCED_PARAMETER(MoonMeanPerigee);
 
   //Calculate the geocentric position of the moon for Midnight 12 April 1992 TT using both CAAMoon & CAAELP2000 for comparison purposes
@@ -1317,23 +1306,23 @@ int main()
 
 
   //Test out the CAAPlanetPerihelionAphelion class
-  long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
-  double VenusPerihelion = CAAPlanetPerihelionAphelion::VenusPerihelion(VenusK);
+  constexpr const long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
+  const double VenusPerihelion = CAAPlanetPerihelionAphelion::VenusPerihelion(VenusK);
   UNREFERENCED_PARAMETER(VenusPerihelion);
 
-  long MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
-  double MarsAphelion = CAAPlanetPerihelionAphelion::MarsAphelion(MarsK);
+  constexpr const long MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
+  const double MarsAphelion = CAAPlanetPerihelionAphelion::MarsAphelion(MarsK);
   UNREFERENCED_PARAMETER(MarsAphelion);
 
   long SaturnK = CAAPlanetPerihelionAphelion::SaturnK(1925);
-  double SaturnAphelion = CAAPlanetPerihelionAphelion::SaturnAphelion(SaturnK);
+  const double SaturnAphelion = CAAPlanetPerihelionAphelion::SaturnAphelion(SaturnK);
   UNREFERENCED_PARAMETER(SaturnAphelion);
   SaturnK = CAAPlanetPerihelionAphelion::SaturnK(1940);
-  double SaturnPerihelion = CAAPlanetPerihelionAphelion::SaturnPerihelion(SaturnK);
+  const double SaturnPerihelion = CAAPlanetPerihelionAphelion::SaturnPerihelion(SaturnK);
   UNREFERENCED_PARAMETER(SaturnPerihelion);
 
   long UranusK = CAAPlanetPerihelionAphelion::UranusK(1750);
-  double UranusAphelion = CAAPlanetPerihelionAphelion::UranusAphelion(UranusK);
+  const double UranusAphelion = CAAPlanetPerihelionAphelion::UranusAphelion(UranusK);
   UNREFERENCED_PARAMETER(UranusAphelion);
   UranusK = CAAPlanetPerihelionAphelion::UranusK(1890);
   double UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK);
@@ -1341,9 +1330,9 @@ int main()
   UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK);
   UNREFERENCED_PARAMETER(UranusPerihelion);
 
-  double EarthPerihelion = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, true);
+  const double EarthPerihelion = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, true);
   UNREFERENCED_PARAMETER(EarthPerihelion);
-  double EarthPerihelion2 = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, false);
+  const double EarthPerihelion2 = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, false);
   UNREFERENCED_PARAMETER(EarthPerihelion2);
 
 
@@ -1364,46 +1353,46 @@ int main()
   MoonApogeeParallax = CAAMoonPerigeeApogee::ApogeeParallax(208.5);
   MoonApogeeDistance = CAAMoon::HorizontalParallaxToRadiusVector(MoonApogeeParallax);
   MoonK = CAAMoonPerigeeApogee::K(1990.9);
-  double MoonPerigee = CAAMoonPerigeeApogee::MeanPerigee(-120);
+  const double MoonPerigee = CAAMoonPerigeeApogee::MeanPerigee(-120);
   UNREFERENCED_PARAMETER(MoonPerigee);
-  double MoonPerigee2 = CAAMoonPerigeeApogee::TruePerigee(-120);
+  const double MoonPerigee2 = CAAMoonPerigeeApogee::TruePerigee(-120);
   UNREFERENCED_PARAMETER(MoonPerigee2);
   MoonK = CAAMoonPerigeeApogee::K(1930.0);
   UNREFERENCED_PARAMETER(MoonK);
-  double MoonPerigee3 = CAAMoonPerigeeApogee::TruePerigee(-927);
+  const double MoonPerigee3 = CAAMoonPerigeeApogee::TruePerigee(-927);
   UNREFERENCED_PARAMETER(MoonPerigee3);
-  double MoonPerigeeParallax = CAAMoonPerigeeApogee::PerigeeParallax(-927);
-  double MoonRadiusVector = CAAMoon::HorizontalParallaxToRadiusVector(MoonPerigeeParallax);
+  const double MoonPerigeeParallax = CAAMoonPerigeeApogee::PerigeeParallax(-927);
+  const double MoonRadiusVector = CAAMoon::HorizontalParallaxToRadiusVector(MoonPerigeeParallax);
   UNREFERENCED_PARAMETER(MoonRadiusVector);
-  double MoonRadiusVector2 = CAAMoon::HorizontalParallaxToRadiusVector(0.991990);
-  double MoonParallax2 = CAAMoon::RadiusVectorToHorizontalParallax(MoonRadiusVector2);
+  const double MoonRadiusVector2 = CAAMoon::HorizontalParallaxToRadiusVector(0.991990);
+  const double MoonParallax2 = CAAMoon::RadiusVectorToHorizontalParallax(MoonRadiusVector2);
   UNREFERENCED_PARAMETER(MoonParallax2);
 
 
   //Test out the CAAEclipticalElements class
-  CAAEclipticalElementDetails ed1 = CAAEclipticalElements::Calculate(47.1220, 151.4486, 45.7481, 2358042.5305, 2433282.4235);
+  const CAAEclipticalElementDetails ed1 = CAAEclipticalElements::Calculate(47.1220, 151.4486, 45.7481, 2358042.5305, 2433282.4235);
   UNREFERENCED_PARAMETER(ed1);
-  CAAEclipticalElementDetails ed2 = CAAEclipticalElements::Calculate(11.93911, 186.24444, 334.04096, 2433282.4235, 2451545.0);
+  const CAAEclipticalElementDetails ed2 = CAAEclipticalElements::Calculate(11.93911, 186.24444, 334.04096, 2433282.4235, 2451545.0);
   UNREFERENCED_PARAMETER(ed2);
-  CAAEclipticalElementDetails ed3 = CAAEclipticalElements::FK4B1950ToFK5J2000(11.93911, 186.24444, 334.04096);
+  const CAAEclipticalElementDetails ed3 = CAAEclipticalElements::FK4B1950ToFK5J2000(11.93911, 186.24444, 334.04096);
   UNREFERENCED_PARAMETER(ed3);
-  CAAEclipticalElementDetails ed4 = CAAEclipticalElements::FK4B1950ToFK5J2000(145, 186.24444, 334.04096);
+  const CAAEclipticalElementDetails ed4 = CAAEclipticalElements::FK4B1950ToFK5J2000(145, 186.24444, 334.04096);
   UNREFERENCED_PARAMETER(ed4);
 
 
   //Test out the CAAEquationOfTime class
-  double E = CAAEquationOfTime::Calculate(2448908.5, false);
+  const double E = CAAEquationOfTime::Calculate(2448908.5, false);
   UNREFERENCED_PARAMETER(E);
-  double E2 = CAAEquationOfTime::Calculate(2448908.5, true);
+  const double E2 = CAAEquationOfTime::Calculate(2448908.5, true);
   UNREFERENCED_PARAMETER(E2);
 
 
   //Test out the CAAPhysicalSun class
-  CAAPhysicalSunDetails psd = CAAPhysicalSun::Calculate(2448908.50068, false);
+  const CAAPhysicalSunDetails psd = CAAPhysicalSun::Calculate(2448908.50068, false);
   UNREFERENCED_PARAMETER(psd);
-  CAAPhysicalSunDetails psd2 = CAAPhysicalSun::Calculate(2448908.50068, true);
+  const CAAPhysicalSunDetails psd2 = CAAPhysicalSun::Calculate(2448908.50068, true);
   UNREFERENCED_PARAMETER(psd2);
-  double JED = CAAPhysicalSun::TimeOfStartOfRotation(1699);
+  const double JED = CAAPhysicalSun::TimeOfStartOfRotation(1699);
   UNREFERENCED_PARAMETER(JED);
 
 
@@ -1411,7 +1400,7 @@ int main()
   for (Year = 1962; Year < 2021; Year++)
   {
     double NorthwardEquinox = CAAEquinoxesAndSolstices::NorthwardEquinox(Year, false);
-    double NorthwardEquinox4 = CAAEquinoxesAndSolstices::NorthwardEquinox(Year, true);
+    const double NorthwardEquinox4 = CAAEquinoxesAndSolstices::NorthwardEquinox(Year, true);
     UNREFERENCED_PARAMETER(NorthwardEquinox4);
 
     //For testing purposes lets also try out the various timeframe mapping methods of CAADynamicalTime for the "NorthwardEquinox" values
@@ -1474,7 +1463,7 @@ int main()
     printf("The Northward Equinox for %d occurs on %d-%d-%d %02d:%02d:%f UTC\n", static_cast<int>(Year), static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second);
 
     double NorthernSolstice = CAAEquinoxesAndSolstices::NorthernSolstice(Year, false);
-    double NorthernSolstice2 = CAAEquinoxesAndSolstices::NorthernSolstice(Year, true);
+    const double NorthernSolstice2 = CAAEquinoxesAndSolstices::NorthernSolstice(Year, true);
     UNREFERENCED_PARAMETER(NorthernSolstice2);
     date.Set(NorthernSolstice, true);
     date.Get(Year, Month, Day, Hour, Minute, Second);
@@ -1485,7 +1474,7 @@ int main()
     printf("The Northern Solstice for %d occurs on %d-%d-%d %02d:%02d:%f UTC\n", static_cast<int>(Year), static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second);
 
     double SouthwardEquinox = CAAEquinoxesAndSolstices::SouthwardEquinox(Year, false);
-    double SouthwardEquinox2 = CAAEquinoxesAndSolstices::SouthwardEquinox(Year, true);
+    const double SouthwardEquinox2 = CAAEquinoxesAndSolstices::SouthwardEquinox(Year, true);
     UNREFERENCED_PARAMETER(SouthwardEquinox2);
     date.Set(SouthwardEquinox, true);
     date.Get(Year, Month, Day, Hour, Minute, Second);
@@ -1496,7 +1485,7 @@ int main()
     printf("The Southward Equinox for %d occurs on %d-%d-%d %02d:%02d:%f UTC\n", static_cast<int>(Year), static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second);
 
     double SouthernSolstice = CAAEquinoxesAndSolstices::SouthernSolstice(Year, false);
-    double SouthernSolstice2 = CAAEquinoxesAndSolstices::SouthernSolstice(Year, true);
+    const double SouthernSolstice2 = CAAEquinoxesAndSolstices::SouthernSolstice(Year, true);
     UNREFERENCED_PARAMETER(SouthernSolstice2);
     date.Set(SouthernSolstice, true);
     date.Get(Year, Month, Day, Hour, Minute, Second);
@@ -1560,21 +1549,21 @@ int main()
 
 
   //Test out the CAAElementsPlanetaryOrbit class
-  double Mer_L = CAAElementsPlanetaryOrbit::MercuryMeanLongitude(2475460.5);
+  const double Mer_L = CAAElementsPlanetaryOrbit::MercuryMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Mer_L);
   double Mer_a = CAAElementsPlanetaryOrbit::MercurySemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Mer_a);
   Mer_a = CAAElementsPlanetaryOrbit::MercurySemimajorAxis(2451545);
-  double Mer_e = CAAElementsPlanetaryOrbit::MercuryEccentricity(2475460.5);
+  const double Mer_e = CAAElementsPlanetaryOrbit::MercuryEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Mer_e);
-  double Mer_i = CAAElementsPlanetaryOrbit::MercuryInclination(2475460.5);
+  const double Mer_i = CAAElementsPlanetaryOrbit::MercuryInclination(2475460.5);
   UNREFERENCED_PARAMETER(Mer_i);
-  double Mer_omega = CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNode(2475460.5);
+  const double Mer_omega = CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Mer_omega);
-  double Mer_pi = CAAElementsPlanetaryOrbit::MercuryLongitudePerihelion(2475460.5);
+  const double Mer_pi = CAAElementsPlanetaryOrbit::MercuryLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Mer_pi);
 
-  double Ven_L = CAAElementsPlanetaryOrbit::VenusMeanLongitude(2475460.5);
+  const double Ven_L = CAAElementsPlanetaryOrbit::VenusMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Ven_L);
   double Ven_a = CAAElementsPlanetaryOrbit::VenusSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Ven_a);
@@ -1582,14 +1571,14 @@ int main()
   double Ven_e = CAAElementsPlanetaryOrbit::VenusEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Ven_e);
   Ven_e = CAAElementsPlanetaryOrbit::VenusEccentricity(2451545);
-  double Ven_i = CAAElementsPlanetaryOrbit::VenusInclination(2475460.5);
+  const double Ven_i = CAAElementsPlanetaryOrbit::VenusInclination(2475460.5);
   UNREFERENCED_PARAMETER(Ven_i);
-  double Ven_omega = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNode(2475460.5);
+  const double Ven_omega = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Ven_omega);
-  double Ven_pi = CAAElementsPlanetaryOrbit::VenusLongitudePerihelion(2475460.5);
+  const double Ven_pi = CAAElementsPlanetaryOrbit::VenusLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Ven_pi);
 
-  double Ea_L = CAAElementsPlanetaryOrbit::EarthMeanLongitude(2475460.5);
+  const double Ea_L = CAAElementsPlanetaryOrbit::EarthMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Ea_L);
   double Ea_a = CAAElementsPlanetaryOrbit::EarthSemimajorAxis(2451545);
   UNREFERENCED_PARAMETER(Ea_a);
@@ -1598,12 +1587,12 @@ int main()
   double Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2475460.5);
   Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2451545);
   UNREFERENCED_PARAMETER(Ea_e);
-  double Ea_i = CAAElementsPlanetaryOrbit::EarthInclination(2475460.5);
+  constexpr const double Ea_i = CAAElementsPlanetaryOrbit::EarthInclination(2475460.5);
   UNREFERENCED_PARAMETER(Ea_i);
-  double Ea_pi = CAAElementsPlanetaryOrbit::EarthLongitudePerihelion(2475460.5);
+  const double Ea_pi = CAAElementsPlanetaryOrbit::EarthLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Ea_pi);
 
-  double Mars_L = CAAElementsPlanetaryOrbit::MarsMeanLongitude(2475460.5);
+  const double Mars_L = CAAElementsPlanetaryOrbit::MarsMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Mars_L);
   double Mars_a = CAAElementsPlanetaryOrbit::MarsSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Mars_a);
@@ -1611,14 +1600,14 @@ int main()
   double Mars_e = CAAElementsPlanetaryOrbit::MarsEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Mars_e);
   Mars_e = CAAElementsPlanetaryOrbit::MarsEccentricity(2451545);
-  double Mars_i = CAAElementsPlanetaryOrbit::MarsInclination(2475460.5);
+  const double Mars_i = CAAElementsPlanetaryOrbit::MarsInclination(2475460.5);
   UNREFERENCED_PARAMETER(Mars_i);
-  double Mars_omega = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNode(2475460.5);
+  const double Mars_omega = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Mars_omega);
-  double Mars_pi = CAAElementsPlanetaryOrbit::MarsLongitudePerihelion(2475460.5);
+  const double Mars_pi = CAAElementsPlanetaryOrbit::MarsLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Mars_pi);
 
-  double Jup_L = CAAElementsPlanetaryOrbit::JupiterMeanLongitude(2475460.5);
+  const double Jup_L = CAAElementsPlanetaryOrbit::JupiterMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Jup_L);
   double Jup_a = CAAElementsPlanetaryOrbit::JupiterSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Jup_a);
@@ -1626,14 +1615,14 @@ int main()
   double Jup_e = CAAElementsPlanetaryOrbit::JupiterEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Jup_e);
   Jup_e = CAAElementsPlanetaryOrbit::JupiterEccentricity(2451545);
-  double Jup_i = CAAElementsPlanetaryOrbit::JupiterInclination(2475460.5);
+  const double Jup_i = CAAElementsPlanetaryOrbit::JupiterInclination(2475460.5);
   UNREFERENCED_PARAMETER(Jup_i);
-  double Jup_omega = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNode(2475460.5);
+  const double Jup_omega = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Jup_omega);
-  double Jup_pi = CAAElementsPlanetaryOrbit::JupiterLongitudePerihelion(2475460.5);
+  const double Jup_pi = CAAElementsPlanetaryOrbit::JupiterLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Jup_pi);
 
-  double Sat_L = CAAElementsPlanetaryOrbit::SaturnMeanLongitude(2475460.5);
+  const double Sat_L = CAAElementsPlanetaryOrbit::SaturnMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Sat_L);
   double Sat_a = CAAElementsPlanetaryOrbit::SaturnSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Sat_a);
@@ -1641,14 +1630,14 @@ int main()
   double Sat_e = CAAElementsPlanetaryOrbit::SaturnEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Sat_e);
   Sat_e = CAAElementsPlanetaryOrbit::SaturnEccentricity(2451545);
-  double Sat_i = CAAElementsPlanetaryOrbit::SaturnInclination(2475460.5);
+  const double Sat_i = CAAElementsPlanetaryOrbit::SaturnInclination(2475460.5);
   UNREFERENCED_PARAMETER(Sat_i);
-  double Sat_omega = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNode(2475460.5);
+  const double Sat_omega = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Sat_omega);
-  double Sat_pi = CAAElementsPlanetaryOrbit::SaturnLongitudePerihelion(2475460.5);
+  const double Sat_pi = CAAElementsPlanetaryOrbit::SaturnLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Sat_pi);
 
-  double Ura_L = CAAElementsPlanetaryOrbit::UranusMeanLongitude(2475460.5);
+  const double Ura_L = CAAElementsPlanetaryOrbit::UranusMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Ura_L);
   double Ura_a = CAAElementsPlanetaryOrbit::UranusSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Ura_a);
@@ -1656,14 +1645,14 @@ int main()
   double Ura_e = CAAElementsPlanetaryOrbit::UranusEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Ura_e);
   Ura_e = CAAElementsPlanetaryOrbit::UranusEccentricity(2451545);
-  double Ura_i = CAAElementsPlanetaryOrbit::UranusInclination(2475460.5);
+  const double Ura_i = CAAElementsPlanetaryOrbit::UranusInclination(2475460.5);
   UNREFERENCED_PARAMETER(Ura_i);
-  double Ura_omega = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNode(2475460.5);
+  const double Ura_omega = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Ura_omega);
-  double Ura_pi = CAAElementsPlanetaryOrbit::UranusLongitudePerihelion(2475460.5);
+  const double Ura_pi = CAAElementsPlanetaryOrbit::UranusLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Ura_pi);
 
-  double Nep_L = CAAElementsPlanetaryOrbit::NeptuneMeanLongitude(2475460.5);
+  const double Nep_L = CAAElementsPlanetaryOrbit::NeptuneMeanLongitude(2475460.5);
   UNREFERENCED_PARAMETER(Nep_L);
   double Nep_a = CAAElementsPlanetaryOrbit::NeptuneSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Nep_a);
@@ -1671,18 +1660,18 @@ int main()
   double Nep_e = CAAElementsPlanetaryOrbit::NeptuneEccentricity(2475460.5);
   Nep_e = CAAElementsPlanetaryOrbit::NeptuneEccentricity(2451545);
   UNREFERENCED_PARAMETER(Nep_e);
-  double Nep_i = CAAElementsPlanetaryOrbit::NeptuneInclination(2475460.5);
+  const double Nep_i = CAAElementsPlanetaryOrbit::NeptuneInclination(2475460.5);
   UNREFERENCED_PARAMETER(Nep_i);
-  double Nep_omega = CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNode(2475460.5);
+  const double Nep_omega = CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNode(2475460.5);
   UNREFERENCED_PARAMETER(Nep_omega);
-  double Nep_pi = CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelion(2475460.5);
+  const double Nep_pi = CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Nep_pi);
 
 
   double Mer_L2 = CAAElementsPlanetaryOrbit::MercuryMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_L2);
   Mer_L2 = CAAElementsPlanetaryOrbit::MercuryMeanLongitudeJ2000(2451545);
-  double Mer_i2 = CAAElementsPlanetaryOrbit::MercuryInclinationJ2000(2475460.5);
+  const double Mer_i2 = CAAElementsPlanetaryOrbit::MercuryInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_i2);
   double Mer_omega2 = CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_omega2);
@@ -1694,7 +1683,7 @@ int main()
   double Ven_L2 = CAAElementsPlanetaryOrbit::VenusMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_L2);
   Ven_L2 = CAAElementsPlanetaryOrbit::VenusMeanLongitudeJ2000(2451545);
-  double Ven_i2 = CAAElementsPlanetaryOrbit::VenusInclinationJ2000(2475460.5);
+  const double Ven_i2 = CAAElementsPlanetaryOrbit::VenusInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_i2);
   double Ven_omega2 = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_omega2);
@@ -1706,7 +1695,7 @@ int main()
   double Ea_L2 = CAAElementsPlanetaryOrbit::EarthMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_L2);
   Ea_L2 = CAAElementsPlanetaryOrbit::EarthMeanLongitudeJ2000(2451545);
-  double Ea_i2 = CAAElementsPlanetaryOrbit::EarthInclinationJ2000(2475460.5);
+  const double Ea_i2 = CAAElementsPlanetaryOrbit::EarthInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_i2);
   double Ea_omega2 = CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_omega2);
@@ -1718,7 +1707,7 @@ int main()
   double Mars_L2 = CAAElementsPlanetaryOrbit::MarsMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_L2);
   Mars_L2 = CAAElementsPlanetaryOrbit::MarsMeanLongitudeJ2000(2451545);
-  double Mars_i2 = CAAElementsPlanetaryOrbit::MarsInclinationJ2000(2475460.5);
+  const double Mars_i2 = CAAElementsPlanetaryOrbit::MarsInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_i2);
   double Mars_omega2 = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_omega2);
@@ -1730,7 +1719,7 @@ int main()
   double Jup_L2 = CAAElementsPlanetaryOrbit::JupiterMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_L2);
   Jup_L2 = CAAElementsPlanetaryOrbit::JupiterMeanLongitudeJ2000(2451545);
-  double Jup_i2 = CAAElementsPlanetaryOrbit::JupiterInclinationJ2000(2475460.5);
+  const double Jup_i2 = CAAElementsPlanetaryOrbit::JupiterInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_i2);
   double Jup_omega2 = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_omega2);
@@ -1742,7 +1731,7 @@ int main()
   double Sat_L2 = CAAElementsPlanetaryOrbit::SaturnMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_L2);
   Sat_L2 = CAAElementsPlanetaryOrbit::SaturnMeanLongitudeJ2000(2451545);
-  double Sat_i2 = CAAElementsPlanetaryOrbit::SaturnInclinationJ2000(2475460.5);
+  const double Sat_i2 = CAAElementsPlanetaryOrbit::SaturnInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_i2);
   double Sat_omega2 = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_omega2);
@@ -1754,7 +1743,7 @@ int main()
   double Ura_L2 = CAAElementsPlanetaryOrbit::UranusMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_L2);
   Ura_L2 = CAAElementsPlanetaryOrbit::UranusMeanLongitudeJ2000(2451545);
-  double Ura_i2 = CAAElementsPlanetaryOrbit::UranusInclinationJ2000(2475460.5);
+  const double Ura_i2 = CAAElementsPlanetaryOrbit::UranusInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_i2);
   double Ura_omega2 = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_omega2);
@@ -1766,7 +1755,7 @@ int main()
   double Nep_L2 = CAAElementsPlanetaryOrbit::NeptuneMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_L2);
   Nep_L2 = CAAElementsPlanetaryOrbit::NeptuneMeanLongitudeJ2000(2451545);
-  double Nep_i2 = CAAElementsPlanetaryOrbit::NeptuneInclinationJ2000(2475460.5);
+  const double Nep_i2 = CAAElementsPlanetaryOrbit::NeptuneInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_i2);
   double Nep_omega2 = CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_omega2);
@@ -1775,43 +1764,43 @@ int main()
   UNREFERENCED_PARAMETER(Nep_pi2);
   Nep_pi2 = CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelionJ2000(2451545);
 
-  double MoonGeocentricElongation = CAAMoonIlluminatedFraction::GeocentricElongation(8.97922, 13.7684, 1.377194, 8.6964);
-  double MoonPhaseAngle = CAAMoonIlluminatedFraction::PhaseAngle(MoonGeocentricElongation, 368410, 149971520);
-  double MoonIlluminatedFraction = CAAMoonIlluminatedFraction::IlluminatedFraction(MoonPhaseAngle);
+  const double MoonGeocentricElongation = CAAMoonIlluminatedFraction::GeocentricElongation(8.97922, 13.7684, 1.377194, 8.6964);
+  const double MoonPhaseAngle = CAAMoonIlluminatedFraction::PhaseAngle(MoonGeocentricElongation, 368410, 149971520);
+  const double MoonIlluminatedFraction = CAAMoonIlluminatedFraction::IlluminatedFraction(MoonPhaseAngle);
   UNREFERENCED_PARAMETER(MoonIlluminatedFraction);
-  double MoonPositionAngle = CAAMoonIlluminatedFraction::PositionAngle(CAACoordinateTransformation::DMSToDegrees(1, 22, 37.9), 8.6964, 134.6885/15, 13.7684);
+  const double MoonPositionAngle = CAAMoonIlluminatedFraction::PositionAngle(CAACoordinateTransformation::DMSToDegrees(1, 22, 37.9), 8.6964, 134.6885/15, 13.7684);
   UNREFERENCED_PARAMETER(MoonPositionAngle);
 
-  double JDVenus = CAADynamicalTime::TT2UTC(2448976.5);
+  const double JDVenus = CAADynamicalTime::TT2UTC(2448976.5);
   UNREFERENCED_PARAMETER(JDVenus);
-  CAAEllipticalPlanetaryDetails VenusDetails = CAAElliptical::Calculate(2448976.5, CAAElliptical::VENUS, false);
+  const CAAEllipticalPlanetaryDetails VenusDetails = CAAElliptical::Calculate(2448976.5, CAAElliptical::EllipticalObject::VENUS, false);
   UNREFERENCED_PARAMETER(VenusDetails);
-  CAAEllipticalPlanetaryDetails VenusDetails2 = CAAElliptical::Calculate(2448976.5, CAAElliptical::VENUS, true);
+  const CAAEllipticalPlanetaryDetails VenusDetails2 = CAAElliptical::Calculate(2448976.5, CAAElliptical::EllipticalObject::VENUS, true);
   UNREFERENCED_PARAMETER(VenusDetails2);
-  CAAEllipticalPlanetaryDetails VenusDetails3 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::VENUS, false);
+  const CAAEllipticalPlanetaryDetails VenusDetails3 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::EllipticalObject::VENUS, false);
   UNREFERENCED_PARAMETER(VenusDetails3);
-  CAAEllipticalPlanetaryDetails VenusDetails4 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::VENUS, true);
+  const CAAEllipticalPlanetaryDetails VenusDetails4 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::EllipticalObject::VENUS, true);
   UNREFERENCED_PARAMETER(VenusDetails4);
-  CAAEllipticalPlanetaryDetails VenusDetails5 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::VENUS, false);
+  const CAAEllipticalPlanetaryDetails VenusDetails5 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::EllipticalObject::VENUS, false);
   UNREFERENCED_PARAMETER(VenusDetails5);
-  CAAEllipticalPlanetaryDetails VenusDetails6 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::VENUS, true);
+  const CAAEllipticalPlanetaryDetails VenusDetails6 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::EllipticalObject::VENUS, true);
   UNREFERENCED_PARAMETER(VenusDetails6);
 
-  CAAEllipticalPlanetaryDetails SunDetails  = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::SUN, false);
+  const CAAEllipticalPlanetaryDetails SunDetails  = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::EllipticalObject::SUN, false);
   UNREFERENCED_PARAMETER(SunDetails);
-  CAAEllipticalPlanetaryDetails SunDetails2 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::SUN, true);
+  const CAAEllipticalPlanetaryDetails SunDetails2 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2453149.5), CAAElliptical::EllipticalObject::SUN, true);
   UNREFERENCED_PARAMETER(SunDetails2);
-  CAAEllipticalPlanetaryDetails SunDetails3 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::SUN, false);
+  const CAAEllipticalPlanetaryDetails SunDetails3 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::EllipticalObject::SUN, false);
   UNREFERENCED_PARAMETER(SunDetails3);
-  CAAEllipticalPlanetaryDetails SunDetails4 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::SUN, true);
+  const CAAEllipticalPlanetaryDetails SunDetails4 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457214.6), CAAElliptical::EllipticalObject::SUN, true);
   UNREFERENCED_PARAMETER(SunDetails4);
-  CAAEllipticalPlanetaryDetails SunDetails5 = CAAElliptical::Calculate(2448908.5, CAAElliptical::SUN, false);
+  const CAAEllipticalPlanetaryDetails SunDetails5 = CAAElliptical::Calculate(2448908.5, CAAElliptical::EllipticalObject::SUN, false);
   UNREFERENCED_PARAMETER(SunDetails5);
-  CAAEllipticalPlanetaryDetails SunDetails6 = CAAElliptical::Calculate(2448908.5, CAAElliptical::SUN, true);
+  const CAAEllipticalPlanetaryDetails SunDetails6 = CAAElliptical::Calculate(2448908.5, CAAElliptical::EllipticalObject::SUN, true);
   UNREFERENCED_PARAMETER(SunDetails6);
-  CAAEllipticalPlanetaryDetails SunDetails7 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457213.875), CAAElliptical::SUN, false);
+  const CAAEllipticalPlanetaryDetails SunDetails7 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457213.875), CAAElliptical::EllipticalObject::SUN, false);
   UNREFERENCED_PARAMETER(SunDetails7);
-  CAAEllipticalPlanetaryDetails SunDetails8 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457213.875), CAAElliptical::SUN, true);
+  const CAAEllipticalPlanetaryDetails SunDetails8 = CAAElliptical::Calculate(CAADynamicalTime::UTC2TT(2457213.875), CAAElliptical::EllipticalObject::SUN, true);
   UNREFERENCED_PARAMETER(SunDetails8);
 
   CAAEllipticalObjectElements elements;
@@ -1822,26 +1811,26 @@ int main()
   elements.w = 186.23352;
   elements.T = 2448192.5 + 0.54502;
   elements.JDEquinox = 2451544.5;
-  CAAEllipticalObjectDetails details = CAAElliptical::Calculate(2448170.5, elements, false);
+  const CAAEllipticalObjectDetails details = CAAElliptical::Calculate(2448170.5, elements, false);
   UNREFERENCED_PARAMETER(details);
-  CAAEllipticalObjectDetails details8 = CAAElliptical::Calculate(2448170.5, elements, true);
+  const CAAEllipticalObjectDetails details8 = CAAElliptical::Calculate(2448170.5, elements, true);
   UNREFERENCED_PARAMETER(details8);
 
-  double Velocity1 = CAAElliptical::InstantaneousVelocity(1, 17.9400782);
+  const double Velocity1 = CAAElliptical::InstantaneousVelocity(1, 17.9400782);
   UNREFERENCED_PARAMETER(Velocity1);
-  double Velocity2 = CAAElliptical::VelocityAtPerihelion(0.96727426, 17.9400782);
+  const double Velocity2 = CAAElliptical::VelocityAtPerihelion(0.96727426, 17.9400782);
   UNREFERENCED_PARAMETER(Velocity2);
-  double Velocity3 = CAAElliptical::VelocityAtAphelion(0.96727426, 17.9400782);
+  const double Velocity3 = CAAElliptical::VelocityAtAphelion(0.96727426, 17.9400782);
   UNREFERENCED_PARAMETER(Velocity3);
 
-  double Length = CAAElliptical::LengthOfEllipse(0.96727426, 17.9400782);
+  const double Length = CAAElliptical::LengthOfEllipse(0.96727426, 17.9400782);
   UNREFERENCED_PARAMETER(Length);
 
-  double Mag1 = CAAElliptical::MinorPlanetMagnitude(3.34, 1.6906631928, 0.12, 2.6154983761, 120);
+  const double Mag1 = CAAElliptical::MinorPlanetMagnitude(3.34, 1.6906631928, 0.12, 2.6154983761, 120);
   UNREFERENCED_PARAMETER(Mag1);
-  double Mag2 = CAAElliptical::CometMagnitude(5.5, 0.378, 10, 0.658);
+  const double Mag2 = CAAElliptical::CometMagnitude(5.5, 0.378, 10, 0.658);
   UNREFERENCED_PARAMETER(Mag2);
-  double Mag3 = CAAElliptical::CometMagnitude(5.5, 1.1017, 10, 1.5228);
+  const double Mag3 = CAAElliptical::CometMagnitude(5.5, 1.1017, 10, 1.5228);
   UNREFERENCED_PARAMETER(Mag3);
 
   CAAParabolicObjectElements elements2; //Sample taken from http://www.stjarnhimlen.se/comp/tutorial.html for comet Levy
@@ -1852,9 +1841,9 @@ int main()
   elements2.T = CAADate::DateToJD(1990, 10, 24.6954, true);
   elements2.JDEquinox = elements2.T; //Of the day
   double JDCalc = CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true));
-  CAAParabolicObjectDetails details2 = CAAParabolic::Calculate(JDCalc, elements2, false);
+  const CAAParabolicObjectDetails details2 = CAAParabolic::Calculate(JDCalc, elements2, false);
   UNREFERENCED_PARAMETER(details2);
-  CAAParabolicObjectDetails details5 = CAAParabolic::Calculate(JDCalc, elements2, true);
+  const CAAParabolicObjectDetails details5 = CAAParabolic::Calculate(JDCalc, elements2, true);
   UNREFERENCED_PARAMETER(details5);
 
   CAAEllipticalObjectElements elements3;
@@ -1865,9 +1854,9 @@ int main()
   elements3.w = 111.84644;
   elements3.T = 2446470.5 + 0.45891;
   elements3.JDEquinox = 0; //Not required
-  CAANodeObjectDetails nodedetails = CAANodes::PassageThroAscendingNode(elements3);
+  const CAANodeObjectDetails nodedetails = CAANodes::PassageThroAscendingNode(elements3);
   UNREFERENCED_PARAMETER(nodedetails);
-  CAANodeObjectDetails nodedetails2 = CAANodes::PassageThroDescendingNode(elements3);
+  const CAANodeObjectDetails nodedetails2 = CAANodes::PassageThroDescendingNode(elements3);
   UNREFERENCED_PARAMETER(nodedetails2);
 
   CAAParabolicObjectElements elements4;
@@ -1877,9 +1866,9 @@ int main()
   elements4.w = 154.9103;
   elements4.T = 2447758.5 + 0.2910;
   elements4.JDEquinox = 0; //Not required
-  CAANodeObjectDetails nodedetails3 = CAANodes::PassageThroAscendingNode(elements4);
+  const CAANodeObjectDetails nodedetails3 = CAANodes::PassageThroAscendingNode(elements4);
   UNREFERENCED_PARAMETER(nodedetails3);
-  CAANodeObjectDetails nodedetails4 = CAANodes::PassageThroDescendingNode(elements4);
+  const CAANodeObjectDetails nodedetails4 = CAANodes::PassageThroDescendingNode(elements4);
   UNREFERENCED_PARAMETER(nodedetails4);
 
 
@@ -1891,51 +1880,52 @@ int main()
   elements5.w = 54.778485;
   elements5.T = 2443873.704;
   elements5.JDEquinox = 0; //Not required
-  CAANodeObjectDetails nodedetails5 = CAANodes::PassageThroAscendingNode(elements5);
+  const CAANodeObjectDetails nodedetails5 = CAANodes::PassageThroAscendingNode(elements5);
   UNREFERENCED_PARAMETER(nodedetails5);
 
 
-  double MoonK2 = CAAMoonNodes::K(1987.37);
+  constexpr const double MoonK2 = CAAMoonNodes::K(1987.37);
   UNREFERENCED_PARAMETER(MoonK2);
-  double MoonJD = CAAMoonNodes::PassageThroNode(-170);
+  const double MoonJD = CAAMoonNodes::PassageThroNode(-170);
   UNREFERENCED_PARAMETER(MoonJD);
 
 
-  double Y = CAAInterpolate::Interpolate(0.18125, 0.884226, 0.877366, 0.870531);
+  const double Y = CAAInterpolate::Interpolate(0.18125, 0.884226, 0.877366, 0.870531);
   UNREFERENCED_PARAMETER(Y);
 
-  double NM;
-  double YM = CAAInterpolate::Extremum(1.3814294, 1.3812213, 1.3812453, NM);
+  double NM = 0;
+  const double YM = CAAInterpolate::Extremum(1.3814294, 1.3812213, 1.3812453, NM);
   UNREFERENCED_PARAMETER(YM);
 
-  double N0 = CAAInterpolate::Zero(-1693.4, 406.3, 2303.2);
+  const double N0 = CAAInterpolate::Zero(-1693.4, 406.3, 2303.2);
   UNREFERENCED_PARAMETER(N0);
 
-  double N02 = CAAInterpolate::Zero2(-2, 3, 2);
+  const double N02 = CAAInterpolate::Zero2(-2, 3, 2);
   UNREFERENCED_PARAMETER(N02);
 
-  double Y2 = CAAInterpolate::Interpolate(0.2777778, 36.125, 24.606, 15.486, 8.694, 4.133);
+  const double Y2 = CAAInterpolate::Interpolate(0.2777778, 36.125, 24.606, 15.486, 8.694, 4.133);
   UNREFERENCED_PARAMETER(Y2);
 
-  double N03 = CAAInterpolate::Zero(CAACoordinateTransformation::DMSToDegrees(1, 11, 21.23, false), CAACoordinateTransformation::DMSToDegrees(0, 28, 12.31, false), CAACoordinateTransformation::DMSToDegrees(0, 16, 7.02), CAACoordinateTransformation::DMSToDegrees(1, 1, 0.13), CAACoordinateTransformation::DMSToDegrees(1, 45, 46.33));
+  const double N03 = CAAInterpolate::Zero(CAACoordinateTransformation::DMSToDegrees(1, 11, 21.23, false), CAACoordinateTransformation::DMSToDegrees(0, 28, 12.31, false), CAACoordinateTransformation::DMSToDegrees(0, 16, 7.02), CAACoordinateTransformation::DMSToDegrees(1, 1, 0.13), CAACoordinateTransformation::DMSToDegrees(1, 45, 46.33));
   UNREFERENCED_PARAMETER(N03);
 
-  double N04 = CAAInterpolate::Zero(CAACoordinateTransformation::DMSToDegrees(0, 28, 12.31, false), CAACoordinateTransformation::DMSToDegrees(0, 16, 7.02), CAACoordinateTransformation::DMSToDegrees(1, 1, 0.13));
+  const double N04 = CAAInterpolate::Zero(CAACoordinateTransformation::DMSToDegrees(0, 28, 12.31, false), CAACoordinateTransformation::DMSToDegrees(0, 16, 7.02), CAACoordinateTransformation::DMSToDegrees(1, 1, 0.13));
   UNREFERENCED_PARAMETER(N04);
 
-  double N05 = CAAInterpolate::Zero2(-13, -2, 3, 2, -5);
+  const double N05 = CAAInterpolate::Zero2(-13, -2, 3, 2, -5);
   UNREFERENCED_PARAMETER(N05);
 
-  double Y3 = CAAInterpolate::InterpolateToHalves(1128.732, 1402.835, 1677.247, 1951.983);
+  constexpr const double Y3 = CAAInterpolate::InterpolateToHalves(1128.732, 1402.835, 1677.247, 1951.983);
   UNREFERENCED_PARAMETER(Y3);
 
-  double X1[] = { 29.43, 30.97, 27.69, 28.11, 31.58, 33.05 };
-  double Y1[] = { 0.4913598528, 0.5145891926, 0.4646875083, 0.4711658342, 0.5236885653, 0.5453707057 };
-  double Y4 = CAAInterpolate::LagrangeInterpolate(30, 6, X1, Y1);
+  vector<double> X1 = { 29.43, 30.97, 27.69, 28.11, 31.58, 33.05 };
+  vector<double> Y1 = { 0.4913598528, 0.5145891926, 0.4646875083, 0.4711658342, 0.5236885653, 0.5453707057 };
+  assert(X1.size() == Y1.size());
+  const double Y4 = CAAInterpolate::LagrangeInterpolate(30, static_cast<int>(X1.size()), X1.data(), Y1.data());
   UNREFERENCED_PARAMETER(Y4);
-  double Y5 = CAAInterpolate::LagrangeInterpolate(0, 6, X1, Y1);
+  const double Y5 = CAAInterpolate::LagrangeInterpolate(0, static_cast<int>(X1.size()), X1.data(), Y1.data());
   UNREFERENCED_PARAMETER(Y5);
-  double Y6 = CAAInterpolate::LagrangeInterpolate(90, 6, X1, Y1);
+  const double Y6 = CAAInterpolate::LagrangeInterpolate(90, static_cast<int>(X1.size()), X1.data(), Y1.data());
   UNREFERENCED_PARAMETER(Y6);
 
   double Alpha1 = CAACoordinateTransformation::DMSToDegrees(2, 42, 43.25);
@@ -1950,21 +1940,21 @@ int main()
   CAARiseTransitSetDetails RiseTransitSetTime = CAARiseTransitSet::Calculate(JD2, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, -0.5667);
   if (RiseTransitSetTime.bRiseValid)
   {
-    double riseJD = (JD2 + (RiseTransitSetTime.Rise / 24.00));
-    CAADate rtsDate(riseJD, true);
+    const double riseJD = (JD2 + (RiseTransitSetTime.Rise / 24.00));
+    const CAADate rtsDate(riseJD, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Venus rise for Boston for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
   }
   else
   {
-    CAADate rtsDate(JD2, true);
+    const CAADate rtsDate(JD2, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Venus does not rise for Boston for UTC %d-%d-%d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
   }
   if (RiseTransitSetTime.bTransitValid)
   {
-    double transitJD = (JD2 + (RiseTransitSetTime.Transit / 24.00));
-    CAADate rtsDate(transitJD, true);
+    const double transitJD = (JD2 + (RiseTransitSetTime.Transit / 24.00));
+    const CAADate rtsDate(transitJD, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     if (RiseTransitSetTime.bTransitAboveHorizon)
       printf("Venus transit for Boston for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
@@ -1973,30 +1963,30 @@ int main()
   }
   else
   {
-    CAADate rtsDate(JD2, true);
+    const CAADate rtsDate(JD2, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Venus does not transit for Boston for UTC %d-%d-%d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
   }
 
   if (RiseTransitSetTime.bSetValid)
   {
-    double setJD = (JD2 + (RiseTransitSetTime.Set / 24.00));
-    CAADate rtsDate(setJD, true);
+    const double setJD = (JD2 + (RiseTransitSetTime.Set / 24.00));
+    const CAADate rtsDate(setJD, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Venus set for Boston UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
   }
   else
   {
-    CAADate rtsDate(JD2, true);
+    const CAADate rtsDate(JD2, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Venus does not set for Boston for UTC %d-%d-%d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
   }
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
-  int YYYY = 2009;
-  int MM = 8;
-  int DD = 11;
-  CAADate CalcDate(YYYY, MM, DD, true);
+  const int YYYY = 2009;
+  const int MM = 8;
+  const int DD = 11;
+  const CAADate CalcDate(YYYY, MM, DD, true);
   JD2 = CalcDate.Julian();
   GetLunarRaDecByJulian(JD2 - 1, Alpha1, Delta1);
   GetLunarRaDecByJulian(JD2, Alpha2, Delta2);
@@ -2006,8 +1996,8 @@ int main()
   RiseTransitSetTime = CAARiseTransitSet::Calculate(JD2, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, 0.125);
   if (RiseTransitSetTime.bRiseValid)
   {
-    double riseJD = (JD2 + (RiseTransitSetTime.Rise / 24.00));
-    CAADate rtsDate(riseJD, true);
+    const double riseJD = (JD2 + (RiseTransitSetTime.Rise / 24.00));
+    const CAADate rtsDate(riseJD, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Moon rise for Palomar Observatory for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
   }
@@ -2017,8 +2007,8 @@ int main()
   }
   if (RiseTransitSetTime.bTransitValid)
   {
-    double transitJD = (JD2 + (RiseTransitSetTime.Transit / 24.00));
-    CAADate rtsDate(transitJD, true);
+    const double transitJD = (JD2 + (RiseTransitSetTime.Transit / 24.00));
+    const CAADate rtsDate(transitJD, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     if (RiseTransitSetTime.bTransitAboveHorizon)
       printf("Moon transit for Palomar Observatory for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
@@ -2031,8 +2021,8 @@ int main()
   }
   if (RiseTransitSetTime.bSetValid)
   {
-    double setJD = (JD2 + (RiseTransitSetTime.Set / 24.00));
-    CAADate rtsDate(setJD, true);
+    const double setJD = (JD2 + (RiseTransitSetTime.Set / 24.00));
+    const CAADate rtsDate(setJD, true);
     rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
     printf("Moon set for Palomar Observatory for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
   }
@@ -2041,105 +2031,105 @@ int main()
     printf("Moon does not set for Palomar Observatory for UTC %d-%d-%d\n", YYYY, MM, DD);
   }
 
-  double Kpp = CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::MERCURY, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
-  double MercuryInferiorConjunction = CAAPlanetaryPhenomena::Mean(Kpp, CAAPlanetaryPhenomena::MERCURY, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
+  const double Kpp = CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  const double MercuryInferiorConjunction = CAAPlanetaryPhenomena::Mean(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
   UNREFERENCED_PARAMETER(MercuryInferiorConjunction);
-  double MercuryInferiorConjunction2 = CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::MERCURY, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
+  const double MercuryInferiorConjunction2 = CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
   UNREFERENCED_PARAMETER(MercuryInferiorConjunction2);
 
-  double Kpp2 = CAAPlanetaryPhenomena::K(2125.5, CAAPlanetaryPhenomena::SATURN, CAAPlanetaryPhenomena::CONJUNCTION);
-  double SaturnConjunction = CAAPlanetaryPhenomena::Mean(Kpp2, CAAPlanetaryPhenomena::SATURN, CAAPlanetaryPhenomena::CONJUNCTION);
+  const double Kpp2 = CAAPlanetaryPhenomena::K(2125.5, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
+  const double SaturnConjunction = CAAPlanetaryPhenomena::Mean(Kpp2, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
   UNREFERENCED_PARAMETER(SaturnConjunction);
-  double SaturnConjunction2 = CAAPlanetaryPhenomena::True(Kpp2, CAAPlanetaryPhenomena::SATURN, CAAPlanetaryPhenomena::CONJUNCTION);
+  const double SaturnConjunction2 = CAAPlanetaryPhenomena::True(Kpp2, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
   UNREFERENCED_PARAMETER(SaturnConjunction2);
 
-  double MercuryWesternElongation = CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::MERCURY, CAAPlanetaryPhenomena::WESTERN_ELONGATION);
+  const double MercuryWesternElongation = CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::WESTERN_ELONGATION);
   UNREFERENCED_PARAMETER(MercuryWesternElongation);
-  double MercuryWesternElongationValue = CAAPlanetaryPhenomena::ElongationValue(Kpp, CAAPlanetaryPhenomena::MERCURY, false);
+  const double MercuryWesternElongationValue = CAAPlanetaryPhenomena::ElongationValue(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, false);
   UNREFERENCED_PARAMETER(MercuryWesternElongationValue);
 
-  double MarsStation2 = CAAPlanetaryPhenomena::True(-2, CAAPlanetaryPhenomena::MARS, CAAPlanetaryPhenomena::STATION2);
+  const double MarsStation2 = CAAPlanetaryPhenomena::True(-2, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::STATION2);
   UNREFERENCED_PARAMETER(MarsStation2);
 
-  double MercuryK = CAAPlanetaryPhenomena::K(1631.8, CAAPlanetaryPhenomena::MERCURY, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
-  double MercuryIC = CAAPlanetaryPhenomena::True(MercuryK, CAAPlanetaryPhenomena::MERCURY, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
+  const double MercuryK = CAAPlanetaryPhenomena::K(1631.8, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  const double MercuryIC = CAAPlanetaryPhenomena::True(MercuryK, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
   UNREFERENCED_PARAMETER(MercuryIC);
 
-  double VenusKpp = CAAPlanetaryPhenomena::K(1882.9, CAAPlanetaryPhenomena::VENUS, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
-  double VenusIC = CAAPlanetaryPhenomena::True(VenusKpp, CAAPlanetaryPhenomena::VENUS, CAAPlanetaryPhenomena::INFERIOR_CONJUNCTION);
+  const double VenusKpp = CAAPlanetaryPhenomena::K(1882.9, CAAPlanetaryPhenomena::PlanetaryObject::VENUS, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  const double VenusIC = CAAPlanetaryPhenomena::True(VenusKpp, CAAPlanetaryPhenomena::PlanetaryObject::VENUS, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
   UNREFERENCED_PARAMETER(VenusIC);
 
-  double MarsKpp = CAAPlanetaryPhenomena::K(2729.65, CAAPlanetaryPhenomena::MARS, CAAPlanetaryPhenomena::OPPOSITION);
-  double MarsOP = CAAPlanetaryPhenomena::True(MarsKpp, CAAPlanetaryPhenomena::MARS, CAAPlanetaryPhenomena::OPPOSITION);
+  const double MarsKpp = CAAPlanetaryPhenomena::K(2729.65, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  const double MarsOP = CAAPlanetaryPhenomena::True(MarsKpp, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   UNREFERENCED_PARAMETER(MarsOP);
 
-  double JupiterKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::JUPITER, CAAPlanetaryPhenomena::OPPOSITION);
-  double JupiterOP = CAAPlanetaryPhenomena::True(JupiterKpp, CAAPlanetaryPhenomena::JUPITER, CAAPlanetaryPhenomena::OPPOSITION);
+  const double JupiterKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::PlanetaryObject::JUPITER, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  const double JupiterOP = CAAPlanetaryPhenomena::True(JupiterKpp, CAAPlanetaryPhenomena::PlanetaryObject::JUPITER, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   UNREFERENCED_PARAMETER(JupiterOP);
 
-  double SaturnKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::SATURN, CAAPlanetaryPhenomena::OPPOSITION);
-  double SaturnOP = CAAPlanetaryPhenomena::True(SaturnKpp, CAAPlanetaryPhenomena::SATURN, CAAPlanetaryPhenomena::OPPOSITION);
+  const double SaturnKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  const double SaturnOP = CAAPlanetaryPhenomena::True(SaturnKpp, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   UNREFERENCED_PARAMETER(SaturnOP);
 
-  double UranusKpp = CAAPlanetaryPhenomena::K(1780.6, CAAPlanetaryPhenomena::URANUS, CAAPlanetaryPhenomena::OPPOSITION);
-  double UranusOP = CAAPlanetaryPhenomena::True(UranusKpp, CAAPlanetaryPhenomena::URANUS, CAAPlanetaryPhenomena::OPPOSITION);
+  const double UranusKpp = CAAPlanetaryPhenomena::K(1780.6, CAAPlanetaryPhenomena::PlanetaryObject::URANUS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  const double UranusOP = CAAPlanetaryPhenomena::True(UranusKpp, CAAPlanetaryPhenomena::PlanetaryObject::URANUS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   UNREFERENCED_PARAMETER(UranusOP);
 
-  double NeptuneKpp = CAAPlanetaryPhenomena::K(1846.5, CAAPlanetaryPhenomena::NEPTUNE, CAAPlanetaryPhenomena::OPPOSITION);
-  double NeptuneOP = CAAPlanetaryPhenomena::True(NeptuneKpp, CAAPlanetaryPhenomena::NEPTUNE, CAAPlanetaryPhenomena::OPPOSITION);
+  const double NeptuneKpp = CAAPlanetaryPhenomena::K(1846.5, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  const double NeptuneOP = CAAPlanetaryPhenomena::True(NeptuneKpp, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   UNREFERENCED_PARAMETER(NeptuneOP);
 
-  CAA2DCoordinate TopocentricDelta = CAAParallax::Equatorial2TopocentricDelta(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27)*15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681);
+  const CAA2DCoordinate TopocentricDelta = CAAParallax::Equatorial2TopocentricDelta(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27)*15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681);
   UNREFERENCED_PARAMETER(TopocentricDelta);
-  CAA2DCoordinate Topocentric = CAAParallax::Equatorial2Topocentric(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27)*15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681);
+  const CAA2DCoordinate Topocentric = CAAParallax::Equatorial2Topocentric(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27)*15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681);
   UNREFERENCED_PARAMETER(Topocentric);
 
 
-  double distance2 = CAAParallax::ParallaxToDistance(CAACoordinateTransformation::DMSToDegrees(0, 59, 27.7));
-  double parallax2 = CAAParallax::DistanceToParallax(distance2);
+  const double distance2 = CAAParallax::ParallaxToDistance(CAACoordinateTransformation::DMSToDegrees(0, 59, 27.7));
+  const double parallax2 = CAAParallax::DistanceToParallax(distance2);
   UNREFERENCED_PARAMETER(parallax2);
 
-  CAATopocentricEclipticDetails TopocentricDetails = CAAParallax::Ecliptic2Topocentric(CAACoordinateTransformation::DMSToDegrees(181, 46, 22.5), CAACoordinateTransformation::DMSToDegrees(2, 17, 26.2),
-                                                                                       CAACoordinateTransformation::DMSToDegrees(0, 16, 15.5), CAAParallax::ParallaxToDistance(CAACoordinateTransformation::DMSToDegrees(0, 59, 27.7)), CAACoordinateTransformation::DMSToDegrees(23, 28, 0.8),
-                                                                                       CAACoordinateTransformation::DMSToDegrees(50, 5, 7.8), 0, 2452879.150858);
+  const CAATopocentricEclipticDetails TopocentricDetails = CAAParallax::Ecliptic2Topocentric(CAACoordinateTransformation::DMSToDegrees(181, 46, 22.5), CAACoordinateTransformation::DMSToDegrees(2, 17, 26.2),
+                                                                                             CAACoordinateTransformation::DMSToDegrees(0, 16, 15.5), CAAParallax::ParallaxToDistance(CAACoordinateTransformation::DMSToDegrees(0, 59, 27.7)), CAACoordinateTransformation::DMSToDegrees(23, 28, 0.8),
+                                                                                             CAACoordinateTransformation::DMSToDegrees(50, 5, 7.8), 0, 2452879.150858);
   UNREFERENCED_PARAMETER(TopocentricDetails);
 
-  double k = CAAIlluminatedFraction::IlluminatedFraction(0.724604, 0.983824, 0.910947);
+  constexpr const double k = CAAIlluminatedFraction::IlluminatedFraction(0.724604, 0.983824, 0.910947);
   UNREFERENCED_PARAMETER(k);
-  double pa1 = CAAIlluminatedFraction::PhaseAngle(0.724604, 0.983824, 0.910947);
+  const double pa1 = CAAIlluminatedFraction::PhaseAngle(0.724604, 0.983824, 0.910947);
   UNREFERENCED_PARAMETER(pa1);
-  double pa = CAAIlluminatedFraction::PhaseAngle(0.724604, 0.983824, -2.62070, 26.11428, 88.35704, 0.910947);
-  double k2 = CAAIlluminatedFraction::IlluminatedFraction(pa);
+  const double pa = CAAIlluminatedFraction::PhaseAngle(0.724604, 0.983824, -2.62070, 26.11428, 88.35704, 0.910947);
+  const double k2 = CAAIlluminatedFraction::IlluminatedFraction(pa);
   UNREFERENCED_PARAMETER(k2);
-  double pa2 = CAAIlluminatedFraction::PhaseAngleRectangular(0.621746, -0.664810, -0.033134, -2.62070, 26.11428, 0.910947);
-  double k3 = CAAIlluminatedFraction::IlluminatedFraction(pa2);
+  const double pa2 = CAAIlluminatedFraction::PhaseAngleRectangular(0.621746, -0.664810, -0.033134, -2.62070, 26.11428, 0.910947);
+  const double k3 = CAAIlluminatedFraction::IlluminatedFraction(pa2);
   UNREFERENCED_PARAMETER(k3);
 
-  double VenusMag = CAAIlluminatedFraction::VenusMagnitudeMuller(0.724604, 0.910947, 72.96);
+  const double VenusMag = CAAIlluminatedFraction::VenusMagnitudeMuller(0.724604, 0.910947, 72.96);
   UNREFERENCED_PARAMETER(VenusMag);
-  double VenusMag2 = CAAIlluminatedFraction::VenusMagnitudeAA(0.724604, 0.910947, 72.96);
+  const double VenusMag2 = CAAIlluminatedFraction::VenusMagnitudeAA(0.724604, 0.910947, 72.96);
   UNREFERENCED_PARAMETER(VenusMag2);
 
-  double SaturnMag = CAAIlluminatedFraction::SaturnMagnitudeMuller(9.867882, 10.464606, 4.198, 16.442);
+  const double SaturnMag = CAAIlluminatedFraction::SaturnMagnitudeMuller(9.867882, 10.464606, 4.198, 16.442);
   UNREFERENCED_PARAMETER(SaturnMag);
-  double SaturnMag2 = CAAIlluminatedFraction::SaturnMagnitudeAA(9.867882, 10.464606, 4.198, 16.442);
+  const double SaturnMag2 = CAAIlluminatedFraction::SaturnMagnitudeAA(9.867882, 10.464606, 4.198, 16.442);
   UNREFERENCED_PARAMETER(SaturnMag2);
 
 
-  CAAPhysicalMarsDetails MarsDetails = CAAPhysicalMars::Calculate(2448935.500683, false);
+  const CAAPhysicalMarsDetails MarsDetails = CAAPhysicalMars::Calculate(2448935.500683, false);
   UNREFERENCED_PARAMETER(MarsDetails);
-  CAAPhysicalMarsDetails MarsDetails2 = CAAPhysicalMars::Calculate(2448935.500683, true);
+  const CAAPhysicalMarsDetails MarsDetails2 = CAAPhysicalMars::Calculate(2448935.500683, true);
   UNREFERENCED_PARAMETER(MarsDetails2);
 
-  CAAPhysicalJupiterDetails JupiterDetails = CAAPhysicalJupiter::Calculate(2448972.50068, false);
+  const CAAPhysicalJupiterDetails JupiterDetails = CAAPhysicalJupiter::Calculate(2448972.50068, false);
   UNREFERENCED_PARAMETER(JupiterDetails);
-  CAAPhysicalJupiterDetails JupiterDetails2 = CAAPhysicalJupiter::Calculate(2448972.50068, true);
+  const CAAPhysicalJupiterDetails JupiterDetails2 = CAAPhysicalJupiter::Calculate(2448972.50068, true);
   UNREFERENCED_PARAMETER(JupiterDetails2);
 
   //The example as given in the book
-  CAAGalileanMoonsDetails GalileanDetails = CAAGalileanMoons::Calculate(2448972.50068, false);
+  const CAAGalileanMoonsDetails GalileanDetails = CAAGalileanMoons::Calculate(2448972.50068, false);
   UNREFERENCED_PARAMETER(GalileanDetails);
-  CAAGalileanMoonsDetails GalileanDetails2 = CAAGalileanMoons::Calculate(2448972.50068, true);
+  const CAAGalileanMoonsDetails GalileanDetails2 = CAAGalileanMoons::Calculate(2448972.50068, true);
   UNREFERENCED_PARAMETER(GalileanDetails2);
 
   //Calculate the Eclipse Disappearance of Satellite 1 on February 1 2004 at 13:32 UCT
@@ -2147,9 +2137,9 @@ int main()
   int i;
   for (i=0; i<10; i++)
   {
-    CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
+    const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
     UNREFERENCED_PARAMETER(GalileanDetails1);
-    CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
+    const CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
     UNREFERENCED_PARAMETER(GalileanDetails3);
     JD += (1.0/1440);
   }
@@ -2158,9 +2148,9 @@ int main()
   JD = 2453038.04236;
   for (i=0; i<10; i++)
   {
-    CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
+    const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
     UNREFERENCED_PARAMETER(GalileanDetails1);
-    CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
+    const CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
     UNREFERENCED_PARAMETER(GalileanDetails3);
     JD += (1.0/1440);
   }
@@ -2169,9 +2159,9 @@ int main()
   JD = 2453042.45486;
   for (i=0; i<10; i++)
   {
-    CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
+    const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
     UNREFERENCED_PARAMETER(GalileanDetails1);
-    CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
+    const CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
     UNREFERENCED_PARAMETER(GalileanDetails3);
     JD += (1.0/1440);
   }
@@ -2180,9 +2170,9 @@ int main()
   JD = 2453042.61042;
   for (i=0; i<10; i++)
   {
-    CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
+    const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
     UNREFERENCED_PARAMETER(GalileanDetails1);
-    CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
+    const CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
     UNREFERENCED_PARAMETER(GalileanDetails3);
     JD += (1.0/1440);
   }
@@ -2191,9 +2181,9 @@ int main()
   JD = 2453042.71181;
   for (i=0; i<10; i++)
   {
-    CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
+    const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
     UNREFERENCED_PARAMETER(GalileanDetails1);
-    CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
+    const CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
     UNREFERENCED_PARAMETER(GalileanDetails3);
     JD += (1.0/1440);
   }
@@ -2202,16 +2192,16 @@ int main()
   JD = 2453042.82222;
   for (i=0; i<10; i++)
   {
-    CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
+    const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
     UNREFERENCED_PARAMETER(GalileanDetails1);
-    CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
+    const CAAGalileanMoonsDetails GalileanDetails3 = CAAGalileanMoons::Calculate(JD, true);
     UNREFERENCED_PARAMETER(GalileanDetails3);
     JD += (1.0/1440);
   }
 
-  CAASaturnRingDetails saturnrings = CAASaturnRings::Calculate(2448972.50068, false);
+  const CAASaturnRingDetails saturnrings = CAASaturnRings::Calculate(2448972.50068, false);
   UNREFERENCED_PARAMETER(saturnrings);
-  CAASaturnRingDetails saturnrings2 = CAASaturnRings::Calculate(2448972.50068, true);
+  const CAASaturnRingDetails saturnrings2 = CAASaturnRings::Calculate(2448972.50068, true);
   UNREFERENCED_PARAMETER(saturnrings2);
 
   /*
@@ -2231,182 +2221,182 @@ int main()
   }
   */
 
-  CAASaturnMoonsDetails saturnMoons = CAASaturnMoons::Calculate(2451439.50074, false);
+  const CAASaturnMoonsDetails saturnMoons = CAASaturnMoons::Calculate(2451439.50074, false);
   UNREFERENCED_PARAMETER(saturnMoons);
-  CAASaturnMoonsDetails saturnMoons2 = CAASaturnMoons::Calculate(2451439.50074, true);
+  const CAASaturnMoonsDetails saturnMoons2 = CAASaturnMoons::Calculate(2451439.50074, true);
   UNREFERENCED_PARAMETER(saturnMoons2);
 
   double ApproxK = CAAMoonPhases::K(1977.125);
   UNREFERENCED_PARAMETER(ApproxK);
-  double NewMoonJD = CAAMoonPhases::TruePhase(-283);
+  const double NewMoonJD = CAAMoonPhases::TruePhase(-283);
   UNREFERENCED_PARAMETER(NewMoonJD);
 
   ApproxK = CAAMoonPhases::K(1952.88);
   double LastQuarterJD = CAAMoonPhases::TruePhase(-583 + 0.75);
   UNREFERENCED_PARAMETER(LastQuarterJD);
 
-  double ApproxK2 = CAAMoonPhases::K(2044);
+  constexpr const double ApproxK2 = CAAMoonPhases::K(2044);
   UNREFERENCED_PARAMETER(ApproxK2);
   LastQuarterJD = CAAMoonPhases::TruePhase(544.75);
 
-  double MoonDeclinationK = CAAMoonMaxDeclinations::K(1988.95);
+  constexpr const double MoonDeclinationK = CAAMoonMaxDeclinations::K(1988.95);
   UNREFERENCED_PARAMETER(MoonDeclinationK);
 
-  double MoonNorthDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(-148, true);
+  const double MoonNorthDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(-148, true);
   UNREFERENCED_PARAMETER(MoonNorthDec);
-  double MoonNorthDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(-148, true);
+  const double MoonNorthDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(-148, true);
   UNREFERENCED_PARAMETER(MoonNorthDecValue);
 
-  double MoonSouthDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(659, false);
+  const double MoonSouthDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(659, false);
   UNREFERENCED_PARAMETER(MoonSouthDec);
-  double MoonSouthDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(659, false);
+  const double MoonSouthDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(659, false);
   UNREFERENCED_PARAMETER(MoonSouthDecValue);
 
-  double MoonNorthDec2 = CAAMoonMaxDeclinations::TrueGreatestDeclination(-26788, true);
+  const double MoonNorthDec2 = CAAMoonMaxDeclinations::TrueGreatestDeclination(-26788, true);
   UNREFERENCED_PARAMETER(MoonNorthDec2);
-  double MoonNorthDecValue2 = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(-26788, true);
+  const double MoonNorthDecValue2 = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(-26788, true);
   UNREFERENCED_PARAMETER(MoonNorthDecValue2);
 
-  double sd1 = CAADiameters::SunSemidiameterA(1);
+  constexpr const double sd1 = CAADiameters::SunSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd1);
-  double sd2 = CAADiameters::SunSemidiameterA(2);
+  constexpr const double sd2 = CAADiameters::SunSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd2);
 
-  double sd3 = CAADiameters::VenusSemidiameterA(1);
+  constexpr const double sd3 = CAADiameters::VenusSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd3);
-  double sd4 = CAADiameters::VenusSemidiameterA(2);
+  constexpr const double sd4 = CAADiameters::VenusSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd4);
-  double sd5 = CAADiameters::VenusSemidiameterB(1);
+  constexpr const double sd5 = CAADiameters::VenusSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd5);
-  double sd6 = CAADiameters::VenusSemidiameterB(2);
+  constexpr const double sd6 = CAADiameters::VenusSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd6);
 
-  double sd11 = CAADiameters::MarsSemidiameterA(1);
+  constexpr const double sd11 = CAADiameters::MarsSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd11);
-  double sd12 = CAADiameters::MarsSemidiameterA(2);
+  constexpr const double sd12 = CAADiameters::MarsSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd12);
-  double sd13 = CAADiameters::MarsSemidiameterB(1);
+  constexpr const double sd13 = CAADiameters::MarsSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd13);
-  double sd14 = CAADiameters::MarsSemidiameterB(2);
+  constexpr const double sd14 = CAADiameters::MarsSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd14);
 
-  double sd15 = CAADiameters::JupiterEquatorialSemidiameterA(1);
+  constexpr const double sd15 = CAADiameters::JupiterEquatorialSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd15);
-  double sd16 = CAADiameters::JupiterEquatorialSemidiameterA(2);
+  constexpr const double sd16 = CAADiameters::JupiterEquatorialSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd16);
-  double sd17 = CAADiameters::JupiterEquatorialSemidiameterB(1);
+  constexpr const double sd17 = CAADiameters::JupiterEquatorialSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd17);
-  double sd18 = CAADiameters::JupiterEquatorialSemidiameterB(2);
+  constexpr const double sd18 = CAADiameters::JupiterEquatorialSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd18);
 
-  double sd19 = CAADiameters::JupiterPolarSemidiameterA(1);
+  constexpr const double sd19 = CAADiameters::JupiterPolarSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd19);
-  double sd20 = CAADiameters::JupiterPolarSemidiameterA(2);
+  constexpr const double sd20 = CAADiameters::JupiterPolarSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd20);
-  double sd21 = CAADiameters::JupiterPolarSemidiameterB(1);
+  constexpr const double sd21 = CAADiameters::JupiterPolarSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd21);
-  double sd22 = CAADiameters::JupiterPolarSemidiameterB(2);
+  constexpr const double sd22 = CAADiameters::JupiterPolarSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd22);
 
-  double sd23 = CAADiameters::SaturnEquatorialSemidiameterA(1);
+  constexpr const double sd23 = CAADiameters::SaturnEquatorialSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd23);
-  double sd24 = CAADiameters::SaturnEquatorialSemidiameterA(2);
+  constexpr const double sd24 = CAADiameters::SaturnEquatorialSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd24);
-  double sd25 = CAADiameters::SaturnEquatorialSemidiameterB(1);
+  constexpr const double sd25 = CAADiameters::SaturnEquatorialSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd25);
-  double sd26 = CAADiameters::SaturnEquatorialSemidiameterB(2);
+  constexpr const double sd26 = CAADiameters::SaturnEquatorialSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd26);
 
-  double sd27 = CAADiameters::SaturnPolarSemidiameterA(1);
+  constexpr const double sd27 = CAADiameters::SaturnPolarSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd27);
-  double sd28 = CAADiameters::SaturnPolarSemidiameterA(2);
+  constexpr const double sd28 = CAADiameters::SaturnPolarSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd28);
-  double sd29 = CAADiameters::SaturnPolarSemidiameterB(1);
+  constexpr const double sd29 = CAADiameters::SaturnPolarSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd29);
-  double sd30 = CAADiameters::SaturnPolarSemidiameterB(2);
+  constexpr const double sd30 = CAADiameters::SaturnPolarSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd30);
 
-  double sd31 = CAADiameters::ApparentSaturnPolarSemidiameterA(1, 16.442);
+  const double sd31 = CAADiameters::ApparentSaturnPolarSemidiameterA(1, 16.442);
   UNREFERENCED_PARAMETER(sd31);
-  double sd32 = CAADiameters::ApparentSaturnPolarSemidiameterA(2, 16.442);
+  const double sd32 = CAADiameters::ApparentSaturnPolarSemidiameterA(2, 16.442);
   UNREFERENCED_PARAMETER(sd32);
 
-  double sd33 = CAADiameters::UranusSemidiameterA(1);
+  constexpr const double sd33 = CAADiameters::UranusSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd33);
-  double sd34 = CAADiameters::UranusSemidiameterA(2);
+  constexpr const double sd34 = CAADiameters::UranusSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd34);
-  double sd35 = CAADiameters::UranusSemidiameterB(1);
+  constexpr const double sd35 = CAADiameters::UranusSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd35);
-  double sd36 = CAADiameters::UranusSemidiameterB(2);
+  constexpr const double sd36 = CAADiameters::UranusSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd36);
 
-  double sd37 = CAADiameters::NeptuneSemidiameterA(1);
+  constexpr const double sd37 = CAADiameters::NeptuneSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd37);
-  double sd38 = CAADiameters::NeptuneSemidiameterA(2);
+  constexpr const double sd38 = CAADiameters::NeptuneSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd38);
-  double sd39 = CAADiameters::NeptuneSemidiameterB(1);
+  constexpr const double sd39 = CAADiameters::NeptuneSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd39);
-  double sd40 = CAADiameters::NeptuneSemidiameterB(2);
+  constexpr const double sd40 = CAADiameters::NeptuneSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd40);
 
-  double sd41 = CAADiameters::PlutoSemidiameterB(1);
+  constexpr const double sd41 = CAADiameters::PlutoSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd41);
-  double sd42 = CAADiameters::PlutoSemidiameterB(2);
+  constexpr const double sd42 = CAADiameters::PlutoSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd42);
-  double sd43 = CAADiameters::GeocentricMoonSemidiameter(368407.9);
+  constexpr const double sd43 = CAADiameters::GeocentricMoonSemidiameter(368407.9);
   UNREFERENCED_PARAMETER(sd43);
-  double sd44 = CAADiameters::GeocentricMoonSemidiameter(368407.9 - 10000);
+  constexpr const double sd44 = CAADiameters::GeocentricMoonSemidiameter(368407.9 - 10000);
   UNREFERENCED_PARAMETER(sd44);
 
-  double sd45 = CAADiameters::TopocentricMoonSemidiameter(368407.9, 5, 0, 33.356111, 1706);
+  const double sd45 = CAADiameters::TopocentricMoonSemidiameter(368407.9, 5, 0, 33.356111, 1706);
   UNREFERENCED_PARAMETER(sd45);
-  double sd46 = CAADiameters::TopocentricMoonSemidiameter(368407.9, 5, 6, 33.356111, 1706);
+  const double sd46 = CAADiameters::TopocentricMoonSemidiameter(368407.9, 5, 6, 33.356111, 1706);
   UNREFERENCED_PARAMETER(sd46);
-  double sd47 = CAADiameters::TopocentricMoonSemidiameter(368407.9 - 10000, 5, 0, 33.356111, 1706);
+  const double sd47 = CAADiameters::TopocentricMoonSemidiameter(368407.9 - 10000, 5, 0, 33.356111, 1706);
   UNREFERENCED_PARAMETER(sd47);
-  double sd48 = CAADiameters::TopocentricMoonSemidiameter(368407.9 - 10000, 5, 6, 33.356111, 1706);
+  const double sd48 = CAADiameters::TopocentricMoonSemidiameter(368407.9 - 10000, 5, 6, 33.356111, 1706);
   UNREFERENCED_PARAMETER(sd48);
 
-  double sd49 = CAADiameters::AsteroidDiameter(4, 0.04);
+  const double sd49 = CAADiameters::AsteroidDiameter(4, 0.04);
   UNREFERENCED_PARAMETER(sd49);
-  double sd50 = CAADiameters::AsteroidDiameter(4, 0.08);
+  const double sd50 = CAADiameters::AsteroidDiameter(4, 0.08);
   UNREFERENCED_PARAMETER(sd50);
-  double sd51 = CAADiameters::AsteroidDiameter(6, 0.04);
+  const double sd51 = CAADiameters::AsteroidDiameter(6, 0.04);
   UNREFERENCED_PARAMETER(sd51);
-  double sd53 = CAADiameters::AsteroidDiameter(6, 0.08);
+  const double sd53 = CAADiameters::AsteroidDiameter(6, 0.08);
   UNREFERENCED_PARAMETER(sd53);
-  double sd54 = CAADiameters::ApparentAsteroidDiameter(1, 250);
+  constexpr const double sd54 = CAADiameters::ApparentAsteroidDiameter(1, 250);
   UNREFERENCED_PARAMETER(sd54);
-  double sd55 = CAADiameters::ApparentAsteroidDiameter(1, 1000);
+  constexpr const double sd55 = CAADiameters::ApparentAsteroidDiameter(1, 1000);
   UNREFERENCED_PARAMETER(sd55);
 
-  CAAPhysicalMoonDetails MoonDetails = CAAPhysicalMoon::CalculateGeocentric(2448724.5);
+  const CAAPhysicalMoonDetails MoonDetails = CAAPhysicalMoon::CalculateGeocentric(2448724.5);
   UNREFERENCED_PARAMETER(MoonDetails);
-  CAAPhysicalMoonDetails MoonDetail2 = CAAPhysicalMoon::CalculateTopocentric(2448724.5, 10, 52);
+  const CAAPhysicalMoonDetails MoonDetail2 = CAAPhysicalMoon::CalculateTopocentric(2448724.5, 10, 52);
   UNREFERENCED_PARAMETER(MoonDetail2);
-  CAASelenographicMoonDetails selenographicMoonDetails = CAAPhysicalMoon::CalculateSelenographicPositionOfSun(2448724.5, false);
+  const CAASelenographicMoonDetails selenographicMoonDetails = CAAPhysicalMoon::CalculateSelenographicPositionOfSun(2448724.5, false);
   UNREFERENCED_PARAMETER(selenographicMoonDetails);
-  CAASelenographicMoonDetails selenographicMoonDetails2 = CAAPhysicalMoon::CalculateSelenographicPositionOfSun(2448724.5, true);
+  const CAASelenographicMoonDetails selenographicMoonDetails2 = CAAPhysicalMoon::CalculateSelenographicPositionOfSun(2448724.5, true);
   UNREFERENCED_PARAMETER(selenographicMoonDetails2);
 
-  double AltitudeOfSun = CAAPhysicalMoon::AltitudeOfSun(2448724.5, -20, 9.7, false);
+  const double AltitudeOfSun = CAAPhysicalMoon::AltitudeOfSun(2448724.5, -20, 9.7, false);
   UNREFERENCED_PARAMETER(AltitudeOfSun);
-  double AltitudeOfSun2 = CAAPhysicalMoon::AltitudeOfSun(2448724.5, -20, 9.7, true);
+  const double AltitudeOfSun2 = CAAPhysicalMoon::AltitudeOfSun(2448724.5, -20, 9.7, true);
   UNREFERENCED_PARAMETER(AltitudeOfSun2);
-  double TimeOfSunrise = CAAPhysicalMoon::TimeOfSunrise(2448724.5, -20, 9.7, false);
+  const double TimeOfSunrise = CAAPhysicalMoon::TimeOfSunrise(2448724.5, -20, 9.7, false);
   UNREFERENCED_PARAMETER(TimeOfSunrise);
-  double TimeOfSunrise2 = CAAPhysicalMoon::TimeOfSunrise(2448724.5, -20, 9.7, true);
+  const double TimeOfSunrise2 = CAAPhysicalMoon::TimeOfSunrise(2448724.5, -20, 9.7, true);
   UNREFERENCED_PARAMETER(TimeOfSunrise2);
-  double TimeOfSunset = CAAPhysicalMoon::TimeOfSunset(2448724.5, -20, 9.7, false);
+  const double TimeOfSunset = CAAPhysicalMoon::TimeOfSunset(2448724.5, -20, 9.7, false);
   UNREFERENCED_PARAMETER(TimeOfSunset);
-  double TimeOfSunset2 = CAAPhysicalMoon::TimeOfSunset(2448724.5, -20, 9.7, true);
+  const double TimeOfSunset2 = CAAPhysicalMoon::TimeOfSunset(2448724.5, -20, 9.7, true);
   UNREFERENCED_PARAMETER(TimeOfSunset2);
 
   CAASolarEclipseDetails EclipseDetails = CAAEclipses::CalculateSolar(-82);
   UNREFERENCED_PARAMETER(EclipseDetails);
-  CAASolarEclipseDetails EclipseDetails2 = CAAEclipses::CalculateSolar(118);
+  const CAASolarEclipseDetails EclipseDetails2 = CAAEclipses::CalculateSolar(118);
   UNREFERENCED_PARAMETER(EclipseDetails2);
-  CAALunarEclipseDetails EclipseDetails3 = CAAEclipses::CalculateLunar(-328.5);
+  const CAALunarEclipseDetails EclipseDetails3 = CAAEclipses::CalculateLunar(-328.5);
   UNREFERENCED_PARAMETER(EclipseDetails3);
   CAALunarEclipseDetails EclipseDetails4 = CAAEclipses::CalculateLunar(-30.5); //No lunar eclipse
   EclipseDetails4 = CAAEclipses::CalculateLunar(-29.5); //No lunar eclipse
@@ -2418,7 +2408,7 @@ int main()
     EclipseDetails = CAAEclipses::CalculateSolar(K);
     if (EclipseDetails.Flags)
     {
-      CAADate date_time(EclipseDetails.TimeOfMaximumEclipse, (EclipseDetails.TimeOfMaximumEclipse >= 2299160.5));
+      const CAADate date_time(EclipseDetails.TimeOfMaximumEclipse, (EclipseDetails.TimeOfMaximumEclipse >= 2299160.5));
       long year = 0;
       long month = 0;
       long day = 0;
@@ -2443,9 +2433,9 @@ int main()
     }
   }
 
-  CAACalendarDate JulianDate = CAAMoslemCalendar::MoslemToJulian(1421, 1, 1);
-  CAACalendarDate GregorianDate = CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day);
-  CAACalendarDate JulianDate2 = CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day);
+  const CAACalendarDate JulianDate = CAAMoslemCalendar::MoslemToJulian(1421, 1, 1);
+  const CAACalendarDate GregorianDate = CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day);
+  const CAACalendarDate JulianDate2 = CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day);
   CAACalendarDate MoslemDate = CAAMoslemCalendar::JulianToMoslem(JulianDate2.Year, JulianDate2.Month, JulianDate2.Day);
   bLeap = CAAMoslemCalendar::IsLeap(1421);
   UNREFERENCED_PARAMETER(bLeap);
@@ -2455,13 +2445,13 @@ int main()
   MoslemDate = CAAMoslemCalendar::JulianToMoslem(2007, 1, 1);
   OriginalMoslemDate = CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day);
 
-  CAACalendarDate JulianDate3 = CAADate::GregorianToJulian(1991, 8, 13);
-  CAACalendarDate MoslemDate2 = CAAMoslemCalendar::JulianToMoslem(JulianDate3.Year, JulianDate3.Month, JulianDate3.Day);
-  CAACalendarDate JulianDate4 = CAAMoslemCalendar::MoslemToJulian(MoslemDate2.Year, MoslemDate2.Month, MoslemDate2.Day);
-  CAACalendarDate GregorianDate2 = CAADate::JulianToGregorian(JulianDate4.Year, JulianDate4.Month, JulianDate4.Day);
+  const CAACalendarDate JulianDate3 = CAADate::GregorianToJulian(1991, 8, 13);
+  const CAACalendarDate MoslemDate2 = CAAMoslemCalendar::JulianToMoslem(JulianDate3.Year, JulianDate3.Month, JulianDate3.Day);
+  const CAACalendarDate JulianDate4 = CAAMoslemCalendar::MoslemToJulian(MoslemDate2.Year, MoslemDate2.Month, MoslemDate2.Day);
+  const CAACalendarDate GregorianDate2 = CAADate::JulianToGregorian(JulianDate4.Year, JulianDate4.Month, JulianDate4.Day);
   UNREFERENCED_PARAMETER(GregorianDate2);
 
-  CAACalendarDate JewishDate = CAAJewishCalendar::DateOfPesach(1990);
+  const CAACalendarDate JewishDate = CAAJewishCalendar::DateOfPesach(1990);
   bLeap = CAAJewishCalendar::IsLeap(JewishDate.Year);
   bLeap = CAAJewishCalendar::IsLeap(5751);
   long DaysInJewishYear = CAAJewishCalendar::DaysInYear(JewishDate.Year);
@@ -2514,11 +2504,11 @@ int main()
   details3 = CAANearParabolic::Calculate(0, elements6, false);
   details4 = CAANearParabolic::Calculate(0, elements6, false);
 
-  CAAEclipticalElementDetails ed5 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2448188.500000 + 0.6954-63.6954);
+  const CAAEclipticalElementDetails ed5 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2448188.500000 + 0.6954-63.6954);
   UNREFERENCED_PARAMETER(ed5);
-  CAAEclipticalElementDetails ed6 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2433282.4235);
+  const CAAEclipticalElementDetails ed6 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2433282.4235);
   UNREFERENCED_PARAMETER(ed6);
-  CAAEclipticalElementDetails ed7 = CAAEclipticalElements::FK4B1950ToFK5J2000(131.5856, 242.6797, 138.6637);
+  const CAAEclipticalElementDetails ed7 = CAAEclipticalElements::FK4B1950ToFK5J2000(131.5856, 242.6797, 138.6637);
   UNREFERENCED_PARAMETER(ed7);
 
   elements6.q = 0.93858;
@@ -2528,9 +2518,9 @@ int main()
   elements6.w = ed5.w;
   elements6.T = 2448188.500000 + 0.6954;
   elements6.JDEquinox = elements6.T;
-  CAANearParabolicObjectDetails details6 = CAANearParabolic::Calculate(elements6.T-63.6954, elements6, false);
+  const CAANearParabolicObjectDetails details6 = CAANearParabolic::Calculate(elements6.T-63.6954, elements6, false);
   UNREFERENCED_PARAMETER(details6);
-  CAANearParabolicObjectDetails details7 = CAANearParabolic::Calculate(elements6.T - 63.6954, elements6, true);
+  const CAANearParabolicObjectDetails details7 = CAANearParabolic::Calculate(elements6.T - 63.6954, elements6, true);
   UNREFERENCED_PARAMETER(details7);
 
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION

@@ -45,7 +45,7 @@ class AAPLUS_EXT_CLASS CAAELPMPP02
 {
 public:
 //Enums
-  enum Correction
+  enum class Correction
   {
     Nominal = 0,
     LLR,
@@ -54,16 +54,16 @@ public:
   };
 
 //Static methods
-  static double EclipticLongitude(double JD, Correction correction = LLR, double* pDerivative = NULL);
-  static double EclipticLongitude(const double* pT, int nTSize, Correction correction = LLR, double* pDerivative = NULL);
-  static double EclipticLatitude(double JD, Correction correction = LLR, double* pDerivative = NULL);
-  static double EclipticLatitude(const double* pT, int nTSize, Correction correction = LLR, double* pDerivative = NULL);
-  static double RadiusVector(double JD, Correction correction = LLR, double* pDerivative = NULL);
-  static double RadiusVector(const double* pT, int nTSize, Correction correction = LLR, double* pDerivative = NULL);
-  static CAA3DCoordinate EclipticRectangularCoordinates(double JD, Correction correction = LLR, CAA3DCoordinate* pDerivative = NULL);
-  static CAA3DCoordinate EclipticRectangularCoordinates(const double* pT, int nTSize, Correction correction = LLR, CAA3DCoordinate* pDerivative = NULL);
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, Correction correction = LLR, CAA3DCoordinate* pDerivative = NULL);
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(const double* pT, int nTSize, Correction correction = LLR, CAA3DCoordinate* pDerivative = NULL);
+  static double EclipticLongitude(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr);
+  static double EclipticLongitude(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr);
+  static double EclipticLatitude(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr);
+  static double EclipticLatitude(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr);
+  static double RadiusVector(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  static double RadiusVector(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  static CAA3DCoordinate EclipticRectangularCoordinates(double JD, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr);
+  static CAA3DCoordinate EclipticRectangularCoordinates(const double* pT, int nTSize, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr);
+  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr);
+  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(const double* pT, int nTSize, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr);
 };
 
 #endif //#ifndef __AAELPMPP02_H__

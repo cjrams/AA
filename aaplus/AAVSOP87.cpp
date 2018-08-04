@@ -25,14 +25,28 @@ to maintain a single distribution point for the source code.
 #include "AAVSOP87.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
+#include <cassert>
 using namespace std;
+
+
+////////////////////////////// Macros / Defines /////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26481)
+#endif //#ifdef _MSC_VER
 
 
 ////////////////////////////// Implementation ///////////////////////////////
 
-double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle)
+#ifdef _MSC_VER
+#pragma warning(suppress : 26429)
+#endif //#ifdef _MSC_VER
+double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle) noexcept
 {
-  double T = (JD - 2451545) / 365250;
+//Validate our parameters
+  assert(pTable != nullptr);
+
+  const double T = (JD - 2451545) / 365250;
   double TTerm = T;
   double Result = 0;
   for (int i = 0; i<nTableSize; i++)
@@ -54,9 +68,15 @@ double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTabl
   return Result;
 }
 
-double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize)
+#ifdef _MSC_VER
+#pragma warning(suppress : 26429)
+#endif //#ifdef _MSC_VER
+double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize) noexcept
 {
-  double T = (JD - 2451545) / 365250;
+//Validate our parameters
+  assert(pTable != nullptr);
+
+  const double T = (JD - 2451545) / 365250;
   double TTerm1 = 1;
   double TTerm2 = T;
   double Result = 0;
@@ -66,7 +86,7 @@ double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int 
     double tempPart2 = 0;
     for (int j = 0; j < pTable[i].nCoefficientsSize; j++)
     {
-      double B_CT = pTable[i].pCoefficients[j].B + pTable[i].pCoefficients[j].C*T;
+      const double B_CT = pTable[i].pCoefficients[j].B + pTable[i].pCoefficients[j].C*T;
       tempPart1 += i * pTable[i].pCoefficients[j].A                                * cos(B_CT);
       tempPart2 +=     pTable[i].pCoefficients[j].A * pTable[i].pCoefficients[j].C * sin(B_CT);
     }

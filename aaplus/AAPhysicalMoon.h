@@ -43,13 +43,13 @@ class AAPLUS_EXT_CLASS CAAPhysicalMoonDetails
 {
 public:
 //Constructors / Destructors
-  CAAPhysicalMoonDetails() : ldash(0), 
-                             bdash(0), 
-                             ldash2(0),
-                             bdash2(0), 
-                             l(0), 
-                             b(0), 
-                             P(0) 
+  CAAPhysicalMoonDetails() noexcept : ldash(0),
+                                      bdash(0),
+                                      ldash2(0),
+                                      bdash2(0),
+                                      l(0),
+                                      b(0),
+                                      P(0)
   {
   };
 
@@ -67,9 +67,9 @@ class AAPLUS_EXT_CLASS CAASelenographicMoonDetails
 {
 public:
 //Constructors / Destructors
-  CAASelenographicMoonDetails() : l0(0), 
-                                  b0(0), 
-                                  c0(0) 
+  CAASelenographicMoonDetails() noexcept : l0(0),
+                                           b0(0),
+                                           c0(0)
   {
   };
 

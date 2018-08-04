@@ -55,13 +55,13 @@ double CAAIlluminatedFraction::PhaseAngleRectangular(double x, double y, double 
   //Convert from degrees to radians
   B = CAACoordinateTransformation::DegreesToRadians(B);
   L = CAACoordinateTransformation::DegreesToRadians(L);
-  double cosB = cos(B);
+  const double cosB = cos(B);
 
   //Return the result
   return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(acos( (x*cosB*cos(L) + y*cosB*sin(L) + z*sin(B)) / Delta) ));
 }
 
-double CAAIlluminatedFraction::IlluminatedFraction(double PhaseAngle)
+double CAAIlluminatedFraction::IlluminatedFraction(double PhaseAngle) noexcept
 {
   //Convert from degrees to radians
   PhaseAngle = CAACoordinateTransformation::DegreesToRadians(PhaseAngle);
@@ -70,97 +70,92 @@ double CAAIlluminatedFraction::IlluminatedFraction(double PhaseAngle)
   return (1 + cos(PhaseAngle)) / 2;
 }
 
-double CAAIlluminatedFraction::IlluminatedFraction(double r, double R, double Delta)
+double CAAIlluminatedFraction::MercuryMagnitudeMuller(double r, double Delta, double i) noexcept
 {
-  return (((r+Delta)*(r+Delta) - R*R) / (4*r*Delta));
-}
-
-double CAAIlluminatedFraction::MercuryMagnitudeMuller(double r, double Delta, double i)
-{
-  double I_50 = i - 50;
+  const double I_50 = i - 50;
   return 1.16 + 5*log10(r*Delta) + 0.02838*I_50 + 0.0001023*I_50*I_50;
 }
 
-double CAAIlluminatedFraction::VenusMagnitudeMuller(double r, double Delta, double i)
+double CAAIlluminatedFraction::VenusMagnitudeMuller(double r, double Delta, double i) noexcept
 {
   return -4.00 + 5*log10(r*Delta) + 0.01322*i + 0.0000004247*i*i*i;
 }
 
-double CAAIlluminatedFraction::MarsMagnitudeMuller(double r, double Delta, double i)
+double CAAIlluminatedFraction::MarsMagnitudeMuller(double r, double Delta, double i) noexcept
 {
   return -1.3 + 5*log10(r*Delta) + 0.01486*i;
 }
 
-double CAAIlluminatedFraction::JupiterMagnitudeMuller(double r, double Delta)
+double CAAIlluminatedFraction::JupiterMagnitudeMuller(double r, double Delta) noexcept
 {
   return -8.93 + 5*log10(r*Delta);
 }
 
-double CAAIlluminatedFraction::SaturnMagnitudeMuller(double r, double Delta, double DeltaU, double B)
+double CAAIlluminatedFraction::SaturnMagnitudeMuller(double r, double Delta, double DeltaU, double B) noexcept
 {
   //Convert from degrees to radians
   B = CAACoordinateTransformation::DegreesToRadians(B);
-  double sinB = sin(B);
+  const double sinB = sin(B);
 
-  return -8.68 + 5*log10(r*Delta) + 0.044*fabs(DeltaU) - 2.60*sin(fabs(B)) + 1.25*sinB*sinB; 
+  return -8.68 + 5*log10(r*Delta) + 0.044*fabs(DeltaU) - 2.60*sin(fabs(B)) + 1.25*sinB*sinB;
 }
 
-double CAAIlluminatedFraction::UranusMagnitudeMuller(double r, double Delta)
+double CAAIlluminatedFraction::UranusMagnitudeMuller(double r, double Delta) noexcept
 {
   return -6.85 + 5*log10(r*Delta);
 }
 
-double CAAIlluminatedFraction::NeptuneMagnitudeMuller(double r, double Delta)
+double CAAIlluminatedFraction::NeptuneMagnitudeMuller(double r, double Delta) noexcept
 {
   return -7.05 + 5*log10(r*Delta);
 }
 
-double CAAIlluminatedFraction::MercuryMagnitudeAA(double r, double Delta, double i)
+double CAAIlluminatedFraction::MercuryMagnitudeAA(double r, double Delta, double i) noexcept
 {
-  double i2 = i*i;
-  double i3 = i2*i;
+  const double i2 = i*i;
+  const double i3 = i2*i;
 
   return -0.42 + 5*log10(r*Delta) + 0.0380*i - 0.000273*i2 + 0.000002*i3;
 }
 
-double CAAIlluminatedFraction::VenusMagnitudeAA(double r, double Delta, double i)
+double CAAIlluminatedFraction::VenusMagnitudeAA(double r, double Delta, double i) noexcept
 {
-  double i2 = i*i;
-  double i3 = i2*i;
+  const double i2 = i*i;
+  const double i3 = i2*i;
 
   return -4.40 + 5*log10(r*Delta) + 0.0009*i + 0.000239*i2 - 0.00000065*i3;
 }
 
-double CAAIlluminatedFraction::MarsMagnitudeAA(double r, double Delta, double i)
+double CAAIlluminatedFraction::MarsMagnitudeAA(double r, double Delta, double i) noexcept
 {
   return -1.52 + 5*log10(r*Delta) + 0.016*i;
 }
 
-double CAAIlluminatedFraction::JupiterMagnitudeAA(double r, double Delta, double i)
+double CAAIlluminatedFraction::JupiterMagnitudeAA(double r, double Delta, double i) noexcept
 {
   return -9.40 + 5*log10(r*Delta) + 0.005*i;
 }
 
-double CAAIlluminatedFraction::SaturnMagnitudeAA(double r, double Delta, double DeltaU, double B)
+double CAAIlluminatedFraction::SaturnMagnitudeAA(double r, double Delta, double DeltaU, double B) noexcept
 {
   //Convert from degrees to radians
   B = CAACoordinateTransformation::DegreesToRadians(B);
-  double sinB = sin(B);
+  const double sinB = sin(B);
 
   return -8.88 + 5*log10(r*Delta) + 0.044*fabs(DeltaU) - 2.60*sin(fabs(B)) + 1.25*sinB*sinB; 
 }
 
-double CAAIlluminatedFraction::UranusMagnitudeAA(double r, double Delta)
+double CAAIlluminatedFraction::UranusMagnitudeAA(double r, double Delta) noexcept
 {
   return -7.19 + 5*log10(r*Delta);
 }
 
-double CAAIlluminatedFraction::NeptuneMagnitudeAA(double r, double Delta)
+double CAAIlluminatedFraction::NeptuneMagnitudeAA(double r, double Delta) noexcept
 {
   return -6.87 + 5*log10(r*Delta);
 }
 
-double CAAIlluminatedFraction::PlutoMagnitudeAA(double r, double Delta)
+double CAAIlluminatedFraction::PlutoMagnitudeAA(double r, double Delta) noexcept
 {
   return -1.00 + 5*log10(r*Delta);
 }
