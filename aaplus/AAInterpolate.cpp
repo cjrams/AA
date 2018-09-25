@@ -36,7 +36,9 @@ double CAAInterpolate::LagrangeInterpolate(double X, int n, const double* pX, co
   assert(pX);
   assert(pY);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pX);
+#pragma warning(suppress: 26477)
   __analysis_assume(pY);
 #endif //#ifdef __analysis_assume
 

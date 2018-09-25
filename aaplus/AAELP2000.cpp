@@ -38140,6 +38140,7 @@ double CAAELP2000::MoonMeanLongitude(const double* pT, int nTSize) noexcept //Ak
   assert(pT);
   assert((nTSize == 5) || (nTSize == 2));
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38168,6 +38169,7 @@ double CAAELP2000::MoonMeanLongitudeLunarPerigee(const double* pT, int nTSize) n
   assert(pT);
   assert((nTSize == 5) || (nTSize == 2));
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38196,6 +38198,7 @@ double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(const double* pT, int nTS
   assert(pT);
   assert((nTSize == 5) || (nTSize == 2));
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38224,6 +38227,7 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitude(const double* pT, int nTSize
   assert(pT);
   assert((nTSize == 5) || (nTSize == 2));
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38252,6 +38256,7 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(const double* pT
   assert(pT);
   assert((nTSize == 5) || (nTSize == 2));
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38392,6 +38397,7 @@ double CAAELP2000::Accumulate(const ELP2000MainProblemCoefficient* pCoefficients
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
 #endif
 
@@ -38419,6 +38425,7 @@ double CAAELP2000::Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficien
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
 #endif
 
@@ -38453,7 +38460,9 @@ double CAAELP2000::Accumulate(const double* pT, int nTSize, const ELP2000EarthTi
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38490,7 +38499,9 @@ double CAAELP2000::Accumulate_2(const double* pT, int nTSize, const ELP2000Earth
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38524,6 +38535,7 @@ double CAAELP2000::AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoeffic
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
 #endif
 
@@ -38561,7 +38573,9 @@ double CAAELP2000::AccumulateTable1_2(const double* pT, int nTSize, const ELP200
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38596,6 +38610,7 @@ double CAAELP2000::AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoeffic
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
 #endif
 
@@ -38633,7 +38648,9 @@ double CAAELP2000::AccumulateTable2_2(const double* pT, int nTSize, const ELP200
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
@@ -38671,7 +38688,9 @@ double CAAELP2000::Accumulate_3(const double* pT, int nTSize, const ELP2000Earth
   assert(pCoefficients);
   assert(nCoefficients);
 #ifdef __analysis_assume
+#pragma warning(suppress: 26477)
   __analysis_assume(pCoefficients);
+#pragma warning(suppress: 26477)
   __analysis_assume(pT);
 #endif
 
