@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for ELP2000-82B
 Created: PJN / 28-12-2015
 History: PJN / 28-12-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

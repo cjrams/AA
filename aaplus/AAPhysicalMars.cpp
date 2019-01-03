@@ -7,7 +7,7 @@ History: PJN / 16-09-2015 1. CAAPhysicalMars::Calculate now includes a "bool bHi
                           truncated theory as presented in Meeus's book. 
 
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

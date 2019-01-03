@@ -29,7 +29,7 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           errors would  have been easier to spot from the incorrect terms. Hopefully this is the same transcription 
                           error in this method!
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

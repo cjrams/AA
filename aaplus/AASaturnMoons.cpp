@@ -14,7 +14,7 @@ History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a
          PJN / 24-07-2018 1. Fixed a GCC warning in the method CAASaturnMoons::HelperSubroutine. Thanks to
                           Todd Carnes for reporting this issue.
 
-Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

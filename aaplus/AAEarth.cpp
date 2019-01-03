@@ -22,7 +22,7 @@ History: PJN / 03-10-2009 1. Fixed a copy and paste gremlin in the CAAEarth::Ecl
                           book.
       PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAEarth.cpp module
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

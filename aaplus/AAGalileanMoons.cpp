@@ -11,7 +11,7 @@ History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper wh
          PJN / 24-07-2018 1. Fixed a number of GCC warnings in the method CAAGalileanMoons::CalculateHelper. Thanks to
                           Todd Carnes for reporting this issue.
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

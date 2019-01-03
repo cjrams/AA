@@ -697,7 +697,7 @@ int main()
   {
     TT = CAADynamicalTime::UTC2TT(JDUT1);
     TT2 = CAADynamicalTime::UT12TT(JDUT1);
-    CAADate date(JDUT1, true);
+    const CAADate date(JDUT1, true);
     date.Get(Year, Month, Day, Hour, Minute, Second);
     printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", Year, Month, Day, JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
 

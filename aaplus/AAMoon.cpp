@@ -24,7 +24,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the MoonCoefficient1 struct
                           applied to the later two methods. Thanks to Jeffrey Roe for reporting this issue.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAMoon.cpp module
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

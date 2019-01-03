@@ -13,7 +13,7 @@ History: PJN / 08-05-2011 1. Fixed a compilation issue on GCC where size_t was u
                           CAAPlanetaryPhenomena::Mean, CAAPlanetaryPhenomena::True & 
                           CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes for reporting this issue.
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
