@@ -85,6 +85,7 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
          PJN / 22-09-2018 1. Updated the observed DeltaT values from http://toshi.nofs.navy.mil/ser7/deltat.data to 1st April 2018
          PJN / 03-01-2019 1. Updated copyright details.
                           2. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st October 2018
+         PJN / 03-01-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st January 2019
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -675,9 +676,11 @@ const DeltaTValue g_DeltaTValues[] =
   { 2458331.5,  69.1142 }, //1 August 2018
   { 2458362.5,  69.1207 }, //1 September 2018
   { 2458392.5,  69.1356 }, //1 October 2018
+  { 2458423.5,  69.1646 }, //1 November 2018
+  { 2458453.5,  69.1964 }, //1 December 2018
+  { 2458484.5,  69.2201 }, //1 January 2019
 
-//All these final values are predicted values from Year 2019.0 to 2026.0 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
-  { 2458484.5,  69.5    }, //2019.0
+//All these final values are predicted values from Year 2019.25 to 2026.0 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
   { 2458575.75, 69.6    }, //2019.25
   { 2458667.0,  69.7    }, //2019.5
   { 2458758.25, 69.8    }, //2019.75
