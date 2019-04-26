@@ -1,21 +1,39 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5.1)
 
-file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/aaplus/*.h)
+project(aaplus)
+
 file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/aaplus/*.cpp)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set (TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/aaplus/AATest.cpp")
 
 list(REMOVE_ITEM SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/aaplus/AATest.cpp")
 
-add_library(aaplus ${HEADER_FILES} ${SOURCE_FILES})
-target_include_directories(aaplus PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/)
-target_link_libraries(aaplus)
+add_library(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_include_directories(${PROJECT_NAME}
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/
+)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+	CXX_STANDARD 11
+	CXX_STANDARD_REQUIRED YES
+	CXX_EXTENSIONS NO
+)
+
+target_link_libraries(${PROJECT_NAME})
 
 #enable_testing()
 
-add_executable(test ${TEST_SOURCES} )
-target_link_libraries(test aaplus)
-#add_test(test test)
+set (TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/aaplus/AATest.cpp")
+
+add_executable(${PROJECT_NAME}-test ${TEST_SOURCES})
+
+set_target_properties(${PROJECT_NAME}-test PROPERTIES
+	CXX_STANDARD 11
+	CXX_STANDARD_REQUIRED YES
+	CXX_EXTENSIONS NO
+)
+
+target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+
+#add_test(${PROJECT_NAME}-test test)
