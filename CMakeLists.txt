@@ -22,7 +22,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_link_libraries(${PROJECT_NAME})
 
-#enable_testing()
+enable_testing()
 
 set (TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/aaplus/AATest.cpp")
 
@@ -36,4 +36,4 @@ set_target_properties(${PROJECT_NAME}-test PROPERTIES
 
 target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 
-#add_test(${PROJECT_NAME}-test test)
+add_test(NAME test COMMAND ${PROJECT_NAME}-test)

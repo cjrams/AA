@@ -16,6 +16,7 @@ class AAConan(ConanFile):
         cmake = CMake(self)
         cmake.configure(source_folder=".")
         cmake.build()
+        cmake.test()
 
     def package(self):
         self.copy("*.h", dst="include", src=".")
