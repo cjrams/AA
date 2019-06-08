@@ -3,6 +3,7 @@ Module : AAVSOP87.cpp
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 26-08-2015
 History: PJN / 28-08-2015 1. Initial public release.
+         PJN / 08-06-2019 1. Updated the code to clean compile on VC 2019
 
 Copyright (c) 2015 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -53,6 +54,9 @@ double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTabl
   {
     double TempResult = 0;
     for (int j = 0; j < pTable[i].nCoefficientsSize; j++)
+#ifdef _MSC_VER
+#pragma warning(suppress : 26489)
+#endif //#ifdef _MSC_VER
       TempResult += pTable[i].pCoefficients[j].A * cos(pTable[i].pCoefficients[j].B + pTable[i].pCoefficients[j].C*T);
     if (i)
     {
@@ -86,8 +90,17 @@ double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int 
     double tempPart2 = 0;
     for (int j = 0; j < pTable[i].nCoefficientsSize; j++)
     {
+#ifdef _MSC_VER
+#pragma warning(suppress : 26489)
+#endif //#ifdef _MSC_VER
       const double B_CT = pTable[i].pCoefficients[j].B + pTable[i].pCoefficients[j].C*T;
+#ifdef _MSC_VER
+#pragma warning(suppress : 26489)
+#endif //#ifdef _MSC_VER
       tempPart1 += i * pTable[i].pCoefficients[j].A                                * cos(B_CT);
+#ifdef _MSC_VER
+#pragma warning(suppress : 26489)
+#endif //#ifdef _MSC_VER
       tempPart2 +=     pTable[i].pCoefficients[j].A * pTable[i].pCoefficients[j].C * sin(B_CT);
     }
     if (i)

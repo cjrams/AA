@@ -86,6 +86,8 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
          PJN / 03-01-2019 1. Updated copyright details.
                           2. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st October 2018
          PJN / 03-01-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st January 2019
+         PJN / 03-01-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st April 2019
+                          2. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to October 2027
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -679,17 +681,47 @@ const DeltaTValue g_DeltaTValues[] =
   { 2458423.5,  69.1646 }, //1 November 2018
   { 2458453.5,  69.1964 }, //1 December 2018
   { 2458484.5,  69.2201 }, //1 January 2019
+  { 2458515.5,  69.2452 }, //1 February 2019
+  { 2458543.5,  69.2733 }, //1 March 2019
+  { 2458574.5,  69.3032 }, //1 April 2019
 
-//All these final values are predicted values from Year 2019.25 to 2026.0 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
-  { 2458575.75, 69.6    }, //2019.25
-  { 2458667.0,  69.7    }, //2019.5
-  { 2458758.25, 69.8    }, //2019.75
-  { 2458849.5,  69.9    }, //2020.0
-  { 2458941.0,  70      }, //2020.25
-  { 2459763.0,  71      }, //2022.5
-  { 2461041.5,  72      }, //2026.0
+//All these final values are predicted values from Year 2019.50 to 2027.75 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
+  { 2458666.5,  69.62   }, //2019.50
+  { 2458758.5,  69.71   }, //2019.75
+  { 2458849.5,  69.87   }, //2020.00
+  { 2458940.5,  70.03   }, //2020.25
+  { 2459032.5,  70.16   }, //2020.50
+  { 2459123.5,  70.24   }, //2020.75
+  { 2459214.5,  70.39   }, //2021.00
+  { 2459306.5,  70.55   }, //2021.25
+  { 2459397.5,  70.68   }, //2021.50
+  { 2459488.5,  70.76   }, //2021.75
+  { 2459580.5,  70.91   }, //2022.00
+  { 2459671.5,  71.06   }, //2022.25
+  { 2459762.5,  71.18   }, //2022.50
+  { 2459853.5,  71.25   }, //2022.75
+  { 2459945.5,  71.40   }, //2023.00
+  { 2460036.5,  71.54   }, //2023.25
+  { 2460127.5,  71.67   }, //2023.50
+  { 2460219.5,  71.74   }, //2023.75
+  { 2460310.5,  71.88   }, //2024.00
+  { 2460401.5,  72.03   }, //2024.25
+  { 2460493.5,  72.15   }, //2024.50
+  { 2460584.5,  72.22   }, //2024.75
+  { 2460675.5,  72.36   }, //2025.00
+  { 2460767.5,  72.50   }, //2025.25
+  { 2460858.5,  72.62   }, //2025.50
+  { 2460949.5,  72.69   }, //2025.75
+  { 2461041.5,  72.83   }, //2026.00
+  { 2461132.5,  72.98   }, //2026.25
+  { 2461223.5,  73.10   }, //2026.50
+  { 2461314.5,  73.17   }, //2026.75
+  { 2461406.5,  73.32   }, //2027.00
+  { 2461497.5,  73.46   }, //2027.25
+  { 2461588.5,  73.58   }, //2027.50
+  { 2461680.5,  73.66   }  //2027.75
 
-//Note as currently coded there is a single discontinuity of c. 2.074 seconds on 1 January 2026. At this point http://maia.usno.navy.mil/ser7/deltat.preds indicates an error value for DeltaT of about 5 seconds anyway.
+//Note as currently coded there is a single discontinuity of c. 2.5 seconds in October 2027. At this point http://maia.usno.navy.mil/ser7/deltat.preds indicates an error value for DeltaT of about 2 seconds anyway.
 };
 
 struct LeapSecondCoefficient
