@@ -2,13 +2,18 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.01</title>
+<title>AA+ v2.03</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.auto-style1 {
+	color: #FF0000;
+}
+</style>
 </head>
 
 <body>
 
-<h2>AA+ v2.01</h2>
+<h2>AA+ v2.03</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -69,7 +74,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>To see the classes in action, have a look at the code in the main function 
 	in the module &quot;aatest.cpp&quot;. </li>
 	<li>The download includes a VC 2017 project and has been tested on VC 2017 
-	15.9 on Windows 10 and GCC 7.3 on Ubuntu 18.04.</li>
+	+ VC 2019 on Windows 10 and GCC 7.3 on Ubuntu 18.04.</li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -88,6 +93,16 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.03 (15 July 2019)</b></p>
+<ul>
+	<li>Refactored the code in various CAARiseTransitSet2 methods and improved 
+	the interpolation code to provide better accuracy of event details. </li>
+</ul>
+<p><b>v2.02 (13 July 2019)</b></p>
+<ul>
+	<li>Addition of a new CAARiseTransitSet2 class which addresses issues with 
+	the existing CAARiseTransitSet class which is now considered deprecated. </li>
+</ul>
 <p><b>v2.01 (23 June 2019)</b></p>
 <ul>
 	<li>Updated the observed DeltaT values from
@@ -1409,7 +1424,9 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p><b><a href="#CAAPluto">CAAPluto</a></b></p>
 <p><b><a href="#CAAPrecession">CAAPrecession</a></b></p>
 <p><b><a href="#CAARefraction">CAARefraction</a></b></p>
-<p><b><a href="#CAARiseTransitSet">CAARiseTransitSet</a></b></p>
+<p><b><a href="#CAARiseTransitSet">CAARiseTransitSet</a>
+<span class="auto-style1">(Deprecated)</span></b></p>
+<p><b><a href="#CAARiseTransitSet2">CAARiseTransitSet2</a></b></p>
 <p><b><a href="#CAASaturn">CAASaturn</a></b></p>
 <p><b><a href="#CAASaturnMoons">CAASaturnMoons</a></b></p>
 <p><b><a href="#CAASaturnRings">CAASaturnRings</a></b></p>
@@ -1691,7 +1708,7 @@ algorithm 13.3 and 13.4 on page 93.</p>
 double </b><i>Delta</i><b>, double </b><i>Latitude</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the converted horizontal coordinates in a CAA2DCoordinate class. The 
-x value in the class corresponds to the azimuth in degrees and the y value corresponds 
+x value in the class corresponds to the azimuth in degrees west of south and the y value corresponds 
 to the altitude in degrees.</p>
 <p><b>Parameters</b></p>
 <p><i>LocalHourAngle </i>The local hour angle in 
@@ -1719,7 +1736,7 @@ x value in the class corresponds to the local hour
 angle in decimal hours and the y 
 value corresponds to the declination in degrees.</p>
 <p><b>Parameters</b></p>
-<p><i>A </i>The azimuth in degrees.</p>
+<p><i>A </i>The azimuth in degrees west of south.</p>
 <p><i>h </i>The altitude in degrees</p>
 <p><i>Latitude</i> The standard latitude of the position in degrees.</p>
 <p><b>Remarks</b></p>
@@ -4241,7 +4258,7 @@ Delta</i><b>)</b></p>
 <p>&nbsp;</p>
 <p><b>Functions this class provides include:</b></p>
 <p><a href="#CAAInterpolate_Interpolate">Interpolate</a></p>
-<p><a href="#CAAJewishCalendar_InterpolateToHalves">InterpolateToHalves</a></p>
+<p><a href="#CAAInterpolate_InterpolateToHalves">InterpolateToHalves</a></p>
 <p><a href="#CAAInterpolate_LagrangeInterpolate">LangrangeInterpolate</a></p>
 <p><a href="#CAAInterpolate_Extremum">Extremum</a></p>
 <p><a href="#CAAInterpolate_Zero">Zero</a></p>
@@ -4265,7 +4282,7 @@ double </b><i>Y2</i><b>, double </b><i>Y3</i><b>, double </b><i>Y4</i><b>, doubl
 <p><b>Remarks</b></p>
 <p>Interpolates a function from 3 or 5 points.</p>
 <p>&nbsp;</p>
-<p><b><a name="CAAJewishCalendar_InterpolateToHalves"></a>CAAJewishCalendar::InterpolateToHalves</b></p>
+<p><b><a name="CAAInterpolate_InterpolateToHalves"></a>CAAInterpolate::InterpolateToHalves</b></p>
 <p><b>static double InterpolateToHalves(double </b><i>Y1</i><b>, double </b><i>Y2</i><b>, 
 double </b><i>Y3</i><b>, double </b><i>Y4</i><b>)</b></p>
 <p><b>Return Value</b></p>
@@ -5331,7 +5348,7 @@ degrees.</p>
 <p><i>Distance </i>The distance (in astronomical units) to the Earth.</p>
 <p><i>Longitude</i> The longitude in degrees (Positive west, negative east from 
 Greenwich).</p>
-<p>&nbsp;<i>Latitude</i> The latitude in degrees.</p>
+<p><i>Latitude</i> The latitude in degrees.</p>
 <p><i>Height</i> The observer&#39;s height above sea level in meters.</p>
 <p><i>JD</i> The date in Dynamical time to calculate for.</p>
 <p><b>Remarks</b></p>
@@ -6024,9 +6041,13 @@ double </b><i>Pressure</i><b> = 1010, double </b><i>Temperature</i><b>
 <p><i>Temperature</i> The air temperature in degrees Celsius.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><b><a name="CAARiseTransitSet"></a>CAARiseTransitSet</b></p>
+<p><b><a name="CAARiseTransitSet"></a>CAARiseTransitSet
+<span class="auto-style1">(Deprecated)</span></b></p>
 <p>This class provides for calculation of the time of rise, transit and set of a 
-celestial body. This refers to Chapter 15 in the book.</p>
+celestial body. This refers to Chapter 15 in the book. Please note that this 
+class is now considered deprecated as of v2.02 of AA+ and may be removed in a 
+future release of the library. Please use the <a href="#CAARiseTransitSet2">
+CAARiseTransitSet2</a> class instead.</p>
 <p>&nbsp;</p>
 <p><b>Functions this class provides include:</b></p>
 <p><a href="#CAARiseTransitSet_Calculate">Calculate</a></p>
@@ -6150,6 +6171,167 @@ day! If you use the following code:</p>
 </dl>
 <p>Your client code which uses this method will need to handle this situation itself.</p>
 <p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b><a name="CAARiseTransitSet2"></a>CAARiseTransitSet2</b></p>
+<p>This class provides for revised algorithms to address 
+issues with the existing <a href="#CAARiseTransitSet">CAARiseTransitSet</a> 
+class which as of v2.02 is now considered deprecated. This class and its methods are 
+designed as an improvement on the CAARiseTransiteSet class algorithms as provided by 
+in the book. In 
+Q3 2019, some users of AA+ reported that if you used the existing class with a 
+location of either the North or South Poles, that it would fail to find the 
+single sun rise and set times during a whole year. 
+At the poles of course there is just one sun rise and one sun set per year. Each 
+of these events occur quite close to the Equinoxes. Following a private email conversation with Jean Meeus, he confirmed that the 
+CAARiseTransitSet algorithms as presented in the book fail under certain 
+circumstances. In fact the issues which have been reported with this class over 
+the years are almost all a result of the deficiencies of the algorithms he 
+presents for calculating rise / transit and set. This class is a ground up rewrite 
+with a new step based interpolation algorithm. They will work for any Dynamical Time date range and as such will handle 
+the issue of looking for events when referred to a local time zone day range. It 
+will also detect all types of events during the requested search interval. It 
+will also return northern transits in addition to southern transits and can 
+return multiple occurrences of the same type of event in a 24 hour interval. The 
+code has also been extensively tested for various locations such as the North 
+Pole, South Pole etc. and spot checked against other sources. This class will 
+also return the altitude of transit events and the bearing / azimuth at which 
+rise and set events occur.</p>
+<p>&nbsp;</p>
+<p><b>Functions this class provides include:</b></p>
+<p><a href="#CAARiseTransitSet2_Calculate">Calculate</a></p>
+<p><a href="#CAARiseTransitSet2_CalculateMoon">CalculateMoon</a></p>
+<p><a href="#CAARiseTransitSet2_CalculateStationary">CalculateStationary</a></p>
+<p>&nbsp;</p>
+<p><b><a name="CAARiseTransitSet2_Calculate"></a>CAARiseTransitSet2::Calculate</b></p>
+<p><b>static std::vector&lt;CAARiseTransitSetDetails2&gt; Calculate(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>
+Object</b> <em>object</em>, <b>double</b> <em>Longitude</em>, 
+<b>double</b> <em>Latitude</em>, <b>double</b> <em>h0</em>,
+<b>double</b> <em>Height</em> <b>= 0</b>, <b>double</b>
+<em>StepInterval</em> <b>= 0.007</b>, <b>bool</b> <em>
+bHighPrecision</em> <b>= false)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be Rise, Set, SouthernTransit or NorthernTransit.</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>Bearing</i> Valid only for Rise or Set events, this will be the 
+<span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
+<p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
+events, this will be the geometric altitude in degrees of the center of the 
+object not including correction for refraction for the event.</p>
+<p><i>bAboveHorizon</i> Valid only for SourthernTransit or NorthernTransit 
+events, this will be true if the transit is visible i.e. the apparent altitude 
+of the top of the object (including the standard &quot;altitude&quot; refraction 
+correction) is above the horizon.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p>Object The object type you want to calculate for. This is an enum class of 
+type Object inside the CAARiseTransitSet2 class and can be SUN, MOON, MERCURY, 
+VENUS, MARS, JUPITER, SATURN, URANUS, NEPTUNE or PLUTO.</p>
+<p><i>Longitude </i>The geographic longitude of the observer in degrees 
+(Positive west, negative east from Greenwich).</p>
+<p><i>Latitude</i> The geographic latitude of the observer in degrees.</p>
+<p><i>h0 </i>The &quot;standard&quot; altitude in degrees i.e. the geometric altitude 
+of the center of the body at the time of the apparent rising or setting. For stars 
+and planets, you would normally use -0.5667, for the Sun you would use -0.8333 and 
+for the moon you would use 0.125.</p>
+<p><i>Height</i> The observer&#39;s height above sea level in meters</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy for calculating 
+rise / transit and set times.</p>
+<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+the truncated version as provided in Meeus's book.</p>
+<p>&nbsp;</p>
+<p><b><a name="CAARiseTransitSet2_CalculateMoon"></a>CAARiseTransitSet2::CalculateMoon</b></p>
+<p><b>static std::vector&lt;CAARiseTransitSetDetails2&gt; CalculateMoon(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
+<em>Longitude</em>, <b>double</b> <em>Latitude</em>, <b>double</b>
+<em>Height</em> <b>= 0</b>, <b>double</b> <em>StepInterval</em>
+<b>= 0.007)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be Rise, Set, SouthernTransit or NorthernTransit.</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>Bearing</i> Valid only for Rise or Set events, this will be the 
+<span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
+<p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
+events, this will be the geometric altitude in degrees of the center of the Moon 
+not including correction for refraction for the event.</p>
+<p><i>bAboveHorizon</i> Valid only for SourthernTransit or NorthernTransit 
+events, this will be true if the transit is visible i.e. the apparent altitude 
+of the top of the Moon (including the standard &quot;altitude&quot; refraction correction) 
+is above the horizon.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p><i>Longitude </i>The geographic longitude of the observer in degrees 
+(Positive west, negative east from Greenwich).</p>
+<p><i>Latitude</i> The geographic latitude of the observer in degrees.</p>
+<p><i>Height</i> The observer&#39;s height above sea level in meters</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy for calculating 
+rise / transit and set times.</p>
+<p><b>Remarks</b></p>
+<p>This version of the algorithm provides a higher precision method to calculate the 
+rise / transit and set times of the Moon compared to the
+<a href="#CAARiseTransitSet2_Calculate">Calculate</a> method. This is necessary because the &quot;standard&quot; altitude 
+value for the Moon is not constant and depends significantly on the Moon's 
+distance / parallax. Internally this method will use 0.7275 * PI - 0.5666 where 
+PI is the Moon's horizontal parallax in degrees to calculate the &quot;standard&quot; 
+altitude for events.</p>
+<p>&nbsp;</p>
+<p><b><a name="CAARiseTransitSet2_CalculateStationary"></a>CAARiseTransitSet2::CalculateStationary</b></p>
+<p><b>static std::vector&lt;CAARiseTransitSetDetails2&gt; CalculateMoon(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double
+</b><em>Alpha</em><b>, double </b><em>Delta</em><b>, double</b>
+<em>Longitude</em>, <b>double</b> <em>Latitude</em>, <b>double
+</b><em>h0<b> </b></em><b>= -0.5667<em>, </em>double</b>
+<em>StepInterval</em> <b>= 0.007)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be Rise, Set, SouthernTransit or NorthernTransit.</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>Bearing</i> Valid only for Rise or Set events, this will be the 
+<span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
+<p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
+events, this will be the geometric altitude in degrees of the center of the 
+object not including correction for refraction for the event.</p>
+<p><i>bAboveHorizon</i> Valid only for SourthernTransit or NorthernTransit 
+events, this will be true if the transit is visible i.e. the apparent altitude 
+of the top of the object (including the standard &quot;altitude&quot; refraction 
+correction) is above the horizon.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p><i>Alpha </i>The right ascension of the object expressed as decimal hours.</p>
+<p><i>Delta </i>The declination of the object in degrees.</p>
+<p><i>Longitude </i>The geographic longitude of the observer in degrees 
+(Positive west, negative east from Greenwich).</p>
+<p><i>Latitude</i> The geographic latitude of the observer in degrees.</p>
+<p><i>h0 </i>The &quot;standard&quot; altitude in degrees i.e. the geometric altitude 
+of the center of the body at the time of the apparent rising or setting. This 
+defaults to -0.5667 which is appropriate for a star.</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy for calculating 
+rise / transit and set times.</p>
+<p><b>Remarks</b></p>
+<p>This version of the algorithm allows you to calculate the rise / transit and 
+set times of an object which is stationary in the sky with fixed Right Ascension 
+and Declination e.g. a Star.</p>
+<p>&nbsp;&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAASaturn"></a>CAASaturn</b></p>
 <p>This class provides for calculation of the heliocentric position of Saturn. This 
@@ -9451,7 +9633,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>23 June 2019</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>15 July 2019</p>
 
 </body>
 

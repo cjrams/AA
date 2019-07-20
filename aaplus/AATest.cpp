@@ -41,34 +41,6 @@ void GetLunarRaDecByJulian(double JD, double& RA, double& Dec)
   Dec = Lunarcoord.Y;
 }
 
-CAARiseTransitSetDetails GetSunRiseTransitSet(double JD, double longitude, double latitude, bool bHighPrecision)
-{
-  double alpha1 = 0;
-  double delta1 = 0;
-  GetSolarRaDecByJulian(JD - 1, bHighPrecision, alpha1, delta1);
-  double alpha2 = 0;
-  double delta2 = 0;
-  GetSolarRaDecByJulian(JD, bHighPrecision, alpha2, delta2);
-  double alpha3 = 0;
-  double delta3 = 0;
-  GetSolarRaDecByJulian(JD + 1, bHighPrecision, alpha3, delta3);
-  return CAARiseTransitSet::Calculate(JD, alpha1, delta1, alpha2, delta2, alpha3, delta3, longitude, latitude, -0.8333);
-}
-
-CAARiseTransitSetDetails GetMoonRiseTransitSet(double JD, double longitude, double latitude)
-{
-  double alpha1 = 0;
-  double delta1 = 0;
-  GetLunarRaDecByJulian(JD - 1, alpha1, delta1);
-  double alpha2 = 0;
-  double delta2 = 0;
-  GetLunarRaDecByJulian(JD, alpha2, delta2);
-  double alpha3 = 0;
-  double delta3 = 0;
-  GetLunarRaDecByJulian(JD + 1, alpha3, delta3);
-  return CAARiseTransitSet::Calculate(JD, alpha1, delta1, alpha2, delta2, alpha3, delta3, longitude, latitude, 0.125);
-}
-
 void PrintTime(double JD, const char* msg) noexcept
 {
   const CAADate date_time(JD, true);
@@ -80,51 +52,6 @@ void PrintTime(double JD, const char* msg) noexcept
   double second = 0;
   date_time.Get(year, month, day, hour, minute, second);
   printf("%s: %d-%d-%d %02d:%02d:%02d\n", msg, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-}
-
-void PrintRiseTransitSet(double JD, const CAARiseTransitSetDetails& rise_transit_set) noexcept
-{
-  if (rise_transit_set.bRiseValid)
-  {
-    const double riseJD = (JD + (rise_transit_set.Rise / 24.00));
-    PrintTime(riseJD, "Rise");
-  }
-
-  const double transitJD = (JD + (rise_transit_set.Transit / 24.00));
-  PrintTime(transitJD, "Transit");
-
-  if (rise_transit_set.bSetValid)
-  {
-    const double setJD = (JD + (rise_transit_set.Set / 24.00));
-    PrintTime(setJD, "Set");
-  }
-}
-
-void PrintRiseTransitSet2(double JD, int time_zone_offset, const CAARiseTransitSetDetails& rise_transit_set) noexcept
-{
-  if (rise_transit_set.bRiseValid)
-  {
-    double riseJD = (JD + ((rise_transit_set.Rise) / 24.00));
-    PrintTime(riseJD, "Rise (UTC)");
-    riseJD += ((time_zone_offset) / 24.00);
-    PrintTime(riseJD, "Rise (Local)");
-  }
-
-  if (rise_transit_set.bTransitValid)
-  {
-    double transitJD = (JD + ((rise_transit_set.Transit) / 24.00));
-    PrintTime(transitJD, "Transit (UTC)");
-    transitJD += ((time_zone_offset) / 24.00);
-    PrintTime(transitJD, "Transit (Local)");
-  }
-
-  if (rise_transit_set.bSetValid)
-  {
-    double setJD = (JD + ((rise_transit_set.Set) / 24.00));
-    PrintTime(setJD, "Set (UTC)");
-    setJD += ((time_zone_offset) / 24.00);
-    PrintTime(setJD, "Set (Local)");
-  }
 }
 
 void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fraction, double& position_angle, double& phase_angle)
@@ -265,52 +192,16 @@ void PrintMoonPhase(double position_angle, double phase_angle)
   }
 }
 
-void PrintMoonIlluminationAndPhase(double JD, bool bHighPrecision)
+void PrintMoonIlluminationAndPhase(long year, long month, long day, bool bHighPrecision)
 {
+  const CAADate CalcDate(year, month, day, true);
+  const double JD = CalcDate.Julian();
   double illuminated_fraction = 0;
   double position_angle = 0;
   double phase_angle = 0;
   GetMoonIllumination(JD, bHighPrecision, illuminated_fraction, position_angle, phase_angle);
-  printf("Moon illumination: %d%%\n", static_cast<int>((illuminated_fraction * 100) + 0.5));
+  printf("Moon illumination: %d-%d-%d, %d%%\n", year, month, day, static_cast<int>((illuminated_fraction * 100) + 0.5));
   PrintMoonPhase(position_angle, phase_angle);
-}
-
-void PrintSunAndMoonInfo(long year, long month, long day, double longitude, double latitude, bool bHighPrecision)
-{
-  const CAADate CalcDate(year, month, day, true);
-  const double JD = CalcDate.Julian();
-  printf("Times are in UTC\n");
-  const CAARiseTransitSetDetails sun_rise_transit_set(GetSunRiseTransitSet(JD, longitude, latitude, bHighPrecision));
-  printf("Sun:\n");
-  PrintRiseTransitSet(JD, sun_rise_transit_set);
-  printf("Moon:\n");
-  const CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
-  PrintRiseTransitSet(JD, moon_rise_transit_set);
-  PrintMoonIlluminationAndPhase(JD, bHighPrecision);
-}
-
-void PrintSunAndMoonInfo2(const char* city_name, long year, long month, long day, int time_offset, double longitude, double latitude, bool bHighPrecision)
-{
-  const CAADate CalcDate(year, month, day, true);
-  const double JD = CalcDate.Julian();
-  printf("Information for %s.  Times are offset %d hrs from UTC\n", city_name, time_offset);
-  const CAARiseTransitSetDetails sun_rise_transit_set(GetSunRiseTransitSet(JD, longitude, latitude, bHighPrecision));
-  printf("\nSun:\n");
-  PrintRiseTransitSet2(JD, time_offset, sun_rise_transit_set);
-  printf("\nMoon:\n");
-  const CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
-  PrintRiseTransitSet2(JD, time_offset, moon_rise_transit_set);
-  printf("\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n");
-}
-
-void PrintMoonInfo3(const char* /*city_name*/, int year, int month, int day, int time_offset, double longitude, double latitude)
-{
-  const CAADate CalcDate(year, month, day, true);
-  const double JD = CalcDate.Julian();
-  printf("\nMoon:\n");
-  const CAARiseTransitSetDetails moon_rise_transit_set(GetMoonRiseTransitSet(JD, longitude, latitude));
-  PrintRiseTransitSet2(JD, time_offset, moon_rise_transit_set);
-  printf("\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n");
 }
 
 void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
@@ -324,28 +215,213 @@ void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double&
   Dec = Mercurycoord.Y;
 }
 
-CAARiseTransitSetDetails GetMercuryRiseTransitSet(double JD, double longitude, double latitude, bool bHighPrecision)
+void PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object object, double h0, const char* objectName)
 {
-  double alpha1 = 0;
-  double delta1 = 0;
-  GetMercuryRaDecByJulian(JD - 1, bHighPrecision, alpha1, delta1);
-  double alpha2 = 0;
-  double delta2 = 0;
-  GetMercuryRaDecByJulian(JD, bHighPrecision, alpha2, delta2);
-  double alpha3 = 0;
-  double delta3 = 0;
-  GetMercuryRaDecByJulian(JD + 1, bHighPrecision, alpha3, delta3);
-
-  return CAARiseTransitSet::Calculate(CAADynamicalTime::UTC2TT(JD), alpha1, delta1, alpha2, delta2, alpha3, delta3, longitude, latitude, -0.5667);
+  std::vector<CAARiseTransitSetDetails2> events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2447240.5), CAADynamicalTime::UTC2TT(2447241.5), object, 71.0833, 42.3333, h0);
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Rise of %s (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Set of %s (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Boston Southern Transit of %s (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Boston Northern Transit of %s (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
 }
 
-void PrintMercuryInfo(double JD, double longitude, double latitude, bool bHighPrecision)
+void PrintBostonRiseTransitSetTimesMoon()
 {
-  const CAARiseTransitSetDetails Mercury_rise_transit_set(GetMercuryRiseTransitSet(JD, longitude, latitude, bHighPrecision));
-  printf("\nMercury:\n");
-  PrintRiseTransitSet2(JD, 0, Mercury_rise_transit_set);
-  printf("\n\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n");
+  std::vector<CAARiseTransitSetDetails2> events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(2447240.5), CAADynamicalTime::UTC2TT(2447241.5), 71.0833, 42.3333);
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Rise of Moon (High accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Set of Moon (High accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Boston Southern Transit of Moon (High accuracy) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Boston Northern Transit of Moon (High accuracy) (UTC) , %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
 }
+
+void PrintBostonRiseTransitSetTimesSirius()
+{
+  std::vector<CAARiseTransitSetDetails2> events = CAARiseTransitSet2::CalculateStationary(CAADynamicalTime::UTC2TT(2447240.5), CAADynamicalTime::UTC2TT(2447241.5), CAACoordinateTransformation::DMSToDegrees(06, 44, 38.11), CAACoordinateTransformation::DMSToDegrees(16, 42, 01.5, false), 71.0833, 42.3333);
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Rise of Sirius (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Set of Sirius (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Boston Southern Transit of Sirius (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) // //Only bother to report visible transits
+          printf("Boston Northern Transit of Sirius (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+}
+
 
 int main()
 {
@@ -372,80 +448,6 @@ int main()
     return 0;
   }
   */
-
-  //Calculate an ephemeris for the the rise / transit & set of Venus
-  /*
-  {
-    long Year = 0;
-    long Month = 0;
-    long Day = 0;
-    long Hours;
-    long Minutes;
-    double Sec;
-    CAADate CalcDate(2020, 4, 10, true);
-    double JD = CalcDate.Julian();
-    double Longitude = 21.9267; //Reykjavík
-    double Latitude = 64.1417; //Reykjavík
-    double Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3;
-    double riseJD, transitJD, setJD;
-
-    for (int i = 0; i < 10000; i++)
-    {
-      JD += 1.000;
-      CAAEllipticalPlanetaryDetails VenusDetails = CAAElliptical::Calculate(JD - 1, CAAElliptical::VENUS, false);
-      Alpha1 = VenusDetails.ApparentGeocentricRA;
-      Delta1 = VenusDetails.ApparentGeocentricDeclination;
-      VenusDetails = CAAElliptical::Calculate(JD, CAAElliptical::VENUS, false);
-      Alpha2 = VenusDetails.ApparentGeocentricRA;
-      Delta2 = VenusDetails.ApparentGeocentricDeclination;
-      VenusDetails = CAAElliptical::Calculate(JD + 1, CAAElliptical::VENUS, false);
-      Alpha3 = VenusDetails.ApparentGeocentricRA;
-      Delta3 = VenusDetails.ApparentGeocentricDeclination;
-      printf("%f\t", JD);
-      CAADate calcDate(JD, true);
-      calcDate.Get(Year, Month, Day, Hours, Minutes, Sec);
-      printf("%d/%02d/%02d\t", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
-      printf("%10.6f\t%10.6f\t%10.6f\t%10.6f\t%10.6f\t%10.6f\t", Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3);
-      CAARiseTransitSetDetails RiseTransitSetTime = CAARiseTransitSet::Calculate(JD, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, -0.5667);
-
-      if (RiseTransitSetTime.bRiseValid)
-      {
-        riseJD = (JD + (RiseTransitSetTime.Rise / 24.00));
-        CAADate rtsDate(riseJD, true);
-        rtsDate.Get(Year, Month, Day, Hours, Minutes, Sec);
-        printf("%02.2f\t", RiseTransitSetTime.Rise);
-      }
-      else
-        printf("-1\t");
-
-      if (RiseTransitSetTime.bTransitValid)
-      {
-        transitJD = (JD + (RiseTransitSetTime.Transit / 24.00));
-        CAADate rtsDate(transitJD, true);
-        rtsDate.Get(Year, Month, Day, Hours, Minutes, Sec);
-        printf("%02.2f\t", RiseTransitSetTime.Transit);
-      }
-      else
-        printf("-1\t");
-
-      if (RiseTransitSetTime.bSetValid)
-      {
-        setJD = (JD + (RiseTransitSetTime.Set / 24.00));
-        CAADate rtsDate(setJD, true);
-        rtsDate.Get(Year, Month, Day, Hours, Minutes, Sec);
-        printf("%02.2f\t", RiseTransitSetTime.Set);
-      }
-      else
-        printf("-1\t");
-
-      printf("\n");
-    }
-    return 0;
-  }
-  */
-
-  PrintMoonInfo3("random", 2012, 10, 30, 0, -5.6306649983214818, 71.646778771324804); //An interesting case is Rise, Transit and Set for the Moon on October 30 2012 at the specified position
-  PrintMoonInfo3("random", 2012, 10, 31, 0, -5.6306649983214818, 71.646778771324804); //An interesting case is Rise, Transit and Set for the Moon on October 31 2012 at the specified position
 
   double MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(-7);
   UNREFERENCED_PARAMETER(MappedValue);
@@ -595,60 +597,288 @@ int main()
   return 0;
   */
 
-  //Print out the rise transit and set times for Mercury for 60 days starting from the 1st of March in 2038.
-  double JD = 2465483.5000000000;
-  for (int i=0; i<60; ++i)
+  //Print out the rise, transit and set times for the Sun for the North Pole for the year 2019 using the new CAARiseTransitSet2 class
+  std::vector<CAARiseTransitSetDetails2> events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, 90, -0.8333);
+  for (const auto& event : events)
   {
-    PrintMercuryInfo(JD, 0, 0, false);
-    PrintMercuryInfo(JD, 0, 0, true);
-    JD += 1;
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Rise of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Set of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("North Pole Southern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("North Pole Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
   }
 
-  //Print out the rise transit and set times for the Moon and Sun for each city
-  //Date is for October 31, 2012
+  //Print out the rise, transit and set times for the Sun for the South Pole for the year 2019 using the new CAARiseTransitSet2 class
+  events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, -90, -0.8333);
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole Rise of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole Set of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("South Pole Southern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("South Pole Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+
+
+  //Print out the rise, transit and set times for the Moon for the North Pole for the 8th - 11th March 2019 using the new CAARiseTransitSet2 class
+  events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), CAARiseTransitSet2::Object::MOON, 0, 90, 0.125);
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Rise of Moon (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Set of Moon (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("North Pole Southern Transit of Moon (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("North Pole Northern Transit of Moon (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+
+  //Print out the rise, transit and set times for the Moon for the North Pole for the 8th to 11th March 2019 using the new CAARiseTransitSet2 class and its higher accuracy CalculateMoon method
+  events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), 0, 90);
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Rise of Moon (Higher accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Set of Moon (Higher accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("North Pole Southern Transit of Moon (Higher accuracy) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("North Pole Northern Transit of Moon (Higher accuracy) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+
+  //Print out an ASCII graphic of the moon phase for the month of April 2012 for 
+  //the location of Wexford, Ireland. Thanks to Roger Dahl for providing this 
+  //nice addition to AA+
   long Year = 2012;
-  long Month = 10;
-  long Day = 31;
-  long Hour = 0;
-  long Minute = 0;
-  double Second = 0;
-  PrintSunAndMoonInfo2("Buenos Aires", Year, Month, Day, -3, 58.3817, -34.6036, false);
-  PrintSunAndMoonInfo2("Buenos Aires", Year, Month, Day, -3, 58.3817, -34.6036, true);
-  PrintSunAndMoonInfo2("Moscow", Year, Month, Day, 4, -37.6178, 55.7517, false);
-  PrintSunAndMoonInfo2("Moscow", Year, Month, Day, 4, -37.6178, 55.7517, true);
-  PrintSunAndMoonInfo2("Dublin", Year, Month, Day, 1, 6.2661, 53.3428, false);
-  PrintSunAndMoonInfo2("Dublin", Year, Month, Day, 1, 6.2661, 53.3428, true);
-  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, false);
-  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, true);
-  PrintSunAndMoonInfo2("Cape Town", Year, Month, Day, 2, -18.4244, -33.9767, false);
-  PrintSunAndMoonInfo2("Cape Town", Year, Month, Day, 2, -18.4244, -33.9767, true);
-  PrintSunAndMoonInfo2("North Pole", Year, Month, Day, 0, 0, 90, false);
-  PrintSunAndMoonInfo2("North Pole", Year, Month, Day, 0, 0, 90, true);
-  PrintSunAndMoonInfo2("Tasmania", Year, Month, Day, 10, -146, -41, false);
-  PrintSunAndMoonInfo2("Tasmania", Year, Month, Day, 10, -146, -41, true);
-
-
-  //Print out the rise transit and set times for the Moon and Sun for Tampa for May 11, 2012
-  Year = 2012;
-  Month = 5;
-  Day = 11;
-  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, false);
-  PrintSunAndMoonInfo2("Tampa", Year, Month, Day, -4, 82.4586, 27.9472, true);
-
-
-  //Print out the rise transit and set times for the Moon and Sun as well as a ASCII graphic of the
-  //moon phase for the month of April 2012 for the location of Wexford, Ireland. Thanks to Roger Dahl
-  //for providing this nice addition to AA+.
-  Year = 2012;
-  Month = 4;
+  long Month = 4;
   const int days_in_month = 30;
   const double longitude = 6.5;
   const double latitude = 52.5;
   for (int i=1; i <= days_in_month; ++i)
   {
-    Day = i;
-    PrintSunAndMoonInfo(Year, Month, Day, longitude, latitude, false);
-    PrintSunAndMoonInfo(Year, Month, Day, longitude, latitude, true);
+    const long Day = i;
+    PrintMoonIlluminationAndPhase(Year, Month, Day, false);
+    PrintMoonIlluminationAndPhase(Year, Month, Day, true);
   }
 
 
@@ -767,7 +997,6 @@ int main()
   double LocalHourAngle = AST - LongtitudeAsHourAngle - SunTopo.X;
   CAA2DCoordinate SunHorizontal = CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, SunTopo.Y, Latitude);
   SunHorizontal.Y += CAARefraction::RefractionFromTrue(SunHorizontal.Y, 1013, 10);
-
   //The result above should be that we have a setting Sun at 21 degrees above the horizon at azimuth 14 degrees south of the westerly horizon
 
 
@@ -831,6 +1060,10 @@ int main()
   //Test out the AADate class
   CAADate date;
   date.Set(2000, 1, 1, 12, 1, 2.3, true);
+  long Day = 0;
+  long Hour = 0;
+  long Minute = 0;
+  double Second = 0;
   date.Get(Year, Month, Day, Hour, Minute, Second);
   const long DaysInMonth = date.DaysInMonth();
   UNREFERENCED_PARAMETER(DaysInMonth);
@@ -1928,108 +2161,93 @@ int main()
   const double Y6 = CAAInterpolate::LagrangeInterpolate(90, static_cast<int>(X1.size()), X1.data(), Y1.data());
   UNREFERENCED_PARAMETER(Y6);
 
-  double Alpha1 = CAACoordinateTransformation::DMSToDegrees(2, 42, 43.25);
-  double Alpha2 = CAACoordinateTransformation::DMSToDegrees(2, 46, 55.51);
-  double Alpha3 = CAACoordinateTransformation::DMSToDegrees(2, 51, 07.69);
-  double Delta1 = CAACoordinateTransformation::DMSToDegrees(18, 02, 51.4);
-  double Delta2 = CAACoordinateTransformation::DMSToDegrees(18, 26, 27.3);
-  double Delta3 = CAACoordinateTransformation::DMSToDegrees(18, 49, 38.7);
-  double JD2 = 2447240.5;
-  Longitude = 71.0833;
-  Latitude = 42.3333;
-  CAARiseTransitSetDetails RiseTransitSetTime = CAARiseTransitSet::Calculate(JD2, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, -0.5667);
-  if (RiseTransitSetTime.bRiseValid)
-  {
-    const double riseJD = (JD2 + (RiseTransitSetTime.Rise / 24.00));
-    const CAADate rtsDate(riseJD, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Venus rise for Boston for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-  }
-  else
-  {
-    const CAADate rtsDate(JD2, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Venus does not rise for Boston for UTC %d-%d-%d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
-  }
-  if (RiseTransitSetTime.bTransitValid)
-  {
-    const double transitJD = (JD2 + (RiseTransitSetTime.Transit / 24.00));
-    const CAADate rtsDate(transitJD, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    if (RiseTransitSetTime.bTransitAboveHorizon)
-      printf("Venus transit for Boston for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-    else
-      printf("Venus transit for Boston (below horizon) for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-  }
-  else
-  {
-    const CAADate rtsDate(JD2, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Venus does not transit for Boston for UTC %d-%d-%d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
-  }
 
-  if (RiseTransitSetTime.bSetValid)
-  {
-    const double setJD = (JD2 + (RiseTransitSetTime.Set / 24.00));
-    const CAADate rtsDate(setJD, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Venus set for Boston UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-  }
-  else
-  {
-    const CAADate rtsDate(JD2, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Venus does not set for Boston for UTC %d-%d-%d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day));
-  }
+  //Print out the rise, transit and set times for all the Planets, Sun, Moon on March 20 1988 at Boston using the new CAARiseTransitSet2 class
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::VENUS, -0.5667, "Venus");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::MERCURY, -0.5667, "Mercury");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::MARS, -0.5667, "Mars");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::JUPITER, -0.5667, "Jupiter");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SATURN, -0.5667, "Saturn");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::URANUS, -0.5667, "Uranus");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::NEPTUNE, -0.5667, "Neptune");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::PLUTO, -0.5667, "Pluto");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333, "Sun");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::MOON, 0.125, "Moon");
+  PrintBostonRiseTransitSetTimesMoon();
+  PrintBostonRiseTransitSetTimesSirius();
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
   const int YYYY = 2009;
   const int MM = 8;
   const int DD = 11;
   const CAADate CalcDate(YYYY, MM, DD, true);
-  JD2 = CalcDate.Julian();
-  GetLunarRaDecByJulian(JD2 - 1, Alpha1, Delta1);
-  GetLunarRaDecByJulian(JD2, Alpha2, Delta2);
-  GetLunarRaDecByJulian(JD2 + 1, Alpha3, Delta3);
-  Longitude = CAACoordinateTransformation::DMSToDegrees(116, 51, 45); //West is considered positive
-  Latitude = CAACoordinateTransformation::DMSToDegrees(33, 21, 22);
-  RiseTransitSetTime = CAARiseTransitSet::Calculate(JD2, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, 0.125);
-  if (RiseTransitSetTime.bRiseValid)
+  const double JD2 = CalcDate.Julian();
+  events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(JD2), CAADynamicalTime::UTC2TT(JD2) + 1, CAACoordinateTransformation::DMSToDegrees(116, 51, 45), CAACoordinateTransformation::DMSToDegrees(33, 21, 22));
+  for (const auto& event : events)
   {
-    const double riseJD = (JD2 + (RiseTransitSetTime.Rise / 24.00));
-    const CAADate rtsDate(riseJD, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Moon rise for Palomar Observatory for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Palomar Observatory Rise of Moon (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Palomar Observatory Set of Moon (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Palomar Observatory Southern Transit of Moon (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          printf("Palomar Observatory Northern Transit of Moon (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
   }
-  else
-  {
-    printf("Moon does not rise for Palomar Observatory for UTC %d-%d-%d\n", YYYY, MM, DD);
-  }
-  if (RiseTransitSetTime.bTransitValid)
-  {
-    const double transitJD = (JD2 + (RiseTransitSetTime.Transit / 24.00));
-    const CAADate rtsDate(transitJD, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    if (RiseTransitSetTime.bTransitAboveHorizon)
-      printf("Moon transit for Palomar Observatory for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-    else
-      printf("Moon transit for Palomar Observatory (below horizon) for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-  }
-  else
-  {
-      printf("Moon does not transit for Palomar Observatory for UTC %d-%d-%d\n", YYYY, MM, DD);
-  }
-  if (RiseTransitSetTime.bSetValid)
-  {
-    const double setJD = (JD2 + (RiseTransitSetTime.Set / 24.00));
-    const CAADate rtsDate(setJD, true);
-    rtsDate.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("Moon set for Palomar Observatory for UTC %d-%d-%d occurs at %02d:%02d:%02d\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), static_cast<int>(Second));
-  }
-  else
-  {
-    printf("Moon does not set for Palomar Observatory for UTC %d-%d-%d\n", YYYY, MM, DD);
-  }
+
 
   const double Kpp = CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
   const double MercuryInferiorConjunction = CAAPlanetaryPhenomena::Mean(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
@@ -2133,8 +2351,8 @@ int main()
   UNREFERENCED_PARAMETER(GalileanDetails2);
 
   //Calculate the Eclipse Disappearance of Satellite 1 on February 1 2004 at 13:32 UCT
-  JD = 2453037.05903;
-  int i;
+  double JD = 2453037.05903;
+  int i = 0;
   for (i=0; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1 = CAAGalileanMoons::Calculate(JD, false);
@@ -2216,7 +2434,7 @@ int main()
 
     //Prepare for the next loop
     JDUT3 += 5;
-    if (JDUT3 >= 2469136.500000)
+    if (JDUT3 >= 2469136.5)
       bContinue4 = false;
   }
   */
@@ -2504,7 +2722,7 @@ int main()
   details3 = CAANearParabolic::Calculate(0, elements6, false);
   details4 = CAANearParabolic::Calculate(0, elements6, false);
 
-  const CAAEclipticalElementDetails ed5 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2448188.500000 + 0.6954-63.6954);
+  const CAAEclipticalElementDetails ed5 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2448188.5 + 0.6954-63.6954);
   UNREFERENCED_PARAMETER(ed5);
   const CAAEclipticalElementDetails ed6 = CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2433282.4235);
   UNREFERENCED_PARAMETER(ed6);
@@ -2516,7 +2734,7 @@ int main()
   elements6.i = ed5.i;
   elements6.omega = ed5.omega;
   elements6.w = ed5.w;
-  elements6.T = 2448188.500000 + 0.6954;
+  elements6.T = 2448188.5 + 0.6954;
   elements6.JDEquinox = elements6.T;
   const CAANearParabolicObjectDetails details6 = CAANearParabolic::Calculate(elements6.T-63.6954, elements6, false);
   UNREFERENCED_PARAMETER(details6);

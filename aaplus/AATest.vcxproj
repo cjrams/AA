@@ -545,6 +545,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="AARiseTransitSet2.cpp" />
     <ClCompile Include="AASaturn.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -716,6 +717,7 @@
     <ClInclude Include="AAPrecession.h" />
     <ClInclude Include="AARefraction.h" />
     <ClInclude Include="AARiseTransitSet.h" />
+    <ClInclude Include="AARiseTransitSet2.h" />
     <ClInclude Include="AASaturn.h" />
     <ClInclude Include="AASaturnMoons.h" />
     <ClInclude Include="AASaturnRings.h" />

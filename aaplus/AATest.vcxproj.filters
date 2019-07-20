@@ -351,6 +351,9 @@
     <ClCompile Include="AAELPMPP02.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AARiseTransitSet2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AA+.h">
@@ -693,6 +696,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AAELPMPP02.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AARiseTransitSet2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

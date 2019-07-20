@@ -145,7 +145,7 @@ public:
 
   constexpr static double GeocentricMoonSemidiameter(double Delta)
   {
-    return CAACoordinateTransformation::RadiansToDegrees(0.272481*6378.14 / Delta) * 3600;
+    return CAACoordinateTransformation::RadiansToDegrees(0.272481 * 6378.14 / Delta) * 3600;
   }
 
   constexpr static double ApparentAsteroidDiameter(double Delta, double d)

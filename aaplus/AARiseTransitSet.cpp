@@ -262,7 +262,7 @@ CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, 
 
   //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interopolation of RA values
   CorrectRAValuesForInterpolation(Alpha1, Alpha2, Alpha3);
-    
+
   //Do the main work
   CalculateTransitHelper(details, theta0, deltaT, Alpha1, Alpha2, Alpha3, Longitude, M0);
   CalculateRiseHelper(details, theta0, deltaT, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, LatitudeRad, h0, M1);

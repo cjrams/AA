@@ -91,6 +91,7 @@ to maintain a single distribution point for the source code.
 #include "AAPrecession.h"
 #include "AARefraction.h"
 #include "AARiseTransitSet.h"
+#include "AARiseTransitSet2.h"
 #include "AASaturn.h"
 #include "AASaturnMoons.h"
 #include "AASaturnRings.h"

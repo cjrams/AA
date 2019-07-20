@@ -188,7 +188,7 @@ CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObje
         RPrevious = R;
       }
       else
-        bFirstRecalc = false;  
+        bFirstRecalc = false;
 
       //Calculate the new value
       if (bRecalc)

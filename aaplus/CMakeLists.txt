@@ -63,6 +63,7 @@ SET ( SRCS_LIB
   AAPrecession.cpp
   AARefraction.cpp
   AARiseTransitSet.cpp
+  AARiseTransitSet2.cpp
   AASaturn.cpp
   AASaturnMoons.cpp
   AASaturnRings.cpp
