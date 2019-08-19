@@ -36,6 +36,7 @@ History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTran
                           bug.
          PJN / 24-07-2018 1. Fixed a GCC warning in the CAARiseTransitSetDetails constructor. Thanks to Todd Carnes 
                           for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -108,7 +109,7 @@ void CAARiseTransitSet::CalculateRiseSet(double M0, double cosH0, CAARiseTransit
     details.bTransitAboveHorizon = true;
 }
 
-void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3)
+void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3) noexcept
 {
   //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interopolation of RA values
   Alpha1 = CAACoordinateTransformation::MapTo0To24Range(Alpha1);
@@ -144,7 +145,7 @@ void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& 
   }
 }
 
-void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1)
+void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1) noexcept
 {
   for (int i=0; i<2; i++)
   {
@@ -171,7 +172,7 @@ void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, d
   }
 }
 
-void CAARiseTransitSet::CalculateSetHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M2)
+void CAARiseTransitSet::CalculateSetHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M2) noexcept
 {
   for (int i=0; i<2; i++)
   {
@@ -198,7 +199,7 @@ void CAARiseTransitSet::CalculateSetHelper(CAARiseTransitSetDetails& details, do
   }
 }
 
-void CAARiseTransitSet::CalculateTransitHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0)
+void CAARiseTransitSet::CalculateTransitHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0) noexcept
 {
   for (int i=0; i<2; i++)
   {
@@ -226,7 +227,7 @@ void CAARiseTransitSet::CalculateTransitHelper(CAARiseTransitSetDetails& details
   }
 }
 
-CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0)
+CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0) noexcept
 {
   //What will be the return value
   CAARiseTransitSetDetails details;

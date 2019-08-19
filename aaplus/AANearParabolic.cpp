@@ -17,6 +17,7 @@ History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double J
          PJN / 16-09-2015 1. CAANearParabolic::Calculate now includes a "bool bHighPrecision" parameter which 
                           if set to true means the code uses the full VSOP87 theory rather than the truncated
                           theory as presented in Meeus's book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2006 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -54,7 +55,7 @@ double CAANearParabolic::cbrt(double x) noexcept
 
 void CAANearParabolic::CalculateTrueAnnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r) noexcept
 {
-  const double k = 0.01720209895;
+  constexpr const double k = 0.01720209895;
   const double a = 0.75 * (JD - elements.T) * k * sqrt((1 + elements.e) / (elements.q*elements.q*elements.q));
   const double b = sqrt(1 + a*a);
   const double W = cbrt(b + a) - cbrt(b - a);
@@ -72,7 +73,7 @@ void CAANearParabolic::CalculateTrueAnnomalyAndRadius(double JD, const CAANearPa
   r = elements.q * (1 + w2) / (1 + w2 * f);
 }
 
-CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision)
+CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision) noexcept
 {
   double Epsilon = CAANutation::MeanObliquityOfEcliptic(elements.JDEquinox);
 

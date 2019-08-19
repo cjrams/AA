@@ -13,6 +13,7 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
                           "bool bHighPrecision" parameter which if set to true means the code uses the full
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AANeptune.cpp module
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -279,7 +280,7 @@ const VSOP87Coefficient g_R3NeptuneCoefficients[] =
 
 ///////////////////////////// Implementation //////////////////////////////////
 
-double CAANeptune::EclipticLongitude(double JD, bool bHighPrecision)
+double CAANeptune::EclipticLongitude(double JD, bool bHighPrecision) noexcept
 {
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
   if (bHighPrecision)
@@ -294,31 +295,31 @@ double CAANeptune::EclipticLongitude(double JD, bool bHighPrecision)
   const double rho4 = rhocubed*rho;
 
   //Calculate L0
-  const int nL0Coefficients = sizeof(g_L0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nL0Coefficients = sizeof(g_L0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
   for (int i=0; i<nL0Coefficients; i++)
     L0 += g_L0NeptuneCoefficients[i].A * cos(g_L0NeptuneCoefficients[i].B + g_L0NeptuneCoefficients[i].C*rho);
 
   //Calculate L1
-  const int nL1Coefficients = sizeof(g_L1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nL1Coefficients = sizeof(g_L1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
   for (int i=0; i<nL1Coefficients; i++)
     L1 += g_L1NeptuneCoefficients[i].A * cos(g_L1NeptuneCoefficients[i].B + g_L1NeptuneCoefficients[i].C*rho);
 
   //Calculate L2
-  const int nL2Coefficients = sizeof(g_L2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nL2Coefficients = sizeof(g_L2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
   for (int i=0; i<nL2Coefficients; i++)
     L2 += g_L2NeptuneCoefficients[i].A * cos(g_L2NeptuneCoefficients[i].B + g_L2NeptuneCoefficients[i].C*rho);
 
   //Calculate L3
-  const int nL3Coefficients = sizeof(g_L3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nL3Coefficients = sizeof(g_L3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
   for (int i=0; i<nL3Coefficients; i++)
     L3 += g_L3NeptuneCoefficients[i].A * cos(g_L3NeptuneCoefficients[i].B + g_L3NeptuneCoefficients[i].C*rho);
 
   //Calculate L4
-  const int nL4Coefficients = sizeof(g_L4NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nL4Coefficients = sizeof(g_L4NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
   for (int i=0; i<nL4Coefficients; i++)
     L4 += g_L4NeptuneCoefficients[i].A * cos(g_L4NeptuneCoefficients[i].B + g_L4NeptuneCoefficients[i].C*rho);
@@ -331,7 +332,7 @@ double CAANeptune::EclipticLongitude(double JD, bool bHighPrecision)
   return value;
 }
 
-double CAANeptune::EclipticLatitude(double JD, bool bHighPrecision)
+double CAANeptune::EclipticLatitude(double JD, bool bHighPrecision) noexcept
 {
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
   if (bHighPrecision)
@@ -346,31 +347,31 @@ double CAANeptune::EclipticLatitude(double JD, bool bHighPrecision)
   const double rho4 = rhocubed*rho;
 
   //Calculate B0
-  const int nB0Coefficients = sizeof(g_B0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nB0Coefficients = sizeof(g_B0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
   for (int i=0; i<nB0Coefficients; i++)
     B0 += g_B0NeptuneCoefficients[i].A * cos(g_B0NeptuneCoefficients[i].B + g_B0NeptuneCoefficients[i].C*rho);
 
   //Calculate B1
-  const int nB1Coefficients = sizeof(g_B1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nB1Coefficients = sizeof(g_B1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
   for (int i=0; i<nB1Coefficients; i++)
     B1 += g_B1NeptuneCoefficients[i].A * cos(g_B1NeptuneCoefficients[i].B + g_B1NeptuneCoefficients[i].C*rho);
 
   //Calculate B2
-  const int nB2Coefficients = sizeof(g_B2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nB2Coefficients = sizeof(g_B2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
   for (int i=0; i<nB2Coefficients; i++)
     B2 += g_B2NeptuneCoefficients[i].A * cos(g_B2NeptuneCoefficients[i].B + g_B2NeptuneCoefficients[i].C*rho);
 
   //Calculate B3
-  const int nB3Coefficients = sizeof(g_B3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nB3Coefficients = sizeof(g_B3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
   for (int i=0; i<nB3Coefficients; i++)
     B3 += g_B3NeptuneCoefficients[i].A * cos(g_B3NeptuneCoefficients[i].B + g_B3NeptuneCoefficients[i].C*rho);
 
   //Calculate B4
-  const int nB4Coefficients = sizeof(g_B4NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nB4Coefficients = sizeof(g_B4NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
   for (int i=0; i<nB4Coefficients; i++)
     B4 += g_B4NeptuneCoefficients[i].A * cos(g_B4NeptuneCoefficients[i].B + g_B4NeptuneCoefficients[i].C*rho);
@@ -396,25 +397,25 @@ double CAANeptune::RadiusVector(double JD, bool bHighPrecision) noexcept
   const double rhocubed = rhosquared*rho;
 
   //Calculate R0
-  const int nR0Coefficients = sizeof(g_R0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nR0Coefficients = sizeof(g_R0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
   for (int i=0; i<nR0Coefficients; i++)
     R0 += g_R0NeptuneCoefficients[i].A * cos(g_R0NeptuneCoefficients[i].B + g_R0NeptuneCoefficients[i].C*rho);
 
   //Calculate R1
-  const int nR1Coefficients = sizeof(g_R1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nR1Coefficients = sizeof(g_R1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
   for (int i=0; i<nR1Coefficients; i++)
     R1 += g_R1NeptuneCoefficients[i].A * cos(g_R1NeptuneCoefficients[i].B + g_R1NeptuneCoefficients[i].C*rho);
 
   //Calculate R2
-  const int nR2Coefficients = sizeof(g_R2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nR2Coefficients = sizeof(g_R2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
   for (int i=0; i<nR2Coefficients; i++)
     R2 += g_R2NeptuneCoefficients[i].A * cos(g_R2NeptuneCoefficients[i].B + g_R2NeptuneCoefficients[i].C*rho);
 
   //Calculate R3
-  const int nR3Coefficients = sizeof(g_R3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
+  constexpr const int nR3Coefficients = sizeof(g_R3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
   for (int i=0; i<nR3Coefficients; i++)
     R3 += g_R3NeptuneCoefficients[i].A * cos(g_R3NeptuneCoefficients[i].B + g_R3NeptuneCoefficients[i].C*rho);

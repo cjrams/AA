@@ -103,7 +103,7 @@ class AAPLUS_EXT_CLASS CAANearParabolic
 {
 public:
 //Static methods
-  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision);
+  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision) noexcept;
   static double cbrt(double x) noexcept;
   static void CalculateTrueAnnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r) noexcept;
 };

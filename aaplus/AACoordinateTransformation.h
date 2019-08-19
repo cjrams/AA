@@ -87,15 +87,18 @@ public:
     return 3.1415926535897932384626433832795;
   }
 
-  static inline double MapTo0To360Range(double Degrees)
+  static inline double MapTo0To360Range(double Degrees) noexcept
   {
+#ifdef _MSC_VER
+    #pragma warning(suppress : 26447)
+#endif //#ifdef _MSC_VER
     double fResult = fmod(Degrees, 360);
     if (fResult < 0)
       fResult += 360;
     return fResult;
   }
 
-  static inline double MapToMinus90To90Range(double Degrees)
+  static inline double MapToMinus90To90Range(double Degrees) noexcept
   {
     double fResult = MapTo0To360Range(Degrees);
 
@@ -109,8 +112,11 @@ public:
     return fResult;
   }
 
-  static inline double MapTo0To24Range(double HourAngle)
+  static inline double MapTo0To24Range(double HourAngle) noexcept
   {
+#ifdef _MSC_VER
+    #pragma warning(suppress : 26447)
+#endif //#ifdef _MSC_VER
     double fResult = fmod(HourAngle, 24);
     if (fResult < 0)
       fResult += 24;

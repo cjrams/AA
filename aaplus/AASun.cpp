@@ -22,6 +22,7 @@ History: PJN / 17-01-2007 1. Changed name of CAASun::ApparentEclipticLongtitude 
                           elliptical orbit. This improves the accuracy of the sample 25.a/b from the book by
                           a couple of hundreds of arc seconds. The results now are exactly in sync with the 
                           results as reported in the book. Thanks to "Pavel" for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -52,27 +53,27 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAASun::GeometricEclipticLongitude(double JD, bool bHighPrecision)
+double CAASun::GeometricEclipticLongitude(double JD, bool bHighPrecision) noexcept
 {
   return CAACoordinateTransformation::MapTo0To360Range(CAAEarth::EclipticLongitude(JD, bHighPrecision) + 180);
 }
 
-double CAASun::GeometricEclipticLatitude(double JD, bool bHighPrecision)
+double CAASun::GeometricEclipticLatitude(double JD, bool bHighPrecision) noexcept
 {
   return -CAAEarth::EclipticLatitude(JD, bHighPrecision);
 }
 
-double CAASun::GeometricEclipticLongitudeJ2000(double JD, bool bHighPrecision)
+double CAASun::GeometricEclipticLongitudeJ2000(double JD, bool bHighPrecision) noexcept
 {
   return CAACoordinateTransformation::MapTo0To360Range(CAAEarth::EclipticLongitudeJ2000(JD, bHighPrecision) + 180);
 }
 
-double CAASun::GeometricEclipticLatitudeJ2000(double JD, bool bHighPrecision)
+double CAASun::GeometricEclipticLatitudeJ2000(double JD, bool bHighPrecision) noexcept
 {
   return -CAAEarth::EclipticLatitudeJ2000(JD, bHighPrecision);
 }
 
-double CAASun::GeometricFK5EclipticLongitude(double JD, bool bHighPrecision)
+double CAASun::GeometricFK5EclipticLongitude(double JD, bool bHighPrecision) noexcept
 {
   //Convert to the FK5 stystem
   double Longitude = GeometricEclipticLongitude(JD, bHighPrecision);
@@ -82,7 +83,7 @@ double CAASun::GeometricFK5EclipticLongitude(double JD, bool bHighPrecision)
   return Longitude;
 }
 
-double CAASun::GeometricFK5EclipticLatitude(double JD, bool bHighPrecision)
+double CAASun::GeometricFK5EclipticLatitude(double JD, bool bHighPrecision) noexcept
 {
   //Convert to the FK5 stystem
   const double Longitude = GeometricEclipticLongitude(JD, bHighPrecision);
@@ -93,7 +94,7 @@ double CAASun::GeometricFK5EclipticLatitude(double JD, bool bHighPrecision)
   return Latitude;
 }
 
-double CAASun::ApparentEclipticLongitude(double JD, bool bHighPrecision)
+double CAASun::ApparentEclipticLongitude(double JD, bool bHighPrecision) noexcept
 {
   double Longitude = GeometricFK5EclipticLongitude(JD, bHighPrecision);
 
@@ -110,12 +111,12 @@ double CAASun::ApparentEclipticLongitude(double JD, bool bHighPrecision)
   return Longitude;
 }
 
-double CAASun::ApparentEclipticLatitude(double JD, bool bHighPrecision)
+double CAASun::ApparentEclipticLatitude(double JD, bool bHighPrecision) noexcept
 {
   return GeometricFK5EclipticLatitude(JD, bHighPrecision);
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesMeanEquinox(double JD, bool bHighPrecision)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesMeanEquinox(double JD, bool bHighPrecision) noexcept
 {
   const double Longitude = CAACoordinateTransformation::DegreesToRadians(GeometricFK5EclipticLongitude(JD, bHighPrecision));
   const double Latitude = CAACoordinateTransformation::DegreesToRadians(GeometricFK5EclipticLatitude(JD, bHighPrecision));
@@ -130,7 +131,7 @@ CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesMeanEquinox(double JD, b
   return value;
 }
 
-CAA3DCoordinate CAASun::EclipticRectangularCoordinatesJ2000(double JD, bool bHighPrecision)
+CAA3DCoordinate CAASun::EclipticRectangularCoordinatesJ2000(double JD, bool bHighPrecision) noexcept
 {
   double Longitude = GeometricEclipticLongitudeJ2000(JD, bHighPrecision);
   Longitude = CAACoordinateTransformation::DegreesToRadians(Longitude);
@@ -147,7 +148,7 @@ CAA3DCoordinate CAASun::EclipticRectangularCoordinatesJ2000(double JD, bool bHig
   return value;
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesJ2000(double JD, bool bHighPrecision)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesJ2000(double JD, bool bHighPrecision) noexcept
 {
   CAA3DCoordinate value = EclipticRectangularCoordinatesJ2000(JD, bHighPrecision);
   value = CAAFK5::ConvertVSOPToFK5J2000(value);
@@ -155,7 +156,7 @@ CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesJ2000(double JD, bool bH
   return value;
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesB1950(double JD, bool bHighPrecision)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesB1950(double JD, bool bHighPrecision) noexcept
 {
   CAA3DCoordinate value = EclipticRectangularCoordinatesJ2000(JD, bHighPrecision);
   value = CAAFK5::ConvertVSOPToFK5B1950(value);
@@ -163,7 +164,7 @@ CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesB1950(double JD, bool bH
   return value;
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox, bool bHighPrecision)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox, bool bHighPrecision) noexcept
 {
   CAA3DCoordinate value = EquatorialRectangularCoordinatesJ2000(JD, bHighPrecision);
   value = CAAFK5::ConvertVSOPToFK5AnyEquinox(value, JDEquinox);

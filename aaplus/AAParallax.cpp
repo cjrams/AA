@@ -5,6 +5,7 @@ Created: PJN / 29-12-2003
 History: PJN / 04-07-2010 Removed unnecessary "Longitude" parameter from method Ecliptic2Topocentric.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -34,7 +35,7 @@ using namespace std;
 
 //////////////////////// Macros / Defines ///////////////////////////////////////////////
 
-const double g_AAParallax_C1 = 4.2634515103856459e-05; //sin(CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 8.794)));
+constexpr const double g_AAParallax_C1 = 4.2634515103856459e-05; //sin(CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 8.794)));
 
 
 //////////////////////// Implementation /////////////////////////////////////////////////
@@ -50,7 +51,7 @@ double CAAParallax::ParallaxToDistance(double Parallax) noexcept
   return g_AAParallax_C1 / sin(CAACoordinateTransformation::DegreesToRadians(Parallax));
 }
 
-CAA2DCoordinate CAAParallax::Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD)
+CAA2DCoordinate CAAParallax::Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept
 {
   const double RhoSinThetaPrime = CAAGlobe::RhoSinThetaPrime(Latitude, Height);
   const double RhoCosThetaPrime = CAAGlobe::RhoCosThetaPrime(Latitude, Height);
@@ -76,7 +77,7 @@ CAA2DCoordinate CAAParallax::Equatorial2TopocentricDelta(double Alpha, double De
   return DeltaTopocentric;
 }
 
-CAA2DCoordinate CAAParallax::Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD)
+CAA2DCoordinate CAAParallax::Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept
 {
   const double RhoSinThetaPrime = CAAGlobe::RhoSinThetaPrime(Latitude, Height);
   const double RhoCosThetaPrime = CAAGlobe::RhoCosThetaPrime(Latitude, Height);
@@ -107,7 +108,7 @@ CAA2DCoordinate CAAParallax::Equatorial2Topocentric(double Alpha, double Delta, 
   return Topocentric;
 }
 
-CAATopocentricEclipticDetails CAAParallax::Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD)
+CAATopocentricEclipticDetails CAAParallax::Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD) noexcept
 {
   const double S = CAAGlobe::RhoSinThetaPrime(Latitude, Height);
   const double C = CAAGlobe::RhoCosThetaPrime(Latitude, Height);

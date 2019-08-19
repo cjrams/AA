@@ -46,6 +46,7 @@ History: PJN / 24-05-2004 1. Fixed a missing break statement in CAAElliptical::C
          PJN / 16-09-2015 1. CAAElliptical::Calculate now includes a "bool bHighPrecision" parameter which if 
                           set to true means the code uses the full VSOP87 theory rather than the truncated 
                           theory as presented in Meeus's book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -57,7 +58,7 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
@@ -88,7 +89,7 @@ using namespace std;
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObject object, bool bHighPrecision)
+CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObject object, bool bHighPrecision) noexcept
 {
   //What will be the return value
   CAAEllipticalPlanetaryDetails details;
@@ -264,7 +265,7 @@ double CAAElliptical::MeanMotionFromSemiMajorAxis(double a) noexcept
   return 0.9856076686 / (a * sqrt(a));
 }
 
-CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision)
+CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision) noexcept
 {
   double Epsilon = CAANutation::MeanObliquityOfEcliptic(elements.JDEquinox);
 

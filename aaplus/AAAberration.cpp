@@ -11,6 +11,7 @@ History: PJN / 21-04-2005 1. Renamed "AAAberation.cpp" to "AAAberration.cpp" so 
                           include a "bool bHighPrecision" parameter which if set to true means the code uses 
                           the full  VSOP87 theory rather than the truncated theory as presented in Meeus's 
                           book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -22,7 +23,7 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
@@ -156,7 +157,7 @@ CAA3DCoordinate CAAAberration::EarthVelocity(double JD, bool bHighPrecision) noe
   const double Mdash = 2.3555559 + 8328.6914289 * T;
   const double F = 1.6279052 + 8433.4661601 * T;
 
-  const int nAberrationCoefficients = sizeof(g_AberrationCoefficients) / sizeof(AberrationCoefficient);
+  constexpr const int nAberrationCoefficients = sizeof(g_AberrationCoefficients) / sizeof(AberrationCoefficient);
   for (int i=0; i<nAberrationCoefficients; i++)
   {
     const double Argument = g_AberrationCoefficients[i].L2*L2 + g_AberrationCoefficients[i].L3*L3 +
@@ -200,7 +201,7 @@ CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, 
   return aberration;
 }
 
-CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, double JD, bool bHighPrecision)
+CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, double JD, bool bHighPrecision) noexcept
 {
   //What is the return value
   CAA2DCoordinate aberration;
@@ -209,7 +210,7 @@ CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, do
   const double Tsquared = T*T;
   const double e = 0.016708634 - 0.000042037*T - 0.0000001267*Tsquared;
   double pi = 102.93735 + 1.71946*T + 0.00046*Tsquared;
-  const double k = 20.49552;
+  constexpr const double k = 20.49552;
   double SunLongitude = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
 
   //Convert to radians

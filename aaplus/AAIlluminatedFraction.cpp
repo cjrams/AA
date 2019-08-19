@@ -6,6 +6,7 @@ History: PJN / 21-01-2005 1. Fixed a small but important error in the function P
                           was producing incorrect results and raises acos DOMAIN errors and floating point exceptions 
                           when calculating phase angles for the inner planets. Thanks to MICHAEL R. MEYER for 
                           reporting this problem.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -33,13 +34,13 @@ using namespace std;
 
 //////////////////// Implementation ///////////////////////////////////////////
 
-double CAAIlluminatedFraction::PhaseAngle(double r, double R, double Delta)
+double CAAIlluminatedFraction::PhaseAngle(double r, double R, double Delta) noexcept
 {
   //Return the result
   return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(acos((r*r + Delta*Delta - R*R) / (2*r*Delta))));
 }
 
-double CAAIlluminatedFraction::PhaseAngle(double R, double R0, double B, double L, double L0, double Delta)
+double CAAIlluminatedFraction::PhaseAngle(double R, double R0, double B, double L, double L0, double Delta) noexcept
 {
   //Convert from degrees to radians
   B = CAACoordinateTransformation::DegreesToRadians(B);
@@ -50,7 +51,7 @@ double CAAIlluminatedFraction::PhaseAngle(double R, double R0, double B, double 
   return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(acos((R - R0*cos(B)*cos(L - L0))/Delta)));
 }
 
-double CAAIlluminatedFraction::PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta)
+double CAAIlluminatedFraction::PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta) noexcept
 {
   //Convert from degrees to radians
   B = CAACoordinateTransformation::DegreesToRadians(B);

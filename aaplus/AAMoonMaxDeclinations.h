@@ -67,8 +67,8 @@ public:
     return 23.6961 - 0.013004*T;
   }
 
-  static double TrueGreatestDeclination(double k, bool bNortherly);
-  static double TrueGreatestDeclinationValue(double k, bool bNortherly);
+  static double TrueGreatestDeclination(double k, bool bNortherly) noexcept;
+  static double TrueGreatestDeclinationValue(double k, bool bNortherly) noexcept;
 };
 
 

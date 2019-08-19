@@ -64,8 +64,8 @@ public:
 //Static methods
   static double K(double Year, PlanetaryObject object, EventType type) noexcept;
   static double Mean(double k, PlanetaryObject object, EventType type) noexcept;
-  static double True(double k, PlanetaryObject object, EventType type);
-  static double ElongationValue(double k, PlanetaryObject object, bool bEastern);
+  static double True(double k, PlanetaryObject object, EventType type) noexcept;
+  static double ElongationValue(double k, PlanetaryObject object, bool bEastern) noexcept;
 };
 
 

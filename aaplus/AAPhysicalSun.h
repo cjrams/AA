@@ -54,8 +54,8 @@ class AAPLUS_EXT_CLASS CAAPhysicalSun
 {
 public:
 //Static methods
-  static CAAPhysicalSunDetails Calculate(double JD, bool bHighPrecision);
-  static double TimeOfStartOfRotation(long C);
+  static CAAPhysicalSunDetails Calculate(double JD, bool bHighPrecision) noexcept;
+  static double TimeOfStartOfRotation(long C) noexcept;
 };
 
 

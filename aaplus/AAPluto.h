@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAAPluto
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD);
-  static double EclipticLatitude(double JD);
+  static double EclipticLongitude(double JD) noexcept;
+  static double EclipticLatitude(double JD) noexcept;
   static double RadiusVector(double JD) noexcept;
 };
 

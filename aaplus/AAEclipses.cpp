@@ -8,6 +8,7 @@ History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated onl
          PJN / 27-03-2016 1. Updated CAAEclipses::Calculate to return a bitmask of attributes about the calculated solar 
                           eclipse in CAASolarEclipseDetails::Details. These attributes correspond to the values as discussed
                           in Meeus's book on Pages 381 & 382. Thanks to "Pavel" for providing this nice addition.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -37,7 +38,7 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
+CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash) noexcept
 {
   //Are we looking for a solar or lunar eclipse
   double intp = 0;
@@ -180,7 +181,7 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
   return details;
 }
 
-CAASolarEclipseDetails CAAEclipses::CalculateSolar(double k)
+CAASolarEclipseDetails CAAEclipses::CalculateSolar(double k) noexcept
 {
 #ifdef _DEBUG
   double intp = 0;
@@ -192,7 +193,7 @@ CAASolarEclipseDetails CAAEclipses::CalculateSolar(double k)
   return Calculate(k, Mdash);
 }
 
-CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k)
+CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k) noexcept
 {
 #ifdef _DEBUG
   double intp = 0;

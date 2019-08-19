@@ -19,7 +19,7 @@ using namespace std;
 #endif //#ifdef _MSC_VER
 
 
-void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
+void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec) noexcept
 {
   const double JDSun = CAADynamicalTime::UTC2TT(JD);
   const double lambda = CAASun::ApparentEclipticLongitude(JDSun, bHighPrecision);
@@ -30,7 +30,7 @@ void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& D
   Dec = Solarcoord.Y;
 }
 
-void GetLunarRaDecByJulian(double JD, double& RA, double& Dec)
+void GetLunarRaDecByJulian(double JD, double& RA, double& Dec) noexcept
 {
   const double JDMoon = CAADynamicalTime::UTC2TT(JD);
   const double lambda = CAAMoon::EclipticLongitude(JDMoon);
@@ -54,7 +54,7 @@ void PrintTime(double JD, const char* msg) noexcept
   printf("%s: %d-%d-%d %02d:%02d:%02d\n", msg, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 }
 
-void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fraction, double& position_angle, double& phase_angle)
+void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fraction, double& position_angle, double& phase_angle) noexcept
 {
   double moon_alpha = 0;
   double moon_delta = 0;
@@ -69,16 +69,16 @@ void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fra
   illuminated_fraction = CAAMoonIlluminatedFraction::IlluminatedFraction(phase_angle);
 }
 
-void ASCIIPlot(vector<char>& buf, int buf_w, int x, int y, bool b)
+void ASCIIPlot(vector<char>& buf, int buf_w, int x, int y, bool b) noexcept
 {
   const size_t nIndex = static_cast<size_t>(x) + (static_cast<size_t>(y) * buf_w);
 #ifdef _MSC_VER
-  #pragma warning(suppress : 26446)
+  #pragma warning(suppress : 26446 26447)
 #endif //#ifdef _MSC_VER
   buf[nIndex] = b ? 'X' : ' ';
 }
 
-void DrawFilledEllipse(vector<char>& buf, int buf_w, int c_x, int c_y, int w, int h, bool half_l, bool half_r, bool b)
+void DrawFilledEllipse(vector<char>& buf, int buf_w, int c_x, int c_y, int w, int h, bool half_l, bool half_r, bool b) noexcept
 {
   const int hh = h * h;
   const int ww = w * w;
@@ -139,15 +139,15 @@ void PrintMoonPhase(double position_angle, double phase_angle)
   //270 degrees = last quarter (left half illuminated)
   const double phase(position_angle < 180 ? phase_angle + 180 : 180 - phase_angle);
 
-  const int buf_w = 80;
-  const int buf_h = 40;
+  constexpr const int buf_w = 80;
+  constexpr const int buf_h = 40;
   vector<char> buf;
   buf.assign(buf_w * buf_h, ' ');
 
-  const int center_x = buf_w / 2;
-  const int center_y = buf_h / 2;
-  const int radius_w = (buf_w - 1) / 2;
-  const int radius_h = (buf_h - 1) / 2;
+  constexpr const int center_x = buf_w / 2;
+  constexpr const int center_y = buf_h / 2;
+  constexpr const int radius_w = (buf_w - 1) / 2;
+  constexpr const int radius_h = (buf_h - 1) / 2;
 
   if (phase < 90)
   {
@@ -204,7 +204,7 @@ void PrintMoonIlluminationAndPhase(long year, long month, long day, bool bHighPr
   PrintMoonPhase(position_angle, phase_angle);
 }
 
-void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
+void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec) noexcept
 {
   const double JDMercury = CAADynamicalTime::UTC2TT(JD);
   const double lambda = CAAMercury::EclipticLongitude(JDMercury, bHighPrecision);
@@ -871,9 +871,9 @@ int main()
   //nice addition to AA+
   long Year = 2012;
   long Month = 4;
-  const int days_in_month = 30;
-  const double longitude = 6.5;
-  const double latitude = 52.5;
+  constexpr const int days_in_month = 30;
+  constexpr const double longitude = 6.5;
+  constexpr const double latitude = 52.5;
   for (int i=1; i <= days_in_month; ++i)
   {
     const long Day = i;
@@ -2177,9 +2177,9 @@ int main()
   PrintBostonRiseTransitSetTimesSirius();
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
-  const int YYYY = 2009;
-  const int MM = 8;
-  const int DD = 11;
+  constexpr const int YYYY = 2009;
+  constexpr const int MM = 8;
+  constexpr const int DD = 11;
   const CAADate CalcDate(YYYY, MM, DD, true);
   const double JD2 = CalcDate.Julian();
   events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(JD2), CAADynamicalTime::UTC2TT(JD2) + 1, CAACoordinateTransformation::DMSToDegrees(116, 51, 45), CAACoordinateTransformation::DMSToDegrees(33, 21, 22));

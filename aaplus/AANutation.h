@@ -38,12 +38,12 @@ class AAPLUS_EXT_CLASS CAANutation
 {
 public:
 //Static methods
-  static double NutationInLongitude(double JD);
-  static double NutationInObliquity(double JD);
+  static double NutationInLongitude(double JD) noexcept;
+  static double NutationInObliquity(double JD) noexcept;
   static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
   static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
   static double MeanObliquityOfEcliptic(double JD) noexcept;
-  static double TrueObliquityOfEcliptic(double JD);
+  static double TrueObliquityOfEcliptic(double JD) noexcept;
 };
 
 

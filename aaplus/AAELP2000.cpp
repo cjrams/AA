@@ -8,6 +8,7 @@ History: PJN / 31-12-2015 1. Initial public release.
                           2. Updated copyright details
          PJN / 30-07-2017 1. Removed unnecessary SECOND_2_RAD define. 
                           2. Updated various CAAELP2000 methods to use "const" parameters.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2015 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -47,8 +48,8 @@ using namespace std;
 #endif //#ifdef _MSC_VER
 
 //Lunar constants
-const double AM = .074801329518;
-const double DTASM = 0.022921886117733679; //ALFA * 2.0 / (AM * 3.0) where ALFA .002571881335
+constexpr const double AM = .074801329518;
+constexpr const double DTASM = 0.022921886117733679; //ALFA * 2.0 / (AM * 3.0) where ALFA .002571881335
 
 //Lunar arguments
 const double g_W[] =
@@ -102,11 +103,11 @@ const double g_P[8][2] =
 };
 
 //Corrections of the constants (fit to DE200/LE200)
-const double g_DELNU = 3.2093561586235289e-10;  //0.55604" / g_W[3]
-const double g_DELE  = 8.6733167550495987e-8;   //0.01789"
-const double g_DELG  = -3.9105071518295170e-7;  //-0.08066"
-const double g_DELNP = -3.7078095034525493e-11; //-0.06424" / g_W[3]
-const double g_DELEP = -6.2439153990097128e-7;  //-0.12879"
+constexpr const double g_DELNU = 3.2093561586235289e-10;  //0.55604" / g_W[3]
+constexpr const double g_DELE  = 8.6733167550495987e-8;   //0.01789"
+constexpr const double g_DELG  = -3.9105071518295170e-7;  //-0.08066"
+constexpr const double g_DELNP = -3.7078095034525493e-11; //-0.06424" / g_W[3]
+constexpr const double g_DELEP = -6.2439153990097128e-7;  //-0.12879"
 
 const double g_ZETA[] =
 {
@@ -38714,7 +38715,7 @@ double CAAELP2000::Accumulate_3(const double* pT, int nTSize, const ELP2000Earth
 #ifdef _MSC_VER
 #pragma warning(suppress : 26429)
 #endif //#ifdef _MSC_VER
-double CAAELP2000::EclipticLongitude(const double* pT, int nTSize)
+double CAAELP2000::EclipticLongitude(const double* pT, int nTSize) noexcept
 {
   //Validate our parameters
   assert(pT != nullptr);
@@ -38756,7 +38757,7 @@ double CAAELP2000::EclipticLongitude(const double* pT, int nTSize)
   return CAACoordinateTransformation::MapTo0To360Range(A/3600.0 + CAACoordinateTransformation::RadiansToDegrees(MoonMeanLongitude(pT, nTSize)));
 }
 
-double CAAELP2000::EclipticLongitude(double JD)
+double CAAELP2000::EclipticLongitude(double JD) noexcept
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38772,7 +38773,7 @@ double CAAELP2000::EclipticLongitude(double JD)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26429)
 #endif //#ifdef _MSC_VER
-double CAAELP2000::EclipticLatitude(const double* pT, int nTSize)
+double CAAELP2000::EclipticLatitude(const double* pT, int nTSize) noexcept
 {
   //Validate our parameters
   assert(pT != nullptr);
@@ -38814,7 +38815,7 @@ double CAAELP2000::EclipticLatitude(const double* pT, int nTSize)
   return CAACoordinateTransformation::MapToMinus90To90Range(B/3600.0);
 }
 
-double CAAELP2000::EclipticLatitude(double JD)
+double CAAELP2000::EclipticLatitude(double JD) noexcept
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38885,7 +38886,7 @@ double CAAELP2000::RadiusVector(double JD) noexcept
   return RadiusVector(t.data(), 5);
 }
 
-CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinates(double JD)
+CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinates(double JD) noexcept
 {
   double fLongitude = EclipticLongitude(JD);
   double fLatitude = EclipticLatitude(JD);
@@ -38902,7 +38903,7 @@ CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinates(double JD)
   return value;
 }
 
-CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinatesJ2000(double JD)
+CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinatesJ2000(double JD) noexcept
 {
   double t[5];
   t[0] = 1;
@@ -38929,7 +38930,7 @@ CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinatesJ2000(double JD)
   return J2000;
 }
 
-CAA3DCoordinate CAAELP2000::EquatorialRectangularCoordinatesFK5(double JD)
+CAA3DCoordinate CAAELP2000::EquatorialRectangularCoordinatesFK5(double JD) noexcept
 {
   const CAA3DCoordinate J2000 = EclipticRectangularCoordinatesJ2000(JD);
 

@@ -68,15 +68,15 @@ class AAPLUS_EXT_CLASS CAAELP2000
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD);
-  static double EclipticLongitude(const double* pT, int nTSize);
-  static double EclipticLatitude(double JD);
-  static double EclipticLatitude(const double* pT, int nTSize);
+  static double EclipticLongitude(double JD) noexcept;
+  static double EclipticLongitude(const double* pT, int nTSize) noexcept;
+  static double EclipticLatitude(double JD) noexcept;
+  static double EclipticLatitude(const double* pT, int nTSize) noexcept;
   static double RadiusVector(double JD) noexcept;
   static double RadiusVector(const double* pT, int nTSize) noexcept;
-  static CAA3DCoordinate EclipticRectangularCoordinates(double JD);
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesFK5(double JD);
+  static CAA3DCoordinate EclipticRectangularCoordinates(double JD) noexcept;
+  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD) noexcept;
+  static CAA3DCoordinate EquatorialRectangularCoordinatesFK5(double JD) noexcept;
   static double MoonMeanLongitude(const double* pT, int nTSize) noexcept;
   static double MoonMeanLongitude(double JD) noexcept;
   static double MoonMeanLongitudeLunarPerigee(const double* pT, int nTSize) noexcept;

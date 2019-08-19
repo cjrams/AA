@@ -2,7 +2,7 @@
 Module : AAParallactic.cpp
 Purpose: Implementation for the algorithms which calculate various celestial globe angles
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -39,7 +39,7 @@ double CAAParallactic::ParallacticAngle(double HourAngle, double Latitude, doubl
   return CAACoordinateTransformation::RadiansToDegrees(atan2(sin(HourAngle), tan(Latitude)*cos(delta) - sin(delta)*cos(HourAngle)));
 }
 
-double CAAParallactic::EclipticLongitudeOnHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude)
+double CAAParallactic::EclipticLongitudeOnHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude) noexcept
 {
   LocalSiderealTime = CAACoordinateTransformation::HoursToRadians(LocalSiderealTime);
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
@@ -49,7 +49,7 @@ double CAAParallactic::EclipticLongitudeOnHorizon(double LocalSiderealTime, doub
   return CAACoordinateTransformation::MapTo0To360Range(value);
 }
 
-double CAAParallactic::AngleBetweenEclipticAndHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude)
+double CAAParallactic::AngleBetweenEclipticAndHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude) noexcept
 {
   LocalSiderealTime = CAACoordinateTransformation::HoursToRadians(LocalSiderealTime);
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
@@ -59,7 +59,7 @@ double CAAParallactic::AngleBetweenEclipticAndHorizon(double LocalSiderealTime, 
   return CAACoordinateTransformation::MapTo0To360Range(value);
 }
 
-double CAAParallactic::AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(double Lambda, double Beta, double ObliquityOfEcliptic)
+double CAAParallactic::AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(double Lambda, double Beta, double ObliquityOfEcliptic) noexcept
 {
   Lambda = CAACoordinateTransformation::DegreesToRadians(Lambda);
   Beta = CAACoordinateTransformation::DegreesToRadians(Beta);

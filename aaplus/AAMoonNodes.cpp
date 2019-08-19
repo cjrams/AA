@@ -8,6 +8,7 @@ History: PJN / 28-03-2016 1. Fixed two transcription errors in CAAMoonNodes::Pas
                           coefficient. With these two fixes the calculated time of Example 51.a from
                           Meeus's book is within 2 seconds of the value he reports. Thanks to Alejandro 
                           Krohn for prompting this bug fix.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -35,7 +36,7 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAAMoonNodes::PassageThroNode(double k)
+double CAAMoonNodes::PassageThroNode(double k) noexcept
 {
   //convert from K to T
   const double T = k/1342.23;

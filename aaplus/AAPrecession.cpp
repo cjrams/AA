@@ -28,6 +28,7 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           giving the same results. If a longer timespan was used for the example instead of the 28 years then the 
                           errors would  have been easier to spot from the incorrect terms. Hopefully this is the same transcription 
                           error in this method!
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -54,7 +55,7 @@ using namespace std;
 
 ///////////////////////////////// Implementation //////////////////////////////
 
-CAA2DCoordinate CAAPrecession::AdjustPositionUsingUniformProperMotion(double t, double Alpha, double Delta, double PMAlpha, double PMDelta)
+CAA2DCoordinate CAAPrecession::AdjustPositionUsingUniformProperMotion(double t, double Alpha, double Delta, double PMAlpha, double PMDelta) noexcept
 {
   CAA2DCoordinate value;
   value.X = CAACoordinateTransformation::MapTo0To24Range(Alpha + (PMAlpha * t / 3600));
@@ -63,7 +64,7 @@ CAA2DCoordinate CAAPrecession::AdjustPositionUsingUniformProperMotion(double t, 
   return value;
 }
 
-CAA2DCoordinate CAAPrecession::AdjustPositionUsingMotionInSpace(double r, double DeltaR, double t, double Alpha, double Delta, double PMAlpha, double PMDelta)
+CAA2DCoordinate CAAPrecession::AdjustPositionUsingMotionInSpace(double r, double DeltaR, double t, double Alpha, double Delta, double PMAlpha, double PMDelta) noexcept
 {
   //Convert DeltaR from km/s to Parsecs / Year
   DeltaR /= 977792;
@@ -97,7 +98,7 @@ CAA2DCoordinate CAAPrecession::AdjustPositionUsingMotionInSpace(double r, double
   return value;
 }
 
-CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, double JD0, double JD)
+CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, double JD0, double JD) noexcept
 {
   const double T = (JD0 - 2451545.0) / 36525;
   const double Tsquared = T*T;
@@ -123,7 +124,7 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, dou
   return value;
 }
 
-CAA2DCoordinate CAAPrecession::PrecessEquatorialFK4(double Alpha, double Delta, double JD0, double JD)
+CAA2DCoordinate CAAPrecession::PrecessEquatorialFK4(double Alpha, double Delta, double JD0, double JD) noexcept
 {
   const double T = (JD0 - 2415020.3135) / 36524.2199;
   const double t = (JD - JD0) / 36524.2199;
@@ -149,7 +150,7 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorialFK4(double Alpha, double Delta, 
   return value;
 }
 
-CAA2DCoordinate CAAPrecession::PrecessEcliptic(double Lambda, double Beta, double JD0, double JD)
+CAA2DCoordinate CAAPrecession::PrecessEcliptic(double Lambda, double Beta, double JD0, double JD) noexcept
 {
   const double T = (JD0 - 2451545.0) / 36525;
   const double Tsquared = T*T;

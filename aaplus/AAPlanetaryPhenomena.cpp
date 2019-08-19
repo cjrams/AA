@@ -12,6 +12,7 @@ History: PJN / 08-05-2011 1. Fixed a compilation issue on GCC where size_t was u
          PJN / 24-07-2018 1. Fixed a number of GCC warnings in the methods CAAPlanetaryPhenomena::K, 
                           CAAPlanetaryPhenomena::Mean, CAAPlanetaryPhenomena::True & 
                           CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -127,7 +128,7 @@ double CAAPlanetaryPhenomena::Mean(double k, PlanetaryObject object, EventType t
   return g_PlanetaryPhenomenaCoefficient1[nCoefficient].A + g_PlanetaryPhenomenaCoefficient1[nCoefficient].B*k;
 }
 
-double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType type)
+double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType type) noexcept
 {
   double JDE0 = 0;
 
@@ -614,7 +615,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
   return JDE0 + delta;
 }
 
-double CAAPlanetaryPhenomena::ElongationValue(double k, PlanetaryObject object, bool bEastern)
+double CAAPlanetaryPhenomena::ElongationValue(double k, PlanetaryObject object, bool bEastern) noexcept
 {
   const double JDE0 = Mean(k, object, EventType::INFERIOR_CONJUNCTION);
 

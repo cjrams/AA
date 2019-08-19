@@ -4,7 +4,8 @@ Purpose: Implementation for the algorithms which map the ecliptical elements fro
 Created: PJN / 29-12-2003
 History: PJN / 29-11-2006 1. Fixed a bug where CAAEclipticalElements::Calculate and CAAEclipticalElements::FK4B1950ToFK5J2000
                           would return the incorrect value for the reduced inclination when the initial inclination value
-                          was > 90 degrees. 
+                          was > 90 degrees.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -32,7 +33,7 @@ using namespace std;
 
 /////////////////////////// Implementation ////////////////////////////////////
 
-CAAEclipticalElementDetails CAAEclipticalElements::Calculate(double i0, double w0, double omega0, double JD0, double JD)
+CAAEclipticalElementDetails CAAEclipticalElements::Calculate(double i0, double w0, double omega0, double JD0, double JD) noexcept
 {
   const double T = (JD0 - 2451545.0) / 36525;
   const double Tsquared = T*T;
@@ -81,7 +82,7 @@ CAAEclipticalElementDetails CAAEclipticalElements::Calculate(double i0, double w
   return details;
 }
 
-CAAEclipticalElementDetails CAAEclipticalElements::FK4B1950ToFK5J2000(double i0, double w0, double omega0)
+CAAEclipticalElementDetails CAAEclipticalElements::FK4B1950ToFK5J2000(double i0, double w0, double omega0) noexcept
 {
   //convert to radians
   constexpr double L = CAACoordinateTransformation::DegreesToRadians(5.19856209);

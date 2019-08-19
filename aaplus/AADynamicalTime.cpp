@@ -89,6 +89,7 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
          PJN / 08-06-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st April 2019
                           2. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to October 2027
          PJN / 23-06-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st June 2019
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -789,7 +790,7 @@ double CAADynamicalTime::DeltaT(double JD) noexcept
   double Delta = 0;
 
   //Determine if we can use the lookup table
-  const size_t nLookupElements = sizeof(g_DeltaTValues) / sizeof(DeltaTValue);
+  constexpr const size_t nLookupElements = sizeof(g_DeltaTValues) / sizeof(DeltaTValue);
   if ((JD >= g_DeltaTValues[0].JD) && (JD < g_DeltaTValues[nLookupElements - 1].JD))
   {
     //Find the index in the lookup table which contains the JD value closest to the JD input parameter
@@ -944,7 +945,7 @@ double CAADynamicalTime::CumulativeLeapSeconds(double JD) noexcept
   //What will be the return value from the method
   double LeapSeconds = 0;
 
-  const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
   if (JD >= g_LeapSecondCoefficients[0].JD)
   {
     //Find the index in the lookup table which contains the JD value closest to the JD input parameter
@@ -976,7 +977,7 @@ double CAADynamicalTime::TT2UTC(double JD) noexcept
 {
   //Outside of the range 1 January 1961 to 500 days after the last leap second,
   //we implement TT2UTC as TT2UT1
-  const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
   if ((JD < g_LeapSecondCoefficients[0].JD) || (JD > (g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
     return TT2UT1(JD);
 
@@ -990,7 +991,7 @@ double CAADynamicalTime::UTC2TT(double JD) noexcept
 {
   //Outside of the range 1 January 1961 to 500 days after the last leap second,
   //we implement TT2UTC as TT2UT1
-  const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
   if ((JD < g_LeapSecondCoefficients[0].JD) || (JD >(g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
     return UT12TT(JD);
 

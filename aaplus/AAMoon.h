@@ -38,17 +38,17 @@ class AAPLUS_EXT_CLASS CAAMoon
 {
 public:
 //Static methods
-  static double MeanLongitude(double JD);
-  static double MeanElongation(double JD);
-  static double MeanAnomaly(double JD);
-  static double ArgumentOfLatitude(double JD);
-  static double MeanLongitudeAscendingNode(double JD);
-  static double MeanLongitudePerigee(double JD);
-  static double TrueLongitudeAscendingNode(double JD);
+  static double MeanLongitude(double JD) noexcept;
+  static double MeanElongation(double JD) noexcept;
+  static double MeanAnomaly(double JD) noexcept;
+  static double ArgumentOfLatitude(double JD) noexcept;
+  static double MeanLongitudeAscendingNode(double JD) noexcept;
+  static double MeanLongitudePerigee(double JD) noexcept;
+  static double TrueLongitudeAscendingNode(double JD) noexcept;
 
-  static double EclipticLongitude(double JD);
-  static double EclipticLatitude(double JD);
-  static double RadiusVector(double JD);
+  static double EclipticLongitude(double JD) noexcept;
+  static double EclipticLatitude(double JD) noexcept;
+  static double RadiusVector(double JD) noexcept;
 
   static double RadiusVectorToHorizontalParallax(double RadiusVector) noexcept;
   static double HorizontalParallaxToRadiusVector(double Parallax) noexcept;

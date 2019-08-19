@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAElementsPlanetaryOrbit
 {
 public:
 //Static methods
-  static double MercuryMeanLongitude(double JD);
+  static double MercuryMeanLongitude(double JD) noexcept;
 
   constexpr static double MercurySemimajorAxis(double /*JD*/) noexcept
   {
@@ -57,11 +57,11 @@ public:
     return 0.20563175 + 0.000020407*T - 0.0000000283*Tsquared - 0.00000000018*Tcubed;
   }
 
-  static double MercuryInclination(double JD);
-  static double MercuryLongitudeAscendingNode(double JD);
-  static double MercuryLongitudePerihelion(double JD);
+  static double MercuryInclination(double JD) noexcept;
+  static double MercuryLongitudeAscendingNode(double JD) noexcept;
+  static double MercuryLongitudePerihelion(double JD) noexcept;
 
-  static double VenusMeanLongitude(double JD);
+  static double VenusMeanLongitude(double JD) noexcept;
 
   constexpr static double VenusSemimajorAxis(double /*JD*/) noexcept
   {
@@ -80,11 +80,11 @@ public:
     return 0.00677192 - 0.000047765*T + 0.0000000981*Tsquared + 0.00000000046*Tcubed;
   }
 
-  static double VenusInclination(double JD);
-  static double VenusLongitudeAscendingNode(double JD);
-  static double VenusLongitudePerihelion(double JD);
+  static double VenusInclination(double JD) noexcept;
+  static double VenusLongitudeAscendingNode(double JD) noexcept;
+  static double VenusLongitudePerihelion(double JD) noexcept;
 
-  static double EarthMeanLongitude(double JD);
+  static double EarthMeanLongitude(double JD) noexcept;
 
   constexpr static double EarthSemimajorAxis(double /*JD*/) noexcept
   {
@@ -108,9 +108,9 @@ public:
     return 0;
   }
 
-  static double EarthLongitudePerihelion(double JD);
+  static double EarthLongitudePerihelion(double JD) noexcept;
 
-  static double MarsMeanLongitude(double JD);
+  static double MarsMeanLongitude(double JD) noexcept;
 
   constexpr static double MarsSemimajorAxis(double /*JD*/) noexcept
   {
@@ -129,11 +129,11 @@ public:
     return 0.09340065 + 0.000090484*T - 0.0000000806*Tsquared - 0.00000000025*Tcubed;
   }
 
-  static double MarsInclination(double JD);
-  static double MarsLongitudeAscendingNode(double JD);
-  static double MarsLongitudePerihelion(double JD);
+  static double MarsInclination(double JD) noexcept;
+  static double MarsLongitudeAscendingNode(double JD) noexcept;
+  static double MarsLongitudePerihelion(double JD) noexcept;
 
-  static double JupiterMeanLongitude(double JD);
+  static double JupiterMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
@@ -157,11 +157,11 @@ public:
     return 0.04849793 + 0.000163225*T - 0.0000004714*Tsquared - 0.00000000201*Tcubed;
   }
 
-  static double JupiterInclination(double JD);
-  static double JupiterLongitudeAscendingNode(double JD);
-  static double JupiterLongitudePerihelion(double JD);
+  static double JupiterInclination(double JD) noexcept;
+  static double JupiterLongitudeAscendingNode(double JD) noexcept;
+  static double JupiterLongitudePerihelion(double JD) noexcept;
 
-  static double SaturnMeanLongitude(double JD);
+  static double SaturnMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
@@ -186,11 +186,11 @@ public:
     return 0.05554814 - 0.0003446641*T - 0.0000006436*Tsquared + 0.00000000340*Tcubed;
   }
 
-  static double SaturnInclination(double JD);
-  static double SaturnLongitudeAscendingNode(double JD);
-  static double SaturnLongitudePerihelion(double JD);
+  static double SaturnInclination(double JD) noexcept;
+  static double SaturnLongitudeAscendingNode(double JD) noexcept;
+  static double SaturnLongitudePerihelion(double JD) noexcept;
 
-  static double UranusMeanLongitude(double JD);
+  static double UranusMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
@@ -215,11 +215,11 @@ public:
     return 0.04638122 - 0.000027293*T + 0.0000000789*Tsquared + 0.00000000024*Tcubed;
   }
 
-  static double UranusInclination(double JD);
-  static double UranusLongitudeAscendingNode(double JD);
-  static double UranusLongitudePerihelion(double JD);
+  static double UranusInclination(double JD) noexcept;
+  static double UranusLongitudeAscendingNode(double JD) noexcept;
+  static double UranusLongitudePerihelion(double JD) noexcept;
 
-  static double NeptuneMeanLongitude(double JD);
+  static double NeptuneMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
@@ -243,21 +243,21 @@ public:
     return 0.00945575 + 0.000006033*T - 0.00000000005*Tcubed;
   }
 
-  static double NeptuneInclination(double JD);
-  static double NeptuneLongitudeAscendingNode(double JD);
-  static double NeptuneLongitudePerihelion(double JD);
+  static double NeptuneInclination(double JD) noexcept;
+  static double NeptuneLongitudeAscendingNode(double JD) noexcept;
+  static double NeptuneLongitudePerihelion(double JD) noexcept;
 
-  static double MercuryMeanLongitudeJ2000(double JD);
-  static double MercuryInclinationJ2000(double JD);
-  static double MercuryLongitudeAscendingNodeJ2000(double JD);
-  static double MercuryLongitudePerihelionJ2000(double JD);
+  static double MercuryMeanLongitudeJ2000(double JD) noexcept;
+  static double MercuryInclinationJ2000(double JD) noexcept;
+  static double MercuryLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double MercuryLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double VenusMeanLongitudeJ2000(double JD);
-  static double VenusInclinationJ2000(double JD);
-  static double VenusLongitudeAscendingNodeJ2000(double JD);
-  static double VenusLongitudePerihelionJ2000(double JD);
+  static double VenusMeanLongitudeJ2000(double JD) noexcept;
+  static double VenusInclinationJ2000(double JD) noexcept;
+  static double VenusLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double VenusLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double EarthMeanLongitudeJ2000(double JD);
+  static double EarthMeanLongitudeJ2000(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
@@ -271,33 +271,33 @@ public:
     return 0.0130548*T - 0.00000931*Tsquared - 0.000000034*Tcubed;
   }
 
-  static double EarthLongitudeAscendingNodeJ2000(double JD);
-  static double EarthLongitudePerihelionJ2000(double JD);
+  static double EarthLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double EarthLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double MarsMeanLongitudeJ2000(double JD);
-  static double MarsInclinationJ2000(double JD);
-  static double MarsLongitudeAscendingNodeJ2000(double JD);
-  static double MarsLongitudePerihelionJ2000(double JD);
+  static double MarsMeanLongitudeJ2000(double JD) noexcept;
+  static double MarsInclinationJ2000(double JD) noexcept;
+  static double MarsLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double MarsLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double JupiterMeanLongitudeJ2000(double JD);
-  static double JupiterInclinationJ2000(double JD);
-  static double JupiterLongitudeAscendingNodeJ2000(double JD);
-  static double JupiterLongitudePerihelionJ2000(double JD);
+  static double JupiterMeanLongitudeJ2000(double JD) noexcept;
+  static double JupiterInclinationJ2000(double JD) noexcept;
+  static double JupiterLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double JupiterLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double SaturnMeanLongitudeJ2000(double JD);
-  static double SaturnInclinationJ2000(double JD);
-  static double SaturnLongitudeAscendingNodeJ2000(double JD);
-  static double SaturnLongitudePerihelionJ2000(double JD);
+  static double SaturnMeanLongitudeJ2000(double JD) noexcept;
+  static double SaturnInclinationJ2000(double JD) noexcept;
+  static double SaturnLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double SaturnLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double UranusMeanLongitudeJ2000(double JD);
-  static double UranusInclinationJ2000(double JD);
-  static double UranusLongitudeAscendingNodeJ2000(double JD);
-  static double UranusLongitudePerihelionJ2000(double JD);
+  static double UranusMeanLongitudeJ2000(double JD) noexcept;
+  static double UranusInclinationJ2000(double JD) noexcept;
+  static double UranusLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double UranusLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double NeptuneMeanLongitudeJ2000(double JD);
-  static double NeptuneInclinationJ2000(double JD);
-  static double NeptuneLongitudeAscendingNodeJ2000(double JD);
-  static double NeptuneLongitudePerihelionJ2000(double JD);
+  static double NeptuneMeanLongitudeJ2000(double JD) noexcept;
+  static double NeptuneInclinationJ2000(double JD) noexcept;
+  static double NeptuneLongitudeAscendingNodeJ2000(double JD) noexcept;
+  static double NeptuneLongitudePerihelionJ2000(double JD) noexcept;
 };
 
 #endif //__AAELEMENTSPLANETARYORBIT_H__

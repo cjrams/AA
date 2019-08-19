@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAIlluminatedFraction
 {
 public:
 //Static methods
-  static double PhaseAngle(double r, double R, double Delta);
-  static double PhaseAngle(double R, double R0, double B, double L, double L0, double Delta);
-  static double PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta);
+  static double PhaseAngle(double r, double R, double Delta) noexcept;
+  static double PhaseAngle(double R, double R0, double B, double L, double L0, double Delta) noexcept;
+  static double PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta) noexcept;
   static double IlluminatedFraction(double PhaseAngle) noexcept;
 
   constexpr static double IlluminatedFraction(double r, double R, double Delta) noexcept

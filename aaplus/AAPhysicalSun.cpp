@@ -10,6 +10,7 @@ History: PJN / 16-06-2004 1. Fixed a typo in the calculation of SunLongDash in C
          PJN / 15-05-2017 1. Fixed an issue in CAAPhysicalSun::Calculate where the value "eta" would 
                           sometimes not be returned in the correct quadrant. Thanks to Alexandru 
                           Garofide for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -40,7 +41,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
+CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision) noexcept
 {
   double theta = CAACoordinateTransformation::MapTo0To360Range((JD - 2398220) * 360 / 25.38);
   double I = 7.25;
@@ -73,7 +74,7 @@ CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
   return details;
 }
 
-double CAAPhysicalSun::TimeOfStartOfRotation(long C)
+double CAAPhysicalSun::TimeOfStartOfRotation(long C) noexcept
 {
   double JED = 2398140.2270 + 27.2752316*C;
 

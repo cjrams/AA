@@ -5,6 +5,7 @@ Created: PJN / 29-12-2003
 History: PJN / 26-01-2007 1. Changed name of CAAMoonIlluminatedFraction::IluminatedFraction to 
                           CAAMoonIlluminatedFraction::IlluminatedFraction. Thanks to Ing. Taras Kapuszczak
                           for reporting this typo!.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -46,7 +47,7 @@ double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, doub
   return CAACoordinateTransformation::RadiansToDegrees(acos(sin(SunDelta)*sin(ObjectDelta) + cos(SunDelta)*cos(ObjectDelta)*cos(SunAlpha - ObjectAlpha)));
 }
 
-double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance)
+double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance) noexcept
 {
   //Convert from degrees to radians
   GeocentricElongation = CAACoordinateTransformation::DegreesToRadians(GeocentricElongation);
@@ -64,7 +65,7 @@ double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle) noexce
   return (1 + cos(PhaseAngle)) / 2;
 }
 
-double CAAMoonIlluminatedFraction::PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta)
+double CAAMoonIlluminatedFraction::PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta) noexcept
 {
   //Convert to radians
   Alpha0 = CAACoordinateTransformation::HoursToRadians(Alpha0);

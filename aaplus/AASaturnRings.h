@@ -64,7 +64,7 @@ class AAPLUS_EXT_CLASS CAASaturnRings
 {
 public:
 //Static methods
-  static CAASaturnRingDetails Calculate(double JD, bool bHighPrecision);
+  static CAASaturnRingDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 

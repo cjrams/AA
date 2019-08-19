@@ -9,6 +9,7 @@ History: PJN / 22-02-2004 1. Fixed a bug in the calculation of the phase type fr
                           Thanks to Andrew Hammond for reporting this bug.
          PJN / 29-03-2015 1. Fixed up some variable initializations around the use of modf. Thanks to Arnaud Cueille for
                           reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -37,7 +38,7 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAAMoonPhases::TruePhase(double k)
+double CAAMoonPhases::TruePhase(double k) noexcept
 {
   //What will be the return value
   double JD = MeanPhase(k);

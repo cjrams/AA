@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAAUranus
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD, bool bHighPrecision);
-  static double EclipticLatitude(double JD, bool bHighPrecision);
+  static double EclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  static double EclipticLatitude(double JD, bool bHighPrecision) noexcept;
   static double RadiusVector(double JD, bool bHighPrecision) noexcept;
 };
 

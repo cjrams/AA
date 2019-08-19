@@ -58,10 +58,10 @@ class AAPLUS_EXT_CLASS CAANodes
 {
 public:
 //Static methods
-  static CAANodeObjectDetails PassageThroAscendingNode(const CAAEllipticalObjectElements& elements);
-  static CAANodeObjectDetails PassageThroDescendingNode(const CAAEllipticalObjectElements& elements);
-  static CAANodeObjectDetails PassageThroAscendingNode(const CAAParabolicObjectElements& elements);
-  static CAANodeObjectDetails PassageThroDescendingNode(const CAAParabolicObjectElements& elements);
+  static CAANodeObjectDetails PassageThroAscendingNode(const CAAEllipticalObjectElements& elements) noexcept;
+  static CAANodeObjectDetails PassageThroDescendingNode(const CAAEllipticalObjectElements& elements) noexcept;
+  static CAANodeObjectDetails PassageThroAscendingNode(const CAAParabolicObjectElements& elements) noexcept;
+  static CAANodeObjectDetails PassageThroDescendingNode(const CAAParabolicObjectElements& elements) noexcept;
 };
 
 

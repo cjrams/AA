@@ -43,7 +43,7 @@ public:
     return 13.4223*(Year - 2000.05);
   }
 
-  static double PassageThroNode(double k);
+  static double PassageThroNode(double k) noexcept;
 };
 
 

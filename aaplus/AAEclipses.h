@@ -103,11 +103,11 @@ class AAPLUS_EXT_CLASS CAAEclipses
 {
 public:
 //Static methods
-  static CAASolarEclipseDetails CalculateSolar(double k);
-  static CAALunarEclipseDetails CalculateLunar(double k);
+  static CAASolarEclipseDetails CalculateSolar(double k) noexcept;
+  static CAALunarEclipseDetails CalculateLunar(double k) noexcept;
 
 protected:
-  static CAASolarEclipseDetails Calculate(double k, double& Mdash);
+  static CAASolarEclipseDetails Calculate(double k, double& Mdash) noexcept;
 };
 
 

@@ -23,6 +23,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the MoonCoefficient1 struct
                           as the fix to CAAMoon::EclipticLongitude on February 2009. The bug fix should in fact have been 
                           applied to the later two methods. Thanks to Jeffrey Roe for reporting this issue.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAMoon.cpp module
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -331,7 +332,7 @@ const double g_MoonCoefficients4[] =
 
 /////////////////////////////// Implementation ////////////////////////////////
 
-double CAAMoon::MeanLongitude(double JD)
+double CAAMoon::MeanLongitude(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -340,7 +341,7 @@ double CAAMoon::MeanLongitude(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(218.3164477 + 481267.88123421*T - 0.0015786*Tsquared + Tcubed/538841 - T4/65194000);
 }
 
-double CAAMoon::MeanElongation(double JD)
+double CAAMoon::MeanElongation(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -349,7 +350,7 @@ double CAAMoon::MeanElongation(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(297.8501921 + 445267.1114034*T - 0.0018819*Tsquared + Tcubed/545868 - T4/113065000);
 }
 
-double CAAMoon::MeanAnomaly(double JD)
+double CAAMoon::MeanAnomaly(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -358,7 +359,7 @@ double CAAMoon::MeanAnomaly(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(134.9633964 + 477198.8675055*T + 0.0087414*Tsquared + Tcubed/69699 - T4/14712000); 
 }
 
-double CAAMoon::ArgumentOfLatitude(double JD)
+double CAAMoon::ArgumentOfLatitude(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -367,7 +368,7 @@ double CAAMoon::ArgumentOfLatitude(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(93.2720950 + 483202.0175233*T - 0.0036539*Tsquared - Tcubed/3526000 + T4/863310000);
 }
 
-double CAAMoon::EclipticLongitude(double JD)
+double CAAMoon::EclipticLongitude(double JD) noexcept
 {
   double Ldash = MeanLongitude(JD);
   const double LdashDegrees = Ldash;
@@ -390,7 +391,7 @@ double CAAMoon::EclipticLongitude(double JD)
   double A2 = CAACoordinateTransformation::MapTo0To360Range(53.09 + 479264.290*T);
   A2 = CAACoordinateTransformation::DegreesToRadians(A2);
 
-  const size_t nLCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
+  constexpr const size_t nLCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
   assert(nLCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
   double SigmaL = 0;
   for (size_t i=0; i<nLCoefficients; i++)
@@ -417,7 +418,7 @@ double CAAMoon::EclipticLongitude(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(LdashDegrees + SigmaL/1000000 + NutationInLong/3600);
 }
 
-double CAAMoon::RadiusVector(double JD)
+double CAAMoon::RadiusVector(double JD) noexcept
 {
   double D = MeanElongation(JD);
   D = CAACoordinateTransformation::DegreesToRadians(D);
@@ -430,7 +431,7 @@ double CAAMoon::RadiusVector(double JD)
   const double E = CAAEarth::Eccentricity(JD);
   const double Esquared = E*E;
 
-  const size_t nRCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
+  constexpr const size_t nRCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
   assert(nRCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
   double SigmaR = 0;
   for (size_t i=0; i<nRCoefficients; i++)
@@ -448,7 +449,7 @@ double CAAMoon::RadiusVector(double JD)
   return 385000.56 + SigmaR/1000;
 }
 
-double CAAMoon::EclipticLatitude(double JD)
+double CAAMoon::EclipticLatitude(double JD) noexcept
 {
   double Ldash = MeanLongitude(JD);
   Ldash = CAACoordinateTransformation::DegreesToRadians(Ldash);
@@ -470,7 +471,7 @@ double CAAMoon::EclipticLatitude(double JD)
   double A3 = CAACoordinateTransformation::MapTo0To360Range(313.45 + 481266.484*T);
   A3 = CAACoordinateTransformation::DegreesToRadians(A3);
 
-  const size_t nBCoefficients = sizeof(g_MoonCoefficients3) / sizeof(MoonCoefficient1);
+  constexpr const size_t nBCoefficients = sizeof(g_MoonCoefficients3) / sizeof(MoonCoefficient1);
   assert(nBCoefficients == sizeof(g_MoonCoefficients4) / sizeof(double));
   double SigmaB = 0;
   for (size_t i=0; i<nBCoefficients; i++)
@@ -507,7 +508,7 @@ double CAAMoon::HorizontalParallaxToRadiusVector(double Parallax) noexcept
   return 6378.14 / sin(CAACoordinateTransformation::DegreesToRadians(Parallax));
 }
 
-double CAAMoon::MeanLongitudeAscendingNode(double JD)
+double CAAMoon::MeanLongitudeAscendingNode(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -516,7 +517,7 @@ double CAAMoon::MeanLongitudeAscendingNode(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(125.0445479 - 1934.1362891*T + 0.0020754*Tsquared + Tcubed/467441 - T4/60616000);
 }
 
-double CAAMoon::MeanLongitudePerigee(double JD)
+double CAAMoon::MeanLongitudePerigee(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -525,7 +526,7 @@ double CAAMoon::MeanLongitudePerigee(double JD)
   return CAACoordinateTransformation::MapTo0To360Range(83.3532465 + 4069.0137287*T - 0.0103200*Tsquared - Tcubed/80053 + T4/18999000);
 }
 
-double CAAMoon::TrueLongitudeAscendingNode(double JD)
+double CAAMoon::TrueLongitudeAscendingNode(double JD) noexcept
 {
   double TrueAscendingNode = MeanLongitudeAscendingNode(JD);
 

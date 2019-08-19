@@ -13,6 +13,7 @@ History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a
                           reporting this issue.
          PJN / 24-07-2018 1. Fixed a GCC warning in the method CAASaturnMoons::HelperSubroutine. Thanks to
                           Todd Carnes for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -45,7 +46,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-void CAASaturnMoons::HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& r, double& lambda, double& gamma, double& w)
+void CAASaturnMoons::HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& r, double& lambda, double& gamma, double& w) noexcept
 {
   double e2 = e*e;
   const double e3 = e2*e;
@@ -74,7 +75,7 @@ void CAASaturnMoons::HelperSubroutine(double e, double lambdadash, double p, dou
   lambda = lambdadash + C + u - g - psi;
 }
 
-CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision)
+CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision) noexcept
 {
   //What will be the return value
   CAASaturnMoonsDetails details;
@@ -193,7 +194,7 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
 
   //Satellite 3
   const double lambda3 = CAACoordinateTransformation::MapTo0To360Range(285.306 + 190.69791226*t1 + 2.063*sin(W0rad) + 0.03409*sin(3*W0rad) + 0.001015*sin(5*W0rad));
-  const double r3 = 4.880998;
+  constexpr const double r3 = 4.880998;
   constexpr const double gamma3 = 1.0976;
   const double omega3 = CAACoordinateTransformation::MapTo0To360Range(111.33 - 72.2441*t2);
 
@@ -407,9 +408,9 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   const double Y8 = r8*(sin(u)*cos(w)*cos(gamma8rad) + cos(u)*sin(w));
   const double Z8 = r8*sin(u)*sin(gamma8rad);
 
-  const double X9 = 0;
-  const double Y9 = 0;
-  const double Z9 = 1;
+  constexpr const double X9 = 0;
+  constexpr const double Y9 = 0;
+  constexpr const double Z9 = 1;
 
   //Now do the rotations, first for the ficticious 9th satellite, so that we can calculate D
   double A4 = 0;
@@ -537,7 +538,7 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   return details;
 }
 
-CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD, bool bHighPrecision)
+CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD, bool bHighPrecision) noexcept
 {
   //Calculate the position of the Sun
   const double sunlong = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);

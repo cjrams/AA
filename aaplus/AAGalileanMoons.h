@@ -83,10 +83,10 @@ class AAPLUS_EXT_CLASS CAAGalileanMoons
 {
 public:
 //Static methods
-  static CAAGalileanMoonsDetails Calculate(double JD, bool bHighPrecision);
+  static CAAGalileanMoonsDetails Calculate(double JD, bool bHighPrecision) noexcept;
 
 protected:
-  static CAAGalileanMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision);
+  static CAAGalileanMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision) noexcept;
   static void Rotations(double X, double Y, double Z, double I, double psi, double i, double omega, double lambda0, double beta0, double& A6, double& B6, double& C6) noexcept;
   static void FillInPhenomenaDetails(CAAGalileanMoonDetail& detail) noexcept;
 };

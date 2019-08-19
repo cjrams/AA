@@ -54,8 +54,8 @@ class AAPLUS_EXT_CLASS CAAEclipticalElements
 {
 public:
 //Static methods
-  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD);
-  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0);
+  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD) noexcept;
+  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0) noexcept;
 };
 
 

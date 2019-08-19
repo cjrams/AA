@@ -2,7 +2,7 @@
 Module : AAMoonMaxDeclinations.cpp
 Purpose: Implementation for the algorithms which obtain the dates and values for maximum declination of the Moon
 Created: PJN / 13-01-2004
-History: None
+History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -30,7 +30,7 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAAMoonMaxDeclinations::TrueGreatestDeclination(double k, bool bNortherly)
+double CAAMoonMaxDeclinations::TrueGreatestDeclination(double k, bool bNortherly) noexcept
 {
   //convert from K to T
   const double T = k/1336.86;
@@ -153,7 +153,7 @@ double CAAMoonMaxDeclinations::TrueGreatestDeclination(double k, bool bNortherly
   return MeanGreatestDeclination(k, bNortherly) + DeltaJD;
 }
 
-double CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(double k, bool bNortherly)
+double CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(double k, bool bNortherly) noexcept
 {
   //convert from K to T
   const double T = k/1336.86;

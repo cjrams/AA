@@ -63,7 +63,7 @@ class AAPLUS_EXT_CLASS CAAPhysicalMars
 {
 public:
 //Static methods
-  static CAAPhysicalMarsDetails Calculate(double JD, bool bHighPrecision);
+  static CAAPhysicalMarsDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 

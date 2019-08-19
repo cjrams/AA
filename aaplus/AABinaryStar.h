@@ -54,7 +54,7 @@ class AAPLUS_EXT_CLASS CAABinaryStar
 {
 public:
 //Static methods
-  static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w);
+  static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w) noexcept;
   static double ApparentEccentricity(double e, double i, double w) noexcept;
 };
 

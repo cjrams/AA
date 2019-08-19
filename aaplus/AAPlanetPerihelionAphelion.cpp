@@ -2,7 +2,7 @@
 Module : AAPlanetPerihelionAphelion.cpp
 Purpose: Implementation for the algorithms which obtain the dates of Perihelion and Aphelion of the planets
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -30,7 +30,7 @@ using namespace std;
 
 ///////////////////////////////// Implementation //////////////////////////////
 
-double CAAPlanetPerihelionAphelion::EarthPerihelion(long k, bool bBarycentric)
+double CAAPlanetPerihelionAphelion::EarthPerihelion(long k, bool bBarycentric) noexcept
 {
   const double kdash = k;
   const double ksquared = kdash * kdash;
@@ -60,7 +60,7 @@ double CAAPlanetPerihelionAphelion::EarthPerihelion(long k, bool bBarycentric)
   return JD;
 }
 
-double CAAPlanetPerihelionAphelion::EarthAphelion(long k, bool bBarycentric)
+double CAAPlanetPerihelionAphelion::EarthAphelion(long k, bool bBarycentric) noexcept
 {
   const double kdash = k + 0.5;
   const double ksquared = kdash * kdash;

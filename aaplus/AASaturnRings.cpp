@@ -14,7 +14,8 @@ History: PJN / 05-07-2015 1. U1 (the Saturnicentric longitude of the Sun) and U2
                           reporting this bug.
          PJN / 16-09-2015 1. CAASaturnRings::Calculate now includes a "bool bHighPrecision" parameter
                           which if set to true means the code uses the full VSOP87 theory rather than the
-                          truncated theory as presented in Meeus's book. 
+                          truncated theory as presented in Meeus's book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -47,7 +48,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAASaturnRingDetails CAASaturnRings::Calculate(double JD, bool bHighPrecision)
+CAASaturnRingDetails CAASaturnRings::Calculate(double JD, bool bHighPrecision) noexcept
 {
   //What will be the return value
   CAASaturnRingDetails details;

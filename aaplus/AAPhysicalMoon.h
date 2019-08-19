@@ -83,17 +83,17 @@ class AAPLUS_EXT_CLASS CAAPhysicalMoon
 {
 public:
 //Static methods
-  static CAAPhysicalMoonDetails CalculateGeocentric(double JD);
-  static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude);
-  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision);
-  static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision);
-  static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision);
-  static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision);
+  static CAAPhysicalMoonDetails CalculateGeocentric(double JD) noexcept;
+  static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude) noexcept;
+  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision) noexcept;
+  static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
 
 protected:
-  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision);
-  static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial);
-  static void CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho);
+  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision) noexcept;
+  static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial) noexcept;
+  static void CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho) noexcept;
 };
 
 

@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAASidereal
 {
 public:
 //Static methods
-  static double MeanGreenwichSiderealTime(double JD);
-  static double ApparentGreenwichSiderealTime(double JD);
+  static double MeanGreenwichSiderealTime(double JD) noexcept;
+  static double ApparentGreenwichSiderealTime(double JD) noexcept;
 };
 
 

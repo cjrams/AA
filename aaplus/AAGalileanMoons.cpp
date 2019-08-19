@@ -10,6 +10,7 @@ History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper wh
                           presented in Meeus's book.
          PJN / 24-07-2018 1. Fixed a number of GCC warnings in the method CAAGalileanMoons::CalculateHelper. Thanks to
                           Todd Carnes for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -42,7 +43,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision)
+CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision) noexcept
 {
   //What will be the return value
   CAAGalileanMoonsDetails details;
@@ -424,19 +425,19 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
   const double X2 = details.Satellite2.r*cos(L2 - psi)*cos(B2);
   const double X3 = details.Satellite3.r*cos(L3 - psi)*cos(B3);
   const double X4 = details.Satellite4.r*cos(L4 - psi)*cos(B4);
-  const double X5 = 0;
+  constexpr const double X5 = 0;
 
   const double Y1 = details.Satellite1.r*sin(L1 - psi)*cos(B1);
   const double Y2 = details.Satellite2.r*sin(L2 - psi)*cos(B2);
   const double Y3 = details.Satellite3.r*sin(L3 - psi)*cos(B3);
   const double Y4 = details.Satellite4.r*sin(L4 - psi)*cos(B4);
-  const double Y5 = 0;
+  constexpr const double Y5 = 0;
 
   const double Z1 = details.Satellite1.r*sin(B1);
   const double Z2 = details.Satellite2.r*sin(B2);
   const double Z3 = details.Satellite3.r*sin(B3);
   const double Z4 = details.Satellite4.r*sin(B4);
-  const double Z5 = 1;
+  constexpr const double Z5 = 1;
 
   //Now do the rotations, first for the ficticious 5th satellite, so that we can calculate D
   const double omega = CAACoordinateTransformation::DegreesToRadians(CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNode(JD));
@@ -508,7 +509,7 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
   return details;
 }
 
-CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD, bool bHighPrecision)
+CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD, bool bHighPrecision) noexcept
 {
   //Calculate the position of the Sun
   const double sunlong = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);

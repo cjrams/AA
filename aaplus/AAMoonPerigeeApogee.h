@@ -63,10 +63,10 @@ public:
     return MeanPerigee(k);
   }
 
-  static double TruePerigee(double k);
-  static double TrueApogee(double k);
-  static double PerigeeParallax(double k);
-  static double ApogeeParallax(double k);
+  static double TruePerigee(double k) noexcept;
+  static double TrueApogee(double k) noexcept;
+  static double PerigeeParallax(double k) noexcept;
+  static double ApogeeParallax(double k) noexcept;
 };
 
 

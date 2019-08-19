@@ -77,11 +77,11 @@ class AAPLUS_EXT_CLASS CAASaturnMoons
 {
 public:
 //Static methods
-  static CAASaturnMoonsDetails Calculate(double JD, bool bHighPrecision);
+  static CAASaturnMoonsDetails Calculate(double JD, bool bHighPrecision) noexcept;
 
 protected:
-  static CAASaturnMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision);
-  static void HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& r, double& lambda, double& gamma, double& w);
+  static CAASaturnMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision) noexcept;
+  static void HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& r, double& lambda, double& gamma, double& w) noexcept;
   static void Rotations(double X, double Y, double Z, double c1, double s1, double c2, double s2, double lambda0, double beta0, double& A4, double& B4, double& C4) noexcept;
   static void FillInPhenomenaDetails(CAASaturnMoonDetail& detail) noexcept;
 };

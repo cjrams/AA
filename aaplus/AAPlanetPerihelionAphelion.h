@@ -87,8 +87,8 @@ public:
     return static_cast<long>(0.99997*(Year - 2000.01));
   }
 
-  static double EarthPerihelion(long k, bool bBarycentric = false);
-  static double EarthAphelion(long k, bool bBarycentric = false);
+  static double EarthPerihelion(long k, bool bBarycentric = false) noexcept;
+  static double EarthAphelion(long k, bool bBarycentric = false) noexcept;
 
   constexpr static long MarsK(double Year) noexcept
   {

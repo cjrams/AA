@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAEarth
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD, bool bHighPrecision);
-  static double EclipticLatitude(double JD, bool bHighPrecision);
+  static double EclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  static double EclipticLatitude(double JD, bool bHighPrecision) noexcept;
   static double RadiusVector(double JD, bool bHighPrecision) noexcept;
-  static double SunMeanAnomaly(double JD);
+  static double SunMeanAnomaly(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
@@ -53,8 +53,8 @@ public:
     return 1 - 0.002516*T - 0.0000074*Tsquared;
   }
 
-  static double EclipticLongitudeJ2000(double JD, bool bHighPrecision);
-  static double EclipticLatitudeJ2000(double JD, bool bHighPrecision);
+  static double EclipticLongitudeJ2000(double JD, bool bHighPrecision) noexcept;
+  static double EclipticLatitudeJ2000(double JD, bool bHighPrecision) noexcept;
 };
 
 

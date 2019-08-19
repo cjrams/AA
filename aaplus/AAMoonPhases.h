@@ -57,7 +57,7 @@ public:
     return 2451550.09766 + 29.530588861*k + 0.00015437*T2 - 0.000000150*T3 + 0.00000000073*T4;
   }
 
-  static double TruePhase(double k);
+  static double TruePhase(double k) noexcept;
 };
 
 

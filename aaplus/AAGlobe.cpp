@@ -5,6 +5,7 @@ Created: PJN / 29-12-2003
 History: PJN / 20-03-2016 1. Fixed a transcription error in the CAAGlobe::RhoSinThetaPrime and 
                           CAAGlobe::RhoCosThetaPrime functions. The value 6378149 was being used instead of 
                           the correct value 6378140. Thanks to "Pavel" for reporting this bug.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -92,7 +93,7 @@ double CAAGlobe::DistanceBetweenPoints(double GeographicalLatitude1, double Geog
   const double D = 2*w*6378.14;
   const double Hprime = (3*R - 1) / (2*C);
   const double Hprime2 = (3*R + 1) / (2*S);
-  const double f = 0.0033528131778969144060323814696721;
+  constexpr const double f = 0.0033528131778969144060323814696721;
 
   return D * (1 + (f*Hprime*sinF*sinF*cosG*cosG) - (f*Hprime2*cosF*cosF*sinG*sinG));
 }

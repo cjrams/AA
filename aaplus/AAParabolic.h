@@ -102,7 +102,7 @@ class AAPLUS_EXT_CLASS CAAParabolic
 public:
 //Static methods
   static double CalculateBarkers(double W) noexcept;
-  static CAAParabolicObjectDetails Calculate(double JD, const CAAParabolicObjectElements& elements, bool bHighPrecision);
+  static CAAParabolicObjectDetails Calculate(double JD, const CAAParabolicObjectElements& elements, bool bHighPrecision) noexcept;
 };
 
 

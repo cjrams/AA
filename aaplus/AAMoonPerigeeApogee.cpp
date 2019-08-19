@@ -22,6 +22,7 @@ History: PJN / 07-02-2009 1. Fixed a seemingly copy and paste bug in CAAMoonPeri
                           indicate that this bug did not affect the calculated distances at least in this time range to a 
                           precision of a kilometer which is well within the claimed accuracy of 12 KM as mentioned in 
                           Meeus's book on page 361.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -230,13 +231,13 @@ const MoonPerigeeApogeeCoefficient g_MoonPerigeeApogeeCoefficients4[] =
   { 2,  2,  0,  0.019,      0      },
   { 0,  2,  0,  -0.016,     0      },
   { 6,  -1, 0,  0.014,      0      },
-  { 8,  0,  0,  0.010,      0      }   
+  { 8,  0,  0,  0.010,      0      }
 };
 
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-double CAAMoonPerigeeApogee::TruePerigee(double k)
+double CAAMoonPerigeeApogee::TruePerigee(double k) noexcept
 {
   const double MeanJD = MeanPerigee(k);
 
@@ -253,7 +254,7 @@ double CAAMoonPerigeeApogee::TruePerigee(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  const int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients1) / sizeof(MoonPerigeeApogeeCoefficient);
+  constexpr const int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients1) / sizeof(MoonPerigeeApogeeCoefficient);
   double Sigma = 0;
   for (int i=0; i<nPerigeeCoefficients; i++)
   {
@@ -264,7 +265,7 @@ double CAAMoonPerigeeApogee::TruePerigee(double k)
   return MeanJD + Sigma;
 }
 
-double CAAMoonPerigeeApogee::PerigeeParallax(double k)
+double CAAMoonPerigeeApogee::PerigeeParallax(double k) noexcept
 {
   //convert from K to T
   const double T = k/1325.55;
@@ -279,7 +280,7 @@ double CAAMoonPerigeeApogee::PerigeeParallax(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  const int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients3) / sizeof(MoonPerigeeApogeeCoefficient);
+  constexpr const int nPerigeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients3) / sizeof(MoonPerigeeApogeeCoefficient);
   double Parallax = 3629.215;
   for (int i=0; i<nPerigeeCoefficients; i++)
   {
@@ -290,7 +291,7 @@ double CAAMoonPerigeeApogee::PerigeeParallax(double k)
   return Parallax/3600;
 }
 
-double CAAMoonPerigeeApogee::TrueApogee(double k)
+double CAAMoonPerigeeApogee::TrueApogee(double k) noexcept
 {
   const double MeanJD = MeanApogee(k);
 
@@ -307,7 +308,7 @@ double CAAMoonPerigeeApogee::TrueApogee(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  const int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients2) / sizeof(MoonPerigeeApogeeCoefficient);
+  constexpr const int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients2) / sizeof(MoonPerigeeApogeeCoefficient);
   double Sigma = 0;
   for (int i=0; i<nApogeeCoefficients; i++)
   {
@@ -318,7 +319,7 @@ double CAAMoonPerigeeApogee::TrueApogee(double k)
   return MeanJD + Sigma;
 }
 
-double CAAMoonPerigeeApogee::ApogeeParallax(double k)
+double CAAMoonPerigeeApogee::ApogeeParallax(double k) noexcept
 {
   //convert from K to T
   const double T = k/1325.55;
@@ -333,7 +334,7 @@ double CAAMoonPerigeeApogee::ApogeeParallax(double k)
   double F = CAACoordinateTransformation::MapTo0To360Range(316.6109 + 364.5287911*k - 0.0125053*Tsquared - 0.0000148*Tcubed);
   F = CAACoordinateTransformation::DegreesToRadians(F);
 
-  const int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients4) / sizeof(MoonPerigeeApogeeCoefficient);
+  constexpr const int nApogeeCoefficients = sizeof(g_MoonPerigeeApogeeCoefficients4) / sizeof(MoonPerigeeApogeeCoefficient);
   double Parallax = 3245.251;
   for (int i=0; i<nApogeeCoefficients; i++)
   {

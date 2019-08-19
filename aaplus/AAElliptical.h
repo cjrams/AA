@@ -145,7 +145,7 @@ public:
     return Distance * 0.0057755183;
   }
 
-  static CAAEllipticalPlanetaryDetails Calculate(double JD, EllipticalObject object, bool bHighPrecision);
+  static CAAEllipticalPlanetaryDetails Calculate(double JD, EllipticalObject object, bool bHighPrecision) noexcept;
 
   constexpr static double SemiMajorAxisFromPerihelionDistance(double q, double e)
   {
@@ -153,7 +153,7 @@ public:
   }
 
   static double MeanMotionFromSemiMajorAxis(double a) noexcept;
-  static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision);
+  static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision) noexcept;
   static double InstantaneousVelocity(double r, double a) noexcept;
   static double VelocityAtPerihelion(double e, double a) noexcept;
   static double VelocityAtAphelion(double e, double a) noexcept;

@@ -6,6 +6,7 @@ History: PJN / 10-05-2010 1. Removed the unused Delta parameter from the CAANuta
                           Thanks to Thomas Meyer for reporting this issue.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -120,7 +121,7 @@ const NutationCoefficient g_NutationCoefficients[] =
 
 ///////////////////////////// Implementation //////////////////////////////////
 
-double CAANutation::NutationInLongitude(double JD)
+double CAANutation::NutationInLongitude(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -141,7 +142,7 @@ double CAANutation::NutationInLongitude(double JD)
   double omega = 125.04452 - 1934.136261*T + 0.0020708*Tsquared + Tcubed / 450000;
   omega = CAACoordinateTransformation::MapTo0To360Range(omega);
 
-  const int nCoefficients = sizeof(g_NutationCoefficients) / sizeof(NutationCoefficient);
+  constexpr const int nCoefficients = sizeof(g_NutationCoefficients) / sizeof(NutationCoefficient);
   double value = 0;
   for (int i=0; i<nCoefficients; i++)
   {
@@ -155,7 +156,7 @@ double CAANutation::NutationInLongitude(double JD)
   return value;
 }
 
-double CAANutation::NutationInObliquity(double JD)
+double CAANutation::NutationInObliquity(double JD) noexcept
 {
   const double T = (JD - 2451545) / 36525;
   const double Tsquared = T*T;
@@ -176,7 +177,7 @@ double CAANutation::NutationInObliquity(double JD)
   double omega = 125.04452 - 1934.136261*T + 0.0020708*Tsquared + Tcubed / 450000;
   omega = CAACoordinateTransformation::MapTo0To360Range(omega);
 
-  const int nCoefficients = sizeof(g_NutationCoefficients) / sizeof(NutationCoefficient);
+  constexpr const int nCoefficients = sizeof(g_NutationCoefficients) / sizeof(NutationCoefficient);
   double value = 0;
   for (int i=0; i<nCoefficients; i++)
   {
@@ -215,7 +216,7 @@ double CAANutation::MeanObliquityOfEcliptic(double JD) noexcept
                                                                    + CAACoordinateTransformation::DMSToDegrees(0, 0, 2.45) * U10;
 }
 
-double CAANutation::TrueObliquityOfEcliptic(double JD)
+double CAANutation::TrueObliquityOfEcliptic(double JD) noexcept
 {
   return MeanObliquityOfEcliptic(JD) + CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInObliquity(JD));
 }

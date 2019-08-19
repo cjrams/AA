@@ -9,6 +9,7 @@ History: PJN / 19-02-2004 1. The optical libration in longitude is now returned 
                           and TimeOfSunset methods now include a "bool bHighPrecision" parameter which if set 
                           to true means the code uses the full VSOP87 theory rather than the truncated theory 
                           as presented in Meeus's book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -40,7 +41,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-void CAAPhysicalMoon::CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho)
+void CAAPhysicalMoon::CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho) noexcept
 {
   //Calculate the initial quantities
   const double Lambdarad = CAACoordinateTransformation::DegreesToRadians(Lambda);
@@ -124,7 +125,7 @@ void CAAPhysicalMoon::CalculateOpticalLibration(double JD, double Lambda, double
   bdash2 = sigma*cos(A) - rho*sin(A);
 }
 
-CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial)
+CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial) noexcept
 {
   //What will be the return value
   CAAPhysicalMoonDetails details;
@@ -163,7 +164,7 @@ CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateHelper(double JD, double& Lambd
   return details;
 }
 
-CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateGeocentric(double JD)
+CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateGeocentric(double JD) noexcept
 {
   double Lambda;
   double Beta;
@@ -172,7 +173,7 @@ CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateGeocentric(double JD)
   return CalculateHelper(JD, Lambda, Beta, epsilon, Equatorial);
 }
 
-CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateTopocentric(double JD, double Longitude, double Latitude)
+CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateTopocentric(double JD, double Longitude, double Latitude) noexcept
 {
   //First convert to radians
   Longitude = CAACoordinateTransformation::DegreesToRadians(Longitude);
@@ -208,7 +209,7 @@ CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateTopocentric(double JD, double L
   return details;
 }
 
-CAASelenographicMoonDetails CAAPhysicalMoon::CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision)
+CAASelenographicMoonDetails CAAPhysicalMoon::CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision) noexcept
 {
   const double R = CAAEarth::RadiusVector(JD, bHighPrecision)*149597970;
   const double Delta = CAAMoon::RadiusVector(JD);
@@ -241,7 +242,7 @@ CAASelenographicMoonDetails CAAPhysicalMoon::CalculateSelenographicPositionOfSun
   return details;
 }
 
-double CAAPhysicalMoon::AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision)
+double CAAPhysicalMoon::AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept
 {
   //Calculate the selenographic details
   CAASelenographicMoonDetails selenographicDetails = CalculateSelenographicPositionOfSun(JD, bHighPrecision);
@@ -255,7 +256,7 @@ double CAAPhysicalMoon::AltitudeOfSun(double JD, double Longitude, double Latitu
   return CAACoordinateTransformation::RadiansToDegrees(asin(sin(selenographicDetails.b0)*sin(Latitude) + cos(selenographicDetails.b0)*cos(Latitude)*sin(selenographicDetails.c0 + Longitude)));
 }
 
-double CAAPhysicalMoon::SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision)
+double CAAPhysicalMoon::SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision) noexcept
 {
   double JDResult = JD;
   const double Latituderad = CAACoordinateTransformation::DegreesToRadians(Latitude);
@@ -274,12 +275,12 @@ double CAAPhysicalMoon::SunriseSunsetHelper(double JD, double Longitude, double 
   return JDResult;
 }
 
-double CAAPhysicalMoon::TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision)
+double CAAPhysicalMoon::TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept
 {
   return SunriseSunsetHelper(JD, Longitude, Latitude, true, bHighPrecision);
 }
 
-double CAAPhysicalMoon::TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision)
+double CAAPhysicalMoon::TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept
 {
   return SunriseSunsetHelper(JD, Longitude, Latitude, false, bHighPrecision);
 }

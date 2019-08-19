@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAEquationOfTime
 {
 public:
 //Static methods
-  static double Calculate(double JD, bool bHighPrecision);
+  static double Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 

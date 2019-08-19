@@ -4,6 +4,7 @@ Purpose: Implementation for the algorithms which obtain sidereal time
 Created: PJN / 29-12-2003
          PJN / 26-01-2007 1. Update to fit in with new layout of CAADate class
          PJN / 28-01-2007 1. Minor updates to fit in with new layout of CAADate class
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -33,7 +34,7 @@ using namespace std;
 
 /////////////////////////////// Implementation ////////////////////////////////
 
-double CAASidereal::MeanGreenwichSiderealTime(double JD)
+double CAASidereal::MeanGreenwichSiderealTime(double JD) noexcept
 {
   //Get the Julian day for the same day at midnight
   long Year = 0;
@@ -63,7 +64,7 @@ double CAASidereal::MeanGreenwichSiderealTime(double JD)
   return CAACoordinateTransformation::MapTo0To24Range(Value);
 }
 
-double CAASidereal::ApparentGreenwichSiderealTime(double JD)
+double CAASidereal::ApparentGreenwichSiderealTime(double JD) noexcept
 {
   const double MeanObliquity = CAANutation::MeanObliquityOfEcliptic(JD);
   const double TrueObliquity = MeanObliquity + CAANutation::NutationInObliquity(JD) / 3600;

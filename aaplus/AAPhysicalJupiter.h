@@ -62,7 +62,7 @@ class AAPLUS_EXT_CLASS CAAPhysicalJupiter
 {
 public:
 //Static methods
-  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision);
+  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 #endif //#ifndef __AAPHYSICALJUPITER_H__
