@@ -46,11 +46,17 @@ public:
 //Enums
   enum class Type
   {
-    NotDefined,
-    Rise,
-    Set,
-    SouthernTransit,
-    NorthernTransit
+    NotDefined = 0,
+    Rise = 1,
+    Set = 2,
+    SouthernTransit = 3,
+    NorthernTransit = 4,
+    EndCivilTwilight = 5,
+    EndNauticalTwilight = 6,
+    EndAstronomicalTwilight = 7,
+    StartAstronomicalTwilight = 8,
+    StartNauticalTwilight = 9,
+    StartCivilTwilight = 10
   };
 
 //Constructors / Destructors
@@ -92,7 +98,8 @@ public:
     SATURN,
     URANUS,
     NEPTUNE,
-    PLUTO
+    PLUTO,
+    STAR
   };
 
 //Static methods
@@ -102,7 +109,8 @@ public:
 
 protected:
   static void AddEvents(std::vector<CAARiseTransitSetDetails2>& events, double LastAltitudeForDetectingRiseSet, double AltitudeForDetectingRiseSet,
-                        double LastAltitudeForInterpolation, double h0, const CAA2DCoordinate& Horizontal, double LastJD, double StepInterval, double LastBearing);
+                        double LastAltitudeForInterpolation, double h0, const CAA2DCoordinate& Horizontal, double LastJD, double StepInterval, double LastBearing,
+                        Object object, double LastAltitudeForDetectingTwilight, double AltitudeForTwilight);
 };
 
 

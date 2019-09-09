@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.04</title>
+<title>AA+ v2.05</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.04</h2>
+<h2>AA+ v2.05</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -93,6 +93,12 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.05 (8 September 2019)</b></p>
+<ul>
+	<li>Added support for EndCivilTwilight, EndNauticalTwilight, 
+	EndAstronomicalTwilight, StartAstronomicalTwilight, StartNauticalTwilight &amp; 
+	StartCivilTwilight event types to CAARiseTransitSet2 class.</li>
+</ul>
 <p><b>v2.04 (18 August 2019)</b></p>
 <ul>
 	<li>Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 
@@ -6218,9 +6224,11 @@ bHighPrecision</em> <b>= false)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
 <p><em>type</em> An enum class instance which represents the type of event 
-found. This can be Rise, Set, SouthernTransit or NorthernTransit.</p>
+found. This can be Rise, Set, SouthernTransit, NorthernTransit, 
+EndCivilTwilight, EndNauticalTwilight, EndAstronomicalTwilight, 
+StartAstronomicalTwilight, StartNauticalTwilight or StartCivilTwilight.</p>
 <p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
-<p><i>Bearing</i> Valid only for Rise or Set events, this will be the 
+<p><i>Bearing</i> Valid only for Rise, Set or Twilight events, this will be the 
 <span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
 <p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
 events, this will be the geometric altitude in degrees of the center of the 
@@ -9638,7 +9646,8 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>18 August 2019</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>8 
+September 2019</p>
 
 </body>
 

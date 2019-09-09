@@ -276,6 +276,84 @@ void PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object object, double h0
           printf("Boston Northern Transit of %s (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
+      case CAARiseTransitSetDetails2::Type::EndAstronomicalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston End of Astronomical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndNauticalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston End of Nautical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndCivilTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston End of Civil Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartAstronomicalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Start of Astronomical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartNauticalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Start of Nautical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartCivilTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Boston Start of Civil Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
       default:
       {
         break;
@@ -657,6 +735,84 @@ int main()
           printf("North Pole Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
+      case CAARiseTransitSetDetails2::Type::EndAstronomicalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole End of Astronomical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndNauticalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole End of Nautical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndCivilTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole End of Civil Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartAstronomicalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Start of Astronomical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartNauticalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Start of Nautical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartCivilTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("North Pole Start of Civil Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
       default:
       {
         break;
@@ -722,6 +878,84 @@ int main()
         date_time.Get(year, month, day, hour, minute, second);
         if (event.bAboveHorizon) //Only bother to report visible transits
           printf("South Pole Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndAstronomicalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole End of Astronomical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndNauticalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole End of Nautical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::EndCivilTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole End of Civil Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartAstronomicalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole Start of Astronomical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartNauticalTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole Start of Nautical Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::StartCivilTwilight:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("South Pole Start of Civil Twilight (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       default:
