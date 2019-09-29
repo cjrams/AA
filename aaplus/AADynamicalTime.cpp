@@ -90,6 +90,7 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
                           2. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to October 2027
          PJN / 23-06-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st June 2019
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 28-09-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st September 2019
 
 Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -688,9 +689,11 @@ const DeltaTValue g_DeltaTValues[] =
   { 2458574.5,  69.3032 }, //1 April 2019
   { 2458604.5,  69.3326 }, //1 May 2019
   { 2458635.5,  69.3540 }, //1 June 2019
+  { 2458665.5,  69.3582 }, //1 July 2019
+  { 2458696.5,  69.3442 }, //1 August 2019
+  { 2458727.5,  69.3376 }, //1 September 2019
 
-//All these final values are predicted values from Year 2019.50 to 2027.75 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
-  { 2458666.5,  69.62   }, //2019.50
+//All these final values are predicted values from Year 2019.75 to 2027.75 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
   { 2458758.5,  69.71   }, //2019.75
   { 2458849.5,  69.87   }, //2020.00
   { 2458940.5,  70.03   }, //2020.25

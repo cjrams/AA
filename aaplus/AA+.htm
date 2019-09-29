@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.05</title>
+<title>AA+ v2.07</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.05</h2>
+<h2>AA+ v2.07</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -93,6 +93,16 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.07 (28 September 2019)</b></p>
+<ul>
+	<li>Addition of a new CAAEquinoxesAndSolstices2 class. </li>
+</ul>
+<p><b>v2.06 (28 September 2019)</b></p>
+<ul>
+	<li>Updated the observed DeltaT values from
+	<a href="http://maia.usno.navy.mil/ser7/deltat.data">
+	http://maia.usno.navy.mil/ser7/deltat.data</a> to 1st September 2019 </li>
+</ul>
 <p><b>v2.05 (8 September 2019)</b></p>
 <ul>
 	<li>Added support for EndCivilTwilight, EndNauticalTwilight, 
@@ -1402,6 +1412,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p><b><a href="#CAAELPMPP02">CAAELPMPP02</a></b></p>
 <p><b><a href="#CAAEquationOfTime">CAAEquationOfTime</a></b></p>
 <p><b><a href="#CAAEquinoxesAndSolstices">CAAEquinoxesAndSolstices</a></b></p>
+<p><b><a href="#CAAEquinoxesAndSolstices2">CAAEquinoxesAndSolstices2</a></b></p>
 <p><b><a href="#CAAFK5">CAAFK5</a></b></p>
 <p><b><a href="#CAAGalileanMoons">CAAGalileanMoons</a></b></p>
 <p><b><a href="#CAAGlobe">CAAGlobe</a></b></p>
@@ -3847,6 +3858,39 @@ the truncated version as provided in Meeus's book.</p>
 <p><i>bNorthernHemisphere</i> true to indicate the observer is in the northern 
 hemisphere, while false means the southern hemisphere.</p>
 <p><i>bHighPrecision</i> If true then use the full VSOP87 theory instead of 
+the truncated version as provided in Meeus's book.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b><a name="CAAEquinoxesAndSolstices2"></a>CAAEquinoxesAndSolstices2</b></p>
+<p>This class uses interpolation to calculate the same details as those provided with the existing
+<a href="#CAAEquinoxesAndSolstices">CAAEquinoxesAndSolstices </a>class.</p>
+<p>&nbsp;</p>
+<p><b>Functions this class provides include:</b></p>
+<p><a href="#CAAEquinoxesAndSolstices2_Calculate">Calculate</a></p>
+<p>&nbsp;</p>
+<p><b><a name="CAAEquinoxesAndSolstices2_Calculate"></a>
+CAAEquinoxesAndSolstices2::Calculate</b></p>
+<p><b>static std::vector&lt;CAAEquinoxesAndSolsticestDetails2&gt; Calculate(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
+<em>StepInterval</em> <b>= 0.007</b>, <b>bool</b> <em>
+bHighPrecision</em> <b>= false)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be NorthwardEquinox, NorthernSolstice, SouthwardEquinox or 
+SouthernSolstice.</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>Declination</i> Valid only for NorthernSolstice or SouthernSolstice events, this will be the 
+apparent declination of the Sun.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy.</p>
+<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -9646,7 +9690,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>8 
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>28 
 September 2019</p>
 
 </body>

@@ -346,6 +346,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="AAEquinoxesAndSolstices2.cpp" />
     <ClCompile Include="AAFK5.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -683,6 +684,7 @@
     <ClInclude Include="AAELPMPP02.h" />
     <ClInclude Include="AAEquationOfTime.h" />
     <ClInclude Include="AAEquinoxesAndSolstices.h" />
+    <ClInclude Include="AAEquinoxesAndSolstices2.h" />
     <ClInclude Include="AAFK5.h" />
     <ClInclude Include="AAGalileanMoons.h" />
     <ClInclude Include="AAGlobe.h" />

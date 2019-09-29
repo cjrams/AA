@@ -354,6 +354,9 @@
     <ClCompile Include="AARiseTransitSet2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AAEquinoxesAndSolstices2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AA+.h">
@@ -699,6 +702,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AARiseTransitSet2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AAEquinoxesAndSolstices2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

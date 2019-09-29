@@ -29,6 +29,7 @@ SET ( SRCS_LIB
   AAELPMPP02.cpp
   AAEquationOfTime.cpp
   AAEquinoxesAndSolstices.cpp
+  AAEquinoxesAndSolstices2.cpp
   AAFK5.cpp
   AAGalileanMoons.cpp
   AAGlobe.cpp

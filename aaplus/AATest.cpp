@@ -654,7 +654,6 @@ int main()
   ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
-
   /*
   //Code to write out the Moon Perigee from 1984 to 2026
   for (double K = -200; K<350; K++)
@@ -965,7 +964,6 @@ int main()
     }
   }
 
-
   //Print out the rise, transit and set times for the Moon for the North Pole for the 8th - 11th March 2019 using the new CAARiseTransitSet2 class
   events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), CAARiseTransitSet2::Object::MOON, 0, 90, 0.125);
   for (const auto& event : events)
@@ -1100,21 +1098,87 @@ int main()
     }
   }
 
+  //Calculate the equinoxes and solstices for 2019
+  std::vector<CAAEquinoxSolsticeDetails2> events2 = CAAEquinoxesAndSolstices2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5));
+  for (const auto& event : events2)
+  {
+    switch (event.type)
+    {
+      case CAAEquinoxSolsticeDetails2::Type::NorthwardEquinox:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Northward Equinox (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAEquinoxSolsticeDetails2::Type::NorthernSolstice:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Northern Solstice (UTC) at declination %f, %d-%d-%d %02d:%02d:%02d\n", event.Declination, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAEquinoxSolsticeDetails2::Type::SouthwardEquinox:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Southward Equinox (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAEquinoxSolsticeDetails2::Type::SouthernSolstice:
+      {
+        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+        long year = 0;
+        long month = 0;
+        long day = 0;
+        long hour = 0;
+        long minute = 0;
+        double second = 0;
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Southern Solstice (UTC) at declination %f, %d-%d-%d %02d:%02d:%02d\n", event.Declination, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+
   //Print out an ASCII graphic of the moon phase for the month of April 2012 for 
   //the location of Wexford, Ireland. Thanks to Roger Dahl for providing this 
   //nice addition to AA+
-  long Year = 2012;
-  long Month = 4;
-  constexpr const int days_in_month = 30;
-  constexpr const double longitude = 6.5;
-  constexpr const double latitude = 52.5;
-  for (int i=1; i <= days_in_month; ++i)
   {
-    const long Day = i;
-    PrintMoonIlluminationAndPhase(Year, Month, Day, false);
-    PrintMoonIlluminationAndPhase(Year, Month, Day, true);
+    constexpr const long year = 2012;
+    constexpr const long month = 4;
+    constexpr const int days_in_month = 30;
+    constexpr const double longitude = 6.5;
+    constexpr const double latitude = 52.5;
+    for (int i = 1; i <= days_in_month; ++i)
+    {
+      const long Day = i;
+      PrintMoonIlluminationAndPhase(year, month, Day, false);
+      PrintMoonIlluminationAndPhase(year, month, Day, true);
+    }
   }
-
 
   //Test out the CAADynamicalTime UTC time frame conversion methods
   double TT = CAADynamicalTime::UTC2TT(2433282.5);
@@ -1129,86 +1193,104 @@ int main()
   TT2 = CAADynamicalTime::UTC2TT(2469807.5);
   UTC = CAADynamicalTime::TT2UTC(TT);
 
-
   /*
   //Code to write out all the JD of year values from 2012 to 2023
-  year = 2012;
-  bool bContinue = true;
-  while (bContinue)
   {
-    CAADate date(year, 1, 1, true);
-    double DaysInYear = date.DaysInYear();
-    double JD = date.Julian();
-    printf("%f\n", JD);
-    printf("%f\n", JD + DaysInYear/4);
-    printf("%f\n", JD + DaysInYear/2);
-    printf("%f\n", JD + DaysInYear*3/4);
+    long year = 2012;
+    bool bContinue = true;
+    while (bContinue)
+    {
+      const CAADate date(year, 1, 1, true);
+      const double DaysInYear = date.DaysInYear();
+      const double JD = date.Julian();
+      printf("%f\n", JD);
+      printf("%f\n", JD + DaysInYear / 4);
+      printf("%f\n", JD + DaysInYear / 2);
+      printf("%f\n", JD + DaysInYear * 3 / 4);
 
-    //Prepare for the next loop
-    ++year;
-    if (year > 2023)
-      bContinue = false;
+      //Prepare for the next loop
+      ++year;
+      if (year > 2023)
+        bContinue = false;
+    }
+    return 0;
   }
-  return 0;
   */
 
   /*
   //Code to write out the values of TT-UTC for a specific range
-  double JDUT1 = 2325882.5;
-
-  bool bContinue2 = true;
-  while (bContinue2)
   {
-    TT = CAADynamicalTime::UTC2TT(JDUT1);
-    TT2 = CAADynamicalTime::UT12TT(JDUT1);
-    const CAADate date(JDUT1, true);
-    date.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", Year, Month, Day, JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
+    double JDUT1 = 2325882.5;
+    bool bContinue2 = true;
+    while (bContinue2)
+    {
+      TT = CAADynamicalTime::UTC2TT(JDUT1);
+      TT2 = CAADynamicalTime::UT12TT(JDUT1);
+      const CAADate date(JDUT1, true);
+      long year = 0;
+      long month = 0;
+      long Day = 0;
+      long Hour = 0;
+      long Minute = 0;
+      double Second = 0;
+      date.Get(year, month, Day, Hour, Minute, Second);
+      printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", year, month, Day, JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
 
-    //Prepare for the next loop
-    JDUT1 += 10;
-    if (JDUT1 >= 2473682)
-      bContinue2 = false;
+      //Prepare for the next loop
+      JDUT1 += 10;
+      if (JDUT1 >= 2473682)
+        bContinue2 = false;
+    }
+    return 0;
   }
-  return 0;
   */
 
   /*
   //Code to write out the values of UT1-UTC for a specific range
-  CAADate Datex(1972, 1, 1, true);
-  double JDUT1 = Datex.Julian();
-  bool bContinue2 = true;
-  while (bContinue2)
   {
-    printf("%f\t%f\n", JDUT1, CAADynamicalTime::UT1MinusUTC(JDUT1));
+    const CAADate Datex(1972, 1, 1, true);
+    double JDUT1 = Datex.Julian();
+    bool bContinue2 = true;
+    while (bContinue2)
+    {
+      printf("%f\t%f\n", JDUT1, CAADynamicalTime::UT1MinusUTC(JDUT1));
 
-    //Prepare for the next loop
-    ++JDUT1;
-    if (JDUT1 >= 2461712.0)
-      bContinue2 = false;
+      //Prepare for the next loop
+      ++JDUT1;
+      if (JDUT1 >= 2461712.0)
+        bContinue2 = false;
+    }
+    return 0;
   }
-  return 0;
   */
 
   /*
   //Code to write out the values of DeltaT for a specific range
-  double JDD = 2441014.5;
-  bool bContinue3 = true;
-  while (bContinue3)
   {
-    double LeapSeconds = CAADynamicalTime::CumulativeLeapSeconds(JDD);
-    double TTC = LeapSeconds + 32.184;
-    double DeltaT = CAADynamicalTime::DeltaT(JDD);
-    CAADate date(JDD, true);
-    date.Get(Year, Month, Day, Hour, Minute, Second);
-    printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", Year, Month, Day, JDD, DeltaT, LeapSeconds, TTC, TTC - DeltaT);
+    double JDD = 2441014.5;
+    bool bContinue3 = true;
+    while (bContinue3)
+    {
+      const double LeapSeconds = CAADynamicalTime::CumulativeLeapSeconds(JDD);
+      const double TTC = LeapSeconds + 32.184;
+      const double DeltaT = CAADynamicalTime::DeltaT(JDD);
+      const CAADate date(JDD, true);
+      long year = 0;
+      long month = 0;
+      long Day = 0;
+      long Hour = 0;
+      long Minute = 0;
+      double Second = 0;
+      date.Get(year, month, Day, Hour, Minute, Second);
+      printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", year, month, Day, JDD, DeltaT, LeapSeconds, TTC, TTC - DeltaT);
 
-    //Prepare for the next loop
-    ++JDD;
-    if (JDD >= 2461712.0)
-      bContinue3 = false;
+      //Prepare for the next loop
+      ++JDD;
+      if (JDD >= 2461712.0)
+        bContinue3 = false;
+    }
+    return 0;
   }
-  return 0;
   */
 
   //Calculate the topocentric horizontal position of the Sun for Palomar Observatory on midnight UTC for the 21st of September 2007
@@ -1294,6 +1376,8 @@ int main()
   //Test out the AADate class
   CAADate date;
   date.Set(2000, 1, 1, 12, 1, 2.3, true);
+  long Year = 0;
+  long Month = 0;
   long Day = 0;
   long Hour = 0;
   long Minute = 0;
@@ -2416,6 +2500,9 @@ int main()
   constexpr const int DD = 11;
   const CAADate CalcDate(YYYY, MM, DD, true);
   const double JD2 = CalcDate.Julian();
+#ifdef _MSC_VER
+  #pragma warning(suppress: 26444)
+#endif //#ifdef _MSC_VER
   events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(JD2), CAADynamicalTime::UTC2TT(JD2) + 1, CAACoordinateTransformation::DMSToDegrees(116, 51, 45), CAACoordinateTransformation::DMSToDegrees(33, 21, 22));
   for (const auto& event : events)
   {

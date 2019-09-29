@@ -57,6 +57,7 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AAEquationOfTime.h"
 #include "AAEquinoxesAndSolstices.h"
+#include "AAEquinoxesAndSolstices2.h"
 #include "AAFK5.h"
 #include "AAGalileanMoons.h"
 #include "AAGlobe.h"
