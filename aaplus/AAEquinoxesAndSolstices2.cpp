@@ -74,7 +74,6 @@ vector<CAAEquinoxSolsticeDetails2> CAAEquinoxesAndSolstices2::Calculate(double S
       {
         CAAEquinoxSolsticeDetails2 event;
         event.type = CAAEquinoxSolsticeDetails2::Type::NorthernSolstice;
-        event.Declination = Solarcoord.Y;
         double fraction = 0;
         event.Declination = CAAInterpolate::Extremum(LastLatitude1, LastLatitude0, Solarcoord.Y, fraction);
         event.JD = JD - StepInterval + (fraction*StepInterval);
@@ -84,7 +83,6 @@ vector<CAAEquinoxSolsticeDetails2> CAAEquinoxesAndSolstices2::Calculate(double S
       {
         CAAEquinoxSolsticeDetails2 event;
         event.type = CAAEquinoxSolsticeDetails2::Type::SouthernSolstice;
-        event.Declination = Solarcoord.Y;
         double fraction = 0;
         event.Declination = CAAInterpolate::Extremum(LastLatitude1, LastLatitude0, Solarcoord.Y, fraction);
         event.JD = JD - StepInterval + (fraction*StepInterval);

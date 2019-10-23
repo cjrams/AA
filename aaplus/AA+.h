@@ -71,6 +71,7 @@ to maintain a single distribution point for the source code.
 #include "AAMoon.h"
 #include "AAMoonIlluminatedFraction.h"
 #include "AAMoonMaxDeclinations.h"
+#include "AAMoonMaxDeclinations2.h"
 #include "AAMoonNodes.h"
 #include "AAMoonPerigeeApogee.h"
 #include "AAMoonPhases.h"

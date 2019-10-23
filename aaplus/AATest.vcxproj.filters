@@ -357,6 +357,9 @@
     <ClCompile Include="AAEquinoxesAndSolstices2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AAMoonMaxDeclinations2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AA+.h">
@@ -705,6 +708,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AAEquinoxesAndSolstices2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AAMoonMaxDeclinations2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

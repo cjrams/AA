@@ -6,6 +6,7 @@
 #include <memory.h>
 #include <cassert>
 #include <vector>
+#include <array>
 using namespace std;
 
 
@@ -1159,6 +1160,79 @@ int main()
       default:
       {
         break;
+      }
+    }
+  }
+
+  //Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations
+  for (double k=254; k<268; k++)
+  {
+    double MoonDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(k, false);
+    double MoonDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(k, false);
+    CAADate date_time(CAADynamicalTime::TT2UTC(MoonDec), true);
+    long year = 0;
+    long month = 0;
+    long day = 0;
+    long hour = 0;
+    long minute = 0;
+    double second = 0;
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Max southern declination of the Moon (using CAAMoonMaxDeclinations) (UTC) at declination %f, %d-%d-%d %02d:%02d:%02d\n", -MoonDecValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+    MoonDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(k, true);
+    MoonDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(k, true);
+    date_time = CAADate(CAADynamicalTime::TT2UTC(MoonDec), true);
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Max northern declination of the Moon (using CAAMoonMaxDeclinations) (UTC) at declination %f, %d-%d-%d %02d:%02d:%02d\n", MoonDecValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+  }
+
+  constexpr std::array<std::pair<CAAMoonMaxDeclinations2::Algorithm, const char*>, 6> algos
+  { {
+    { CAAMoonMaxDeclinations2::Algorithm::MeeusTruncated,   "MeeusTruncated"   },
+    { CAAMoonMaxDeclinations2::Algorithm::ELP2000,          "ELP2000"          },
+    { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02Nominal,  "ELPMPP02Nominal"  },
+    { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02LLR,      "ELPMPP02LLR"      },
+    { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02DE405,    "ELPMPP02DE405"    },
+    { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02DE406,    "ELPMPP02DE406"    }
+  } };
+
+  //Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations2
+  for (const auto& algo : algos)
+  {
+    std::vector<CAAMoonMaxDeclinationsDetails2> events3 = CAAMoonMaxDeclinations2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first);
+    for (const auto& event : events3)
+    {
+      switch (event.type)
+      {
+        case CAAMoonMaxDeclinationsDetails2::Type::MaxNorthernDeclination:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Max northern declination of the Moon (using CAAMoonMaxDeclinations2 algorithm %s) (UTC) at RA %f, declination %f, %d-%d-%d %02d:%02d:%02d\n", algo.second, event.RA, event.Declination, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        case CAAMoonMaxDeclinationsDetails2::Type::MaxSouthernDeclination:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Max southern declination of the Moon (using CAAMoonMaxDeclinations2 algorithm %s) (UTC) at RA %f, declination %f, %d-%d-%d %02d:%02d:%02d\n", algo.second, event.RA, event.Declination, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        default:
+        {
+          break;
+        }
       }
     }
   }

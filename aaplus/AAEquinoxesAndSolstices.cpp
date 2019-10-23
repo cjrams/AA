@@ -178,7 +178,7 @@ double CAAEquinoxesAndSolstices::SouthernSolstice(long Year, bool bHighPrecision
   do
   {
     const double SunLongitude = CAASun::ApparentEclipticLongitude(JDE, bHighPrecision);
-    Correction = 58 * sin(CAACoordinateTransformation::DegreesToRadians(270 - SunLongitude));  
+    Correction = 58 * sin(CAACoordinateTransformation::DegreesToRadians(270 - SunLongitude));
     JDE += Correction;
   }
   while (fabs(Correction) > 0.00001); //Corresponds to an error of 0.86 of a second
