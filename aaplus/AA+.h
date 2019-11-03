@@ -74,6 +74,7 @@ to maintain a single distribution point for the source code.
 #include "AAMoonMaxDeclinations2.h"
 #include "AAMoonNodes.h"
 #include "AAMoonPerigeeApogee.h"
+#include "AAMoonPerigeeApogee2.h"
 #include "AAMoonPhases.h"
 #include "AAMoslemCalendar.h"
 #include "AANearParabolic.h"

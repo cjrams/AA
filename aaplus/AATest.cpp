@@ -90,19 +90,19 @@ void DrawFilledEllipse(vector<char>& buf, int buf_w, int c_x, int c_y, int w, in
   //do the horizontal diameter
   if (half_l)
   {
-    for (int x = 0; x <= w; x++)
+    for (int x=0; x<=w; x++)
       ASCIIPlot(buf, buf_w, c_x - x, c_y, b);
   }
   if (half_r)
   {
-    for (int x = -w; x <= 0; x++)
+    for (int x=-w; x<=0; x++)
       ASCIIPlot(buf, buf_w, c_x - x, c_y, b);
   }
   //now do both halves at the same time, away from the diameter
-  for (int y = 1; y <= h; y++)
+  for (int y=1; y<=h; y++)
   {
     int x1 = x0 - (dx - 1);  //try slopes of dx - 1 or more
-    for ( ; x1 > 0; x1--)
+    for (; x1>0; x1--)
     {
       if (x1*x1*hh + y*y*ww <= hhww)
         break;
@@ -110,7 +110,7 @@ void DrawFilledEllipse(vector<char>& buf, int buf_w, int c_x, int c_y, int w, in
     dx = x0 - x1;  // current approximation of the slope
     x0 = x1;
 
-    for (int x = -x0; x <= x0; x++)
+    for (int x=-x0; x<=x0; x++)
     {
       if ((half_l && x <= 0) || (half_r && x >= 0))
       {
@@ -501,7 +501,9 @@ void PrintBostonRiseTransitSetTimesSirius()
   }
 }
 
-
+#ifdef _MSC_VER
+#pragma warning(disable : 6262)
+#endif //#ifdef _MSC_VER
 int main()
 {
   //Calculate an ephemeris for the physical sun
@@ -509,7 +511,7 @@ int main()
   {
     CAADate CalcDate(2000, 1, 1, true);
     double JD = CalcDate.Julian();
-    for (int i = 0; i < 10000; i++)
+    for (int i=0; i<10000; i++)
     {
       JD += 1.000;
       CAAPhysicalSunDetails psd = CAAPhysicalSun::Calculate(JD, false);
@@ -655,25 +657,82 @@ int main()
   ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
-  /*
-  //Code to write out the Moon Perigee from 1984 to 2026
-  for (double K = -200; K<350; K++)
+  //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee
+  for (double k=252; k<266; k++)
   {
-    double MoonPerigee = CAAMoonPerigeeApogee::TruePerigee(K);
-    CAADate date(MoonPerigee, true);
-    long Year4 = 2012;
-    long Month4 = 10;
-    long Day4 = 31;
-    long Hour4 = 0;
-    long Minute4 = 0;
-    double Second4 = 0;
-    date.Get(Year4, Month4, Day4, Hour4, Minute4, Second4);
-    double Parallax = CAAMoonPerigeeApogee::PerigeeParallax(K);
-    double MoonDistance = CAAMoon::HorizontalParallaxToRadiusVector(Parallax);
-    printf("%04d/%02d/%02d %02d:%02d:%f\t%f\t%f\t%f\n", Year4, Month4, Day4, Hour4, Minute4, Second4, MoonPerigee, Parallax, MoonDistance);
+    const double MoonPerigee = CAAMoonPerigeeApogee::TruePerigee(k);
+    const double MoonPerigeeValue = CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::PerigeeParallax(k));
+    CAADate date_time(CAADynamicalTime::TT2UTC(MoonPerigee), true);
+    long year = 0;
+    long month = 0;
+    long day = 0;
+    long hour = 0;
+    long minute = 0;
+    double second = 0;
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Perigee of the Moon (using CAAMoonPerigeeApogee) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", MoonPerigeeValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+    const double MoonApogee = CAAMoonPerigeeApogee::TrueApogee(k + 0.5);
+    const double MoonApogeeeValue = CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::ApogeeParallax(k));
+    date_time = CAADate(CAADynamicalTime::TT2UTC(MoonApogee), true);
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Apogee of the Moon (using CAAMoonPerigeeApogee) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", MoonPerigeeValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
   }
-  return 0;
-  */
+
+  constexpr std::array<std::pair<CAAMoonPerigeeApogee2::Algorithm, const char*>, 6> algos2
+  { {
+    { CAAMoonPerigeeApogee2::Algorithm::MeeusTruncated,   "MeeusTruncated"   }
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+   ,{ CAAMoonPerigeeApogee2::Algorithm::ELP2000,          "ELP2000"          }
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
+   ,{ CAAMoonPerigeeApogee2::Algorithm::ELPMPP02Nominal,  "ELPMPP02Nominal"  },
+    { CAAMoonPerigeeApogee2::Algorithm::ELPMPP02LLR,      "ELPMPP02LLR"      },
+    { CAAMoonPerigeeApogee2::Algorithm::ELPMPP02DE405,    "ELPMPP02DE405"    },
+    { CAAMoonPerigeeApogee2::Algorithm::ELPMPP02DE406,    "ELPMPP02DE406"    }
+#endif //#ifndef AAPLUS_NO_ELPMPP02
+  } };
+
+  //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee2
+  for (const auto& algo : algos2)
+  {
+    std::vector<CAAMoonPerigeeApogeeDetails2> events3 = CAAMoonPerigeeApogee2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first);
+    for (const auto& event : events3)
+    {
+      switch (event.type)
+      {
+        case CAAMoonPerigeeApogeeDetails2::Type::Apogee:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Apogee of the Moon (using CAAMoonPerigeeApogee2 algorithm %s) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", algo.second, event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        case CAAMoonPerigeeApogeeDetails2::Type::Perigee:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Perigee of the Moon (using CAAMoonPerigeeApogee2 algorithm %s) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", algo.second, event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        default:
+        {
+          break;
+        }
+      }
+    }
+  }
 
   //Print out the rise, transit and set times for the Sun for the North Pole for the year 2019 using the new CAARiseTransitSet2 class
   std::vector<CAARiseTransitSetDetails2> events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, 90, -0.8333);
@@ -1187,12 +1246,16 @@ int main()
 
   constexpr std::array<std::pair<CAAMoonMaxDeclinations2::Algorithm, const char*>, 6> algos
   { {
-    { CAAMoonMaxDeclinations2::Algorithm::MeeusTruncated,   "MeeusTruncated"   },
-    { CAAMoonMaxDeclinations2::Algorithm::ELP2000,          "ELP2000"          },
-    { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02Nominal,  "ELPMPP02Nominal"  },
+    { CAAMoonMaxDeclinations2::Algorithm::MeeusTruncated,   "MeeusTruncated"   }
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+   ,{ CAAMoonMaxDeclinations2::Algorithm::ELP2000,          "ELP2000"          }
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
+   ,{ CAAMoonMaxDeclinations2::Algorithm::ELPMPP02Nominal,  "ELPMPP02Nominal"  },
     { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02LLR,      "ELPMPP02LLR"      },
     { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02DE405,    "ELPMPP02DE405"    },
     { CAAMoonMaxDeclinations2::Algorithm::ELPMPP02DE406,    "ELPMPP02DE406"    }
+#endif //#ifndef AAPLUS_NO_ELPMPP02
   } };
 
   //Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations2
@@ -1246,7 +1309,7 @@ int main()
     constexpr const int days_in_month = 30;
     constexpr const double longitude = 6.5;
     constexpr const double latitude = 52.5;
-    for (int i = 1; i <= days_in_month; ++i)
+    for (int i=1; i<=days_in_month; ++i)
     {
       const long Day = i;
       PrintMoonIlluminationAndPhase(year, month, Day, false);
@@ -2022,7 +2085,7 @@ int main()
 
 
   //Test out the CAAEquinoxesAndSolstices class
-  for (Year = 1962; Year < 2021; Year++)
+  for (Year=1962; Year<2021; Year++)
   {
     double NorthwardEquinox = CAAEquinoxesAndSolstices::NorthwardEquinox(Year, false);
     const double NorthwardEquinox4 = CAAEquinoxesAndSolstices::NorthwardEquinox(Year, true);

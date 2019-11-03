@@ -24,14 +24,17 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AAMoonMaxDeclinations2.h"
 #include "AAMoon.h"
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
 #include "AAELP2000.h"
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
 #include "AAELPMPP02.h"
+#endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AANutation.h"
 #include "AACoordinateTransformation.h"
 #include "AAInterpolate.h"
 #include "AAPrecession.h"
 #include "AARiseTransitSet.h"
-#include <cmath>
 #include <cassert>
 using namespace std;
 
@@ -62,12 +65,15 @@ vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(double
         MoonLat = CAAMoon::EclipticLatitude(JD);
         break;
       }
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
       case Algorithm::ELP2000:
       {
         MoonLong = CAAELP2000::EclipticLongitude(JD);
         MoonLat = CAAELP2000::EclipticLatitude(JD);
         break;
       }
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
       case Algorithm::ELPMPP02Nominal:
       {
         MoonLong = CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::Nominal);
@@ -92,6 +98,7 @@ vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(double
         MoonLat = CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE406);
         break;
       }
+#endif //#ifndef AAPLUS_NO_ELPMPP02
       default:
       {
         assert(false);

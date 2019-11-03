@@ -79,12 +79,18 @@ public:
 //Enums
   enum class Algorithm
   {
-    MeeusTruncated = 0,
-    ELP2000 = 1,
+    MeeusTruncated = 0
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+    ,
+    ELP2000 = 1
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+    ,
     ELPMPP02Nominal = 2,
     ELPMPP02LLR = 3,
     ELPMPP02DE405 = 4,
     ELPMPP02DE406 = 5
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   };
 
 //Static methods

@@ -443,6 +443,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="AAMoonPerigeeApogee2.cpp" />
     <ClCompile Include="AAMoonPhases.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -707,6 +708,7 @@
     <ClInclude Include="AAMoonMaxDeclinations2.h" />
     <ClInclude Include="AAMoonNodes.h" />
     <ClInclude Include="AAMoonPerigeeApogee.h" />
+    <ClInclude Include="AAMoonPerigeeApogee2.h" />
     <ClInclude Include="AAMoonPhases.h" />
     <ClInclude Include="AAMoslemCalendar.h" />
     <ClInclude Include="AANearParabolic.h" />

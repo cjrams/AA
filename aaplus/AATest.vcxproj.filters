@@ -360,6 +360,9 @@
     <ClCompile Include="AAMoonMaxDeclinations2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AAMoonPerigeeApogee2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AA+.h">
@@ -711,6 +714,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AAMoonMaxDeclinations2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AAMoonPerigeeApogee2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
