@@ -45,6 +45,7 @@ SET ( SRCS_LIB
   AAMoonMaxDeclinations.cpp
   AAMoonMaxDeclinations2.cpp
   AAMoonNodes.cpp
+  AAMoonNodes2.cpp
   AAMoonPerigeeApogee.cpp
   AAMoonPerigeeApogee2.cpp
   AAMoonPhases.cpp

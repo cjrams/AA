@@ -657,6 +657,83 @@ int main()
   ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
+  //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes
+  for (double k=254; k<268; k++)
+  {
+    const double MoonNode1 = CAAMoonNodes::PassageThroNode(k);
+    CAADate date_time(CAADynamicalTime::TT2UTC(MoonNode1), true);
+    long year = 0;
+    long month = 0;
+    long day = 0;
+    long hour = 0;
+    long minute = 0;
+    double second = 0;
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Passage through the ascending node of the Moon (using CAAMoonNodes) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+    const double MoonNode2 = CAAMoonNodes::PassageThroNode(k + 0.5);
+    date_time = CAADate(CAADynamicalTime::TT2UTC(MoonNode2), true);
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Passage through the descending node of the Moon (using CAAMoonNodes) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+  }
+
+  constexpr std::array<std::pair<CAAMoonNodes2::Algorithm, const char*>, 6> algos3
+  { {
+    { CAAMoonNodes2::Algorithm::MeeusTruncated,   "MeeusTruncated"   }
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+   ,{ CAAMoonNodes2::Algorithm::ELP2000,          "ELP2000"          }
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
+   ,{ CAAMoonNodes2::Algorithm::ELPMPP02Nominal,  "ELPMPP02Nominal"  },
+    { CAAMoonNodes2::Algorithm::ELPMPP02LLR,      "ELPMPP02LLR"      },
+    { CAAMoonNodes2::Algorithm::ELPMPP02DE405,    "ELPMPP02DE405"    },
+    { CAAMoonNodes2::Algorithm::ELPMPP02DE406,    "ELPMPP02DE406"    }
+#endif //#ifndef AAPLUS_NO_ELPMPP02
+  } };
+
+  //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes2
+  for (const auto& algo : algos3)
+  {
+    std::vector<CAAMoonNodesDetails2> events4 = CAAMoonNodes2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first);
+    for (const auto& event : events4)
+    {
+      switch (event.type)
+      {
+        case CAAMoonNodesDetails2::Type::Ascending:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Passage through the ascending node of the Moon (using CAAMoonNodes2 algorithm %s) (UTC), %d-%d-%d %02d:%02d:%02d\n", algo.second, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        case CAAMoonNodesDetails2::Type::Descending:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Passage through the descending node of the Moon (using CAAMoonNodes2 algorithm %s) (UTC), %d-%d-%d %02d:%02d:%02d\n", algo.second, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        default:
+        {
+          break;
+        }
+      }
+    }
+  }
+
+
+
   //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee
   for (double k=252; k<266; k++)
   {
