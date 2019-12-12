@@ -43,8 +43,6 @@ vector<CAAMoonPerigeeApogeeDetails2> CAAMoonPerigeeApogee2::Calculate(double Sta
   vector<CAAMoonPerigeeApogeeDetails2> events;
 
   double JD = StartJD;
-  double LastJD0 = 0;
-  double LastJD1 = 0;
   double LastDistance0 = 0;
   double LastDistance1 = 0;
   while (JD < EndJD)
@@ -118,8 +116,6 @@ vector<CAAMoonPerigeeApogeeDetails2> CAAMoonPerigeeApogee2::Calculate(double Sta
     //Prepare for the next loop
     LastDistance1 = LastDistance0;
     LastDistance0 = MoonDistance;
-    LastJD0 = JD;
-    LastJD1 = LastJD0;
     JD += StepInterval;
   }
 

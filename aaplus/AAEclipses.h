@@ -37,13 +37,13 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAASolarEclipseDetails
 {
 public:
-//Constants
-  static const unsigned int TOTAL_ECLIPSE         = 0x01;
-  static const unsigned int ANNULAR_ECLIPSE       = 0x02;
-  static const unsigned int ANNULAR_TOTAL_ECLIPSE = 0x04;
-  static const unsigned int CENTRAL_ECLIPSE       = 0x08;
-  static const unsigned int PARTIAL_ECLIPSE       = 0x10;
-  static const unsigned int NON_CENTRAL_ECLIPSE   = 0x20;
+//Constants (used by Flags member variable)
+  static constexpr const unsigned int TOTAL_ECLIPSE         = 0x01;
+  static constexpr const unsigned int ANNULAR_ECLIPSE       = 0x02;
+  static constexpr const unsigned int ANNULAR_TOTAL_ECLIPSE = 0x04;
+  static constexpr const unsigned int CENTRAL_ECLIPSE       = 0x08;
+  static constexpr const unsigned int PARTIAL_ECLIPSE       = 0x10;
+  static constexpr const unsigned int NON_CENTRAL_ECLIPSE   = 0x20;
 
 //Constructors / Destructors
   CAASolarEclipseDetails() noexcept : Flags(0),
@@ -54,14 +54,21 @@ public:
                                       GreatestMagnitude(0)
   {
   };
+  CAASolarEclipseDetails(const CAASolarEclipseDetails&) = default;
+  CAASolarEclipseDetails(CAASolarEclipseDetails&&) = default;
+  ~CAASolarEclipseDetails() = default;
+
+//Methods
+  CAASolarEclipseDetails& operator=(const CAASolarEclipseDetails&) = default;
+  CAASolarEclipseDetails& operator=(CAASolarEclipseDetails&&) = default;
 
 //Member variables
   unsigned int Flags;
-  double       TimeOfMaximumEclipse;
-  double       F;
-  double       u;
-  double       gamma;
-  double       GreatestMagnitude;
+  double TimeOfMaximumEclipse;
+  double F;
+  double u;
+  double gamma;
+  double GreatestMagnitude;
 };
 
 
@@ -83,9 +90,16 @@ public:
                                       PartialPhasePenumbraSemiDuration(0)
   {
   };
+  CAALunarEclipseDetails(const CAALunarEclipseDetails&) = default;
+  CAALunarEclipseDetails(CAALunarEclipseDetails&&) = default;
+  ~CAALunarEclipseDetails() = default;
+
+//Methods
+  CAALunarEclipseDetails& operator=(const CAALunarEclipseDetails&) = default;
+  CAALunarEclipseDetails& operator=(CAALunarEclipseDetails&&) = default;
 
 //Member variables
-  bool   bEclipse;
+  bool bEclipse;
   double TimeOfMaximumEclipse;
   double F;
   double u;

@@ -193,7 +193,7 @@ void PrintMoonPhase(double position_angle, double phase_angle)
   }
 }
 
-void PrintMoonIlluminationAndPhase(long year, long month, long day, bool bHighPrecision)
+void PrintMoonIlluminationAndPhase(int year, int month, int day, bool bHighPrecision)
 {
   const CAADate CalcDate(year, month, day, true);
   const double JD = CalcDate.Julian();
@@ -532,76 +532,76 @@ int main()
 
   double MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(-7);
   UNREFERENCED_PARAMETER(MappedValue);
-  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(-1);
-  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(1);
-  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(2);
-  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(7);
+  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(-1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(2); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To2PIRange(7); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(-361);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(-150);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(-50);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(50);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(150);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(250);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(370);
-  MappedValue = CAACoordinateTransformation::MapTo0To360Range(770);
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(-361); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(-150); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(-50); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(50); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(150); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(250); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(370); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To360Range(770); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(-26);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(-15);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(-5);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(5);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(15);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(25);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(37);
-  MappedValue = CAACoordinateTransformation::MapTo0To24Range(77);
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(-26); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(-15); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(-5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(15); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(25); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(37); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapTo0To24Range(77); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(0);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(0.1);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(1);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(7);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(40);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(87);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(90);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(170);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(180);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(185);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(269);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(272);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(360);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(361);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-361);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-360);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-272);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-269);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-185);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-180);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-170);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-97);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-90);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-87);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-40);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-7);
-  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-1);
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(0.1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(7); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(40); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(87); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(90); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(170); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(180); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(185); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(269); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(272); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(360); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(361); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-361); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-360); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-272); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-269); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-185); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-180); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-170); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-97); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-90); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-87); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-40); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-7); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MappedValue = CAACoordinateTransformation::MapToMinus90To90Range(-1); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
 #ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   const double fLongitude = CAAELP2000::EclipticLongitude(2469000.5);
   UNREFERENCED_PARAMETER(fLongitude);
   const double fLatitude = CAAELP2000::EclipticLatitude(2469000.5);
   UNREFERENCED_PARAMETER(fLatitude);
-  double fRadius = CAAELP2000::RadiusVector(2469000.5);
+  double fRadius = CAAELP2000::RadiusVector(2469000.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
   UNREFERENCED_PARAMETER(fRadius);
   CAA3DCoordinate ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2469000.5);
   //correct values for above is ELP2000.X = -361602.98536, .Y=44996.99510, .Z=-30696.65316
   CAA3DCoordinate ELP2000FK5 = CAAELP2000::EquatorialRectangularCoordinatesFK5(2469000.5);
   ELP2000FK5 = CAAELP2000::EquatorialRectangularCoordinatesFK5(2449000.5);
   const double JDUTC = CAADynamicalTime::TT2UTC(2449000.5);
-  fRadius = CAAELP2000::RadiusVector(2449000.5);
+  fRadius = CAAELP2000::RadiusVector(2449000.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
   UNREFERENCED_PARAMETER(JDUTC);
   const double fRA = CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Y, ELP2000FK5.X)) / 15;
   UNREFERENCED_PARAMETER(fRA);
   const double fDec = CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Z, (sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y)))));
   UNREFERENCED_PARAMETER(fDec);
-  fRadius = sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y) + (ELP2000FK5.Z * ELP2000FK5.Z));
+  fRadius = sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y) + (ELP2000FK5.Z * ELP2000FK5.Z)); //NOLINT(clang-analyzer-deadcode.DeadStores)
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2449000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2429000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2409000.5);
@@ -613,21 +613,21 @@ int main()
   double fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::Correction::LLR, &fLongitudeDerivative);
   UNREFERENCED_PARAMETER(fLongitudeDerivative);
   UNREFERENCED_PARAMETER(fLongitude2);
-  fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  fLongitude2 = CAAELPMPP02::EclipticLongitude(2444239.5, CAAELPMPP02::Correction::LLR, nullptr); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double fLongitude22 = CAAELP2000::EclipticLongitude(2444239.5);
   UNREFERENCED_PARAMETER(fLongitude22);
   double fLatitudeDerivative = 0;
   double fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::Correction::LLR, &fLatitudeDerivative);
   UNREFERENCED_PARAMETER(fLatitude2);
   UNREFERENCED_PARAMETER(fLatitudeDerivative);
-  fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  fLatitude2 = CAAELPMPP02::EclipticLatitude(2444239.5, CAAELPMPP02::Correction::LLR, nullptr); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double fLatitude22 = CAAELP2000::EclipticLatitude(2444239.5);
   UNREFERENCED_PARAMETER(fLatitude22);
   double fRadiusDerivative = 0;
   double fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::Correction::LLR, &fRadiusDerivative);
   UNREFERENCED_PARAMETER(fRadius2);
   UNREFERENCED_PARAMETER(fRadiusDerivative);
-  fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::Correction::LLR, nullptr);
+  fRadius2 = CAAELPMPP02::RadiusVector(2444239.5, CAAELPMPP02::Correction::LLR, nullptr); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double fRadius22 = CAAELP2000::RadiusVector(2444239.5);
   UNREFERENCED_PARAMETER(fRadius22);
   CAA3DCoordinate ELPMPP02Derivative;
@@ -658,7 +658,7 @@ int main()
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
   //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes
-  for (double k=254; k<268; k++)
+  for (int k=254; k<268; k++)
   {
     const double MoonNode1 = CAAMoonNodes::PassageThroNode(k);
     CAADate date_time(CAADynamicalTime::TT2UTC(MoonNode1), true);
@@ -735,7 +735,7 @@ int main()
 
 
   //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee
-  for (double k=252; k<266; k++)
+  for (int k=252; k<266; k++)
   {
     const double MoonPerigee = CAAMoonPerigeeApogee::TruePerigee(k);
     const double MoonPerigeeValue = CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::PerigeeParallax(k));
@@ -749,7 +749,7 @@ int main()
     date_time.Get(year, month, day, hour, minute, second);
     printf("Perigee of the Moon (using CAAMoonPerigeeApogee) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", MoonPerigeeValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
     const double MoonApogee = CAAMoonPerigeeApogee::TrueApogee(k + 0.5);
-    const double MoonApogeeeValue = CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::ApogeeParallax(k));
+    const double MoonApogeeeValue = CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::ApogeeParallax(k)); //NOLINT(clang-analyzer-deadcode.DeadStores, clang-diagnostic-unused-variable)
     date_time = CAADate(CAADynamicalTime::TT2UTC(MoonApogee), true);
     date_time.Get(year, month, day, hour, minute, second);
     printf("Apogee of the Moon (using CAAMoonPerigeeApogee) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", MoonPerigeeValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
@@ -1301,7 +1301,7 @@ int main()
   }
 
   //Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations
-  for (double k=254; k<268; k++)
+  for (int k=254; k<268; k++)
   {
     double MoonDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(k, false);
     double MoonDecValue = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(k, false);
@@ -1381,14 +1381,11 @@ int main()
   //the location of Wexford, Ireland. Thanks to Roger Dahl for providing this 
   //nice addition to AA+
   {
-    constexpr const long year = 2012;
-    constexpr const long month = 4;
+    constexpr const int year = 2012;
+    constexpr const int month = 4;
     constexpr const int days_in_month = 30;
-    constexpr const double longitude = 6.5;
-    constexpr const double latitude = 52.5;
-    for (int i=1; i<=days_in_month; ++i)
+    for (int Day=1; Day<=days_in_month; ++Day)
     {
-      const long Day = i;
       PrintMoonIlluminationAndPhase(year, month, Day, false);
       PrintMoonIlluminationAndPhase(year, month, Day, true);
     }
@@ -1401,11 +1398,11 @@ int main()
   double UTC = CAADynamicalTime::TT2UTC(TT);
   UNREFERENCED_PARAMETER(UTC);
   TT = CAADynamicalTime::UTC2TT(2451544.5);
-  TT2 = CAADynamicalTime::UT12TT(2451544.5);
-  UTC = CAADynamicalTime::TT2UTC(TT);
+  TT2 = CAADynamicalTime::UT12TT(2451544.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UTC = CAADynamicalTime::TT2UTC(TT); //NOLINT(clang-analyzer-deadcode.DeadStores)
   TT = CAADynamicalTime::UTC2TT(2469807.5);
-  TT2 = CAADynamicalTime::UTC2TT(2469807.5);
-  UTC = CAADynamicalTime::TT2UTC(TT);
+  TT2 = CAADynamicalTime::UTC2TT(2469807.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UTC = CAADynamicalTime::TT2UTC(TT); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   /*
   //Code to write out all the JD of year values from 2012 to 2023
@@ -1511,9 +1508,9 @@ int main()
   const CAADate dateSunCalc(2007, 9, 21, true);
   const double JDSun = CAADynamicalTime::UTC2TT(dateSunCalc.Julian());
   double SunLong = CAASun::ApparentEclipticLongitude(JDSun, false);
-  double SunLong2 = CAASun::ApparentEclipticLongitude(JDSun, true);
+  double SunLong2 = CAASun::ApparentEclipticLongitude(JDSun, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double SunLat = CAASun::ApparentEclipticLatitude(JDSun, false);
-  double SunLat2 = CAASun::ApparentEclipticLatitude(JDSun, true);
+  double SunLat2 = CAASun::ApparentEclipticLatitude(JDSun, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
   CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, CAANutation::TrueObliquityOfEcliptic(JDSun));
   const double SunRad = CAAEarth::RadiusVector(JDSun, false);
   const double SunRad2 = CAAEarth::RadiusVector(JDSun, true);
@@ -1611,7 +1608,7 @@ int main()
   UNREFERENCED_PARAMETER(DayOfYear);
   const CAADate::DAY_OF_WEEK dow = date.DayOfWeek();
   UNREFERENCED_PARAMETER(dow);
-  Year = date.Year();
+  Year = date.Year(); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Month = date.Month();
   Day = date.Day();
   Hour = date.Hour();
@@ -1623,7 +1620,7 @@ int main()
   date.Set(1978, 11, 14, 0, 0, 0, true);
   const long DayNumber = static_cast<long>(date.DayOfYear());
   date.DayOfYearToDayAndMonth(DayNumber, date.Leap(), Day, Month);
-  Year = date.Year();
+  Year = date.Year(); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   //Test out the AAEaster class
   const CAAEasterDetails easterDetails = CAAEaster::Calculate(1991, true);
@@ -1635,7 +1632,7 @@ int main()
 
   //Test out the AADynamicalTime class
   date.Set(1977, 2, 18, 3, 37, 40, true);
-  double DeltaT = CAADynamicalTime::DeltaT(date.Julian());
+  double DeltaT = CAADynamicalTime::DeltaT(date.Julian()); //NOLINT(clang-analyzer-deadcode.DeadStores)
   date.Set(333, 2, 6, 6, 0, 0, false);
   DeltaT = CAADynamicalTime::DeltaT(date.Julian());
   UNREFERENCED_PARAMETER(DeltaT);
@@ -1668,7 +1665,7 @@ int main()
 
   //Test out the AASidereal class
   date.Set(1987, 4, 10, 0, 0, 0, true);
-  double MST = CAASidereal::MeanGreenwichSiderealTime(date.Julian());
+  double MST = CAASidereal::MeanGreenwichSiderealTime(date.Julian()); //NOLINT(clang-analyzer-deadcode.DeadStores)
   AST = CAASidereal::ApparentGreenwichSiderealTime(date.Julian());
   UNREFERENCED_PARAMETER(AST);
   date.Set(1987, 4, 10, 19, 21, 0, true);
@@ -1743,7 +1740,7 @@ int main()
   UNREFERENCED_PARAMETER(distance);
 
   bool bType1;
-  double separation = CAAAngularSeparation::SmallestCircle(CAACoordinateTransformation::DMSToDegrees(12, 41, 8.63), CAACoordinateTransformation::DMSToDegrees(5, 37, 54.2, false),
+  double separation = CAAAngularSeparation::SmallestCircle(CAACoordinateTransformation::DMSToDegrees(12, 41, 8.63), CAACoordinateTransformation::DMSToDegrees(5, 37, 54.2, false), //NOLINT(clang-analyzer-deadcode.DeadStores)
                                                            CAACoordinateTransformation::DMSToDegrees(12, 52, 5.21), CAACoordinateTransformation::DMSToDegrees(4, 22, 26.2, false),
                                                            CAACoordinateTransformation::DMSToDegrees(12, 39, 28.11), CAACoordinateTransformation::DMSToDegrees(1, 50, 3.7, false), bType1);
 
@@ -1895,9 +1892,9 @@ int main()
   UNREFERENCED_PARAMETER(SunLatCorrection);
 
   SunLong = CAASun::ApparentEclipticLongitude(2448908.5, false);
-  SunLong2 = CAASun::ApparentEclipticLongitude(2448908.5, true);
+  SunLong2 = CAASun::ApparentEclipticLongitude(2448908.5, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
   SunLat = CAASun::ApparentEclipticLatitude(2448908.5, false);
-  SunLat2 = CAASun::ApparentEclipticLatitude(2448908.5, true);
+  SunLat2 = CAASun::ApparentEclipticLatitude(2448908.5, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, CAANutation::TrueObliquityOfEcliptic(2448908.5));
 
   const CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesMeanEquinox(2448908.5, false);
@@ -1996,12 +1993,12 @@ int main()
   double SaturnRadius2 = CAASaturn::RadiusVector(2448972.50068, true);
   UNREFERENCED_PARAMETER(SaturnRadius2);
 
-  SaturnLong = CAASaturn::EclipticLongitude(2451385.5, false);
-  SaturnLong2 = CAASaturn::EclipticLongitude(2451385.5, true);
-  SaturnLat = CAASaturn::EclipticLatitude(2451385.5, false);
-  SaturnLat2 = CAASaturn::EclipticLatitude(2451385.5, true);
-  SaturnRadius = CAASaturn::RadiusVector(2451385.5, false);
-  SaturnRadius2 = CAASaturn::RadiusVector(2451385.5, true);
+  SaturnLong = CAASaturn::EclipticLongitude(2451385.5, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  SaturnLong2 = CAASaturn::EclipticLongitude(2451385.5, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  SaturnLat = CAASaturn::EclipticLatitude(2451385.5, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  SaturnLat2 = CAASaturn::EclipticLatitude(2451385.5, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  SaturnRadius = CAASaturn::RadiusVector(2451385.5, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  SaturnRadius2 = CAASaturn::RadiusVector(2451385.5, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
 
   //Test out the CAAPluto class
@@ -2014,8 +2011,8 @@ int main()
 
 
   //Test out the CAAMoon class
-  MoonLong = CAAMoon::EclipticLongitude(2448724.5);
-  MoonLat = CAAMoon::EclipticLatitude(2448724.5);
+  MoonLong = CAAMoon::EclipticLongitude(2448724.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonLat = CAAMoon::EclipticLatitude(2448724.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double MoonRadius = CAAMoon::RadiusVector(2448724.5);
   const double MoonParallax = CAAMoon::RadiusVectorToHorizontalParallax(MoonRadius);
   UNREFERENCED_PARAMETER(MoonParallax);
@@ -2027,9 +2024,9 @@ int main()
   UNREFERENCED_PARAMETER(MoonMeanPerigee);
 
   //Calculate the geocentric position of the moon for Midnight 12 April 1992 TT using both CAAMoon & CAAELP2000 for comparison purposes
-  MoonLong = CAAMoon::EclipticLongitude(2448724.5);
-  MoonLat = CAAMoon::EclipticLatitude(2448724.5);
-  MoonRad = CAAMoon::RadiusVector(2448724.5);
+  MoonLong = CAAMoon::EclipticLongitude(2448724.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonLat = CAAMoon::EclipticLatitude(2448724.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonRad = CAAMoon::RadiusVector(2448724.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
 #ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   CAA3DCoordinate MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2448724.5);
   double MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
@@ -2042,12 +2039,12 @@ int main()
 #endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
 
   //Calculate the geocentric position of the moon for Midnight 1 January 1900 TT using both CAAMoon & CAAELP2000 for comparison purposes
-  MoonLong = CAAMoon::EclipticLongitude(2415020.5);
-  MoonLat = CAAMoon::EclipticLatitude(2415020.5);
-  MoonRad = CAAMoon::RadiusVector(2415020.5);
+  MoonLong = CAAMoon::EclipticLongitude(2415020.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonLat = CAAMoon::EclipticLatitude(2415020.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonRad = CAAMoon::RadiusVector(2415020.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
 #ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2415020.5);
-  MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
+  MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z)); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
   MoonLat2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Z, sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y))));
   NutationInLongitude2 = CAANutation::NutationInLongitude(2415020.5);
@@ -2056,12 +2053,12 @@ int main()
 #endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
 
   //Calculate the geocentric position of the moon for Midnight 1 January 2100 TT using both CAAMoon & CAAELP2000 for comparison purposes
-  MoonLong = CAAMoon::EclipticLongitude(2488069.5);
-  MoonLat = CAAMoon::EclipticLatitude(2488069.5);
-  MoonRad = CAAMoon::RadiusVector(2488069.5);
+  MoonLong = CAAMoon::EclipticLongitude(2488069.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonLat = CAAMoon::EclipticLatitude(2488069.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonRad = CAAMoon::RadiusVector(2488069.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
 #ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
   MoonELP = CAAELP2000::EclipticRectangularCoordinatesJ2000(2488069.5);
-  MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z));
+  MoonRad2 = sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y) + (MoonELP.Z * MoonELP.Z)); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonLong2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Y, MoonELP.X));
   MoonLat2 = CAACoordinateTransformation::RadiansToDegrees(atan2(MoonELP.Z, sqrt((MoonELP.X * MoonELP.X) + (MoonELP.Y * MoonELP.Y))));
   NutationInLongitude2 = CAANutation::NutationInLongitude(2488069.5);
@@ -2090,7 +2087,7 @@ int main()
   const double UranusAphelion = CAAPlanetPerihelionAphelion::UranusAphelion(UranusK);
   UNREFERENCED_PARAMETER(UranusAphelion);
   UranusK = CAAPlanetPerihelionAphelion::UranusK(1890);
-  double UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK);
+  double UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK); //NOLINT(clang-analyzer-deadcode.DeadStores)
   UranusK = CAAPlanetPerihelionAphelion::UranusK(2060);
   UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK);
   UNREFERENCED_PARAMETER(UranusPerihelion);
@@ -2110,14 +2107,14 @@ int main()
   double MoonApogeeParallax = CAAMoonPerigeeApogee::ApogeeParallax(-148.5);
   double MoonApogeeDistance = CAAMoon::HorizontalParallaxToRadiusVector(MoonApogeeParallax);
   UNREFERENCED_PARAMETER(MoonApogeeDistance);
-  MoonK = CAAMoonPerigeeApogee::K(2015 + 9.0/12);
+  MoonK = CAAMoonPerigeeApogee::K(2015 + 9.0/12); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonApogee = CAAMoonPerigeeApogee::MeanApogee(208.5); //Corresponds to Moon Apogee around September 2015
-  MoonApogee = CAADynamicalTime::TT2UTC(MoonApogee);
+  MoonApogee = CAADynamicalTime::TT2UTC(MoonApogee); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonApogee2 = CAAMoonPerigeeApogee::TrueApogee(208.5);
-  MoonApogee2 = CAADynamicalTime::TT2UTC(MoonApogee2);
+  MoonApogee2 = CAADynamicalTime::TT2UTC(MoonApogee2); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonApogeeParallax = CAAMoonPerigeeApogee::ApogeeParallax(208.5);
-  MoonApogeeDistance = CAAMoon::HorizontalParallaxToRadiusVector(MoonApogeeParallax);
-  MoonK = CAAMoonPerigeeApogee::K(1990.9);
+  MoonApogeeDistance = CAAMoon::HorizontalParallaxToRadiusVector(MoonApogeeParallax); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonK = CAAMoonPerigeeApogee::K(1990.9); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double MoonPerigee = CAAMoonPerigeeApogee::MeanPerigee(-120);
   UNREFERENCED_PARAMETER(MoonPerigee);
   const double MoonPerigee2 = CAAMoonPerigeeApogee::TruePerigee(-120);
@@ -2265,36 +2262,36 @@ int main()
     UNREFERENCED_PARAMETER(SeasonLength2);
     printf("Spring (for a northern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfSummer(Year, true, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfSummer(Year, true, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfSummer(Year, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Summer (for a northern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfAutumn(Year, true, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfAutumn(Year, true, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfAutumn(Year, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Autumn/Fall (for a northern Hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfWinter(Year, true, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfWinter(Year, true, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfWinter(Year, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Winter (for a northern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfSpring(Year, false, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfSpring(Year, false, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfSpring(Year, false, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Spring (for a southern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfSummer(Year, false, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfSummer(Year, false, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfSummer(Year, false, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Summer (for a southern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfAutumn(Year, false, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfAutumn(Year, false, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfAutumn(Year, false, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Autumn/Fall (for a southern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
     SeasonLength = CAAEquinoxesAndSolstices::LengthOfWinter(Year, false, false);
-    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfWinter(Year, false, true);
+    SeasonLength2 = CAAEquinoxesAndSolstices::LengthOfWinter(Year, false, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
     printf("Winter (for a southern hemisphere observer) in %d is %f days\n", static_cast<int>(Year), SeasonLength);
   }
 
-  double SpringLength2 = CAAEquinoxesAndSolstices::LengthOfSpring(-2000, true, false);
-  double SpringLength3 = CAAEquinoxesAndSolstices::LengthOfSpring(-2000, true, true);
-  double SummerLength2 = CAAEquinoxesAndSolstices::LengthOfSummer(-2000, true, false);
-  double SummerLength3 = CAAEquinoxesAndSolstices::LengthOfSummer(-2000, true, true);
-  double AutumnLength2 = CAAEquinoxesAndSolstices::LengthOfAutumn(-2000, true, false);
-  double AutumnLength3 = CAAEquinoxesAndSolstices::LengthOfAutumn(-2000, true, true);
-  double WinterLength2 = CAAEquinoxesAndSolstices::LengthOfWinter(-2000, true, false);
-  double WinterLength3 = CAAEquinoxesAndSolstices::LengthOfWinter(-2000, true, true);
+  double SpringLength2 = CAAEquinoxesAndSolstices::LengthOfSpring(-2000, true, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double SpringLength3 = CAAEquinoxesAndSolstices::LengthOfSpring(-2000, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double SummerLength2 = CAAEquinoxesAndSolstices::LengthOfSummer(-2000, true, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double SummerLength3 = CAAEquinoxesAndSolstices::LengthOfSummer(-2000, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double AutumnLength2 = CAAEquinoxesAndSolstices::LengthOfAutumn(-2000, true, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double AutumnLength3 = CAAEquinoxesAndSolstices::LengthOfAutumn(-2000, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double WinterLength2 = CAAEquinoxesAndSolstices::LengthOfWinter(-2000, true, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double WinterLength3 = CAAEquinoxesAndSolstices::LengthOfWinter(-2000, true, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
   SpringLength2 = CAAEquinoxesAndSolstices::LengthOfSpring(4000, true, false);
   UNREFERENCED_PARAMETER(SpringLength2);
   SpringLength3 = CAAEquinoxesAndSolstices::LengthOfSpring(4000, true, true);
@@ -2318,7 +2315,7 @@ int main()
   UNREFERENCED_PARAMETER(Mer_L);
   double Mer_a = CAAElementsPlanetaryOrbit::MercurySemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Mer_a);
-  Mer_a = CAAElementsPlanetaryOrbit::MercurySemimajorAxis(2451545);
+  Mer_a = CAAElementsPlanetaryOrbit::MercurySemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Mer_e = CAAElementsPlanetaryOrbit::MercuryEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Mer_e);
   const double Mer_i = CAAElementsPlanetaryOrbit::MercuryInclination(2475460.5);
@@ -2332,10 +2329,10 @@ int main()
   UNREFERENCED_PARAMETER(Ven_L);
   double Ven_a = CAAElementsPlanetaryOrbit::VenusSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Ven_a);
-  Ven_a = CAAElementsPlanetaryOrbit::VenusSemimajorAxis(2451545);
+  Ven_a = CAAElementsPlanetaryOrbit::VenusSemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Ven_e = CAAElementsPlanetaryOrbit::VenusEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Ven_e);
-  Ven_e = CAAElementsPlanetaryOrbit::VenusEccentricity(2451545);
+  Ven_e = CAAElementsPlanetaryOrbit::VenusEccentricity(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Ven_i = CAAElementsPlanetaryOrbit::VenusInclination(2475460.5);
   UNREFERENCED_PARAMETER(Ven_i);
   const double Ven_omega = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNode(2475460.5);
@@ -2349,7 +2346,7 @@ int main()
   UNREFERENCED_PARAMETER(Ea_a);
   Ea_a = CAAElementsPlanetaryOrbit::EarthSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Ea_a);
-  double Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2475460.5);
+  double Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2475460.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2451545);
   UNREFERENCED_PARAMETER(Ea_e);
   constexpr const double Ea_i = CAAElementsPlanetaryOrbit::EarthInclination(2475460.5);
@@ -2361,10 +2358,10 @@ int main()
   UNREFERENCED_PARAMETER(Mars_L);
   double Mars_a = CAAElementsPlanetaryOrbit::MarsSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Mars_a);
-  Mars_a = CAAElementsPlanetaryOrbit::MarsSemimajorAxis(2451545);
+  Mars_a = CAAElementsPlanetaryOrbit::MarsSemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Mars_e = CAAElementsPlanetaryOrbit::MarsEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Mars_e);
-  Mars_e = CAAElementsPlanetaryOrbit::MarsEccentricity(2451545);
+  Mars_e = CAAElementsPlanetaryOrbit::MarsEccentricity(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Mars_i = CAAElementsPlanetaryOrbit::MarsInclination(2475460.5);
   UNREFERENCED_PARAMETER(Mars_i);
   const double Mars_omega = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNode(2475460.5);
@@ -2376,10 +2373,10 @@ int main()
   UNREFERENCED_PARAMETER(Jup_L);
   double Jup_a = CAAElementsPlanetaryOrbit::JupiterSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Jup_a);
-  Jup_a = CAAElementsPlanetaryOrbit::JupiterSemimajorAxis(2451545);
+  Jup_a = CAAElementsPlanetaryOrbit::JupiterSemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Jup_e = CAAElementsPlanetaryOrbit::JupiterEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Jup_e);
-  Jup_e = CAAElementsPlanetaryOrbit::JupiterEccentricity(2451545);
+  Jup_e = CAAElementsPlanetaryOrbit::JupiterEccentricity(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Jup_i = CAAElementsPlanetaryOrbit::JupiterInclination(2475460.5);
   UNREFERENCED_PARAMETER(Jup_i);
   const double Jup_omega = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNode(2475460.5);
@@ -2391,10 +2388,10 @@ int main()
   UNREFERENCED_PARAMETER(Sat_L);
   double Sat_a = CAAElementsPlanetaryOrbit::SaturnSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Sat_a);
-  Sat_a = CAAElementsPlanetaryOrbit::SaturnSemimajorAxis(2451545);
+  Sat_a = CAAElementsPlanetaryOrbit::SaturnSemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Sat_e = CAAElementsPlanetaryOrbit::SaturnEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Sat_e);
-  Sat_e = CAAElementsPlanetaryOrbit::SaturnEccentricity(2451545);
+  Sat_e = CAAElementsPlanetaryOrbit::SaturnEccentricity(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Sat_i = CAAElementsPlanetaryOrbit::SaturnInclination(2475460.5);
   UNREFERENCED_PARAMETER(Sat_i);
   const double Sat_omega = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNode(2475460.5);
@@ -2406,10 +2403,10 @@ int main()
   UNREFERENCED_PARAMETER(Ura_L);
   double Ura_a = CAAElementsPlanetaryOrbit::UranusSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Ura_a);
-  Ura_a = CAAElementsPlanetaryOrbit::UranusSemimajorAxis(2451545);
+  Ura_a = CAAElementsPlanetaryOrbit::UranusSemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Ura_e = CAAElementsPlanetaryOrbit::UranusEccentricity(2475460.5);
   UNREFERENCED_PARAMETER(Ura_e);
-  Ura_e = CAAElementsPlanetaryOrbit::UranusEccentricity(2451545);
+  Ura_e = CAAElementsPlanetaryOrbit::UranusEccentricity(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Ura_i = CAAElementsPlanetaryOrbit::UranusInclination(2475460.5);
   UNREFERENCED_PARAMETER(Ura_i);
   const double Ura_omega = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNode(2475460.5);
@@ -2421,8 +2418,8 @@ int main()
   UNREFERENCED_PARAMETER(Nep_L);
   double Nep_a = CAAElementsPlanetaryOrbit::NeptuneSemimajorAxis(2475460.5);
   UNREFERENCED_PARAMETER(Nep_a);
-  Nep_a = CAAElementsPlanetaryOrbit::NeptuneSemimajorAxis(2451545);
-  double Nep_e = CAAElementsPlanetaryOrbit::NeptuneEccentricity(2475460.5);
+  Nep_a = CAAElementsPlanetaryOrbit::NeptuneSemimajorAxis(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double Nep_e = CAAElementsPlanetaryOrbit::NeptuneEccentricity(2475460.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Nep_e = CAAElementsPlanetaryOrbit::NeptuneEccentricity(2451545);
   UNREFERENCED_PARAMETER(Nep_e);
   const double Nep_i = CAAElementsPlanetaryOrbit::NeptuneInclination(2475460.5);
@@ -2435,99 +2432,99 @@ int main()
 
   double Mer_L2 = CAAElementsPlanetaryOrbit::MercuryMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_L2);
-  Mer_L2 = CAAElementsPlanetaryOrbit::MercuryMeanLongitudeJ2000(2451545);
+  Mer_L2 = CAAElementsPlanetaryOrbit::MercuryMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Mer_i2 = CAAElementsPlanetaryOrbit::MercuryInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_i2);
   double Mer_omega2 = CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_omega2);
-  Mer_omega2 = CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNodeJ2000(2451545);
+  Mer_omega2 = CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Mer_pi2 = CAAElementsPlanetaryOrbit::MercuryLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mer_pi2);
-  Mer_pi2 = CAAElementsPlanetaryOrbit::MercuryLongitudePerihelionJ2000(2451545);
+  Mer_pi2 = CAAElementsPlanetaryOrbit::MercuryLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Ven_L2 = CAAElementsPlanetaryOrbit::VenusMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_L2);
-  Ven_L2 = CAAElementsPlanetaryOrbit::VenusMeanLongitudeJ2000(2451545);
+  Ven_L2 = CAAElementsPlanetaryOrbit::VenusMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Ven_i2 = CAAElementsPlanetaryOrbit::VenusInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_i2);
   double Ven_omega2 = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_omega2);
-  Ven_omega2 = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNodeJ2000(2451545);
+  Ven_omega2 = CAAElementsPlanetaryOrbit::VenusLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Ven_pi2 = CAAElementsPlanetaryOrbit::VenusLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ven_pi2);
-  Ven_pi2 = CAAElementsPlanetaryOrbit::VenusLongitudePerihelionJ2000(2451545);
+  Ven_pi2 = CAAElementsPlanetaryOrbit::VenusLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Ea_L2 = CAAElementsPlanetaryOrbit::EarthMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_L2);
-  Ea_L2 = CAAElementsPlanetaryOrbit::EarthMeanLongitudeJ2000(2451545);
+  Ea_L2 = CAAElementsPlanetaryOrbit::EarthMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Ea_i2 = CAAElementsPlanetaryOrbit::EarthInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_i2);
   double Ea_omega2 = CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_omega2);
-  Ea_omega2 = CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000(2451545);
+  Ea_omega2 = CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Ea_pi2 = CAAElementsPlanetaryOrbit::EarthLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ea_pi2);
-  Ea_pi2 = CAAElementsPlanetaryOrbit::EarthLongitudePerihelionJ2000(2451545);
+  Ea_pi2 = CAAElementsPlanetaryOrbit::EarthLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Mars_L2 = CAAElementsPlanetaryOrbit::MarsMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_L2);
-  Mars_L2 = CAAElementsPlanetaryOrbit::MarsMeanLongitudeJ2000(2451545);
+  Mars_L2 = CAAElementsPlanetaryOrbit::MarsMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Mars_i2 = CAAElementsPlanetaryOrbit::MarsInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_i2);
   double Mars_omega2 = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_omega2);
-  Mars_omega2 = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNodeJ2000(2451545);
+  Mars_omega2 = CAAElementsPlanetaryOrbit::MarsLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Mars_pi2 = CAAElementsPlanetaryOrbit::MarsLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Mars_pi2);
-  Mars_pi2 = CAAElementsPlanetaryOrbit::MarsLongitudePerihelionJ2000(2451545);
+  Mars_pi2 = CAAElementsPlanetaryOrbit::MarsLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Jup_L2 = CAAElementsPlanetaryOrbit::JupiterMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_L2);
-  Jup_L2 = CAAElementsPlanetaryOrbit::JupiterMeanLongitudeJ2000(2451545);
+  Jup_L2 = CAAElementsPlanetaryOrbit::JupiterMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Jup_i2 = CAAElementsPlanetaryOrbit::JupiterInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_i2);
   double Jup_omega2 = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_omega2);
-  Jup_omega2 = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNodeJ2000(2451545);
+  Jup_omega2 = CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Jup_pi2 = CAAElementsPlanetaryOrbit::JupiterLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Jup_pi2);
-  Jup_pi2 = CAAElementsPlanetaryOrbit::JupiterLongitudePerihelionJ2000(2451545);
+  Jup_pi2 = CAAElementsPlanetaryOrbit::JupiterLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Sat_L2 = CAAElementsPlanetaryOrbit::SaturnMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_L2);
-  Sat_L2 = CAAElementsPlanetaryOrbit::SaturnMeanLongitudeJ2000(2451545);
+  Sat_L2 = CAAElementsPlanetaryOrbit::SaturnMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Sat_i2 = CAAElementsPlanetaryOrbit::SaturnInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_i2);
   double Sat_omega2 = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_omega2);
-  Sat_omega2 = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNodeJ2000(2451545);
+  Sat_omega2 = CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Sat_pi2 = CAAElementsPlanetaryOrbit::SaturnLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Sat_pi2);
-  Sat_pi2 = CAAElementsPlanetaryOrbit::SaturnLongitudePerihelionJ2000(2451545);
+  Sat_pi2 = CAAElementsPlanetaryOrbit::SaturnLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Ura_L2 = CAAElementsPlanetaryOrbit::UranusMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_L2);
-  Ura_L2 = CAAElementsPlanetaryOrbit::UranusMeanLongitudeJ2000(2451545);
+  Ura_L2 = CAAElementsPlanetaryOrbit::UranusMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Ura_i2 = CAAElementsPlanetaryOrbit::UranusInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_i2);
   double Ura_omega2 = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_omega2);
-  Ura_omega2 = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNodeJ2000(2451545);
+  Ura_omega2 = CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Ura_pi2 = CAAElementsPlanetaryOrbit::UranusLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Ura_pi2);
-  Ura_pi2 = CAAElementsPlanetaryOrbit::UranusLongitudePerihelionJ2000(2451545);
+  Ura_pi2 = CAAElementsPlanetaryOrbit::UranusLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   double Nep_L2 = CAAElementsPlanetaryOrbit::NeptuneMeanLongitudeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_L2);
-  Nep_L2 = CAAElementsPlanetaryOrbit::NeptuneMeanLongitudeJ2000(2451545);
+  Nep_L2 = CAAElementsPlanetaryOrbit::NeptuneMeanLongitudeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   const double Nep_i2 = CAAElementsPlanetaryOrbit::NeptuneInclinationJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_i2);
   double Nep_omega2 = CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNodeJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_omega2);
-  Nep_omega2 = CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNodeJ2000(2451545);
+  Nep_omega2 = CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNodeJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double Nep_pi2 = CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelionJ2000(2475460.5);
   UNREFERENCED_PARAMETER(Nep_pi2);
-  Nep_pi2 = CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelionJ2000(2451545);
+  Nep_pi2 = CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelionJ2000(2451545); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   const double MoonGeocentricElongation = CAAMoonIlluminatedFraction::GeocentricElongation(8.97922, 13.7684, 1.377194, 8.6964);
   const double MoonPhaseAngle = CAAMoonIlluminatedFraction::PhaseAngle(MoonGeocentricElongation, 368410, 149971520);
@@ -2984,13 +2981,13 @@ int main()
   const double NewMoonJD = CAAMoonPhases::TruePhase(-283);
   UNREFERENCED_PARAMETER(NewMoonJD);
 
-  ApproxK = CAAMoonPhases::K(1952.88);
+  ApproxK = CAAMoonPhases::K(1952.88); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double LastQuarterJD = CAAMoonPhases::TruePhase(-583 + 0.75);
   UNREFERENCED_PARAMETER(LastQuarterJD);
 
   constexpr const double ApproxK2 = CAAMoonPhases::K(2044);
   UNREFERENCED_PARAMETER(ApproxK2);
-  LastQuarterJD = CAAMoonPhases::TruePhase(544.75);
+  LastQuarterJD = CAAMoonPhases::TruePhase(544.75); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   constexpr const double MoonDeclinationK = CAAMoonMaxDeclinations::K(1988.95);
   UNREFERENCED_PARAMETER(MoonDeclinationK);
@@ -3156,7 +3153,7 @@ int main()
   EclipseDetails4 = CAAEclipses::CalculateLunar(-28.5); //Aha, found you!
 
   printf("Calculating Solar eclipse details from 1903 to 2080\n");
-  for (double K=-1200; K<1000; K++)
+  for (int K=-1200; K<1000; K++)
   {
     EclipseDetails = CAAEclipses::CalculateSolar(K);
     if (EclipseDetails.Flags)
@@ -3205,9 +3202,9 @@ int main()
   UNREFERENCED_PARAMETER(GregorianDate2);
 
   const CAACalendarDate JewishDate = CAAJewishCalendar::DateOfPesach(1990);
-  bLeap = CAAJewishCalendar::IsLeap(JewishDate.Year);
-  bLeap = CAAJewishCalendar::IsLeap(5751);
-  long DaysInJewishYear = CAAJewishCalendar::DaysInYear(JewishDate.Year);
+  bLeap = CAAJewishCalendar::IsLeap(JewishDate.Year); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  bLeap = CAAJewishCalendar::IsLeap(5751); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  long DaysInJewishYear = CAAJewishCalendar::DaysInYear(JewishDate.Year); //NOLINT(clang-analyzer-deadcode.DeadStores)
   DaysInJewishYear = CAAJewishCalendar::DaysInYear(5751);
   UNREFERENCED_PARAMETER(DaysInJewishYear);
 

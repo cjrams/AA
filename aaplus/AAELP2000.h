@@ -42,15 +42,15 @@ to maintain a single distribution point for the source code.
 
 struct AAPLUS_EXT_CLASS ELP2000MainProblemCoefficient
 {
-  int    m_I[4];
+  int m_I[4];
   double m_A;
   double m_B[6];
 };
 
 struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient
 {
-  int    m_IZ;
-  int    m_I[4];
+  int m_IZ;
+  int m_I[4];
   double m_O;
   double m_A;
   double m_P;
@@ -58,7 +58,7 @@ struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoeffi
 
 struct AAPLUS_EXT_CLASS ELP2000PlanetPertCoefficient
 {
-  int    m_ip[11];
+  int m_ip[11];
   double m_theta;
   double m_O;
   double m_P;

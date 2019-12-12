@@ -43,7 +43,14 @@ public:
                                     Rho(0)
   {
   };
-  
+  CAABinaryStarDetails(const CAABinaryStarDetails&) = default;
+  CAABinaryStarDetails(CAABinaryStarDetails&&) = default;
+  ~CAABinaryStarDetails() = default;
+
+//Methods
+  CAABinaryStarDetails& operator=(const CAABinaryStarDetails&) = default;
+  CAABinaryStarDetails& operator=(CAABinaryStarDetails&&) = default;
+
 //Member variables
   double r;
   double Theta;

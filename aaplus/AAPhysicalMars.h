@@ -47,6 +47,13 @@ public:
                                       d(0)
   {
   };
+  CAAPhysicalMarsDetails(const CAAPhysicalMarsDetails&) = default;
+  CAAPhysicalMarsDetails(CAAPhysicalMarsDetails&&) = default;
+  ~CAAPhysicalMarsDetails() = default;
+
+//Methods
+  CAAPhysicalMarsDetails& operator=(const CAAPhysicalMarsDetails&) = default;
+  CAAPhysicalMarsDetails& operator=(CAAPhysicalMarsDetails&&) = default;
 
 //Member variables
   double DE;

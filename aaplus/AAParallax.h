@@ -48,6 +48,14 @@ public:
                                              Semidiameter(0)
   {
   };
+  CAATopocentricEclipticDetails(const CAATopocentricEclipticDetails&) = default;
+  CAATopocentricEclipticDetails(CAATopocentricEclipticDetails&&) = default;
+  ~CAATopocentricEclipticDetails() = default;
+
+//Methods
+  CAATopocentricEclipticDetails& operator=(const CAATopocentricEclipticDetails&) = default;
+  CAATopocentricEclipticDetails& operator=(CAATopocentricEclipticDetails&&) = default;
+
 
 //Member variables
   double Lambda;

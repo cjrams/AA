@@ -51,6 +51,13 @@ public:
                                           T(0)
   {
   };
+  CAAParabolicObjectElements(const CAAParabolicObjectElements&) = default;
+  CAAParabolicObjectElements(CAAParabolicObjectElements&&) = default;
+  ~CAAParabolicObjectElements() = default;
+
+//Methods
+  CAAParabolicObjectElements& operator=(const CAAParabolicObjectElements&) = default;
+  CAAParabolicObjectElements& operator=(CAAParabolicObjectElements&&) = default;
 
 //Member variables
   double q; 
@@ -79,6 +86,13 @@ public:
                                          PhaseAngle(0)
   {
   };
+  CAAParabolicObjectDetails(const CAAParabolicObjectDetails&) = default;
+  CAAParabolicObjectDetails(CAAParabolicObjectDetails&&) = default;
+  ~CAAParabolicObjectDetails() = default;
+
+//Methods
+  CAAParabolicObjectDetails& operator=(const CAAParabolicObjectDetails&) = default;
+  CAAParabolicObjectDetails& operator=(CAAParabolicObjectDetails&&) = default;
 
 //Member variables
   CAA3DCoordinate HeliocentricRectangularEquatorial;

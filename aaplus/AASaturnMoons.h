@@ -49,14 +49,21 @@ public:
                                    bInShadowTransit(false)
   {
   };
+  CAASaturnMoonDetail(const CAASaturnMoonDetail&) = default;
+  CAASaturnMoonDetail(CAASaturnMoonDetail&&) = default;
+  ~CAASaturnMoonDetail() = default;
+
+//Methods
+  CAASaturnMoonDetail& operator=(const CAASaturnMoonDetail&) = default;
+  CAASaturnMoonDetail& operator=(CAASaturnMoonDetail&&) = default;
 
 //Member variables
   CAA3DCoordinate TrueRectangularCoordinates;
   CAA3DCoordinate ApparentRectangularCoordinates;
-  bool            bInTransit;
-  bool            bInOccultation;
-  bool            bInEclipse;
-  bool            bInShadowTransit;
+  bool bInTransit;
+  bool bInOccultation;
+  bool bInEclipse;
+  bool bInShadowTransit;
 };
 
 class AAPLUS_EXT_CLASS CAASaturnMoonsDetails

@@ -43,6 +43,13 @@ public:
                                      L0(0)
   {
   };
+  CAAPhysicalSunDetails(const CAAPhysicalSunDetails&) = default;
+  CAAPhysicalSunDetails(CAAPhysicalSunDetails&&) = default;
+  ~CAAPhysicalSunDetails() = default;
+
+//Methods
+  CAAPhysicalSunDetails& operator=(const CAAPhysicalSunDetails&) = default;
+  CAAPhysicalSunDetails& operator=(CAAPhysicalSunDetails&&) = default;
 
 //Member variables
   double P;

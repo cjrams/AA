@@ -48,6 +48,13 @@ public:
                                     radius(0)
   {
   };
+  CAANodeObjectDetails(const CAANodeObjectDetails&) = default;
+  CAANodeObjectDetails(CAANodeObjectDetails&&) = default;
+  ~CAANodeObjectDetails() = default;
+
+//Methods
+  CAANodeObjectDetails& operator=(const CAANodeObjectDetails&) = default;
+  CAANodeObjectDetails& operator=(CAANodeObjectDetails&&) = default;
 
 //Member variables
   double t;

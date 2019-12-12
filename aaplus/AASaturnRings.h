@@ -48,6 +48,13 @@ public:
                                     U2(0)
   {
   };
+  CAASaturnRingDetails(const CAASaturnRingDetails&) = default;
+  CAASaturnRingDetails(CAASaturnRingDetails&&) = default;
+  ~CAASaturnRingDetails() = default;
+
+//Methods
+  CAASaturnRingDetails& operator=(const CAASaturnRingDetails&) = default;
+  CAASaturnRingDetails& operator=(CAASaturnRingDetails&&) = default;
 
 //Member variables
   double B;

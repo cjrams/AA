@@ -47,14 +47,21 @@ public:
                                         Set(0)
   {
   };
+  CAARiseTransitSetDetails(const CAARiseTransitSetDetails&) = default;
+  CAARiseTransitSetDetails(CAARiseTransitSetDetails&&) = default;
+  ~CAARiseTransitSetDetails() = default;
+
+//Methods
+  CAARiseTransitSetDetails& operator=(const CAARiseTransitSetDetails&) = default;
+  CAARiseTransitSetDetails& operator=(CAARiseTransitSetDetails&&) = default;
 
 //Member variables
-  bool   bRiseValid;
+  bool bRiseValid;
   double Rise;
-  bool   bTransitValid;
-  bool   bTransitAboveHorizon;
+  bool bTransitValid;
+  bool bTransitAboveHorizon;
   double Transit;
-  bool   bSetValid;
+  bool bSetValid;
   double Set;
 };
 

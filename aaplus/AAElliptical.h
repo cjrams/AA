@@ -52,9 +52,16 @@ public:
                                            T(0)
   {
   };
+  CAAEllipticalObjectElements(const CAAEllipticalObjectElements&) = default;
+  CAAEllipticalObjectElements(CAAEllipticalObjectElements&&) = default;
+  ~CAAEllipticalObjectElements() = default;
 
-//member variables
-  double a; 
+//Methods
+  CAAEllipticalObjectElements& operator=(const CAAEllipticalObjectElements&) = default;
+  CAAEllipticalObjectElements& operator=(CAAEllipticalObjectElements&&) = default;
+
+//Member variables
+  double a;
   double e;
   double i;
   double w;
@@ -67,14 +74,21 @@ class AAPLUS_EXT_CLASS CAAEllipticalPlanetaryDetails
 {
 public:
 //Constructors / Destructors
-  CAAEllipticalPlanetaryDetails() noexcept : ApparentGeocentricLongitude(0), 
+  CAAEllipticalPlanetaryDetails() noexcept : ApparentGeocentricLongitude(0),
                                              ApparentGeocentricLatitude(0),
-                                             ApparentGeocentricDistance(0), 
+                                             ApparentGeocentricDistance(0),
                                              ApparentLightTime(0),
-                                             ApparentGeocentricRA(0), 
-                                             ApparentGeocentricDeclination(0) 
+                                             ApparentGeocentricRA(0),
+                                             ApparentGeocentricDeclination(0)
   {
   };
+  CAAEllipticalPlanetaryDetails(const CAAEllipticalPlanetaryDetails&) = default;
+  CAAEllipticalPlanetaryDetails(CAAEllipticalPlanetaryDetails&&) = default;
+  ~CAAEllipticalPlanetaryDetails() = default;
+
+//Methods
+  CAAEllipticalPlanetaryDetails& operator=(const CAAEllipticalPlanetaryDetails&) = default;
+  CAAEllipticalPlanetaryDetails& operator=(CAAEllipticalPlanetaryDetails&&) = default;
 
 //Member variables
   double ApparentGeocentricLongitude;
@@ -103,6 +117,13 @@ public:
                                           PhaseAngle(0)
   {
   };
+  CAAEllipticalObjectDetails(const CAAEllipticalObjectDetails&) = default;
+  CAAEllipticalObjectDetails(CAAEllipticalObjectDetails&&) = default;
+  ~CAAEllipticalObjectDetails() = default;
+
+//Methods
+  CAAEllipticalObjectDetails& operator=(const CAAEllipticalObjectDetails&) = default;
+  CAAEllipticalObjectDetails& operator=(CAAEllipticalObjectDetails&&) = default;
 
 //Member variables
   CAA3DCoordinate HeliocentricRectangularEquatorial;

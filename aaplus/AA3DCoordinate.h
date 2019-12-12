@@ -43,8 +43,15 @@ public:
                                Z(0)
   {
   };
+  CAA3DCoordinate(const CAA3DCoordinate&) = default;
+  CAA3DCoordinate(CAA3DCoordinate&&) = default;
+  ~CAA3DCoordinate() = default;
 
-//member variables
+//Methods
+  CAA3DCoordinate& operator=(const CAA3DCoordinate&) = default;
+  CAA3DCoordinate& operator=(CAA3DCoordinate&&) = default;
+
+//Member variables
   double X;
   double Y;
   double Z;

@@ -45,11 +45,9 @@ public:
   static double MeanLongitudeAscendingNode(double JD) noexcept;
   static double MeanLongitudePerigee(double JD) noexcept;
   static double TrueLongitudeAscendingNode(double JD) noexcept;
-
   static double EclipticLongitude(double JD) noexcept;
   static double EclipticLatitude(double JD) noexcept;
   static double RadiusVector(double JD) noexcept;
-
   static double RadiusVectorToHorizontalParallax(double RadiusVector) noexcept;
   static double HorizontalParallaxToRadiusVector(double Parallax) noexcept;
 };

@@ -43,8 +43,8 @@ class AAPLUS_EXT_CLASS CAAFK5
 {
 public:
 //Static methods
-  static double          CorrectionInLongitude(double Longitude, double Latitude, double JD) noexcept;
-  static double          CorrectionInLatitude(double Longitude, double JD) noexcept;
+  static double CorrectionInLongitude(double Longitude, double Latitude, double JD) noexcept;
+  static double CorrectionInLatitude(double Longitude, double JD) noexcept;
   static CAA3DCoordinate ConvertVSOPToFK5J2000(const CAA3DCoordinate& value) noexcept;
   static CAA3DCoordinate ConvertVSOPToFK5B1950(const CAA3DCoordinate& value) noexcept;
   static CAA3DCoordinate ConvertVSOPToFK5AnyEquinox(const CAA3DCoordinate& value, double JDEquinox) noexcept;

@@ -54,19 +54,26 @@ public:
                                      bInShadowTransit(false)
   {
   };
+  CAAGalileanMoonDetail(const CAAGalileanMoonDetail&) = default;
+  CAAGalileanMoonDetail(CAAGalileanMoonDetail&&) = default;
+  ~CAAGalileanMoonDetail() = default;
+
+//Methods
+  CAAGalileanMoonDetail& operator=(const CAAGalileanMoonDetail&) = default;
+  CAAGalileanMoonDetail& operator=(CAAGalileanMoonDetail&&) = default;
 
 //Member variables
-  double          MeanLongitude;
-  double          TrueLongitude;
-  double          TropicalLongitude;
-  double          EquatorialLatitude;
-  double          r;
+  double MeanLongitude;
+  double TrueLongitude;
+  double TropicalLongitude;
+  double EquatorialLatitude;
+  double r;
   CAA3DCoordinate TrueRectangularCoordinates;
   CAA3DCoordinate ApparentRectangularCoordinates;
-  bool            bInTransit;
-  bool            bInOccultation;
-  bool            bInEclipse;
-  bool            bInShadowTransit;
+  bool bInTransit;
+  bool bInOccultation;
+  bool bInEclipse;
+  bool bInShadowTransit;
 };
 
 class AAPLUS_EXT_CLASS CAAGalileanMoonsDetails

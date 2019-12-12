@@ -42,6 +42,13 @@ public:
                                 Day(0)
   {
   };
+  CAAEasterDetails(const CAAEasterDetails&) = default;
+  CAAEasterDetails(CAAEasterDetails&&) = default;
+  ~CAAEasterDetails() = default;
+
+//Methods
+  CAAEasterDetails& operator=(const CAAEasterDetails&) = default;
+  CAAEasterDetails& operator=(CAAEasterDetails&&) = default;
 
 //Member variables
   long Month;

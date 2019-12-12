@@ -42,6 +42,13 @@ public:
                                Y(0)
   {
   };
+  CAA2DCoordinate(const CAA2DCoordinate&) = default;
+  CAA2DCoordinate(CAA2DCoordinate&&) = default;
+  ~CAA2DCoordinate() = default;
+
+//Methods
+  CAA2DCoordinate& operator=(const CAA2DCoordinate&) = default;
+  CAA2DCoordinate& operator=(CAA2DCoordinate&&) = default;
 
 //Member variables
   double X;

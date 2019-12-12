@@ -52,6 +52,13 @@ public:
                                       P(0)
   {
   };
+  CAAPhysicalMoonDetails(const CAAPhysicalMoonDetails&) = default;
+  CAAPhysicalMoonDetails(CAAPhysicalMoonDetails&&) = default;
+  ~CAAPhysicalMoonDetails() = default;
+
+//Methods
+  CAAPhysicalMoonDetails& operator=(const CAAPhysicalMoonDetails&) = default;
+  CAAPhysicalMoonDetails& operator=(CAAPhysicalMoonDetails&&) = default;
 
 //Member variables
   double ldash;
@@ -72,6 +79,13 @@ public:
                                            c0(0)
   {
   };
+  CAASelenographicMoonDetails(const CAASelenographicMoonDetails&) = default;
+  CAASelenographicMoonDetails(CAASelenographicMoonDetails&&) = default;
+  ~CAASelenographicMoonDetails() = default;
+
+//Methods
+  CAASelenographicMoonDetails& operator=(const CAASelenographicMoonDetails&) = default;
+  CAASelenographicMoonDetails& operator=(CAASelenographicMoonDetails&&) = default;
 
 //Member variables
   double l0;

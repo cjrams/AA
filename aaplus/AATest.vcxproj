@@ -660,7 +660,7 @@
     <ClCompile Include="AAVSOP87_SAT.cpp" />
     <ClCompile Include="AAVSOP87_URA.cpp" />
     <ClCompile Include="AAVSOP87_VEN.cpp" />
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="stdafx.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -790,7 +790,7 @@
     <ClInclude Include="AAVSOP87_SAT.h" />
     <ClInclude Include="AAVSOP87_URA.h" />
     <ClInclude Include="AAVSOP87_VEN.h" />
-    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

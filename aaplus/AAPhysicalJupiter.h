@@ -47,6 +47,13 @@ public:
                                          P(0)
   {
   };
+  CAAPhysicalJupiterDetails(const CAAPhysicalJupiterDetails&) = default;
+  CAAPhysicalJupiterDetails(CAAPhysicalJupiterDetails&&) = default;
+  ~CAAPhysicalJupiterDetails() = default;
+
+//Methods
+  CAAPhysicalJupiterDetails& operator=(const CAAPhysicalJupiterDetails&) = default;
+  CAAPhysicalJupiterDetails& operator=(CAAPhysicalJupiterDetails&&) = default;
 
 //Member variables
   double DE;

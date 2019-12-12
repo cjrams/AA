@@ -43,6 +43,13 @@ public:
                                            omega(0)
   {
   };
+  CAAEclipticalElementDetails(const CAAEclipticalElementDetails&) = default;
+  CAAEclipticalElementDetails(CAAEclipticalElementDetails&&) = default;
+  ~CAAEclipticalElementDetails() = default;
+
+//Methods
+  CAAEclipticalElementDetails& operator=(const CAAEclipticalElementDetails&) = default;
+  CAAEclipticalElementDetails& operator=(CAAEclipticalElementDetails&&) = default;
 
 //Member variables
   double i;

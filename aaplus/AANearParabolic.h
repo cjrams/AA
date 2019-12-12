@@ -52,9 +52,16 @@ public:
                                               e(1.0)
   {
   };
+  CAANearParabolicObjectElements(const CAANearParabolicObjectElements&) = default;
+  CAANearParabolicObjectElements(CAANearParabolicObjectElements&&) = default;
+  ~CAANearParabolicObjectElements() = default;
+
+//Methods
+  CAANearParabolicObjectElements& operator=(const CAANearParabolicObjectElements&) = default;
+  CAANearParabolicObjectElements& operator=(CAANearParabolicObjectElements&&) = default;
 
 //Member variables
-  double q; 
+  double q;
   double i;
   double w;
   double omega;
@@ -81,6 +88,13 @@ public:
                                              PhaseAngle(0)
   {
   };
+  CAANearParabolicObjectDetails(const CAANearParabolicObjectDetails&) = default;
+  CAANearParabolicObjectDetails(CAANearParabolicObjectDetails&&) = default;
+  ~CAANearParabolicObjectDetails() = default;
+
+//Methods
+  CAANearParabolicObjectDetails& operator=(const CAANearParabolicObjectDetails&) = default;
+  CAANearParabolicObjectDetails& operator=(CAANearParabolicObjectDetails&&) = default;
 
 //Member variables
   CAA3DCoordinate HeliocentricRectangularEquatorial;
