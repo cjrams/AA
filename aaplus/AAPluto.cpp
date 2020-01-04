@@ -9,7 +9,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the PlutoCoefficient1 struc
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAPluto.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

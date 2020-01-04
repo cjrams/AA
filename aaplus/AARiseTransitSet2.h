@@ -3,7 +3,7 @@ Module : AARiseTransitSet2.h
 Purpose: Implementation for the algorithms which obtain the Rise, Transit and Set times (revised version)
 Created: PJN / 29-12-2003
 
-Copyright (c) 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

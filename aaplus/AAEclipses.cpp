@@ -10,7 +10,7 @@ History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated onl
                           in Meeus's book on Pages 381 & 382. Thanks to "Pavel" for providing this nice addition.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

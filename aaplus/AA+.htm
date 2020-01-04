@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.11</title>
+<title>AA+ v2.12</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.11</h2>
+<h2>AA+ v2.12</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -93,6 +93,11 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.12 (1 January 2020)</b></p>
+<ul>
+	<li>Addition of a new CAAMoonPhases2 class. </li>
+	<li>Updated copyright details.</li>
+</ul>
 <p><b>v2.11 (10 December 2019)</b></p>
 <ul>
 	<li>Fixed various Clang-Tidy static code analysis warnings in the code.</li>
@@ -1448,6 +1453,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p><b><a href="#CAAMoonPerigeeApogee">CAAMoonPerigeeApogee</a></b></p>
 <p><b><a href="#CAAMoonPerigeeApogee2">CAAMoonPerigeeApogee2</a></b></p>
 <p><b><a href="#CAAMoonPhases">CAAMoonPhases</a></b></p>
+<p><b><a href="#CAAMoonPhases2">CAAMoonPhases2</a></b></p>
 <p><b><a href="#CAAMoslemCalendar">CAAMoslemCalendar</a></b></p>
 <p><b><a href="#CAANearParabolic">CAANearParabolic</a></b></p>
 <p><b><a href="#CAANeptune">CAANeptune</a></b></p>
@@ -5069,6 +5075,39 @@ for calculation of the specified phase.</p>
 <p>Returns the date in Dynamical time when the specified true moon phase occurs.</p>
 <p><b>Parameters</b></p>
 <p><i>k</i> The K value to calculate the phase for.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b><a name="CAAMoonPhases2"></a>CAAMoonPhases2</b></p>
+<p>This class uses interpolation to calculate the same details as those provided with the existing
+<a href="#CAAMoonPhases">CAAMoonPhases</a> class.</p>
+<p>&nbsp;</p>
+<p><b>Functions this class provides include:</b></p>
+<p><a href="#CAAMoonPhases2_Calculate">Calculate</a></p>
+<p>&nbsp;</p>
+<p><b><a name="CAAMoonPhases2_Calculate"></a>CAAMoonPhases2::Calculate</b></p>
+<p><b>static std::vector&lt;CAAMoonPhasesDetails2&gt; Calculate(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
+<em>StepInterval</em> <b>= 0.007</b>, <b>Algorithm </b><em>
+algorithm</em> <b>= Algorithm::MeeusTruncated)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be NewMoon, FirstQuarter, FullMoon or LastQuarter</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy.</p>
+<p><em>Algorithm </em>An enum class representing the algorithm to use for the calculation. Can be 
+MeeusTruncated which represents the truncated ELP2000 algorithm presented in the 
+book, ELP2000 which uses the full ELP2000 algorithm, ELPMPP02Nominal which uses 
+the ELPMPP02 Nominal fit, ELPMPP02LLR which uses the ELPMPP02 Lunar Laser 
+Ranging fit, ELPMPP02DE405 which uses the ELPMPP02 DE405 fit and ELPMPP02DE406 
+which uses the ELPMPP02 DE406 fit.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoslemCalendar"></a>CAAMoslemCalendar</b></p>
@@ -9813,8 +9852,8 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>10 
-December 2019</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>1 January 
+2020</p>
 
 </body>
 

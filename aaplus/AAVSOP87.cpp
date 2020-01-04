@@ -5,7 +5,7 @@ Created: PJN / 26-08-2015
 History: PJN / 28-08-2015 1. Initial public release.
          PJN / 08-06-2019 1. Updated the code to clean compile on VC 2019
 
-Copyright (c) 2015 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

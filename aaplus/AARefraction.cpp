@@ -7,7 +7,7 @@ History: PJN / 26-11-2010 1. CAARefraction::RefractionFromApparent now returns a
                           2. CAARefraction::RefractionFromTrue now returns a constant refraction value for all 
                           altitudes below a certain limit. Thanks to mehrzad khoddam for prompting this update.
 
-Copyright (c) 2003 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

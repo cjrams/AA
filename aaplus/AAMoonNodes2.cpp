@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms which obtain the dates when the Moon 
 Created: PJN / 16-11-2019
 History: PJN / 16-11-2019 1. Initial implementation
 
-Copyright (c) 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

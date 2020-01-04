@@ -3,7 +3,7 @@ Module : AAMoslemCalendar.h
 Purpose: Implementation for the algorithms which convert between the Julian and Moslem calendars
 Created: PJN / 04-02-2004
 
-Copyright (c) 2004 - 2019 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

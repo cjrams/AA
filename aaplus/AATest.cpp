@@ -167,16 +167,16 @@ void PrintMoonPhase(double position_angle, double phase_angle)
     //round left + addition right
     DrawFilledEllipse(buf, buf_w, center_x, center_y, radius_w, radius_h, true, false, true);
     DrawFilledEllipse(buf, buf_w, center_x, center_y,
-      static_cast<int>(radius_w * sin(MapRange(M_PI_2, 0.0f, 180.0f, 270.0f, phase))), radius_h,
-      false, true, true);
+                      static_cast<int>(radius_w * sin(MapRange(M_PI_2, 0.0f, 180.0f, 270.0f, phase))), radius_h,
+                      false, true, true);
   }
   else
   {
     //round left + cut out left
     DrawFilledEllipse(buf, buf_w, center_x, center_y, radius_w, radius_h, true, false, true);
     DrawFilledEllipse(buf, buf_w, center_x, center_y,
-      static_cast<int>(radius_w * sin(MapRange(0.0f, M_PI_2, 270.0f, 360.0f, phase))), radius_h,
-      true, false, false);
+                      static_cast<int>(radius_w * sin(MapRange(0.0f, M_PI_2, 270.0f, 360.0f, phase))), radius_h,
+                      true, false, false);
   }
 
   for (int y=0; y<buf_h; ++y)
@@ -657,6 +657,118 @@ int main()
   ELPMPP02 = CAAELPMPP02::EclipticRectangularCoordinatesJ2000(2452239.5, CAAELPMPP02::Correction::Nominal, &ELPMPP02Derivative);
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
+  //Calculate the Moon's phase for 2019 using CAAMoonPhases
+  for (int k=235; k<248; k++)
+  {
+    const double NewMoon = CAAMoonPhases::TruePhase(k);
+    CAADate date_time(CAADynamicalTime::TT2UTC(NewMoon), true);
+    long year = 0;
+    long month = 0;
+    long day = 0;
+    long hour = 0;
+    long minute = 0;
+    double second = 0;
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("New Moon (using CAAMoonPhases) (UTC) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+    const double FirstQuarter = CAAMoonPhases::TruePhase(k + 0.25);
+    date_time = CAADate(CAADynamicalTime::TT2UTC(FirstQuarter), true);
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("First Quarter Moon (using CAAMoonPhases) (UTC) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+    const double FullMoon = CAAMoonPhases::TruePhase(k + 0.5);
+    date_time = CAADate(CAADynamicalTime::TT2UTC(FullMoon), true);
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Full Moon (using CAAMoonPhases) (UTC) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+    const double LastQuarter = CAAMoonPhases::TruePhase(k + 0.75);
+    date_time = CAADate(CAADynamicalTime::TT2UTC(LastQuarter), true);
+    date_time.Get(year, month, day, hour, minute, second);
+    printf("Last Quarter Moon (using CAAMoonPhases) (UTC) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+  }
+
+  constexpr std::array<std::pair<CAAMoonPhases2::Algorithm, const char*>, 6> algos4
+  { {
+    { CAAMoonPhases2::Algorithm::MeeusTruncated,   "MeeusTruncated"   }
+#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+   ,{ CAAMoonPhases2::Algorithm::ELP2000,          "ELP2000"          }
+#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELPMPP02
+   ,{ CAAMoonPhases2::Algorithm::ELPMPP02Nominal,  "ELPMPP02Nominal"  },
+    { CAAMoonPhases2::Algorithm::ELPMPP02LLR,      "ELPMPP02LLR"      },
+    { CAAMoonPhases2::Algorithm::ELPMPP02DE405,    "ELPMPP02DE405"    },
+    { CAAMoonPhases2::Algorithm::ELPMPP02DE406,    "ELPMPP02DE406"    }
+#endif //#ifndef AAPLUS_NO_ELPMPP02
+  } };
+
+  //Calculate the Moon's phases for 2019 using CAAMoonPhases2
+  for (const auto& algo : algos4)
+  {
+    std::vector<CAAMoonPhasesDetails2> events4 = CAAMoonPhases2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first);
+    for (const auto& event : events4)
+    {
+      switch (event.type)
+      {
+        case CAAMoonPhasesDetails2::Type::NewMoon:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("New Moon (using CAAMoonPhases2 algorithm %s) (UTC) %d-%d-%d %02d:%02d:%02d\n", algo.second, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        case CAAMoonPhasesDetails2::Type::FirstQuarter:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("First Quarter Moon (using CAAMoonPhases2 algorithm %s) (UTC) %d-%d-%d %02d:%02d:%02d\n", algo.second, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        case CAAMoonPhasesDetails2::Type::FullMoon:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Full Moon (using CAAMoonPhases2 algorithm %s) (UTC) %d-%d-%d %02d:%02d:%02d\n", algo.second, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        case CAAMoonPhasesDetails2::Type::LastQuarter:
+        {
+          const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
+          long year = 0;
+          long month = 0;
+          long day = 0;
+          long hour = 0;
+          long minute = 0;
+          double second = 0;
+          date_time.Get(year, month, day, hour, minute, second);
+          printf("Last Quarter Moon (using CAAMoonPhases2 algorithm %s) (UTC) %d-%d-%d %02d:%02d:%02d\n", algo.second, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          break;
+        }
+        default:
+        {
+          break;
+        }
+      }
+    }
+  }
+
   //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes
   for (int k=254; k<268; k++)
   {
@@ -731,8 +843,6 @@ int main()
       }
     }
   }
-
-
 
   //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee
   for (int k=252; k<266; k++)

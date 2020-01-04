@@ -49,6 +49,7 @@ SET ( SRCS_LIB
   AAMoonPerigeeApogee.cpp
   AAMoonPerigeeApogee2.cpp
   AAMoonPhases.cpp
+  AAMoonPhases2.cpp
   AAMoslemCalendar.cpp
   AANearParabolic.cpp
   AANeptune.cpp
