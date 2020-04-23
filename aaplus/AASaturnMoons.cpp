@@ -177,7 +177,7 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   double Crad = CAACoordinateTransformation::DegreesToRadians(C);
   const double lambda1 = CAACoordinateTransformation::MapTo0To360Range(L + C);
   const double r1 = 3.06879/(1 + 0.01905*cos(Mrad + Crad));
-  constexpr const double gamma1 = 1.563;
+  constexpr double gamma1 = 1.563;
   const double omega1 = CAACoordinateTransformation::MapTo0To360Range(54.5 - 365.072*t2);
 
   //Satellite 2
@@ -189,13 +189,13 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   Crad = CAACoordinateTransformation::DegreesToRadians(C);
   const double lambda2 = CAACoordinateTransformation::MapTo0To360Range(L + C);
   const double r2 = 3.94118/(1 + 0.00485*cos(Mrad + Crad));
-  constexpr const double gamma2 = 0.0262;
+  constexpr double gamma2 = 0.0262;
   const double omega2 = CAACoordinateTransformation::MapTo0To360Range(348 - 151.95*t2);
 
   //Satellite 3
   const double lambda3 = CAACoordinateTransformation::MapTo0To360Range(285.306 + 190.69791226*t1 + 2.063*sin(W0rad) + 0.03409*sin(3*W0rad) + 0.001015*sin(5*W0rad));
-  constexpr const double r3 = 4.880998;
-  constexpr const double gamma3 = 1.0976;
+  constexpr double r3 = 4.880998;
+  constexpr double gamma3 = 1.0976;
   const double omega3 = CAACoordinateTransformation::MapTo0To360Range(111.33 - 72.2441*t2);
 
   //Satellite 4
@@ -207,7 +207,7 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   Crad = CAACoordinateTransformation::DegreesToRadians(C);
   const double lambda4 = CAACoordinateTransformation::MapTo0To360Range(L + C);
   const double r4 = 6.24871/(1 + 0.002157*cos(Mrad + Crad));
-  constexpr const double gamma4 = 0.0139;
+  constexpr double gamma4 = 0.0139;
   const double omega4 = CAACoordinateTransformation::MapTo0To360Range(232 - 30.27*t2);
 
   //Satellite 5
@@ -361,21 +361,21 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
 
   u = CAACoordinateTransformation::DegreesToRadians(lambda2 - omega2);
   w = CAACoordinateTransformation::DegreesToRadians(omega2 - 168.8112);
-  constexpr const double gamma2rad = CAACoordinateTransformation::DegreesToRadians(gamma2);
+  constexpr double gamma2rad = CAACoordinateTransformation::DegreesToRadians(gamma2);
   const double X2 = r2*(cos(u)*cos(w) - sin(u)*cos(gamma2rad)*sin(w));
   const double Y2 = r2*(sin(u)*cos(w)*cos(gamma2rad) + cos(u)*sin(w));
   const double Z2 = r2*sin(u)*sin(gamma2rad);
 
   u = CAACoordinateTransformation::DegreesToRadians(lambda3 - omega3);
   w = CAACoordinateTransformation::DegreesToRadians(omega3 - 168.8112);
-  constexpr const double gamma3rad = CAACoordinateTransformation::DegreesToRadians(gamma3);
+  constexpr double gamma3rad = CAACoordinateTransformation::DegreesToRadians(gamma3);
   const double X3 = r3*(cos(u)*cos(w) - sin(u)*cos(gamma3rad)*sin(w));
   const double Y3 = r3*(sin(u)*cos(w)*cos(gamma3rad) + cos(u)*sin(w));
   const double Z3 = r3*sin(u)*sin(gamma3rad);
 
   u = CAACoordinateTransformation::DegreesToRadians(lambda4 - omega4);
   w = CAACoordinateTransformation::DegreesToRadians(omega4 - 168.8112);
-  constexpr const double gamma4rad = CAACoordinateTransformation::DegreesToRadians(gamma4);
+  constexpr double gamma4rad = CAACoordinateTransformation::DegreesToRadians(gamma4);
   const double X4 = r4*(cos(u)*cos(w) - sin(u)*cos(gamma4rad)*sin(w));
   const double Y4 = r4*(sin(u)*cos(w)*cos(gamma4rad) + cos(u)*sin(w));
   const double Z4 = r4*sin(u)*sin(gamma4rad);
@@ -408,9 +408,9 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   const double Y8 = r8*(sin(u)*cos(w)*cos(gamma8rad) + cos(u)*sin(w));
   const double Z8 = r8*sin(u)*sin(gamma8rad);
 
-  constexpr const double X9 = 0;
-  constexpr const double Y9 = 0;
-  constexpr const double Z9 = 1;
+  constexpr double X9 = 0;
+  constexpr double Y9 = 0;
+  constexpr double Z9 = 1;
 
   //Now do the rotations, first for the ficticious 9th satellite, so that we can calculate D
   double A4 = 0;

@@ -55,7 +55,7 @@ double CAANearParabolic::cbrt(double x) noexcept
 
 void CAANearParabolic::CalculateTrueAnnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r) noexcept
 {
-  constexpr const double k = 0.01720209895;
+  constexpr double k = 0.01720209895;
   const double a = 0.75 * (JD - elements.T) * k * sqrt((1 + elements.e) / (elements.q*elements.q*elements.q));
   const double b = sqrt(1 + a*a);
   const double W = cbrt(b + a) - cbrt(b - a);

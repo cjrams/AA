@@ -38,12 +38,12 @@ class AAPLUS_EXT_CLASS CAASolarEclipseDetails
 {
 public:
 //Constants (used by Flags member variable)
-  static constexpr const unsigned int TOTAL_ECLIPSE         = 0x01;
-  static constexpr const unsigned int ANNULAR_ECLIPSE       = 0x02;
-  static constexpr const unsigned int ANNULAR_TOTAL_ECLIPSE = 0x04;
-  static constexpr const unsigned int CENTRAL_ECLIPSE       = 0x08;
-  static constexpr const unsigned int PARTIAL_ECLIPSE       = 0x10;
-  static constexpr const unsigned int NON_CENTRAL_ECLIPSE   = 0x20;
+  static constexpr unsigned int TOTAL_ECLIPSE         = 0x01;
+  static constexpr unsigned int ANNULAR_ECLIPSE       = 0x02;
+  static constexpr unsigned int ANNULAR_TOTAL_ECLIPSE = 0x04;
+  static constexpr unsigned int CENTRAL_ECLIPSE       = 0x08;
+  static constexpr unsigned int PARTIAL_ECLIPSE       = 0x10;
+  static constexpr unsigned int NON_CENTRAL_ECLIPSE   = 0x20;
 
 //Constructors / Destructors
   CAASolarEclipseDetails() noexcept : Flags(0),

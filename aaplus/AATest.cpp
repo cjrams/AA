@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #define _USE_MATH_DEFINES
 #include "AA+.h"
+#include "AADefines.h"
 #include <cstdio>
 #include <cmath>
 #include <memory.h>
@@ -8,11 +9,6 @@
 #include <vector>
 #include <array>
 using namespace std;
-
-
-#ifndef UNREFERENCED_PARAMETER
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
-#endif //#ifndef UNREFERENCED_PARAMETER
 
 
 #ifdef _MSC_VER
@@ -140,15 +136,15 @@ void PrintMoonPhase(double position_angle, double phase_angle)
   //270 degrees = last quarter (left half illuminated)
   const double phase(position_angle < 180 ? phase_angle + 180 : 180 - phase_angle);
 
-  constexpr const int buf_w = 80;
-  constexpr const int buf_h = 40;
+  constexpr int buf_w = 80;
+  constexpr int buf_h = 40;
   vector<char> buf;
   buf.assign(buf_w * buf_h, ' ');
 
-  constexpr const int center_x = buf_w / 2;
-  constexpr const int center_y = buf_h / 2;
-  constexpr const int radius_w = (buf_w - 1) / 2;
-  constexpr const int radius_h = (buf_h - 1) / 2;
+  constexpr int center_x = buf_w / 2;
+  constexpr int center_y = buf_h / 2;
+  constexpr int radius_w = (buf_w - 1) / 2;
+  constexpr int radius_h = (buf_h - 1) / 2;
 
   if (phase < 90)
   {
@@ -862,7 +858,7 @@ int main()
     const double MoonApogeeeValue = CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::ApogeeParallax(k)); //NOLINT(clang-analyzer-deadcode.DeadStores, clang-diagnostic-unused-variable)
     date_time = CAADate(CAADynamicalTime::TT2UTC(MoonApogee), true);
     date_time.Get(year, month, day, hour, minute, second);
-    printf("Apogee of the Moon (using CAAMoonPerigeeApogee) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", MoonPerigeeValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+    printf("Apogee of the Moon (using CAAMoonPerigeeApogee) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", MoonApogeeeValue, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
   }
 
   constexpr std::array<std::pair<CAAMoonPerigeeApogee2::Algorithm, const char*>, 6> algos2
@@ -1491,9 +1487,9 @@ int main()
   //the location of Wexford, Ireland. Thanks to Roger Dahl for providing this 
   //nice addition to AA+
   {
-    constexpr const int year = 2012;
-    constexpr const int month = 4;
-    constexpr const int days_in_month = 30;
+    constexpr int year = 2012;
+    constexpr int month = 4;
+    constexpr int days_in_month = 30;
     for (int Day=1; Day<=days_in_month; ++Day)
     {
       PrintMoonIlluminationAndPhase(year, month, Day, false);
@@ -1547,7 +1543,7 @@ int main()
     {
       TT = CAADynamicalTime::UTC2TT(JDUT1);
       TT2 = CAADynamicalTime::UT12TT(JDUT1);
-      const CAADate date(JDUT1, true);
+      const CAADate date(JDUT1, CAADate::AfterPapalReform(JDUT1));
       long year = 0;
       long month = 0;
       long Day = 0;
@@ -1555,7 +1551,7 @@ int main()
       long Minute = 0;
       double Second = 0;
       date.Get(year, month, Day, Hour, Minute, Second);
-      printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", year, month, Day, JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
+      printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(Day), JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
 
       //Prepare for the next loop
       JDUT1 += 10;
@@ -2178,11 +2174,11 @@ int main()
 
 
   //Test out the CAAPlanetPerihelionAphelion class
-  constexpr const long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
+  constexpr long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
   const double VenusPerihelion = CAAPlanetPerihelionAphelion::VenusPerihelion(VenusK);
   UNREFERENCED_PARAMETER(VenusPerihelion);
 
-  constexpr const long MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
+  constexpr long MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
   const double MarsAphelion = CAAPlanetPerihelionAphelion::MarsAphelion(MarsK);
   UNREFERENCED_PARAMETER(MarsAphelion);
 
@@ -2459,7 +2455,7 @@ int main()
   double Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2475460.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Ea_e = CAAElementsPlanetaryOrbit::EarthEccentricity(2451545);
   UNREFERENCED_PARAMETER(Ea_e);
-  constexpr const double Ea_i = CAAElementsPlanetaryOrbit::EarthInclination(2475460.5);
+  constexpr double Ea_i = CAAElementsPlanetaryOrbit::EarthInclination(2475460.5);
   UNREFERENCED_PARAMETER(Ea_i);
   const double Ea_pi = CAAElementsPlanetaryOrbit::EarthLongitudePerihelion(2475460.5);
   UNREFERENCED_PARAMETER(Ea_pi);
@@ -2756,7 +2752,7 @@ int main()
   UNREFERENCED_PARAMETER(nodedetails5);
 
 
-  constexpr const double MoonK2 = CAAMoonNodes::K(1987.37);
+  constexpr double MoonK2 = CAAMoonNodes::K(1987.37);
   UNREFERENCED_PARAMETER(MoonK2);
   const double MoonJD = CAAMoonNodes::PassageThroNode(-170);
   UNREFERENCED_PARAMETER(MoonJD);
@@ -2787,7 +2783,7 @@ int main()
   const double N05 = CAAInterpolate::Zero2(-13, -2, 3, 2, -5);
   UNREFERENCED_PARAMETER(N05);
 
-  constexpr const double Y3 = CAAInterpolate::InterpolateToHalves(1128.732, 1402.835, 1677.247, 1951.983);
+  constexpr double Y3 = CAAInterpolate::InterpolateToHalves(1128.732, 1402.835, 1677.247, 1951.983);
   UNREFERENCED_PARAMETER(Y3);
 
   vector<double> X1 = { 29.43, 30.97, 27.69, 28.11, 31.58, 33.05 };
@@ -2816,9 +2812,9 @@ int main()
   PrintBostonRiseTransitSetTimesSirius();
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
-  constexpr const int YYYY = 2009;
-  constexpr const int MM = 8;
-  constexpr const int DD = 11;
+  constexpr int YYYY = 2009;
+  constexpr int MM = 8;
+  constexpr int DD = 11;
   const CAADate CalcDate(YYYY, MM, DD, true);
   const double JD2 = CalcDate.Julian();
 #ifdef _MSC_VER
@@ -2954,7 +2950,7 @@ int main()
                                                                                              CAACoordinateTransformation::DMSToDegrees(50, 5, 7.8), 0, 2452879.150858);
   UNREFERENCED_PARAMETER(TopocentricDetails);
 
-  constexpr const double k = CAAIlluminatedFraction::IlluminatedFraction(0.724604, 0.983824, 0.910947);
+  constexpr double k = CAAIlluminatedFraction::IlluminatedFraction(0.724604, 0.983824, 0.910947);
   UNREFERENCED_PARAMETER(k);
   const double pa1 = CAAIlluminatedFraction::PhaseAngle(0.724604, 0.983824, 0.910947);
   UNREFERENCED_PARAMETER(pa1);
@@ -3095,11 +3091,11 @@ int main()
   double LastQuarterJD = CAAMoonPhases::TruePhase(-583 + 0.75);
   UNREFERENCED_PARAMETER(LastQuarterJD);
 
-  constexpr const double ApproxK2 = CAAMoonPhases::K(2044);
+  constexpr double ApproxK2 = CAAMoonPhases::K(2044);
   UNREFERENCED_PARAMETER(ApproxK2);
   LastQuarterJD = CAAMoonPhases::TruePhase(544.75); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
-  constexpr const double MoonDeclinationK = CAAMoonMaxDeclinations::K(1988.95);
+  constexpr double MoonDeclinationK = CAAMoonMaxDeclinations::K(1988.95);
   UNREFERENCED_PARAMETER(MoonDeclinationK);
 
   const double MoonNorthDec = CAAMoonMaxDeclinations::TrueGreatestDeclination(-148, true);
@@ -3117,63 +3113,63 @@ int main()
   const double MoonNorthDecValue2 = CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(-26788, true);
   UNREFERENCED_PARAMETER(MoonNorthDecValue2);
 
-  constexpr const double sd1 = CAADiameters::SunSemidiameterA(1);
+  constexpr double sd1 = CAADiameters::SunSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd1);
-  constexpr const double sd2 = CAADiameters::SunSemidiameterA(2);
+  constexpr double sd2 = CAADiameters::SunSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd2);
 
-  constexpr const double sd3 = CAADiameters::VenusSemidiameterA(1);
+  constexpr double sd3 = CAADiameters::VenusSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd3);
-  constexpr const double sd4 = CAADiameters::VenusSemidiameterA(2);
+  constexpr double sd4 = CAADiameters::VenusSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd4);
-  constexpr const double sd5 = CAADiameters::VenusSemidiameterB(1);
+  constexpr double sd5 = CAADiameters::VenusSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd5);
-  constexpr const double sd6 = CAADiameters::VenusSemidiameterB(2);
+  constexpr double sd6 = CAADiameters::VenusSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd6);
 
-  constexpr const double sd11 = CAADiameters::MarsSemidiameterA(1);
+  constexpr double sd11 = CAADiameters::MarsSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd11);
-  constexpr const double sd12 = CAADiameters::MarsSemidiameterA(2);
+  constexpr double sd12 = CAADiameters::MarsSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd12);
-  constexpr const double sd13 = CAADiameters::MarsSemidiameterB(1);
+  constexpr double sd13 = CAADiameters::MarsSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd13);
-  constexpr const double sd14 = CAADiameters::MarsSemidiameterB(2);
+  constexpr double sd14 = CAADiameters::MarsSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd14);
 
-  constexpr const double sd15 = CAADiameters::JupiterEquatorialSemidiameterA(1);
+  constexpr double sd15 = CAADiameters::JupiterEquatorialSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd15);
-  constexpr const double sd16 = CAADiameters::JupiterEquatorialSemidiameterA(2);
+  constexpr double sd16 = CAADiameters::JupiterEquatorialSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd16);
-  constexpr const double sd17 = CAADiameters::JupiterEquatorialSemidiameterB(1);
+  constexpr double sd17 = CAADiameters::JupiterEquatorialSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd17);
-  constexpr const double sd18 = CAADiameters::JupiterEquatorialSemidiameterB(2);
+  constexpr double sd18 = CAADiameters::JupiterEquatorialSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd18);
 
-  constexpr const double sd19 = CAADiameters::JupiterPolarSemidiameterA(1);
+  constexpr double sd19 = CAADiameters::JupiterPolarSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd19);
-  constexpr const double sd20 = CAADiameters::JupiterPolarSemidiameterA(2);
+  constexpr double sd20 = CAADiameters::JupiterPolarSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd20);
-  constexpr const double sd21 = CAADiameters::JupiterPolarSemidiameterB(1);
+  constexpr double sd21 = CAADiameters::JupiterPolarSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd21);
-  constexpr const double sd22 = CAADiameters::JupiterPolarSemidiameterB(2);
+  constexpr double sd22 = CAADiameters::JupiterPolarSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd22);
 
-  constexpr const double sd23 = CAADiameters::SaturnEquatorialSemidiameterA(1);
+  constexpr double sd23 = CAADiameters::SaturnEquatorialSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd23);
-  constexpr const double sd24 = CAADiameters::SaturnEquatorialSemidiameterA(2);
+  constexpr double sd24 = CAADiameters::SaturnEquatorialSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd24);
-  constexpr const double sd25 = CAADiameters::SaturnEquatorialSemidiameterB(1);
+  constexpr double sd25 = CAADiameters::SaturnEquatorialSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd25);
-  constexpr const double sd26 = CAADiameters::SaturnEquatorialSemidiameterB(2);
+  constexpr double sd26 = CAADiameters::SaturnEquatorialSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd26);
 
-  constexpr const double sd27 = CAADiameters::SaturnPolarSemidiameterA(1);
+  constexpr double sd27 = CAADiameters::SaturnPolarSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd27);
-  constexpr const double sd28 = CAADiameters::SaturnPolarSemidiameterA(2);
+  constexpr double sd28 = CAADiameters::SaturnPolarSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd28);
-  constexpr const double sd29 = CAADiameters::SaturnPolarSemidiameterB(1);
+  constexpr double sd29 = CAADiameters::SaturnPolarSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd29);
-  constexpr const double sd30 = CAADiameters::SaturnPolarSemidiameterB(2);
+  constexpr double sd30 = CAADiameters::SaturnPolarSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd30);
 
   const double sd31 = CAADiameters::ApparentSaturnPolarSemidiameterA(1, 16.442);
@@ -3181,31 +3177,31 @@ int main()
   const double sd32 = CAADiameters::ApparentSaturnPolarSemidiameterA(2, 16.442);
   UNREFERENCED_PARAMETER(sd32);
 
-  constexpr const double sd33 = CAADiameters::UranusSemidiameterA(1);
+  constexpr double sd33 = CAADiameters::UranusSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd33);
-  constexpr const double sd34 = CAADiameters::UranusSemidiameterA(2);
+  constexpr double sd34 = CAADiameters::UranusSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd34);
-  constexpr const double sd35 = CAADiameters::UranusSemidiameterB(1);
+  constexpr double sd35 = CAADiameters::UranusSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd35);
-  constexpr const double sd36 = CAADiameters::UranusSemidiameterB(2);
+  constexpr double sd36 = CAADiameters::UranusSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd36);
 
-  constexpr const double sd37 = CAADiameters::NeptuneSemidiameterA(1);
+  constexpr double sd37 = CAADiameters::NeptuneSemidiameterA(1);
   UNREFERENCED_PARAMETER(sd37);
-  constexpr const double sd38 = CAADiameters::NeptuneSemidiameterA(2);
+  constexpr double sd38 = CAADiameters::NeptuneSemidiameterA(2);
   UNREFERENCED_PARAMETER(sd38);
-  constexpr const double sd39 = CAADiameters::NeptuneSemidiameterB(1);
+  constexpr double sd39 = CAADiameters::NeptuneSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd39);
-  constexpr const double sd40 = CAADiameters::NeptuneSemidiameterB(2);
+  constexpr double sd40 = CAADiameters::NeptuneSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd40);
 
-  constexpr const double sd41 = CAADiameters::PlutoSemidiameterB(1);
+  constexpr double sd41 = CAADiameters::PlutoSemidiameterB(1);
   UNREFERENCED_PARAMETER(sd41);
-  constexpr const double sd42 = CAADiameters::PlutoSemidiameterB(2);
+  constexpr double sd42 = CAADiameters::PlutoSemidiameterB(2);
   UNREFERENCED_PARAMETER(sd42);
-  constexpr const double sd43 = CAADiameters::GeocentricMoonSemidiameter(368407.9);
+  constexpr double sd43 = CAADiameters::GeocentricMoonSemidiameter(368407.9);
   UNREFERENCED_PARAMETER(sd43);
-  constexpr const double sd44 = CAADiameters::GeocentricMoonSemidiameter(368407.9 - 10000);
+  constexpr double sd44 = CAADiameters::GeocentricMoonSemidiameter(368407.9 - 10000);
   UNREFERENCED_PARAMETER(sd44);
 
   const double sd45 = CAADiameters::TopocentricMoonSemidiameter(368407.9, 5, 0, 33.356111, 1706);
@@ -3225,9 +3221,9 @@ int main()
   UNREFERENCED_PARAMETER(sd51);
   const double sd53 = CAADiameters::AsteroidDiameter(6, 0.08);
   UNREFERENCED_PARAMETER(sd53);
-  constexpr const double sd54 = CAADiameters::ApparentAsteroidDiameter(1, 250);
+  constexpr double sd54 = CAADiameters::ApparentAsteroidDiameter(1, 250);
   UNREFERENCED_PARAMETER(sd54);
-  constexpr const double sd55 = CAADiameters::ApparentAsteroidDiameter(1, 1000);
+  constexpr double sd55 = CAADiameters::ApparentAsteroidDiameter(1, 1000);
   UNREFERENCED_PARAMETER(sd55);
 
   const CAAPhysicalMoonDetails MoonDetails = CAAPhysicalMoon::CalculateGeocentric(2448724.5);

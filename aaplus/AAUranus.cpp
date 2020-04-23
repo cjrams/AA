@@ -9,6 +9,7 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAUranus.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -30,10 +31,12 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AAUranus.h"
 #include "AACoordinateTransformation.h"
+#include "AADefines.h"
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include "AAVSOP87D_URA.h"
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -50,8 +53,8 @@ struct VSOP87Coefficient
   double C;
 };
 
-const VSOP87Coefficient g_L0UranusCoefficients[] =
-{
+constexpr array<VSOP87Coefficient, 91> g_L0UranusCoefficients
+{ {
   { 548129294, 0,         0          },
   { 9260408,   0.8910642, 74.7815986 },
   { 1504248,   3.6271926, 1.4844727  },
@@ -143,10 +146,10 @@ const VSOP87Coefficient g_L0UranusCoefficients[] =
   { 104,       5.028,     0.751      },
   { 104,       1.458,     24.379     },
   { 103,       0.681,     14.978     }
-};
+} };
 
-const VSOP87Coefficient g_L1UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 57> g_L1UranusCoefficients
+{ {
   { 7502543122.0, 0,        0         },
   { 154458,       5.242017, 74.781599 },
   { 24456,        1.71256,  1.48447   },
@@ -204,10 +207,10 @@ const VSOP87Coefficient g_L1UranusCoefficients[] =
   { 27,           6.15,     299.13    },
   { 26,           4.99,     137.03    },
   { 25,           5.74,     380.13    }
-};
+} };
 
-const VSOP87Coefficient g_L2UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 35> g_L2UranusCoefficients
+{ {
   { 53033, 0,      0       },
   { 2358,  2.2601, 74.7816 },
   { 769,   4.526,  11.046  },
@@ -243,10 +246,10 @@ const VSOP87Coefficient g_L2UranusCoefficients[] =
   { 6,     5.45,   65.22   },
   { 6,     4.52,   151.05  },
   { 6,     5.73,   462.02  }
-};
+} };
 
-const VSOP87Coefficient g_L3UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 18> g_L3UranusCoefficients
+{ {
   { 121, 0.024, 74.782 },
   { 68,  4.12,  3.93   },
   { 53,  2.39,  11.05  },
@@ -265,18 +268,18 @@ const VSOP87Coefficient g_L3UranusCoefficients[] =
   { 3,   0.37,  78.71  },
   { 2,   0.86,  145.63 },
   { 2,   5.66,  9.56   }
-};
+} };
 
-const VSOP87Coefficient g_L4UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 4> g_L4UranusCoefficients
+{ {
   { 114, 3.142, 0     },
   { 6,   4.58,  74.78 },
   { 3,   0.35,  11.05 },
   { 1,   3.42,  56.62 }
-};
+} };
 
-const VSOP87Coefficient g_B0UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 28> g_B0UranusCoefficients
+{ {
   { 1346278, 2.6187781, 74.7815986 },
   { 62341,   5.08111,   149.56320  },
   { 61601,   3.14159,   0          },
@@ -305,10 +308,10 @@ const VSOP87Coefficient g_B0UranusCoefficients[] =
   { 116,     5.739,     70.849     },
   { 106,     0.941,     70.328     },
   { 102,     2.619,     78.714     }
-};
+} };
 
-const VSOP87Coefficient g_B1UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 20> g_B1UranusCoefficients
+{ {
   { 206366, 4.123943, 74.781599 },
   { 8563,   0.3382,   149.5632  },
   { 1726,   2.1219,   73.2971   },
@@ -329,10 +332,10 @@ const VSOP87Coefficient g_B1UranusCoefficients[] =
   { 30,     2.56,     2.97      },
   { 27,     5.34,     213.30    },
   { 26,     0.42,     380.13    }
-};
+} };
 
-const VSOP87Coefficient g_B2UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 11> g_B2UranusCoefficients
+{ {
   { 9212, 5.8004, 74.7816 },
   { 557,  0,      0       },
   { 286,  2.177,  149.563 },
@@ -344,23 +347,23 @@ const VSOP87Coefficient g_B2UranusCoefficients[] =
   { 14,   5.07,   63.74   },
   { 10,   5.00,   224.34  },
   { 8,    6.27,   78.71   }
-};
+} };
 
-const VSOP87Coefficient g_B3UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 4> g_B3UranusCoefficients
+{ {
   { 268, 1.251, 74.782 },
   { 11,  3.14,  0      },
   { 6,   4.01,  149.56 },
   { 3,   5.78,  73.30  }
-};
+} };
 
-const VSOP87Coefficient g_B4UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 1> g_B4UranusCoefficients
+{ {
   { 6,  2.85, 74.78 }
-};
+} };
 
-const VSOP87Coefficient g_R0UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 59> g_R0UranusCoefficients
+{ {
   { 1921264848, 0,          0           },
   { 88784984,   5.60377527, 74.78159857 },
   { 3440836,    0.3283610,  73.2971259  },
@@ -420,10 +423,10 @@ const VSOP87Coefficient g_R0UranusCoefficients[] =
   { 2538,       4.8546,     131.4039    },
   { 2364,       0.4425,     554.0700    },
   { 2183,       2.9404,     305.3462    }
-};
+} };
 
-const VSOP87Coefficient g_R1UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 35> g_R1UranusCoefficients
+{ {
   { 1479896, 3.6720571, 74.7815986 },
   { 71212,   6.22601,   63.73590   },
   { 68627,   6.13411,   149.56320  },
@@ -459,10 +462,10 @@ const VSOP87Coefficient g_R1UranusCoefficients[] =
   { 562,     2.718,     462.023    },
   { 530,     5.917,     213.299    },
   { 528,     5.151,     2.969      }
-};
+} };
 
-const VSOP87Coefficient g_R2UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 18> g_R2UranusCoefficients
+{ {
   { 22440, 0.69953, 74.78160 },
   { 4727,  1.6990,  63.7359  },
   { 1682,  4.6483,  70.8494  },
@@ -481,10 +484,10 @@ const VSOP87Coefficient g_R2UranusCoefficients[] =
   { 205,   3.248,   78.714   },
   { 149,   4.898,   127.472  },
   { 129,   2.081,   3.181    }
-};
+} };
 
-const VSOP87Coefficient g_R3UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 10> g_R3UranusCoefficients
+{ {
   { 1164, 4.7345, 74.7816 },
   { 212,  3.343,  63.736  },
   { 196,  2.980,  70.849  },
@@ -495,17 +498,14 @@ const VSOP87Coefficient g_R3UranusCoefficients[] =
   { 36,   5.65,   77.96   },
   { 34,   3.82,   76.27   },
   { 32,   3.60,   131.40  }
-};
+} };
 
-const VSOP87Coefficient g_R4UranusCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 2> g_R4UranusCoefficients
+{ {
   { 53, 3.01, 74.78 },
   { 10, 1.91, 56.62 }
-};
+} };
 
-#ifndef UNREFERENCED_PARAMETER
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
-#endif //#ifndef UNREFERENCED_PARAMETER
 
 
 /////////////////////////////// Implementation ////////////////////////////////
@@ -525,37 +525,31 @@ double CAAUranus::EclipticLongitude(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate L0
-  constexpr const int nL0Coefficients = sizeof(g_L0UranusCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  for (int i=0; i<nL0Coefficients; i++)
-    L0 += g_L0UranusCoefficients[i].A * cos(g_L0UranusCoefficients[i].B + g_L0UranusCoefficients[i].C*rho);
+  for (const auto& L0Coefficient : g_L0UranusCoefficients)
+    L0 += (L0Coefficient.A * cos(L0Coefficient.B + (L0Coefficient.C*rho)));
 
   //Calculate L1
-  constexpr const int nL1Coefficients = sizeof(g_L1UranusCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (int i=0; i<nL1Coefficients; i++)
-    L1 += g_L1UranusCoefficients[i].A * cos(g_L1UranusCoefficients[i].B + g_L1UranusCoefficients[i].C*rho);
+  for (const auto& L1Coefficient : g_L1UranusCoefficients)
+    L1 += (L1Coefficient.A * cos(L1Coefficient.B + (L1Coefficient.C*rho)));
 
   //Calculate L2
-  constexpr const int nL2Coefficients = sizeof(g_L2UranusCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (int i=0; i<nL2Coefficients; i++)
-    L2 += g_L2UranusCoefficients[i].A * cos(g_L2UranusCoefficients[i].B + g_L2UranusCoefficients[i].C*rho);
+  for (const auto& L2Coefficient : g_L2UranusCoefficients)
+    L2 += (L2Coefficient.A * cos(L2Coefficient.B + (L2Coefficient.C*rho)));
 
   //Calculate L3
-  constexpr const int nL3Coefficients = sizeof(g_L3UranusCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (int i=0; i<nL3Coefficients; i++)
-    L3 += g_L3UranusCoefficients[i].A * cos(g_L3UranusCoefficients[i].B + g_L3UranusCoefficients[i].C*rho);
+  for (const auto& L3Coefficient : g_L3UranusCoefficients)
+    L3 += (L3Coefficient.A * cos(L3Coefficient.B + (L3Coefficient.C*rho)));
 
   //Calculate L4
-  constexpr const int nL4Coefficients = sizeof(g_L4UranusCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (int i=0; i<nL4Coefficients; i++)
-    L4 += g_L4UranusCoefficients[i].A * cos(g_L4UranusCoefficients[i].B + g_L4UranusCoefficients[i].C*rho);
+  for (const auto& L4Coefficient : g_L4UranusCoefficients)
+    L4 += (L4Coefficient.A * cos(L4Coefficient.B + (L4Coefficient.C*rho)));
 
-
-  double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4) / 100000000;
+  double value = (L0 + (L1*rho) + (L2*rhosquared) + (L3*rhocubed) + (L4*rho4)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -577,36 +571,31 @@ double CAAUranus::EclipticLatitude(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate B0
-  constexpr const int nB0Coefficients = sizeof(g_B0UranusCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  for (int i=0; i<nB0Coefficients; i++)
-    B0 += g_B0UranusCoefficients[i].A * cos(g_B0UranusCoefficients[i].B + g_B0UranusCoefficients[i].C*rho);
+  for (const auto& B0Coefficient : g_B0UranusCoefficients)
+    B0 += (B0Coefficient.A * cos(B0Coefficient.B + (B0Coefficient.C*rho)));
 
   //Calculate B1
-  constexpr const int nB1Coefficients = sizeof(g_B1UranusCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (int i=0; i<nB1Coefficients; i++)
-    B1 += g_B1UranusCoefficients[i].A * cos(g_B1UranusCoefficients[i].B + g_B1UranusCoefficients[i].C*rho);
+  for (const auto& B1Coefficient : g_B1UranusCoefficients)
+    B1 += (B1Coefficient.A * cos(B1Coefficient.B + (B1Coefficient.C*rho)));
 
   //Calculate B2
-  constexpr const int nB2Coefficients = sizeof(g_B2UranusCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (int i=0; i<nB2Coefficients; i++)
-    B2 += g_B2UranusCoefficients[i].A * cos(g_B2UranusCoefficients[i].B + g_B2UranusCoefficients[i].C*rho);
+  for (const auto& B2Coefficient : g_B2UranusCoefficients)
+    B2 += (B2Coefficient.A * cos(B2Coefficient.B + (B2Coefficient.C*rho)));
 
   //Calculate B3
-  constexpr const int nB3Coefficients = sizeof(g_B3UranusCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (int i=0; i<nB3Coefficients; i++)
-    B3 += g_B3UranusCoefficients[i].A * cos(g_B3UranusCoefficients[i].B + g_B3UranusCoefficients[i].C*rho);
+  for (const auto& B3Coefficient : g_B3UranusCoefficients)
+    B3 += (B3Coefficient.A * cos(B3Coefficient.B + (B3Coefficient.C*rho)));
 
   //Calculate B4
-  constexpr const int nB4Coefficients = sizeof(g_B4UranusCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (int i=0; i<nB4Coefficients; i++)
-    B4 += g_B4UranusCoefficients[i].A * cos(g_B4UranusCoefficients[i].B + g_B4UranusCoefficients[i].C*rho);
+  for (const auto& B4Coefficient : g_B4UranusCoefficients)
+    B4 += (B4Coefficient.A * cos(B4Coefficient.B + (B4Coefficient.C*rho)));
 
-  double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
+  double value = (B0 + (B1*rho) + (B2*rhosquared) + (B3*rhocubed) + (B4*rho4)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -628,34 +617,29 @@ double CAAUranus::RadiusVector(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate R0
-  constexpr const int nR0Coefficients = sizeof(g_R0UranusCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  for (int i=0; i<nR0Coefficients; i++)
-    R0 += g_R0UranusCoefficients[i].A * cos(g_R0UranusCoefficients[i].B + g_R0UranusCoefficients[i].C*rho);
+  for (const auto& R0Coefficient : g_R0UranusCoefficients)
+    R0 += (R0Coefficient.A * cos(R0Coefficient.B + (R0Coefficient.C*rho)));
 
   //Calculate R1
-  constexpr const int nR1Coefficients = sizeof(g_R1UranusCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (int i=0; i<nR1Coefficients; i++)
-    R1 += g_R1UranusCoefficients[i].A * cos(g_R1UranusCoefficients[i].B + g_R1UranusCoefficients[i].C*rho);
+  for (const auto& R1Coefficient : g_R1UranusCoefficients)
+    R1 += (R1Coefficient.A * cos(R1Coefficient.B + (R1Coefficient.C*rho)));
 
   //Calculate R2
-  constexpr const int nR2Coefficients = sizeof(g_R2UranusCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (int i=0; i<nR2Coefficients; i++)
-    R2 += g_R2UranusCoefficients[i].A * cos(g_R2UranusCoefficients[i].B + g_R2UranusCoefficients[i].C*rho);
+  for (const auto& R2Coefficient : g_R2UranusCoefficients)
+    R2 += (R2Coefficient.A * cos(R2Coefficient.B + (R2Coefficient.C*rho)));
 
   //Calculate R3
-  constexpr const int nR3Coefficients = sizeof(g_R3UranusCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (int i=0; i<nR3Coefficients; i++)
-    R3 += g_R3UranusCoefficients[i].A * cos(g_R3UranusCoefficients[i].B + g_R3UranusCoefficients[i].C*rho);
+  for (const auto& R3Coefficient : g_R3UranusCoefficients)
+    R3 += (R3Coefficient.A * cos(R3Coefficient.B + (R3Coefficient.C*rho)));
 
-//Calculate R4
-  constexpr const int nR4Coefficients = sizeof(g_R4UranusCoefficients) / sizeof(VSOP87Coefficient);
+  //Calculate R4
   double R4 = 0;
-  for (int i=0; i<nR4Coefficients; i++)
-    R4 += g_R4UranusCoefficients[i].A * cos(g_R4UranusCoefficients[i].B + g_R4UranusCoefficients[i].C*rho);
+  for (const auto& R4Coefficient : g_R4UranusCoefficients)
+    R4 += (R4Coefficient.A * cos(R4Coefficient.B + (R4Coefficient.C*rho)));
 
-  return (R0 + R1*rho + R2*rhosquared + R3*rhocubed + R4*rho4) / 100000000;
+  return (R0 + (R1*rho) + (R2*rhosquared) + (R3*rhocubed) + (R4*rho4)) / 100000000;
 }

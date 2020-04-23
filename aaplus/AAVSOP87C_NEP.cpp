@@ -3,6 +3,7 @@ Module : AAVSOP87C_NEP.cpp
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
+         PJN / 22-04-2020 1. Reworked C arrays to use std::array.
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -25,6 +26,7 @@ to maintain a single distribution point for the source code.
 #include "AAVSOP87.h"
 #include "AAVSOP87C_NEP.h"
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -34,8 +36,8 @@ using namespace std;
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-const VSOP87Coefficient g_VSOP87C_X0_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 821> g_VSOP87C_X0_NEPTUNE
+{ {
   {       30.05973100580,        5.31188633083,       38.37685312130 },
   {        0.40567587218,        3.98149970131,        0.24381748350 },
   {        0.13506026414,        3.50055820972,       76.50988875911 },
@@ -857,10 +859,10 @@ const VSOP87Coefficient g_VSOP87C_X0_NEPTUNE[] =
   {        0.00000002232,        2.42168492591,      158.12984768129 },
   {        0.00000002961,        4.37134416172,      286.35240381350 },
   {        0.00000002961,        4.37134416172,      286.84003878050 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_X1_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 342> g_VSOP87C_X1_NEPTUNE
+{ {
   {        0.00357822049,        4.60537437341,        0.24381748350 },
   {        0.00256200629,        2.01693264233,       36.89238041300 },
   {        0.00242677799,        5.46293481092,       39.86132582961 },
@@ -1203,10 +1205,10 @@ const VSOP87Coefficient g_VSOP87C_X1_NEPTUNE[] =
   {        0.00000002300,        0.62755545112,      986.05343516780 },
   {        0.00000002199,        2.78438991669,      606.20085385370 },
   {        0.00000002325,        3.26991047297,      109.70187130500 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_X2_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 113> g_VSOP87C_X2_NEPTUNE
+{ {
   {        0.01620002167,        0.60038473142,       38.37685312130 },
   {        0.00028138323,        5.58440767451,        0.24381748350 },
   {        0.00012318619,        2.58513114618,       39.86132582961 },
@@ -1320,10 +1322,10 @@ const VSOP87Coefficient g_VSOP87C_X2_NEPTUNE[] =
   {        0.00000002327,        0.39474993260,       38.42503723110 },
   {        0.00000002481,        5.56752927904,      655.17383907870 },
   {        0.00000002569,        4.22623902188,      464.97504399731 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_X3_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 37> g_VSOP87C_X3_NEPTUNE
+{ {
   {        0.00000985355,        0.69240373955,       38.37685312130 },
   {        0.00000482798,        0.83271959724,       37.88921815429 },
   {        0.00000416447,        0.37037561694,        0.24381748350 },
@@ -1361,10 +1363,10 @@ const VSOP87Coefficient g_VSOP87C_X3_NEPTUNE[] =
   {        0.00000002279,        4.63709500769,      458.81015062800 },
   {        0.00000002147,        2.63611189369,      175.40987728371 },
   {        0.00000002637,        3.63693499332,       73.54094334250 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_X4_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 14> g_VSOP87C_X4_NEPTUNE
+{ {
   {        0.00003455306,        3.61464892215,       38.37685312130 },
   {        0.00000047405,        2.21390996774,        0.24381748350 },
   {        0.00000021936,        2.72972488197,       37.88921815429 },
@@ -1379,15 +1381,15 @@ const VSOP87Coefficient g_VSOP87C_X4_NEPTUNE[] =
   {        0.00000002981,        0.29920864811,        1.72829019180 },
   {        0.00000002295,        0.13749342692,      220.65645992230 },
   {        0.00000002296,        4.70646260044,      206.42936592071 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_X5_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87C_X5_NEPTUNE
+{ {
   {        0.00000026291,        3.71724730200,       38.37685312130 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Y0_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 821> g_VSOP87C_Y0_NEPTUNE
+{ {
   {       30.05973100580,        3.74109000403,       38.37685312130 },
   {        0.40567587218,        2.41070337452,        0.24381748350 },
   {        0.13506026414,        1.92976188293,       76.50988875911 },
@@ -2209,10 +2211,10 @@ const VSOP87Coefficient g_VSOP87C_Y0_NEPTUNE[] =
   {        0.00000002232,        3.99248125271,      158.12984768129 },
   {        0.00000002961,        5.94214048852,      286.35240381350 },
   {        0.00000002961,        2.80054783493,      286.84003878050 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Y1_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 342> g_VSOP87C_Y1_NEPTUNE
+{ {
   {        0.00357822049,        3.03457804662,        0.24381748350 },
   {        0.00256200629,        0.44613631554,       36.89238041300 },
   {        0.00242677799,        3.89213848413,       39.86132582961 },
@@ -2555,10 +2557,10 @@ const VSOP87Coefficient g_VSOP87C_Y1_NEPTUNE[] =
   {        0.00000002300,        2.19835177792,      986.05343516780 },
   {        0.00000002199,        1.21359358990,      606.20085385370 },
   {        0.00000002325,        4.84070679976,      109.70187130500 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Y2_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 113> g_VSOP87C_Y2_NEPTUNE
+{ {
   {        0.01620002167,        5.31277371181,       38.37685312130 },
   {        0.00028138323,        4.01361134771,        0.24381748350 },
   {        0.00012318619,        1.01433481938,       39.86132582961 },
@@ -2672,10 +2674,10 @@ const VSOP87Coefficient g_VSOP87C_Y2_NEPTUNE[] =
   {        0.00000002327,        5.10713891298,       38.42503723110 },
   {        0.00000002481,        0.85514029866,      655.17383907870 },
   {        0.00000002569,        2.65544269508,      464.97504399731 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Y3_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 37> g_VSOP87C_Y3_NEPTUNE
+{ {
   {        0.00000985355,        5.40479271994,       38.37685312130 },
   {        0.00000482798,        2.40351592403,       37.88921815429 },
   {        0.00000416447,        5.08276459732,        0.24381748350 },
@@ -2713,10 +2715,10 @@ const VSOP87Coefficient g_VSOP87C_Y3_NEPTUNE[] =
   {        0.00000002279,        6.20789133449,      458.81015062800 },
   {        0.00000002147,        1.06531556689,      175.40987728371 },
   {        0.00000002637,        2.06613866653,       73.54094334250 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Y4_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 14> g_VSOP87C_Y4_NEPTUNE
+{ {
   {        0.00003455306,        2.04385259535,       38.37685312130 },
   {        0.00000047405,        0.64311364094,        0.24381748350 },
   {        0.00000021936,        4.30052120876,       37.88921815429 },
@@ -2731,15 +2733,15 @@ const VSOP87Coefficient g_VSOP87C_Y4_NEPTUNE[] =
   {        0.00000002981,        5.01159762849,        1.72829019180 },
   {        0.00000002295,        4.84988240730,      220.65645992230 },
   {        0.00000002296,        3.13566627364,      206.42936592071 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Y5_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87C_Y5_NEPTUNE
+{ {
   {        0.00000026291,        2.14645097520,       38.37685312130 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Z0_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 133> g_VSOP87C_Z0_NEPTUNE
+{ {
   {        0.92866054405,        1.44103930278,       38.13303563780 },
   {        0.01245978462,        0.00000000000,        0.00000000000 },
   {        0.00474333567,        2.52218774238,       36.64856292950 },
@@ -2873,10 +2875,10 @@ const VSOP87Coefficient g_VSOP87C_Z0_NEPTUNE[] =
   {        0.00000004678,        4.87546696295,      442.75170057060 },
   {        0.00000004407,        5.58110402011,      252.08652238160 },
   {        0.00000004305,        1.31724140028,      493.04240216510 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Z1_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 61> g_VSOP87C_Z1_NEPTUNE
+{ {
   {        0.06832633707,        3.80782656293,       38.13303563780 },
   {        0.00064598028,        3.14159265359,        0.00000000000 },
   {        0.00042738331,        4.82540335637,       36.64856292950 },
@@ -2938,10 +2940,10 @@ const VSOP87Coefficient g_VSOP87C_Z1_NEPTUNE[] =
   {        0.00000002787,        1.21334651843,       72.07328558160 },
   {        0.00000002453,        3.18401661435,       42.32582133180 },
   {        0.00000002523,        5.51669920239,        8.07675484730 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Z2_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 20> g_VSOP87C_Z2_NEPTUNE
+{ {
   {        0.00291361164,        5.57085222635,       38.13303563780 },
   {        0.00002207820,        0.45423510946,       36.64856292950 },
   {        0.00002644401,        3.14159265359,        0.00000000000 },
@@ -2962,10 +2964,10 @@ const VSOP87Coefficient g_VSOP87C_Z2_NEPTUNE[] =
   {        0.00000006818,        1.56386946094,      114.39910691340 },
   {        0.00000004838,        0.83470875824,      220.41264243880 },
   {        0.00000002545,        0.43712705655,        4.45341812490 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Z3_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 8> g_VSOP87C_Z3_NEPTUNE
+{ {
   {        0.00008221290,        1.01632472042,       38.13303563780 },
   {        0.00000103933,        0.00000000000,        0.00000000000 },
   {        0.00000070154,        2.36502685986,       36.64856292950 },
@@ -2974,77 +2976,78 @@ const VSOP87Coefficient g_VSOP87C_Z3_NEPTUNE[] =
   {        0.00000007111,        3.99067059016,        1.48447270830 },
   {        0.00000004656,        3.62376309338,       35.16409022120 },
   {        0.00000002988,        1.03727330540,       74.78159856730 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Z4_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87C_Z4_NEPTUNE
+{ {
   {        0.00000172227,        2.66872693322,       38.13303563780 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87C_Z5_NEPTUNE[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87C_Z5_NEPTUNE
+{ {
   {        0.00000003394,        4.70646877989,       38.13303563780 }
-};
+} };
 
-const VSOP87Coefficient2 g_VSOP87C_X_NEPTUNE[] =
-{
-  { g_VSOP87C_X0_NEPTUNE, sizeof(g_VSOP87C_X0_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_X1_NEPTUNE, sizeof(g_VSOP87C_X1_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_X2_NEPTUNE, sizeof(g_VSOP87C_X2_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_X3_NEPTUNE, sizeof(g_VSOP87C_X3_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_X4_NEPTUNE, sizeof(g_VSOP87C_X4_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_X5_NEPTUNE, sizeof(g_VSOP87C_X5_NEPTUNE)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87C_X_NEPTUNE
+{ {
+  { g_VSOP87C_X0_NEPTUNE.data(), g_VSOP87C_X0_NEPTUNE.size() },
+  { g_VSOP87C_X1_NEPTUNE.data(), g_VSOP87C_X1_NEPTUNE.size() },
+  { g_VSOP87C_X2_NEPTUNE.data(), g_VSOP87C_X2_NEPTUNE.size() },
+  { g_VSOP87C_X3_NEPTUNE.data(), g_VSOP87C_X3_NEPTUNE.size() },
+  { g_VSOP87C_X4_NEPTUNE.data(), g_VSOP87C_X4_NEPTUNE.size() },
+  { g_VSOP87C_X5_NEPTUNE.data(), g_VSOP87C_X5_NEPTUNE.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87C_Y_NEPTUNE[] =
-{
-  { g_VSOP87C_Y0_NEPTUNE, sizeof(g_VSOP87C_Y0_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Y1_NEPTUNE, sizeof(g_VSOP87C_Y1_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Y2_NEPTUNE, sizeof(g_VSOP87C_Y2_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Y3_NEPTUNE, sizeof(g_VSOP87C_Y3_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Y4_NEPTUNE, sizeof(g_VSOP87C_Y4_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Y5_NEPTUNE, sizeof(g_VSOP87C_Y5_NEPTUNE)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87C_Y_NEPTUNE
+{ {
+  { g_VSOP87C_Y0_NEPTUNE.data(), g_VSOP87C_Y0_NEPTUNE.size() },
+  { g_VSOP87C_Y1_NEPTUNE.data(), g_VSOP87C_Y1_NEPTUNE.size() },
+  { g_VSOP87C_Y2_NEPTUNE.data(), g_VSOP87C_Y2_NEPTUNE.size() },
+  { g_VSOP87C_Y3_NEPTUNE.data(), g_VSOP87C_Y3_NEPTUNE.size() },
+  { g_VSOP87C_Y4_NEPTUNE.data(), g_VSOP87C_Y4_NEPTUNE.size() },
+  { g_VSOP87C_Y5_NEPTUNE.data(), g_VSOP87C_Y5_NEPTUNE.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87C_Z_NEPTUNE[] =
-{
-  { g_VSOP87C_Z0_NEPTUNE, sizeof(g_VSOP87C_Z0_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Z1_NEPTUNE, sizeof(g_VSOP87C_Z1_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Z2_NEPTUNE, sizeof(g_VSOP87C_Z2_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Z3_NEPTUNE, sizeof(g_VSOP87C_Z3_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Z4_NEPTUNE, sizeof(g_VSOP87C_Z4_NEPTUNE)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87C_Z5_NEPTUNE, sizeof(g_VSOP87C_Z5_NEPTUNE)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87C_Z_NEPTUNE
+{ {
+  { g_VSOP87C_Z0_NEPTUNE.data(), g_VSOP87C_Z0_NEPTUNE.size() },
+  { g_VSOP87C_Z1_NEPTUNE.data(), g_VSOP87C_Z1_NEPTUNE.size() },
+  { g_VSOP87C_Z2_NEPTUNE.data(), g_VSOP87C_Z2_NEPTUNE.size() },
+  { g_VSOP87C_Z3_NEPTUNE.data(), g_VSOP87C_Z3_NEPTUNE.size() },
+  { g_VSOP87C_Z4_NEPTUNE.data(), g_VSOP87C_Z4_NEPTUNE.size() },
+  { g_VSOP87C_Z5_NEPTUNE.data(), g_VSOP87C_Z5_NEPTUNE.size() }
+} };
 
 
 ////////////////////////////// Implementation /////////////////////////////////
 
 double CAAVSOP87C_Neptune::X(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87C_X_NEPTUNE, sizeof(g_VSOP87C_X_NEPTUNE)/sizeof(VSOP87Coefficient2), false);
+  return CVSOP87::Calculate(JD, g_VSOP87C_X_NEPTUNE.data(), g_VSOP87C_X_NEPTUNE.size(), false);
 }
 
 double CAAVSOP87C_Neptune::X_DASH(double JD) noexcept
 {
-  return CVSOP87::Calculate_Dash(JD, g_VSOP87C_X_NEPTUNE, sizeof(g_VSOP87C_X_NEPTUNE)/sizeof(VSOP87Coefficient2));
+  return CVSOP87::Calculate_Dash(JD, g_VSOP87C_X_NEPTUNE.data(), g_VSOP87C_X_NEPTUNE.size());
 }
 
 double CAAVSOP87C_Neptune::Y(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87C_Y_NEPTUNE, sizeof(g_VSOP87C_Y_NEPTUNE)/sizeof(VSOP87Coefficient2), false);
+  return CVSOP87::Calculate(JD, g_VSOP87C_Y_NEPTUNE.data(), g_VSOP87C_Y_NEPTUNE.size(), false);
 }
 
 double CAAVSOP87C_Neptune::Y_DASH(double JD) noexcept
 {
-  return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Y_NEPTUNE, sizeof(g_VSOP87C_Y_NEPTUNE)/sizeof(VSOP87Coefficient2));
+  return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Y_NEPTUNE.data(), g_VSOP87C_Y_NEPTUNE.size());
 }
 
 double CAAVSOP87C_Neptune::Z(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87C_Z_NEPTUNE, sizeof(g_VSOP87C_Z_NEPTUNE)/sizeof(VSOP87Coefficient2), false);
+  return CVSOP87::Calculate(JD, g_VSOP87C_Z_NEPTUNE.data(), g_VSOP87C_Z_NEPTUNE.size(), false);
 }
 
 double CAAVSOP87C_Neptune::Z_DASH(double JD) noexcept
 {
-  return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Z_NEPTUNE, sizeof(g_VSOP87C_Z_NEPTUNE)/sizeof(VSOP87Coefficient2));
+  return CVSOP87::Calculate_Dash(JD, g_VSOP87C_Z_NEPTUNE.data(), g_VSOP87C_Z_NEPTUNE.size());
 }
+

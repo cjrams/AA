@@ -35,7 +35,7 @@ using namespace std;
 
 //////////////////////// Macros / Defines ///////////////////////////////////////////////
 
-constexpr const double g_AAParallax_C1 = 4.2634515103856459e-05; //sin(CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 8.794)));
+constexpr double g_AAParallax_C1 = 4.2634515103856459e-05; //sin(CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 8.794)));
 
 
 //////////////////////// Implementation /////////////////////////////////////////////////

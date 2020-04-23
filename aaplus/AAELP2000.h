@@ -35,6 +35,7 @@ to maintain a single distribution point for the source code.
 
 /////////////////////// Includes //////////////////////////////////////////////
 
+#include <array>
 #include "AA3DCoordinate.h"
 
 
@@ -42,15 +43,15 @@ to maintain a single distribution point for the source code.
 
 struct AAPLUS_EXT_CLASS ELP2000MainProblemCoefficient
 {
-  int m_I[4];
+  std::array<int, 4> m_I;
   double m_A;
-  double m_B[6];
+  std::array<double, 6> m_B;
 };
 
 struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient
 {
   int m_IZ;
-  int m_I[4];
+  std::array<int, 4> m_I;
   double m_O;
   double m_A;
   double m_P;
@@ -58,7 +59,7 @@ struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoeffi
 
 struct AAPLUS_EXT_CLASS ELP2000PlanetPertCoefficient
 {
-  int m_ip[11];
+  std::array<int, 11> m_ip;
   double m_theta;
   double m_O;
   double m_P;
@@ -105,15 +106,15 @@ public:
 
 protected:
 //static methods
-  static double Accumulate(const ELP2000MainProblemCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
-  static double Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
-  static double Accumulate(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero) noexcept;
-  static double Accumulate_2(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero) noexcept;
-  static double AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN) noexcept;
-  static double AccumulateTable1_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN) noexcept;
-  static double AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU) noexcept;
-  static double AccumulateTable2_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU) noexcept;
-  static double Accumulate_3(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
+  static double Accumulate(const ELP2000MainProblemCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
+  static double Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
+  static double Accumulate(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero) noexcept;
+  static double Accumulate_2(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero) noexcept;
+  static double AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN) noexcept;
+  static double AccumulateTable1_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN) noexcept;
+  static double AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU) noexcept;
+  static double AccumulateTable2_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU) noexcept;
+  static double Accumulate_3(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
 };
 
 #endif //#ifndef __AAELP2000_H__

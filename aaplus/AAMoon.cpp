@@ -24,6 +24,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the MoonCoefficient1 struct
                           applied to the later two methods. Thanks to Jeffrey Roe for reporting this issue.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAMoon.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 18-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -50,6 +51,7 @@ to maintain a single distribution point for the source code.
 #include <cmath>
 #include <cassert>
 #include <cstddef>
+#include <array>
 using namespace std;
 
 
@@ -73,8 +75,8 @@ struct MoonCoefficient2
   double B;
 };
 
-const MoonCoefficient1 g_MoonCoefficients1[] =
-{
+constexpr array<MoonCoefficient1, 60> g_MoonCoefficients1
+{ {
   { 0,  0,  1,  0 },
   { 2,  0, -1,  0 },
   { 2,  0,  0,  0 },
@@ -135,10 +137,10 @@ const MoonCoefficient1 g_MoonCoefficients1[] =
   { 1,  1, -1,  0 },
   { 2,  0,  3,  0 },
   { 2,  0, -1, -2 }
-};
+} };
 
-const MoonCoefficient2 g_MoonCoefficients2[] =
-{
+constexpr array<MoonCoefficient2, 60> g_MoonCoefficients2
+{ {
   {  6288774, -20905355 },
   {  1274027, -3699111  },
   {  658314,  -2955968  },
@@ -199,10 +201,10 @@ const MoonCoefficient2 g_MoonCoefficients2[] =
   {  299,      0        },
   {  294,      0        },
   {  0,        8752     }
-};
+} };
 
-const MoonCoefficient1 g_MoonCoefficients3[] =
-{
+constexpr array<MoonCoefficient1, 60> g_MoonCoefficients3
+{ {
   { 0,  0,  0,  1 },
   { 0,  0,  1,  1 },
   { 0,  0,  1, -1 },
@@ -262,11 +264,11 @@ const MoonCoefficient1 g_MoonCoefficients3[] =
   { 4,  0,  1, -1 },
   { 1,  0, -1, -1 },
   { 4, -1,  0, -1 },
-  { 2, -2,  0,  1 },
-};
+  { 2, -2,  0,  1 }
+} };
 
-const double g_MoonCoefficients4[] =
-{
+constexpr array<double, 60> g_MoonCoefficients4
+{ {
   5128122,
   280602,
   277693,
@@ -327,7 +329,7 @@ const double g_MoonCoefficients4[] =
  -119,
   115,
   107,
-};
+} };
 
 
 /////////////////////////////// Implementation ////////////////////////////////
@@ -391,13 +393,13 @@ double CAAMoon::EclipticLongitude(double JD) noexcept
   double A2 = CAACoordinateTransformation::MapTo0To360Range(53.09 + 479264.290*T);
   A2 = CAACoordinateTransformation::DegreesToRadians(A2);
 
-  constexpr const size_t nLCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
-  assert(nLCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
+  constexpr size_t nLCoefficients = g_MoonCoefficients1.size();
+  assert(nLCoefficients == g_MoonCoefficients2.size());
   double SigmaL = 0;
   for (size_t i=0; i<nLCoefficients; i++)
   {
-    double ThisSigma = g_MoonCoefficients2[i].A * sin(g_MoonCoefficients1[i].D*D + g_MoonCoefficients1[i].M*M +
-                                                      g_MoonCoefficients1[i].Mdash*Mdash + g_MoonCoefficients1[i].F*F);
+    double ThisSigma = g_MoonCoefficients2[i].A * sin((g_MoonCoefficients1[i].D*D) + (g_MoonCoefficients1[i].M*M) +
+                                                      (g_MoonCoefficients1[i].Mdash*Mdash) + (g_MoonCoefficients1[i].F*F));
 
     if ((g_MoonCoefficients1[i].M == 1) || (g_MoonCoefficients1[i].M == -1))
       ThisSigma *= E;
@@ -431,13 +433,13 @@ double CAAMoon::RadiusVector(double JD) noexcept
   const double E = CAAEarth::Eccentricity(JD);
   const double Esquared = E*E;
 
-  constexpr const size_t nRCoefficients = sizeof(g_MoonCoefficients1) / sizeof(MoonCoefficient1);
-  assert(nRCoefficients == sizeof(g_MoonCoefficients2) / sizeof(MoonCoefficient2));
+  constexpr size_t nRCoefficients = g_MoonCoefficients1.size();
+  assert(nRCoefficients == g_MoonCoefficients2.size());
   double SigmaR = 0;
   for (size_t i=0; i<nRCoefficients; i++)
   {
-    double ThisSigma = g_MoonCoefficients2[i].B * cos(g_MoonCoefficients1[i].D*D + g_MoonCoefficients1[i].M*M +
-                                                      g_MoonCoefficients1[i].Mdash*Mdash + g_MoonCoefficients1[i].F*F);
+    double ThisSigma = g_MoonCoefficients2[i].B * cos((g_MoonCoefficients1[i].D*D) + (g_MoonCoefficients1[i].M*M) +
+                                                      (g_MoonCoefficients1[i].Mdash*Mdash) + (g_MoonCoefficients1[i].F*F));
     if ((g_MoonCoefficients1[i].M == 1) || (g_MoonCoefficients1[i].M == -1))
       ThisSigma *= E;
     else if ((g_MoonCoefficients1[i].M == 2) || (g_MoonCoefficients1[i].M == -2))
@@ -471,13 +473,13 @@ double CAAMoon::EclipticLatitude(double JD) noexcept
   double A3 = CAACoordinateTransformation::MapTo0To360Range(313.45 + 481266.484*T);
   A3 = CAACoordinateTransformation::DegreesToRadians(A3);
 
-  constexpr const size_t nBCoefficients = sizeof(g_MoonCoefficients3) / sizeof(MoonCoefficient1);
-  assert(nBCoefficients == sizeof(g_MoonCoefficients4) / sizeof(double));
+  constexpr size_t nBCoefficients = g_MoonCoefficients3.size();
+  assert(nBCoefficients == g_MoonCoefficients4.size());
   double SigmaB = 0;
   for (size_t i=0; i<nBCoefficients; i++)
   {
-    double ThisSigma = g_MoonCoefficients4[i] * sin(g_MoonCoefficients3[i].D*D + g_MoonCoefficients3[i].M*M + 
-                                                    g_MoonCoefficients3[i].Mdash*Mdash + g_MoonCoefficients3[i].F*F);
+    double ThisSigma = g_MoonCoefficients4[i] * sin((g_MoonCoefficients3[i].D*D) + (g_MoonCoefficients3[i].M*M) + 
+                                                    (g_MoonCoefficients3[i].Mdash*Mdash) + (g_MoonCoefficients3[i].F*F));
 
     if ((g_MoonCoefficients3[i].M == 1) || (g_MoonCoefficients3[i].M == -1))
       ThisSigma *= E;

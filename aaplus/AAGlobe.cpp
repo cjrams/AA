@@ -93,7 +93,7 @@ double CAAGlobe::DistanceBetweenPoints(double GeographicalLatitude1, double Geog
   const double D = 2*w*6378.14;
   const double Hprime = (3*R - 1) / (2*C);
   const double Hprime2 = (3*R + 1) / (2*S);
-  constexpr const double f = 0.0033528131778969144060323814696721;
+  constexpr double f = 0.0033528131778969144060323814696721;
 
   return D * (1 + (f*Hprime*sinF*sinF*cosG*cosG) - (f*Hprime2*cosF*cosF*sinG*sinG));
 }

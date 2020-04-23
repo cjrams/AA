@@ -45,15 +45,15 @@ struct VSOP87Coefficient
 struct VSOP87Coefficient2
 {
   const VSOP87Coefficient* pCoefficients;
-  int                      nCoefficientsSize;
+  size_t nCoefficientsSize;
 };
 
 class AAPLUS_EXT_CLASS CVSOP87
 {
 public:
 //Static methods
-  static double Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle) noexcept;
-  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize) noexcept;
+  static double Calculate(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize, bool bAngle) noexcept;
+  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize) noexcept;
 };
 
 

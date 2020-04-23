@@ -14,6 +14,7 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AANeptune.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -35,10 +36,12 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AANeptune.h"
 #include "AACoordinateTransformation.h"
+#include "AADefines.h"
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include "AAVSOP87D_NEP.h"
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -55,8 +58,8 @@ struct VSOP87Coefficient
   double C;
 };
 
-const VSOP87Coefficient g_L0NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 38> g_L0NeptuneCoefficients
+{ {
   { 531188633,  0,          0          },
   { 1798476,    2.9010127,  38.1330356 },
   { 1019728,    0.4858092,  1.4844727  },
@@ -94,11 +97,11 @@ const VSOP87Coefficient g_L0NeptuneCoefficients[] =
   { 109,        2.416,      183.243    },
   { 103,        0.041,      0.261      },
   { 103,        4.404,      70.328     },
-  { 102,        5.705,      0.112      } 
-};
+  { 102,        5.705,      0.112      }
+} };
 
-const VSOP87Coefficient g_L1NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 18> g_L1NeptuneCoefficients
+{ {
   { 3837687717.0, 0,        0        },
   { 16604,        4.86319,  1.48447  },
   { 15807,        2.27923,  38.13304 },
@@ -117,10 +120,10 @@ const VSOP87Coefficient g_L1NeptuneCoefficients[] =
   { 29,           5.17,     9.56     },
   { 29,           5.17,     2.45     },
   { 26,           5.25,     168.05   }
-};
+} };
 
-const VSOP87Coefficient g_L2NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 7> g_L2NeptuneCoefficients
+{ {
   { 53893, 0,     0      },
   { 296,   1.855, 1.484  },
   { 281,   1.191, 38.133 },
@@ -128,23 +131,23 @@ const VSOP87Coefficient g_L2NeptuneCoefficients[] =
   { 23,    1.21,  2.97   },
   { 9,     4.43,  35.16  },
   { 7,     0.54,  2.45   }
-};
+} };
 
-const VSOP87Coefficient g_L3NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 4> g_L3NeptuneCoefficients
+{ {
   { 31, 0,    0     },
   { 15, 1.35, 76.27 },
   { 12, 6.04, 1.48  },
   { 12, 6.11, 38.13 }
-};
+} };
 
-const VSOP87Coefficient g_L4NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 1> g_L4NeptuneCoefficients
+{ {
   { 114, 3.142,  0 }
-};
+} };
 
-const VSOP87Coefficient g_B0NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 17> g_B0NeptuneCoefficients
+{ {
   { 3088623, 1.4410437, 38.1330356 },
   { 27780,   5.91272,   76.26607   },
   { 27624,   0,         0          },
@@ -162,10 +165,10 @@ const VSOP87Coefficient g_B0NeptuneCoefficients[] =
   { 254,     3.271,     453.425    },
   { 206,     4.257,     529.691    },
   { 140,     3.530,     137.033    }
-};
+} };
 
-const VSOP87Coefficient g_B1NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 13> g_B1NeptuneCoefficients
+{ {
   { 227279, 3.807931, 38.133036 },
   { 1803,   1.9758,   76.2661   },
   { 1433,   3.1416,   0         },
@@ -179,33 +182,33 @@ const VSOP87Coefficient g_B1NeptuneCoefficients[] =
   { 37,     4.89,     41.10     },
   { 37,     5.76,     2.97      },
   { 26,     5.22,     213.30    }
-};
+} };
 
-const VSOP87Coefficient g_B2NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 6> g_B2NeptuneCoefficients
+{ {
   { 9691, 5.5712, 38.1330 },
   { 79,   3.63,   76.27   },
   { 72,   0.45,   36.65   },
   { 59,   3.14,   0       },
   { 30,   1.61,   39.62   },
   { 6,    5.61,   74.78   }
-};
+} };
 
-const VSOP87Coefficient g_B3NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 4> g_B3NeptuneCoefficients
+{ {
   { 273, 1.017, 38.133 },
   { 2,   0,     0      },
   { 2,   2.37,  36.65  },
   { 2,   5.33,  76.27  }
-};
+} };
 
-const VSOP87Coefficient g_B4NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 1> g_B4NeptuneCoefficients
+{ {
   { 6, 2.67, 38.13 }
-};
+} };
 
-const VSOP87Coefficient g_R0NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 32> g_R0NeptuneCoefficients
+{ {
   { 3007013206.0, 0,          0           },
   { 27062259,     1.32999459, 38.13303564 },
   { 1691764,      3.2518614,  36.6485629  },
@@ -238,10 +241,10 @@ const VSOP87Coefficient g_R0NeptuneCoefficients[] =
   { 2523,         0.4863,     493.0424    },
   { 2306,         2.8096,     70.3282     },
   { 2087,         0.6186,     33.9402     }
-};
+} };
 
-const VSOP87Coefficient g_R1NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 15> g_R1NeptuneCoefficients
+{ {
   { 236339, 0.704980, 38.133036 },
   { 13220,  3.32015,  1.48447   },
   { 8622,   6.2163,   35.1641   },
@@ -257,25 +260,21 @@ const VSOP87Coefficient g_R1NeptuneCoefficients[] =
   { 607,    1.077,    1021.249  },
   { 572,    3.401,    484.444   },
   { 561,    2.887,    498.671   }
-};
+} };
 
-const VSOP87Coefficient g_R2NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 5> g_R2NeptuneCoefficients
+{ {
   { 4247, 5.8991, 38.1330 },
   { 218,  0.346,  1.484   },
   { 163,  2.239,  168.053 },
   { 156,  4.594,  182.280 },
   { 127,  2.848,  35.164  }
-};
+} };
 
-const VSOP87Coefficient g_R3NeptuneCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 1> g_R3NeptuneCoefficients
+{ {
   { 166,  4.552,  38.133 }
-};
-
-#ifndef UNREFERENCED_PARAMETER
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
-#endif //#ifndef UNREFERENCED_PARAMETER
+} };
 
 
 ///////////////////////////// Implementation //////////////////////////////////
@@ -295,37 +294,31 @@ double CAANeptune::EclipticLongitude(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate L0
-  constexpr const int nL0Coefficients = sizeof(g_L0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  for (int i=0; i<nL0Coefficients; i++)
-    L0 += g_L0NeptuneCoefficients[i].A * cos(g_L0NeptuneCoefficients[i].B + g_L0NeptuneCoefficients[i].C*rho);
+  for (const auto& L0Coefficient : g_L0NeptuneCoefficients)
+    L0 += (L0Coefficient.A * cos(L0Coefficient.B + (L0Coefficient.C*rho)));
 
   //Calculate L1
-  constexpr const int nL1Coefficients = sizeof(g_L1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (int i=0; i<nL1Coefficients; i++)
-    L1 += g_L1NeptuneCoefficients[i].A * cos(g_L1NeptuneCoefficients[i].B + g_L1NeptuneCoefficients[i].C*rho);
+  for (const auto& L1Coefficient : g_L1NeptuneCoefficients)
+    L1 += (L1Coefficient.A * cos(L1Coefficient.B + (L1Coefficient.C*rho)));
 
   //Calculate L2
-  constexpr const int nL2Coefficients = sizeof(g_L2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (int i=0; i<nL2Coefficients; i++)
-    L2 += g_L2NeptuneCoefficients[i].A * cos(g_L2NeptuneCoefficients[i].B + g_L2NeptuneCoefficients[i].C*rho);
+  for (const auto& L2Coefficient : g_L2NeptuneCoefficients)
+    L2 += (L2Coefficient.A * cos(L2Coefficient.B + (L2Coefficient.C*rho)));
 
   //Calculate L3
-  constexpr const int nL3Coefficients = sizeof(g_L3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (int i=0; i<nL3Coefficients; i++)
-    L3 += g_L3NeptuneCoefficients[i].A * cos(g_L3NeptuneCoefficients[i].B + g_L3NeptuneCoefficients[i].C*rho);
+  for (const auto& L3Coefficient : g_L3NeptuneCoefficients)
+    L3 += (L3Coefficient.A * cos(L3Coefficient.B + (L3Coefficient.C*rho)));
 
   //Calculate L4
-  constexpr const int nL4Coefficients = sizeof(g_L4NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (int i=0; i<nL4Coefficients; i++)
-    L4 += g_L4NeptuneCoefficients[i].A * cos(g_L4NeptuneCoefficients[i].B + g_L4NeptuneCoefficients[i].C*rho);
+  for (const auto& L4Coefficient : g_L4NeptuneCoefficients)
+    L4 += (L4Coefficient.A * cos(L4Coefficient.B + (L4Coefficient.C*rho)));
 
-
-  double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4) / 100000000;
+  double value = (L0 + (L1*rho) + (L2*rhosquared) + (L3*rhocubed) + (L4*rho4)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -347,36 +340,31 @@ double CAANeptune::EclipticLatitude(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate B0
-  constexpr const int nB0Coefficients = sizeof(g_B0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  for (int i=0; i<nB0Coefficients; i++)
-    B0 += g_B0NeptuneCoefficients[i].A * cos(g_B0NeptuneCoefficients[i].B + g_B0NeptuneCoefficients[i].C*rho);
+  for (const auto& B0Coefficient : g_B0NeptuneCoefficients)
+    B0 += (B0Coefficient.A * cos(B0Coefficient.B + (B0Coefficient.C*rho)));
 
   //Calculate B1
-  constexpr const int nB1Coefficients = sizeof(g_B1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (int i=0; i<nB1Coefficients; i++)
-    B1 += g_B1NeptuneCoefficients[i].A * cos(g_B1NeptuneCoefficients[i].B + g_B1NeptuneCoefficients[i].C*rho);
+  for (const auto& B1Coefficient : g_B1NeptuneCoefficients)
+    B1 += (B1Coefficient.A * cos(B1Coefficient.B + (B1Coefficient.C*rho)));
 
   //Calculate B2
-  constexpr const int nB2Coefficients = sizeof(g_B2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (int i=0; i<nB2Coefficients; i++)
-    B2 += g_B2NeptuneCoefficients[i].A * cos(g_B2NeptuneCoefficients[i].B + g_B2NeptuneCoefficients[i].C*rho);
+  for (const auto& B2Coefficient : g_B2NeptuneCoefficients)
+    B2 += (B2Coefficient.A * cos(B2Coefficient.B + (B2Coefficient.C*rho)));
 
   //Calculate B3
-  constexpr const int nB3Coefficients = sizeof(g_B3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (int i=0; i<nB3Coefficients; i++)
-    B3 += g_B3NeptuneCoefficients[i].A * cos(g_B3NeptuneCoefficients[i].B + g_B3NeptuneCoefficients[i].C*rho);
+  for (const auto& B3Coefficient : g_B3NeptuneCoefficients)
+    B3 += (B3Coefficient.A * cos(B3Coefficient.B + (B3Coefficient.C*rho)));
 
   //Calculate B4
-  constexpr const int nB4Coefficients = sizeof(g_B4NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (int i=0; i<nB4Coefficients; i++)
-    B4 += g_B4NeptuneCoefficients[i].A * cos(g_B4NeptuneCoefficients[i].B + g_B4NeptuneCoefficients[i].C*rho);
+  for (const auto& B4Coefficient : g_B4NeptuneCoefficients)
+    B4 += (B4Coefficient.A * cos(B4Coefficient.B + (B4Coefficient.C*rho)));
 
-  double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
+  double value = (B0 + (B1*rho) + (B2*rhosquared) + (B3*rhocubed) + (B4*rho4)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -397,28 +385,24 @@ double CAANeptune::RadiusVector(double JD, bool bHighPrecision) noexcept
   const double rhocubed = rhosquared*rho;
 
   //Calculate R0
-  constexpr const int nR0Coefficients = sizeof(g_R0NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  for (int i=0; i<nR0Coefficients; i++)
-    R0 += g_R0NeptuneCoefficients[i].A * cos(g_R0NeptuneCoefficients[i].B + g_R0NeptuneCoefficients[i].C*rho);
+  for (const auto& R0Coefficient : g_R0NeptuneCoefficients)
+    R0 += (R0Coefficient.A * cos(R0Coefficient.B + (R0Coefficient.C*rho)));
 
   //Calculate R1
-  constexpr const int nR1Coefficients = sizeof(g_R1NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (int i=0; i<nR1Coefficients; i++)
-    R1 += g_R1NeptuneCoefficients[i].A * cos(g_R1NeptuneCoefficients[i].B + g_R1NeptuneCoefficients[i].C*rho);
+  for (const auto& R1Coefficient : g_R1NeptuneCoefficients)
+    R1 += (R1Coefficient.A * cos(R1Coefficient.B + (R1Coefficient.C*rho)));
 
   //Calculate R2
-  constexpr const int nR2Coefficients = sizeof(g_R2NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (int i=0; i<nR2Coefficients; i++)
-    R2 += g_R2NeptuneCoefficients[i].A * cos(g_R2NeptuneCoefficients[i].B + g_R2NeptuneCoefficients[i].C*rho);
+  for (const auto& R2Coefficient : g_R2NeptuneCoefficients)
+    R2 += (R2Coefficient.A * cos(R2Coefficient.B + (R2Coefficient.C*rho)));
 
   //Calculate R3
-  constexpr const int nR3Coefficients = sizeof(g_R3NeptuneCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (int i=0; i<nR3Coefficients; i++)
-    R3 += g_R3NeptuneCoefficients[i].A * cos(g_R3NeptuneCoefficients[i].B + g_R3NeptuneCoefficients[i].C*rho);
+  for (const auto& R3Coefficient : g_R3NeptuneCoefficients)
+    R3 += (R3Coefficient.A * cos(R3Coefficient.B + (R3Coefficient.C*rho)));
 
-  return (R0 + R1*rho + R2*rhosquared + R3*rhocubed) / 100000000;
+  return (R0 + (R1*rho) + (R2*rhosquared) + (R3*rhocubed)) / 100000000;
 }

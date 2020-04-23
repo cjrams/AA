@@ -42,7 +42,7 @@ using namespace std;
 #ifdef _MSC_VER
 #pragma warning(suppress : 26429)
 #endif //#ifdef _MSC_VER
-double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle) noexcept
+double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize, bool bAngle) noexcept
 {
 //Validate our parameters
   assert(pTable != nullptr);
@@ -50,14 +50,14 @@ double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTabl
   const double T = (JD - 2451545) / 365250;
   double TTerm = T;
   double Result = 0;
-  for (int i = 0; i<nTableSize; i++)
+  for (size_t i=0; i<nTableSize; i++)
   {
     double TempResult = 0;
-    for (int j = 0; j < pTable[i].nCoefficientsSize; j++)
+    for (size_t j=0; j<pTable[i].nCoefficientsSize; j++)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26489)
 #endif //#ifdef _MSC_VER
-      TempResult += pTable[i].pCoefficients[j].A * cos(pTable[i].pCoefficients[j].B + pTable[i].pCoefficients[j].C*T);
+      TempResult += (pTable[i].pCoefficients[j].A * cos(pTable[i].pCoefficients[j].B + (pTable[i].pCoefficients[j].C*T)));
     if (i)
     {
       TempResult *= TTerm;
@@ -75,7 +75,7 @@ double CVSOP87::Calculate(double JD, const VSOP87Coefficient2* pTable, int nTabl
 #ifdef _MSC_VER
 #pragma warning(suppress : 26429)
 #endif //#ifdef _MSC_VER
-double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize) noexcept
+double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize) noexcept
 {
 //Validate our parameters
   assert(pTable != nullptr);
@@ -84,24 +84,24 @@ double CVSOP87::Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int 
   double TTerm1 = 1;
   double TTerm2 = T;
   double Result = 0;
-  for (int i = 0; i<nTableSize; i++)
+  for (size_t i=0; i<nTableSize; i++)
   {
     double tempPart1 = 0;
     double tempPart2 = 0;
-    for (int j = 0; j < pTable[i].nCoefficientsSize; j++)
+    for (size_t j=0; j<pTable[i].nCoefficientsSize; j++)
     {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26489)
 #endif //#ifdef _MSC_VER
-      const double B_CT = pTable[i].pCoefficients[j].B + pTable[i].pCoefficients[j].C*T;
+      const double B_CT = pTable[i].pCoefficients[j].B + (pTable[i].pCoefficients[j].C*T);
 #ifdef _MSC_VER
 #pragma warning(suppress : 26489)
 #endif //#ifdef _MSC_VER
-      tempPart1 += i * pTable[i].pCoefficients[j].A                                * cos(B_CT);
+      tempPart1 += (i * pTable[i].pCoefficients[j].A * cos(B_CT));
 #ifdef _MSC_VER
 #pragma warning(suppress : 26489)
 #endif //#ifdef _MSC_VER
-      tempPart2 +=     pTable[i].pCoefficients[j].A * pTable[i].pCoefficients[j].C * sin(B_CT);
+      tempPart2 += (pTable[i].pCoefficients[j].A * pTable[i].pCoefficients[j].C * sin(B_CT));
     }
     if (i)
     {

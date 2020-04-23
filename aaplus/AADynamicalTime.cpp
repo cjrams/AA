@@ -79,8 +79,7 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
                           to Luigi Candurro for reporting this bug.
          PJN / 30-07-2017 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st June 2017
                           2. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to Jan 2026
-         PJN / 20-01-2018 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st January 
-                          2018
+         PJN / 20-01-2018 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st January 2018
                           2. Updated the predicted DeltaT values from http://maia.usno.navy.mil/ser7/deltat.preds to Jan 2026
          PJN / 22-09-2018 1. Updated the observed DeltaT values from http://toshi.nofs.navy.mil/ser7/deltat.data to 1st April 2018
          PJN / 03-01-2019 1. Updated copyright details.
@@ -91,6 +90,9 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
          PJN / 23-06-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st June 2019
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 28-09-2019 1. Updated the observed DeltaT values from http://maia.usno.navy.mil/ser7/deltat.data to 1st September 2019
+         PJN / 22-04-2020 1. Updated the observed DeltaT values from ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.data to 1st February 2020
+                          2. Reworked C arrays to use std::array
+                          3. Fixed more Clang-Tidy static code analysis warnings in the code.
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -114,6 +116,7 @@ to maintain a single distribution point for the source code.
 #include "AADate.h"
 #include <cassert>
 #include <cstddef>
+#include <array>
 using namespace std;
 
 
@@ -129,9 +132,9 @@ struct DeltaTValue
   double DeltaT;
 };
 
-const DeltaTValue g_DeltaTValues[] = 
-{
-//All the initial values are observed values from 1 February 1973 to 1 June 2017 as taken from http://maia.usno.navy.mil/ser7/deltat.data 
+constexpr array<DeltaTValue, 596> g_DeltaTValues
+{ {
+  //All the initial values are observed values from 1 February 1973 to 1 June 2017 as taken from http://maia.usno.navy.mil/ser7/deltat.data or ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.data
   { 2441714.5,  43.4724 },
   { 2441742.5,  43.5648 },
   { 2441773.5,  43.6737 },
@@ -692,10 +695,13 @@ const DeltaTValue g_DeltaTValues[] =
   { 2458665.5,  69.3582 }, //1 July 2019
   { 2458696.5,  69.3442 }, //1 August 2019
   { 2458727.5,  69.3376 }, //1 September 2019
+  { 2458757.5,  69.3377 }, //1 October 2019
+  { 2458788.5,  69.3432 }, //1 November 2019
+  { 2458818.5,  69.3540 }, //1 December 2019
+  { 2458849.5,  69.3612 }, //1 January 2020
+  { 2458880.5,  69.3752 }, //1 February 2020
 
-//All these final values are predicted values from Year 2019.75 to 2027.75 are taken from http://maia.usno.navy.mil/ser7/deltat.preds
-  { 2458758.5,  69.71   }, //2019.75
-  { 2458849.5,  69.87   }, //2020.00
+//All these final values are predicted values from Year 2020.25 to 2027.75 are taken from ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.preds
   { 2458940.5,  70.03   }, //2020.25
   { 2459032.5,  70.16   }, //2020.50
   { 2459123.5,  70.24   }, //2020.75
@@ -728,8 +734,8 @@ const DeltaTValue g_DeltaTValues[] =
   { 2461588.5,  73.58   }, //2027.50
   { 2461680.5,  73.66   }  //2027.75
 
-//Note as currently coded there is a single discontinuity of c. 2.5 seconds in October 2027. At this point http://maia.usno.navy.mil/ser7/deltat.preds indicates an error value for DeltaT of about 2 seconds anyway.
-};
+//Note as currently coded there is a single discontinuity of c. 2.5 seconds in October 2027. At this point ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.preds indicates an error value for DeltaT of about 2 seconds anyway.
+} };
 
 struct LeapSecondCoefficient
 {
@@ -739,8 +745,8 @@ struct LeapSecondCoefficient
   double Coefficient;
 };
 
-const LeapSecondCoefficient g_LeapSecondCoefficients[] = //Cumulative leap second values from 1 Jan 1961 to 1 January 2017 as taken from http://maia.usno.navy.mil/ser7/tai-utc.dat
-{
+constexpr array<LeapSecondCoefficient, 41> g_LeapSecondCoefficients //Cumulative leap second values from 1 Jan 1961 to 1 January 2017 as taken from http://maia.usno.navy.mil/ser7/tai-utc.dat
+{ {
   { 2437300.5, 1.4228180, 37300, 0.001296  },
   { 2437512.5, 1.3728180, 37300, 0.001296  },
   { 2437665.5, 1.8458580, 37665, 0.0011232 },
@@ -782,7 +788,7 @@ const LeapSecondCoefficient g_LeapSecondCoefficients[] = //Cumulative leap secon
   { 2456109.5, 35.0,      41317, 0.0       },
   { 2457204.5, 36.0,      41317, 0.0       },
   { 2457754.5, 37.0,      41317, 0.0       }
-};
+} };
 
 
 ////////////////////////////////// Implementation /////////////////////////////
@@ -793,7 +799,7 @@ double CAADynamicalTime::DeltaT(double JD) noexcept
   double Delta = 0;
 
   //Determine if we can use the lookup table
-  constexpr const size_t nLookupElements = sizeof(g_DeltaTValues) / sizeof(DeltaTValue);
+  constexpr size_t nLookupElements = g_DeltaTValues.size();
   if ((JD >= g_DeltaTValues[0].JD) && (JD < g_DeltaTValues[nLookupElements - 1].JD))
   {
     //Find the index in the lookup table which contains the JD value closest to the JD input parameter
@@ -810,6 +816,9 @@ double CAADynamicalTime::DeltaT(double JD) noexcept
       else
       {
         //Now do a simple linear interpolation of the DeltaT values from the lookup table
+      #ifdef _MSC_VER
+        #pragma warning(suppress : 28020)
+      #endif //#ifdef _MSC_VER
         Delta = (JD - g_DeltaTValues[nFoundIndex - 1].JD) / (g_DeltaTValues[nFoundIndex].JD - g_DeltaTValues[nFoundIndex - 1].JD) * (g_DeltaTValues[nFoundIndex].DeltaT - g_DeltaTValues[nFoundIndex - 1].DeltaT) + g_DeltaTValues[nFoundIndex - 1].DeltaT;
       }
     }
@@ -818,7 +827,7 @@ double CAADynamicalTime::DeltaT(double JD) noexcept
   {
     const CAADate date(JD, CAADate::AfterPapalReform(JD));
     const double y = date.FractionalYear();
-  
+
     //Use the polynomial expressions from Espenak & Meeus 2006. References: http://eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html and
     //http://www.staff.science.uu.nl/~gent0113/deltat/deltat_old.htm (Espenak & Meeus 2006 section)
     if (y < -500)
@@ -948,7 +957,7 @@ double CAADynamicalTime::CumulativeLeapSeconds(double JD) noexcept
   //What will be the return value from the method
   double LeapSeconds = 0;
 
-  constexpr const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr size_t nLookupElements = g_LeapSecondCoefficients.size();
   if (JD >= g_LeapSecondCoefficients[0].JD)
   {
     //Find the index in the lookup table which contains the JD value closest to the JD input parameter
@@ -980,7 +989,7 @@ double CAADynamicalTime::TT2UTC(double JD) noexcept
 {
   //Outside of the range 1 January 1961 to 500 days after the last leap second,
   //we implement TT2UTC as TT2UT1
-  constexpr const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
   if ((JD < g_LeapSecondCoefficients[0].JD) || (JD > (g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
     return TT2UT1(JD);
 
@@ -994,7 +1003,7 @@ double CAADynamicalTime::UTC2TT(double JD) noexcept
 {
   //Outside of the range 1 January 1961 to 500 days after the last leap second,
   //we implement TT2UTC as TT2UT1
-  constexpr const size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
   if ((JD < g_LeapSecondCoefficients[0].JD) || (JD >(g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
     return UT12TT(JD);
 

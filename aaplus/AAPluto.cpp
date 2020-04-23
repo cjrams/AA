@@ -8,6 +8,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the PlutoCoefficient1 struc
                           issue when compiling AA+ on ARM.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAPluto.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -30,6 +31,7 @@ to maintain a single distribution point for the source code.
 #include "AAPluto.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -52,8 +54,8 @@ struct PlutoCoefficient2
   double B;
 };
 
-const PlutoCoefficient1 g_PlutoArgumentCoefficients[] =
-{ 
+constexpr array<PlutoCoefficient1, 43> g_PlutoArgumentCoefficients
+{ {
   { 0,   0,    1 },
   { 0,   0,    2 },
   { 0,   0,    3 },
@@ -97,10 +99,10 @@ const PlutoCoefficient1 g_PlutoArgumentCoefficients[] =
   { 3,   0,   -2 },
   { 3,   0,   -1 },
   { 3,   0,    0 }
-};
+} };
 
-const PlutoCoefficient2 g_PlutoLongitudeCoefficients[] =
-{ 
+constexpr array<PlutoCoefficient2, 43> g_PlutoLongitudeCoefficients
+{ {
   { -19799805, 19850055 },
   {  897144,  -4954829  },
   {  611149,   1211027  },
@@ -144,10 +146,10 @@ const PlutoCoefficient2 g_PlutoLongitudeCoefficients[] =
   { -3,       -1        },
   {  5,       -3        },
   {  0,        0        }
-};
+} };
 
-const PlutoCoefficient2 g_PlutoLatitudeCoefficients[] =
-{ 
+constexpr array<PlutoCoefficient2, 43> g_PlutoLatitudeCoefficients
+{ {
   { -5452852, -14974862 },
   {  3527812,  1672790  },
   { -1050748,  327647   },
@@ -191,10 +193,10 @@ const PlutoCoefficient2 g_PlutoLatitudeCoefficients[] =
   {  0,        1        },
   {  0,        0        },
   {  1,        0        }
-};
+} };
 
-const PlutoCoefficient2 g_PlutoRadiusCoefficients[] =
-{ 
+constexpr array<PlutoCoefficient2, 43> g_PlutoRadiusCoefficients
+{ {
   {  66865439,   68951812 },
   { -11827535,  -332538   },
   {  1593179,   -1438890  },
@@ -238,7 +240,7 @@ const PlutoCoefficient2 g_PlutoRadiusCoefficients[] =
   {  2,         -10       },
   {  19,         35       },
   {  10,         3        }
-};
+} };
 
 
 /////////////////////////////////// Implementation ////////////////////////////
@@ -252,12 +254,12 @@ double CAAPluto::EclipticLongitude(double JD) noexcept
 
   //Calculate Longitude
   double L = 0;
-  constexpr const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
-  for (int i=0; i<nPlutoCoefficients; i++)
+  constexpr size_t nPlutoCoefficients = g_PlutoArgumentCoefficients.size();
+  for (size_t i=0; i<nPlutoCoefficients; i++)
   {
-    double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
+    double Alpha = (g_PlutoArgumentCoefficients[i].J*J) + (g_PlutoArgumentCoefficients[i].S*S) + (g_PlutoArgumentCoefficients[i].P*P);
     Alpha = CAACoordinateTransformation::DegreesToRadians(Alpha);
-    L += ((g_PlutoLongitudeCoefficients[i].A * sin(Alpha)) + (g_PlutoLongitudeCoefficients[i].B * cos(Alpha)));
+    L += ((g_PlutoLongitudeCoefficients[i].A*sin(Alpha)) + (g_PlutoLongitudeCoefficients[i].B*cos(Alpha)));
   }
   L = L / 1000000;
   L += (238.958116 + 144.96*T);
@@ -275,12 +277,12 @@ double CAAPluto::EclipticLatitude(double JD) noexcept
 
   //Calculate Latitude
   double L = 0;
-  constexpr const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
-  for (int i=0; i<nPlutoCoefficients; i++)
+  constexpr size_t nPlutoCoefficients = g_PlutoArgumentCoefficients.size();
+  for (size_t i=0; i<nPlutoCoefficients; i++)
   {
-    double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
+    double Alpha = (g_PlutoArgumentCoefficients[i].J*J) + (g_PlutoArgumentCoefficients[i].S*S) + (g_PlutoArgumentCoefficients[i].P*P);
     Alpha = CAACoordinateTransformation::DegreesToRadians(Alpha);
-    L += ((g_PlutoLatitudeCoefficients[i].A * sin(Alpha)) + (g_PlutoLatitudeCoefficients[i].B * cos(Alpha)));
+    L += ((g_PlutoLatitudeCoefficients[i].A*sin(Alpha)) + (g_PlutoLatitudeCoefficients[i].B*cos(Alpha)));
   }
   L = L / 1000000;
   L += -3.908239;
@@ -297,8 +299,8 @@ double CAAPluto::RadiusVector(double JD) noexcept
 
   //Calculate Radius
   double R = 0;
-  constexpr const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
-  for (int i=0; i<nPlutoCoefficients; i++)
+  constexpr size_t nPlutoCoefficients = g_PlutoArgumentCoefficients.size();
+  for (size_t i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
     Alpha = CAACoordinateTransformation::DegreesToRadians(Alpha);

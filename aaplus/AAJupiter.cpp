@@ -23,6 +23,7 @@ History: PJN / 31-05-2004 1) Added a missing coefficient to g_L1JupiterCoefficie
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAJupiter.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -44,10 +45,12 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AAJupiter.h"
 #include "AACoordinateTransformation.h"
+#include "AADefines.h"
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include "AAVSOP87D_JUP.h"
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -64,8 +67,8 @@ struct VSOP87Coefficient
   double C;
 };
 
-const VSOP87Coefficient g_L0JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 64> g_L0JupiterCoefficients
+{ {
   { 59954691, 0,          0           },
   { 9695899,  5.0619179,  529.6909651 },
   { 573610,   1.444062,   7.113547    },
@@ -130,10 +133,10 @@ const VSOP87Coefficient g_L0JupiterCoefficients[] =
   { 117,      2.500,      1596.186    },
   { 117,      3.389,      0.521       },
   { 106,      4.554,      526.510     }
-};
+} };
 
-const VSOP87Coefficient g_L1JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 61> g_L1JupiterCoefficients
+{ {
   { 52993480757.0, 0,          0          },
   { 489741,        4.220667,   529.690965 },
   { 228919,        6.026475,   7.113547   },
@@ -195,10 +198,10 @@ const VSOP87Coefficient g_L1JupiterCoefficients[] =
   { 29,            3.36,       4.67       },
   { 29,            0.76,       88.87      },
   { 25,            1.61,       831.86     }
-};
+} };
 
-const VSOP87Coefficient g_L2JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 57> g_L2JupiterCoefficients
+{ {
   { 47234,  4.32148,  7.11355   },
   { 38966,  0,        0         },
   { 30629,  2.93021,  529.69097 },
@@ -256,10 +259,10 @@ const VSOP87Coefficient g_L2JupiterCoefficients[] =
   { 8,      2.71,     533.62    },
   { 7,      2.18,     1265.57   },
   { 6,      0.50,     949.18    }
-};
+} };
 
-const VSOP87Coefficient g_L3JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 39> g_L3JupiterCoefficients
+{ {
   { 6502, 2.5986, 7.1135   },
   { 1357, 1.3464, 529.6910 },
   { 471,  2.475,  14.227   },
@@ -299,10 +302,10 @@ const VSOP87Coefficient g_L3JupiterCoefficients[] =
   { 3,    2.24,   117.32   },
   { 2,    2.90,   742.99   },
   { 2,    2.36,   942.06   }
-};
+} };
 
-const VSOP87Coefficient g_L4JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 19> g_L4JupiterCoefficients
+{ {
   { 669,  0.853,  7.114   },
   { 114,  3.142,  0       },
   { 100,  0.743,  14.227  },
@@ -322,19 +325,19 @@ const VSOP87Coefficient g_L4JupiterCoefficients[] =
   { 1,    5.26,   1052.27 },
   { 1,    4.72,   95.98   },
   { 1,    1.29,   1589.07 }
-};
+} };
 
-const VSOP87Coefficient g_L5JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 5> g_L5JupiterCoefficients
+{ {
   { 50, 5.26, 7.11   },
   { 16, 5.25, 14.23  },
   { 4,  0.01, 536.80 },
   { 2,  1.10, 522.58 },
   { 1,  3.14, 0      }
-};
+} };
 
-const VSOP87Coefficient g_B0JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 26> g_B0JupiterCoefficients
+{ {
   { 2268616,  3.5585261,  529.6909651 },
   { 110090,   0,          0           },
   { 109972,   3.908093,   1059.381930 },
@@ -361,10 +364,10 @@ const VSOP87Coefficient g_B0JupiterCoefficients[] =
   { 104,      3.701,      515.464     },
   { 103,      2.319,      1478.867    },
   { 102,      3.153,      1581.959    }
-};
+} };
 
-const VSOP87Coefficient g_B1JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 22> g_B1JupiterCoefficients
+{ {
   { 177352, 5.701665, 529.690965 },
   { 3230,   5.7794,   1059.3819  },
   { 3081,   5.4746,   522.5774   },
@@ -387,10 +390,10 @@ const VSOP87Coefficient g_B1JupiterCoefficients[] =
   { 37,     4.70,     543.92     },
   { 36,     6.11,     316.39     },
   { 32,     4.92,     1581.96    }
-};
+} };
 
-const VSOP87Coefficient g_B2JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 14> g_B2JupiterCoefficients
+{ {
   { 8094, 1.4632, 529.6910 },
   { 813,  3.1416, 0        },
   { 742,  0.957,  522.577  },
@@ -405,10 +408,10 @@ const VSOP87Coefficient g_B2JupiterCoefficients[] =
   { 12,   5.22,   632.78   },
   { 11,   4.88,   949.18   },
   { 6,    6.21,   1045.15  }
-};
+} };
 
-const VSOP87Coefficient g_B3JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 9> g_B3JupiterCoefficients
+{ {
   { 252,  3.381,  529.691 },
   { 122,  2.733,  522.577 },
   { 49,   1.04,   536.80  },
@@ -418,25 +421,25 @@ const VSOP87Coefficient g_B3JupiterCoefficients[] =
   { 6,    1.78,   1066.50 },
   { 4,    1.13,   543.92  },
   { 3,    3.14,   0       }
-};
+} };
 
-const VSOP87Coefficient g_B4JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 6> g_B4JupiterCoefficients
+{ {
   { 15, 4.53, 522.58  },
   { 5,  4.47, 529.69  },
   { 4,  5.44, 536.80  },
   { 3,  0,    0       },
   { 2,  4.52, 515.46  },
   { 1,  4.20, 1052.27 }
-};
+} };
 
-const VSOP87Coefficient g_B5JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 1> g_B5JupiterCoefficients
+{ {
   { 1,  0.09, 522.58 }
-};
+} };
 
-const VSOP87Coefficient g_R0JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 46> g_R0JupiterCoefficients
+{ {
   { 520887429,  0,          0            },
   { 25209327,   3.49108640, 529.69096509 },
   { 610600,     3.841154,   1059.381930  },
@@ -483,10 +486,10 @@ const VSOP87Coefficient g_R0JupiterCoefficients[] =
   { 615,        2.276,      942.062      },
   { 562,        0.081,      543.918      },
   { 542,        0.284,      525.759      }
-};
+} };
 
-const VSOP87Coefficient g_R1JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 43> g_R1JupiterCoefficients
+{ {
   { 1271802,2.6493751,  529.6909651 },
   { 61662,  3.00076,    1059.38193  },
   { 53444,  3.89718,    522.57742   },
@@ -530,10 +533,10 @@ const VSOP87Coefficient g_R1JupiterCoefficients[] =
   { 146,    6.130,      533.623     },
   { 133,    1.322,      110.206     },
   { 132,    4.512,      525.759     }
-};
+} };
 
-const VSOP87Coefficient g_R2JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 36> g_R2JupiterCoefficients
+{ {
   { 79645,  1.35866,  529.69097 },
   { 8252,   5.7777,   522.5774  },
   { 7030,   3.2748,   536.8045  },
@@ -570,10 +573,10 @@ const VSOP87Coefficient g_R2JupiterCoefficients[] =
   { 45,     5.52,     508.35    },
   { 44,     0.27,     526.51    },
   { 40,     5.95,     95.98     }
-};
+} };
 
-const VSOP87Coefficient g_R3JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 28> g_R3JupiterCoefficients
+{ {
   { 3519, 6.0580, 529.6910 },
   { 1073, 1.6732, 536.8045 },
   { 916,  1.413,  522.577  },
@@ -602,14 +605,14 @@ const VSOP87Coefficient g_R3JupiterCoefficients[] =
   { 11,   6.28,   956.29   },
   { 10,   6.26,   103.09   },
   { 9,    3.45,   838.97   }
-};
+} };
 
-const VSOP87Coefficient g_R4JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 15> g_R4JupiterCoefficients
+{ {
   { 129,  0.084,  536.805 },
   { 113,  4.249,  529.691 },
   { 83,   3.30,   522.58  },
-  { 38,   2.73,   515.46  }, 
+  { 38,   2.73,   515.46  },
   { 27,   5.69,   7.11    },
   { 18,   5.40,   1059.38 },
   { 13,   6.02,   543.92  },
@@ -621,10 +624,10 @@ const VSOP87Coefficient g_R4JupiterCoefficients[] =
   { 3,    3.40,   1052.27 },
   { 3,    4.16,   728.76  },
   { 3,    2.90,   426.60  }
-};
+} };
 
-const VSOP87Coefficient g_R5JupiterCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 7> g_R5JupiterCoefficients
+{ {
   { 11, 4.75, 536.80  },
   { 4,  5.92, 522.58  },
   { 2,  5.57, 515.46  },
@@ -632,11 +635,7 @@ const VSOP87Coefficient g_R5JupiterCoefficients[] =
   { 2,  3.69, 7.11    },
   { 2,  4.13, 1059.38 },
   { 2,  5.49, 1066.50 }
-};
-
-#ifndef UNREFERENCED_PARAMETER
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
-#endif //#ifndef UNREFERENCED_PARAMETER
+} };
 
 
 ////////////////////////// Implementation /////////////////////////////////////
@@ -657,42 +656,36 @@ double CAAJupiter::EclipticLongitude(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate L0
-  constexpr const int nL0Coefficients = sizeof(g_L0JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  for (int i=0; i<nL0Coefficients; i++)
-    L0 += g_L0JupiterCoefficients[i].A * cos(g_L0JupiterCoefficients[i].B + g_L0JupiterCoefficients[i].C*rho);
+  for (const auto& L0Coefficient : g_L0JupiterCoefficients)
+    L0 += (L0Coefficient.A * cos(L0Coefficient.B + (L0Coefficient.C*rho)));
 
   //Calculate L1
-  constexpr const int nL1Coefficients = sizeof(g_L1JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (int i=0; i<nL1Coefficients; i++)
-    L1 += g_L1JupiterCoefficients[i].A * cos(g_L1JupiterCoefficients[i].B + g_L1JupiterCoefficients[i].C*rho);
+  for (const auto& L1Coefficient : g_L1JupiterCoefficients)
+    L1 += (L1Coefficient.A * cos(L1Coefficient.B + (L1Coefficient.C*rho)));
 
   //Calculate L2
-  constexpr const int nL2Coefficients = sizeof(g_L2JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (int i=0; i<nL2Coefficients; i++)
-    L2 += g_L2JupiterCoefficients[i].A * cos(g_L2JupiterCoefficients[i].B + g_L2JupiterCoefficients[i].C*rho);
+  for (const auto& L2Coefficient : g_L2JupiterCoefficients)
+    L2 += (L2Coefficient.A * cos(L2Coefficient.B + (L2Coefficient.C*rho)));
 
   //Calculate L3
-  constexpr const int nL3Coefficients = sizeof(g_L3JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (int i=0; i<nL3Coefficients; i++)
-    L3 += g_L3JupiterCoefficients[i].A * cos(g_L3JupiterCoefficients[i].B + g_L3JupiterCoefficients[i].C*rho);
+  for (const auto& L3Coefficient : g_L3JupiterCoefficients)
+    L3 += (L3Coefficient.A * cos(L3Coefficient.B + (L3Coefficient.C*rho)));
 
   //Calculate L4
-  constexpr const int nL4Coefficients = sizeof(g_L4JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (int i=0; i<nL4Coefficients; i++)
-    L4 += g_L4JupiterCoefficients[i].A * cos(g_L4JupiterCoefficients[i].B + g_L4JupiterCoefficients[i].C*rho);
+  for (const auto& L4Coefficient : g_L4JupiterCoefficients)
+    L4 += (L4Coefficient.A * cos(L4Coefficient.B + (L4Coefficient.C*rho)));
 
   //Calculate L5
-  constexpr const int nL5Coefficients = sizeof(g_L5JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double L5 = 0;
-  for (int i=0; i<nL5Coefficients; i++)
-    L5 += g_L5JupiterCoefficients[i].A * cos(g_L5JupiterCoefficients[i].B + g_L5JupiterCoefficients[i].C*rho);
+  for (const auto& L5Coefficient : g_L5JupiterCoefficients)
+    L5 += (L5Coefficient.A * cos(L5Coefficient.B + (L5Coefficient.C*rho)));
 
-  double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4 + L5*rho5) / 100000000;
+  double value = (L0 + (L1*rho) + (L2*rhosquared) + (L3*rhocubed) + (L4*rho4) + (L5*rho5)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -715,42 +708,36 @@ double CAAJupiter::EclipticLatitude(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate B0
-  constexpr const int nB0Coefficients = sizeof(g_B0JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  for (int i=0; i<nB0Coefficients; i++)
-    B0 += g_B0JupiterCoefficients[i].A * cos(g_B0JupiterCoefficients[i].B + g_B0JupiterCoefficients[i].C*rho);
+  for (const auto& B0Coefficient : g_B0JupiterCoefficients)
+    B0 += (B0Coefficient.A * cos(B0Coefficient.B + (B0Coefficient.C*rho)));
 
   //Calculate B1
-  constexpr const int nB1Coefficients = sizeof(g_B1JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (int i=0; i<nB1Coefficients; i++)
-    B1 += g_B1JupiterCoefficients[i].A * cos(g_B1JupiterCoefficients[i].B + g_B1JupiterCoefficients[i].C*rho);
+  for (const auto& B1Coefficient : g_B1JupiterCoefficients)
+    B1 += (B1Coefficient.A * cos(B1Coefficient.B + (B1Coefficient.C*rho)));
 
   //Calculate B2
-  constexpr const int nB2Coefficients = sizeof(g_B2JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (int i=0; i<nB2Coefficients; i++)
-    B2 += g_B2JupiterCoefficients[i].A * cos(g_B2JupiterCoefficients[i].B + g_B2JupiterCoefficients[i].C*rho);
+  for (const auto& B2Coefficient : g_B2JupiterCoefficients)
+    B2 += (B2Coefficient.A * cos(B2Coefficient.B + (B2Coefficient.C*rho)));
 
   //Calculate B3
-  constexpr const int nB3Coefficients = sizeof(g_B3JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (int i=0; i<nB3Coefficients; i++)
-    B3 += g_B3JupiterCoefficients[i].A * cos(g_B3JupiterCoefficients[i].B + g_B3JupiterCoefficients[i].C*rho);
+  for (const auto& B3Coefficient : g_B3JupiterCoefficients)
+    B3 += (B3Coefficient.A * cos(B3Coefficient.B + (B3Coefficient.C*rho)));
 
   //Calculate B4
-  constexpr const int nB4Coefficients = sizeof(g_B4JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (int i=0; i<nB4Coefficients; i++)
-    B4 += g_B4JupiterCoefficients[i].A * cos(g_B4JupiterCoefficients[i].B + g_B4JupiterCoefficients[i].C*rho);
+  for (const auto& B4Coefficient : g_B4JupiterCoefficients)
+    B4 += (B4Coefficient.A * cos(B4Coefficient.B + (B4Coefficient.C*rho)));
 
   //Calculate B5
-  constexpr const int nB5Coefficients = sizeof(g_B5JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double B5 = 0;
-  for (int i=0; i<nB5Coefficients; i++)
-    B5 += g_B5JupiterCoefficients[i].A * cos(g_B5JupiterCoefficients[i].B + g_B5JupiterCoefficients[i].C*rho);
+  for (const auto& B5Coefficient : g_B5JupiterCoefficients)
+    B5 += (B5Coefficient.A * cos(B5Coefficient.B + (B5Coefficient.C*rho)));
 
-  double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4 + B5*rho5) / 100000000;
+  double value = (B0 + (B1*rho) + (B2*rhosquared) + (B3*rhocubed) + (B4*rho4) + (B5*rho5)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -773,40 +760,34 @@ double CAAJupiter::RadiusVector(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate R0
-  constexpr const int nR0Coefficients = sizeof(g_R0JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  for (int i=0; i<nR0Coefficients; i++)
-    R0 += g_R0JupiterCoefficients[i].A * cos(g_R0JupiterCoefficients[i].B + g_R0JupiterCoefficients[i].C*rho);
+  for (const auto& R0Coefficient : g_R0JupiterCoefficients)
+    R0 += (R0Coefficient.A * cos(R0Coefficient.B + (R0Coefficient.C*rho)));
 
   //Calculate R1
-  constexpr const int nR1Coefficients = sizeof(g_R1JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (int i=0; i<nR1Coefficients; i++)
-    R1 += g_R1JupiterCoefficients[i].A * cos(g_R1JupiterCoefficients[i].B + g_R1JupiterCoefficients[i].C*rho);
+  for (const auto& R1Coefficient : g_R1JupiterCoefficients)
+    R1 += (R1Coefficient.A * cos(R1Coefficient.B + (R1Coefficient.C*rho)));
 
   //Calculate R2
-  constexpr const int nR2Coefficients = sizeof(g_R2JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (int i=0; i<nR2Coefficients; i++)
-    R2 += g_R2JupiterCoefficients[i].A * cos(g_R2JupiterCoefficients[i].B + g_R2JupiterCoefficients[i].C*rho);
+  for (const auto& R2Coefficient : g_R2JupiterCoefficients)
+    R2 += (R2Coefficient.A * cos(R2Coefficient.B + (R2Coefficient.C*rho)));
 
   //Calculate R3
-  constexpr const int nR3Coefficients = sizeof(g_R3JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (int i=0; i<nR3Coefficients; i++)
-    R3 += g_R3JupiterCoefficients[i].A * cos(g_R3JupiterCoefficients[i].B + g_R3JupiterCoefficients[i].C*rho);
+  for (const auto& R3Coefficient : g_R3JupiterCoefficients)
+    R3 += (R3Coefficient.A * cos(R3Coefficient.B + (R3Coefficient.C*rho)));
 
   //Calculate R4
-  constexpr const int nR4Coefficients = sizeof(g_R4JupiterCoefficients) / sizeof(VSOP87Coefficient);
   double R4 = 0;
-  for (int i=0; i<nR4Coefficients; i++)
-    R4 += g_R4JupiterCoefficients[i].A * cos(g_R4JupiterCoefficients[i].B + g_R4JupiterCoefficients[i].C*rho);
+  for (const auto& R4Coefficient : g_R4JupiterCoefficients)
+    R4 += (R4Coefficient.A * cos(R4Coefficient.B + (R4Coefficient.C*rho)));
 
-//Calculate R5
-  constexpr const int nR5Coefficients = sizeof(g_R5JupiterCoefficients) / sizeof(VSOP87Coefficient);
+  //Calculate R5
   double R5 = 0;
-  for (int i=0; i<nR5Coefficients; i++)
-    R5 += g_R5JupiterCoefficients[i].A * cos(g_R5JupiterCoefficients[i].B + g_R5JupiterCoefficients[i].C*rho);
+  for (const auto& R5Coefficient : g_R5JupiterCoefficients)
+    R5 += (R5Coefficient.A * cos(R5Coefficient.B + (R5Coefficient.C*rho)));
 
-  return (R0 + R1*rho + R2*rhosquared + R3*rhocubed + R4*rho4 + R5*rho5) / 100000000;
+  return (R0 + (R1*rho) + (R2*rhosquared) + (R3*rhocubed) + (R4*rho4) + (R5*rho5)) / 100000000;
 }

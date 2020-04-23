@@ -36,7 +36,6 @@ to maintain a single distribution point for the source code.
 
 #include "AA2DCoordinate.h"
 #include "AA3DCoordinate.h"
-#include <stdio.h>
 
 
 ////////////////////////////// Classes ////////////////////////////////////////

@@ -43,6 +43,7 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
          PJN / 29-03-2015 1. Fixed up some variable initializations around the use of modf. Thanks to Arnaud Cueille for
                           reporting this issue.
          PJN / 18-02-2017 1. Reworked the CAADate::SetInGregorianCalendar method to use the AfterPapalReform method.
+         PJN / 18-04-2020 1. Made a number of the CAADate methods [[nodiscard]] when compiled as C++ 17
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -284,8 +285,8 @@ long CAADate::DaysInMonth(long Month, bool bLeap) noexcept
   __analysis_assume(Month >= 1 && Month <= 12);
 #endif //#ifdef _MSC_VER
 
-  static array<int, 12> g_NonLeapMonths = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-  static array<int, 12> g_LeapMonths = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+  static constexpr array<int, 12> g_NonLeapMonths{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+  static constexpr array<int, 12> g_LeapMonths{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
   if (bLeap)
   {

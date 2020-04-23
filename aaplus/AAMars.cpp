@@ -18,6 +18,7 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAMars.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -39,10 +40,12 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AAMars.h"
 #include "AACoordinateTransformation.h"
+#include "AADefines.h"
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include "AAVSOP87D_MAR.h"
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -59,8 +62,8 @@ struct VSOP87Coefficient
   double C;
 };
 
-const VSOP87Coefficient g_L0MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 69> g_L0MarsCoefficients
+{ {
   { 620347712,  0,          0             },
   { 18656368,   5.05037100, 3340.61242670 },
   { 1108217,    5.4009984,  6681.2248534  },
@@ -130,10 +133,10 @@ const VSOP87Coefficient g_L0MarsCoefficients[] =
   { 110,        1.052,      242.729       },
   { 105,        0.785,      8827.390      },
   { 100,        3.243,      11773.377     }
-};
+} };
 
-const VSOP87Coefficient g_L1MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 46> g_L1MarsCoefficients
+{ {
   { 334085627474.0, 0,          0            },
   { 1458227,        3.6042605,  3340.6124267 },
   { 164901,         3.926313,   6681.224853  },
@@ -180,10 +183,10 @@ const VSOP87Coefficient g_L1MarsCoefficients[] =
   { 28,             0.05,       9492.15      },
   { 27,             3.89,       1221.85      },
   { 27,             5.11,       2700.72      }
-};
+} };
 
-const VSOP87Coefficient g_L2MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 33> g_L2MarsCoefficients
+{ {
   { 58016,  2.04979,  3340.61243 },
   { 54188,  0,        0          },
   { 13908,  2.45742,  6681.22485 },
@@ -217,11 +220,10 @@ const VSOP87Coefficient g_L2MarsCoefficients[] =
   { 7,      2.38,     4136.91    },
   { 6,      5.48,     1592.60    },
   { 6,      2.34,     3097.88    }
- 
-};
+} };
 
-const VSOP87Coefficient g_L3MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 12> g_L3MarsCoefficients
+{ {
   { 1482, 0.4443, 3340.6124 },
   { 662,  0.885,  6681.225  },
   { 188,  1.288,  10021.837 },
@@ -234,10 +236,10 @@ const VSOP87Coefficient g_L3MarsCoefficients[] =
   { 4,    2.02,   3344.14   },
   { 3,    4.59,   3185.19   },
   { 3,    0.65,   553.57    }
-};
+} };
 
-const VSOP87Coefficient g_L4MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 8> g_L4MarsCoefficients
+{ {
   { 114,  3.1416, 0        },
   { 29,   5.64,   6681.22  },
   { 24,   5.14,   3340.61  },
@@ -246,16 +248,16 @@ const VSOP87Coefficient g_L4MarsCoefficients[] =
   { 3,    3.56,   155.42   },
   { 1,    0.49,   16703.06 },
   { 1,    1.32,   242.73   }
-};
+} };
 
-const VSOP87Coefficient g_L5MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 2> g_L5MarsCoefficients
+{ {
   { 1,  3.14, 0       },
   { 1,  4.04, 6681.22 }
-};
+} };
 
-const VSOP87Coefficient g_B0MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 16> g_B0MarsCoefficients
+{ {
   { 3197135,  3.7683204,  3340.6124267 },
   { 298033,   4.106170,   6681.224853  },
   { 289105,   0,          0            },
@@ -272,10 +274,10 @@ const VSOP87Coefficient g_B0MarsCoefficients[] =
   { 143,      1.182,      3340.595     },
   { 143,      3.213,      3340.630     },
   { 139,      2.418,      8962.455     }
-};
+} };
 
-const VSOP87Coefficient g_B1MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 9> g_B1MarsCoefficients
+{ {
   { 350069, 5.368478, 3340.612427 },
   { 14116,  3.14159,  0           },
   { 9671,   5.4788,   6681.2249   },
@@ -285,10 +287,10 @@ const VSOP87Coefficient g_B1MarsCoefficients[] =
   { 79,     3.72,     16703.06    },
   { 33,     3.46,     5621.84     },
   { 26,     2.48,     2281.23     }
-};
+} };
 
-const VSOP87Coefficient g_B2MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 7> g_B2MarsCoefficients
+{ {
   { 16727,  0.60221,  3340.61243 },
   { 4987,   3.1416,   0          },
   { 302,    5.559,    6681.225   },
@@ -296,25 +298,25 @@ const VSOP87Coefficient g_B2MarsCoefficients[] =
   { 21,     0.92,     10021.84   },
   { 12,     2.24,     3337.09    },
   { 8,      2.25,     16703.06   }
-};
+} };
 
-const VSOP87Coefficient g_B3MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 4> g_B3MarsCoefficients
+{ {
   { 607,  1.981,  3340.612 },
   { 43,   0,      0        },
   { 14,   1.80,   6681.22  },
   { 3,    3.45,   10021.84 }
-};
+} };
 
-const VSOP87Coefficient g_B4MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 3> g_B4MarsCoefficients
+{ {
   { 13, 0,    0       },
   { 11, 3.46, 3340.61 },
   { 1,  0.50, 6681.22 }
-};
+} };
 
-const VSOP87Coefficient g_R0MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 45> g_R0MarsCoefficients
+{ {
   { 153033488,  0,          0             },
   { 14184953,   3.47971284, 3340.61242670 },
   { 660776,     3.817834,   6681.224853   },
@@ -360,10 +362,10 @@ const VSOP87Coefficient g_R0MarsCoefficients[] =
   { 179,        4.184,      3333.499      },
   { 176,        5.953,      3870.303      },
   { 164,        3.799,      4136.910      }
-};
+} };
 
-const VSOP87Coefficient g_R1MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 27> g_R1MarsCoefficients
+{ {
   { 1107433,  2.0325052,  3340.6124267 },
   { 103176,   2.370718,   6681.224853  },
   { 12877,    0,          0            },
@@ -391,10 +393,10 @@ const VSOP87Coefficient g_R1MarsCoefficients[] =
   { 48,       2.58,       3149.16      },
   { 48,       2.29,       2914.01      },
   { 39,       2.32,       4136.91      }
-};
+} };
 
-const VSOP87Coefficient g_R2MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 11> g_R2MarsCoefficients
+{ {
   { 44242,  0.47931,  3340.61243 },
   { 8138,   0.8700,   6681.2249  },
   { 1275,   1.2259,   10021.8373 },
@@ -406,29 +408,25 @@ const VSOP87Coefficient g_R2MarsCoefficients[] =
   { 12,     4.53,     3185.19    },
   { 10,     5.39,     1059.38    },
   { 10,     0.42,     796.30     }
-};
+} };
 
-const VSOP87Coefficient g_R3MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 6> g_R3MarsCoefficients
+{ {
   { 1113, 5.1499, 3340.6124 },
   { 424,  5.613,  6681.225  },
   { 100,  5.997,  10021.837 },
   { 20,   0.08,   13362.45  },
   { 5,    3.14,   0         },
   { 3,    0.43,   16703.06  }
-};
+} };
 
-const VSOP87Coefficient g_R4MarsCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 4> g_R4MarsCoefficients
+{ {
   { 20, 3.58, 3340.61  },
   { 16, 4.05, 6681.22  },
   { 6,  4.46, 10021.84 },
   { 2,  4.84, 13362.45 }
-};
-
-#ifndef UNREFERENCED_PARAMETER
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
-#endif //#ifndef UNREFERENCED_PARAMETER
+} };
 
 
 ///////////////////////////// Implementation //////////////////////////////////
@@ -449,42 +447,36 @@ double CAAMars::EclipticLongitude(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate L0
-  constexpr const int nL0Coefficients = sizeof(g_L0MarsCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  for (int i=0; i<nL0Coefficients; i++)
-    L0 += g_L0MarsCoefficients[i].A * std::cos(g_L0MarsCoefficients[i].B + g_L0MarsCoefficients[i].C*rho);
+  for (const auto& L0Coefficient : g_L0MarsCoefficients)
+    L0 += (L0Coefficient.A * std::cos(L0Coefficient.B + (L0Coefficient.C*rho)));
 
   //Calculate L1
-  constexpr const int nL1Coefficients = sizeof(g_L1MarsCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (int i=0; i<nL1Coefficients; i++)
-    L1 += g_L1MarsCoefficients[i].A * std::cos(g_L1MarsCoefficients[i].B + g_L1MarsCoefficients[i].C*rho);
+  for (const auto& L1Coefficient : g_L1MarsCoefficients)
+    L1 += (L1Coefficient.A * std::cos(L1Coefficient.B + (L1Coefficient.C*rho)));
 
   //Calculate L2
-  constexpr const int nL2Coefficients = sizeof(g_L2MarsCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (int i=0; i<nL2Coefficients; i++)
-    L2 += g_L2MarsCoefficients[i].A * std::cos(g_L2MarsCoefficients[i].B + g_L2MarsCoefficients[i].C*rho);
+  for (const auto& L2Coefficient : g_L2MarsCoefficients)
+    L2 += (L2Coefficient.A * std::cos(L2Coefficient.B + (L2Coefficient.C*rho)));
 
   //Calculate L3
-  constexpr const int nL3Coefficients = sizeof(g_L3MarsCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (int i=0; i<nL3Coefficients; i++)
-    L3 += g_L3MarsCoefficients[i].A * std::cos(g_L3MarsCoefficients[i].B + g_L3MarsCoefficients[i].C*rho);
+  for (const auto& L3Coefficient : g_L3MarsCoefficients)
+    L3 += (L3Coefficient.A * std::cos(L3Coefficient.B + (L3Coefficient.C*rho)));
 
   //Calculate L4
-  constexpr const int nL4Coefficients = sizeof(g_L4MarsCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (int i=0; i<nL4Coefficients; i++)
-    L4 += g_L4MarsCoefficients[i].A * std::cos(g_L4MarsCoefficients[i].B + g_L4MarsCoefficients[i].C*rho);
+  for (const auto& L4Coefficient : g_L4MarsCoefficients)
+    L4 += (L4Coefficient.A * std::cos(L4Coefficient.B + (L4Coefficient.C*rho)));
 
   //Calculate L5
-  constexpr const int nL5Coefficients = sizeof(g_L5MarsCoefficients) / sizeof(VSOP87Coefficient);
   double L5 = 0;
-  for (int i=0; i<nL5Coefficients; i++)
-    L5 += g_L5MarsCoefficients[i].A * std::cos(g_L5MarsCoefficients[i].B + g_L5MarsCoefficients[i].C*rho);
+  for (const auto& L5Coefficient : g_L5MarsCoefficients)
+    L5 += (L5Coefficient.A * std::cos(L5Coefficient.B + (L5Coefficient.C*rho)));
 
-  double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4 + L5*rho5) / 100000000;
+  double value = (L0 + (L1*rho) + (L2*rhosquared) + (L3*rhocubed) + (L4*rho4) + (L5*rho5)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -506,34 +498,29 @@ double CAAMars::EclipticLatitude(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate B0
-  constexpr const int nB0Coefficients = sizeof(g_B0MarsCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  for (int i=0; i<nB0Coefficients; i++)
-    B0 += g_B0MarsCoefficients[i].A * std::cos(g_B0MarsCoefficients[i].B + g_B0MarsCoefficients[i].C*rho);
+  for (const auto& B0Coefficient : g_B0MarsCoefficients)
+    B0 += (B0Coefficient.A * std::cos(B0Coefficient.B + (B0Coefficient.C*rho)));
 
   //Calculate B1
-  constexpr const int nB1Coefficients = sizeof(g_B1MarsCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (int i=0; i<nB1Coefficients; i++)
-    B1 += g_B1MarsCoefficients[i].A * std::cos(g_B1MarsCoefficients[i].B + g_B1MarsCoefficients[i].C*rho);
+  for (const auto& B1Coefficient : g_B1MarsCoefficients)
+    B1 += (B1Coefficient.A * std::cos(B1Coefficient.B + (B1Coefficient.C*rho)));
 
   //Calculate B2
-  constexpr const int nB2Coefficients = sizeof(g_B2MarsCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (int i=0; i<nB2Coefficients; i++)
-    B2 += g_B2MarsCoefficients[i].A * std::cos(g_B2MarsCoefficients[i].B + g_B2MarsCoefficients[i].C*rho);
+  for (const auto& B2Coefficient : g_B2MarsCoefficients)
+    B2 += (B2Coefficient.A * std::cos(B2Coefficient.B + (B2Coefficient.C*rho)));
 
   //Calculate B3
-  constexpr const int nB3Coefficients = sizeof(g_B3MarsCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (int i=0; i<nB3Coefficients; i++)
-    B3 += g_B3MarsCoefficients[i].A * std::cos(g_B3MarsCoefficients[i].B + g_B3MarsCoefficients[i].C*rho);
+  for (const auto& B3Coefficient : g_B3MarsCoefficients)
+    B3 += (B3Coefficient.A * std::cos(B3Coefficient.B + (B3Coefficient.C*rho)));
 
   //Calculate B4
-  constexpr const int nB4Coefficients = sizeof(g_B4MarsCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (int i=0; i<nB4Coefficients; i++)
-    B4 += g_B4MarsCoefficients[i].A * std::cos(g_B4MarsCoefficients[i].B + g_B4MarsCoefficients[i].C*rho);
+  for (const auto& B4Coefficient : g_B4MarsCoefficients)
+    B4 += (B4Coefficient.A * std::cos(B4Coefficient.B + (B4Coefficient.C*rho)));
 
   double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
 
@@ -557,34 +544,29 @@ double CAAMars::RadiusVector(double JD, bool bHighPrecision) noexcept
   const double rho4 = rhocubed*rho;
 
   //Calculate R0
-  constexpr const int nR0Coefficients = sizeof(g_R0MarsCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  for (int i=0; i<nR0Coefficients; i++)
-    R0 += g_R0MarsCoefficients[i].A * std::cos(g_R0MarsCoefficients[i].B + g_R0MarsCoefficients[i].C*rho);
+  for (const auto& R0Coefficients : g_R0MarsCoefficients)
+    R0 += (R0Coefficients.A * std::cos(R0Coefficients.B + (R0Coefficients.C*rho)));
 
   //Calculate R1
-  constexpr const int nR1Coefficients = sizeof(g_R1MarsCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (int i=0; i<nR1Coefficients; i++)
-    R1 += g_R1MarsCoefficients[i].A * std::cos(g_R1MarsCoefficients[i].B + g_R1MarsCoefficients[i].C*rho);
+  for (const auto& R1Coefficient : g_R1MarsCoefficients)
+    R1 += (R1Coefficient.A * std::cos(R1Coefficient.B + (R1Coefficient.C*rho)));
 
   //Calculate R2
-  constexpr const int nR2Coefficients = sizeof(g_R2MarsCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (int i=0; i<nR2Coefficients; i++)
-    R2 += g_R2MarsCoefficients[i].A * std::cos(g_R2MarsCoefficients[i].B + g_R2MarsCoefficients[i].C*rho);
+  for (const auto& R2Coefficient : g_R2MarsCoefficients)
+    R2 += (R2Coefficient.A * std::cos(R2Coefficient.B + (R2Coefficient.C*rho)));
 
   //Calculate R3
-  constexpr const int nR3Coefficients = sizeof(g_R3MarsCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (int i=0; i<nR3Coefficients; i++)
-    R3 += g_R3MarsCoefficients[i].A * std::cos(g_R3MarsCoefficients[i].B + g_R3MarsCoefficients[i].C*rho);
+  for (const auto& R3Coefficient : g_R3MarsCoefficients)
+    R3 += (R3Coefficient.A * std::cos(R3Coefficient.B + (R3Coefficient.C*rho)));
 
   //Calculate R4
-  constexpr const int nR4Coefficients = sizeof(g_R4MarsCoefficients) / sizeof(VSOP87Coefficient);
   double R4 = 0;
-  for (int i=0; i<nR4Coefficients; i++)
-    R4 += g_R4MarsCoefficients[i].A * std::cos(g_R4MarsCoefficients[i].B + g_R4MarsCoefficients[i].C*rho);
+  for (const auto& R4Coefficient : g_R4MarsCoefficients)
+    R4 += (R4Coefficient.A * std::cos(R4Coefficient.B + (R4Coefficient.C*rho)));
 
   return (R0 + R1*rho + R2*rhosquared + R3*rhocubed + R4*rho4) / 100000000;
 }

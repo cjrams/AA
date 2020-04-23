@@ -20,6 +20,7 @@ History: PJN / 31-05-2004 1) In CAASaturn::EclipticLongitude the g_L5SaturnCoeff
                           VSOP87 theory rather than the truncated theory as presented in Meeus's book.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AASaturn.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -41,10 +42,12 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AASaturn.h"
 #include "AACoordinateTransformation.h"
+#include "AADefines.h"
 #ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include "AAVSOP87D_SAT.h"
 #endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -61,8 +64,8 @@ struct VSOP87Coefficient
   double C;
 };
 
-const VSOP87Coefficient g_L0SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 90> g_L0SaturnCoefficients
+{ {
   { 87401354, 0,          0            },
   { 11107660, 3.96205090, 213.29909544 },
   { 1414151,  4.5858152,  7.1135470    },
@@ -153,10 +156,10 @@ const VSOP87Coefficient g_L0SaturnCoefficients[] =
   { 104,      2.192,      88.866       },
   { 103,      1.197,      1685.052     },
   { 101,      4.965,      269.921      }
-};
+} };
 
-const VSOP87Coefficient g_L1SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 79> g_L1SaturnCoefficients
+{ {
   { 21354295596.0, 0,         0           },
   { 1296855,       1.8282054, 213.2990954 },
   { 564348,        2.885001,  7.113547    },
@@ -236,10 +239,10 @@ const VSOP87Coefficient g_L1SaturnCoefficients[] =
   { 29,            2.03,      330.62      },
   { 28,            2.74,      265.99      },
   { 26,            4.51,      340.77      }
-};
+} };
 
-const VSOP87Coefficient g_L2SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 63> g_L2SaturnCoefficients
+{ {
   { 116441, 1.179879, 7.113547  },
   { 91921,  0.07425,  213.29910 },
   { 90592,  0,	      0         },
@@ -303,10 +306,10 @@ const VSOP87Coefficient g_L2SaturnCoefficients[] =
   { 7,      5.40,     1052.27   },
   { 6,      4.46,     284.15    },
   { 6,      5.93,     405.26    }
-};
+} };
 
-const VSOP87Coefficient g_L3SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 48> g_L3SaturnCoefficients
+{ {
   { 16039, 5.73945, 7.11355  },
   { 4250,  4.5854,  213.2991 },
   { 1907,  4.7608,  220.4126 },
@@ -355,10 +358,10 @@ const VSOP87Coefficient g_L3SaturnCoefficients[] =
   { 2,     1.35,    405.26   },
   { 2,     4.16,    223.59   },
   { 2,     3.07,    654.12   }
-};
+} };
 
-const VSOP87Coefficient g_L4SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 27> g_L4SaturnCoefficients
+{ {
   { 1662, 3.9983, 7.1135  },
   { 257,  2.984,  220.413 },
   { 236,  3.902,  14.227  },
@@ -386,10 +389,10 @@ const VSOP87Coefficient g_L4SaturnCoefficients[] =
   { 2,    2.24,   216.48  },
   { 2,    5.19,   302.16  },
   { 1,    1.55,   191.96  }
-};
+} };
 
-const VSOP87Coefficient g_L5SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 12> g_L5SaturnCoefficients
+{ {
   { 124, 2.259, 7.114  },
   { 34,  2.16,  14.23  },
   { 28,  1.20,  220.41 },
@@ -402,10 +405,10 @@ const VSOP87Coefficient g_L5SaturnCoefficients[] =
   { 1,   5.28,  639.90 },
   { 1,   0.24,  440.83 },
   { 1,   3.14,  0      }
-};
+} };
 
-const VSOP87Coefficient g_B0SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 34> g_B0SaturnCoefficients
+{ {
   { 4330678, 3.6028443, 213.2990954 },
   { 240348,  2.852385,  426.598191  },
   { 84746,   0,         0           },
@@ -440,10 +443,10 @@ const VSOP87Coefficient g_B0SaturnCoefficients[] =
   { 122,     3.115,     522.577     },
   { 116,     3.109,     216.480     },
   { 114,     0.963,     210.118     }
-};
+} };
 
-const VSOP87Coefficient g_B1SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 32> g_B1SaturnCoefficients
+{ {
   { 397555, 5.332900, 213.299095 },
   { 49479,  3.14159,  0          },
   { 18572,  6.09919,  426.59819  },
@@ -476,11 +479,11 @@ const VSOP87Coefficient g_B1SaturnCoefficients[] =
   { 32,     1.19,     846.08     },
   { 27,     4.65,     1066.50    },
   { 27,     4.44,     11.05      }
-};
+} };
 
-const VSOP87Coefficient g_B2SaturnCoefficients[] =
-{ 
-  { 20630, 0.50482, 213.29910 }, 
+constexpr array<VSOP87Coefficient, 29> g_B2SaturnCoefficients
+{ {
+  { 20630, 0.50482, 213.29910 },
   { 3720,  3.9983,  206.1855  },
   { 1627,  6.1819,  220.4126  },
   { 1346,  0,       0         },
@@ -509,10 +512,10 @@ const VSOP87Coefficient g_B2SaturnCoefficients[] =
   { 7,     0.29,    323.51    },
   { 6,     1.16,    117.32    },
   { 6,     3.61,    860.31    }
-};
+} };
 
-const VSOP87Coefficient g_B3SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 21> g_B3SaturnCoefficients
+{ {
   { 666, 1.990, 213.299 },
   { 632, 5.698, 206.186 },
   { 398, 0,     0       },
@@ -534,10 +537,10 @@ const VSOP87Coefficient g_B3SaturnCoefficients[] =
   { 4,   4.71,  412.37  },
   { 3,   0.63,  103.09  },
   { 2,   3.72,  216.48  }
-};
+} };
 
-const VSOP87Coefficient g_B4SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 12> g_B4SaturnCoefficients
+{ {
   { 80, 1.12, 206.19 },
   { 32, 3.12, 213.30 },
   { 17, 2.48, 220.41 },
@@ -550,16 +553,16 @@ const VSOP87Coefficient g_B4SaturnCoefficients[] =
   { 1,  0.67, 647.01 },
   { 1,  1.72, 440.83 },
   { 1,  6.18, 639.90 }
-};
+} };
 
-const VSOP87Coefficient g_B5SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 2> g_B5SaturnCoefficients
+{ {
   { 8, 2.82, 206.19 },
   { 1, 0.51, 220.41 }
-};
+} };
 
-const VSOP87Coefficient g_R0SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 44> g_R0SaturnCoefficients
+{ {
   { 955758136, 0,          0            },
   { 52921382,  2.39226220, 213.29909544 },
   { 1873680,   5.2354961,  206.1855484  },
@@ -604,10 +607,10 @@ const VSOP87Coefficient g_R0SaturnCoefficients[] =
   { 2406,      2.9656,     117.3199     },
   { 2174,      0.0151,     340.7709     },
   { 2024,      5.0541,     11.0457      }
-};
+} };
 
-const VSOP87Coefficient g_R1SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 38> g_R1SaturnCoefficients
+{ {
   { 6182981, 0.2584352, 213.2990954 },
   { 506578,  0.711147,  206.185548  },
   { 341394,  5.796358,  426.598191  },
@@ -646,10 +649,10 @@ const VSOP87Coefficient g_R1SaturnCoefficients[] =
   { 613,     3.033,     63.736      },
   { 599,     2.549,     217.231     },
   { 503,     2.130,     3.932       }
-};
+} };
 
-const VSOP87Coefficient g_R2SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 32> g_R2SaturnCoefficients
+{ {
   { 436902, 4.786717, 213.299095 },
   { 71923,  2.50070,  206.18555  },
   { 49767,  4.97168,  220.41264  },
@@ -682,10 +685,10 @@ const VSOP87Coefficient g_R2SaturnCoefficients[] =
   { 148,    0.136,    302.165    },
   { 133,    2.594,    191.958    },
   { 132,    5.933,    309.278    }
-};
+} };
 
-const VSOP87Coefficient g_R3SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 28> g_R3SaturnCoefficients
+{ {
   { 20315, 3.02187, 213.29910 },
   { 8924,  3.1914,  220.4126  },
   { 6909,  4.3517,  206.1855  },
@@ -714,10 +717,10 @@ const VSOP87Coefficient g_R3SaturnCoefficients[] =
   { 40,    1.84,    302.16    },
   { 38,    5.94,    88.87     },
   { 32,    4.01,    21.34     }
-};
+} };
 
-const VSOP87Coefficient g_R4SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 23> g_R4SaturnCoefficients
+{ {
   { 1202, 1.4150, 220.4126 },
   { 708,  1.162,  213.299  },
   { 516,  6.240,  206.186  },
@@ -741,10 +744,10 @@ const VSOP87Coefficient g_R4SaturnCoefficients[] =
   { 9,    2.28,   21.34    },
   { 9,    0.68,   216.48   },
   { 8,    1.27,   234.64   }
-};
+} };
 
-const VSOP87Coefficient g_R5SaturnCoefficients[] =
-{ 
+constexpr array<VSOP87Coefficient, 18> g_R5SaturnCoefficients
+{ {
   { 129, 5.913, 220.413 },
   { 32,  0.69,  7.11    },
   { 27,  5.91,  227.53  },
@@ -763,11 +766,7 @@ const VSOP87Coefficient g_R5SaturnCoefficients[] =
   { 2,   3.70,  88.87   },
   { 2,   3.32,  95.98   },
   { 2,   0.56,  117.32  }
-};
-
-#ifndef UNREFERENCED_PARAMETER
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
-#endif //#ifndef UNREFERENCED_PARAMETER
+} };
 
 
 ///////////////////////////// Implementation //////////////////////////////////
@@ -788,42 +787,36 @@ double CAASaturn::EclipticLongitude(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate L0
-  constexpr const int nL0Coefficients = sizeof(g_L0SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double L0 = 0;
-  for (int i=0; i<nL0Coefficients; i++)
-    L0 += g_L0SaturnCoefficients[i].A * cos(g_L0SaturnCoefficients[i].B + g_L0SaturnCoefficients[i].C*rho);
+  for (const auto& L0Coefficient : g_L0SaturnCoefficients)
+    L0 += (L0Coefficient.A * cos(L0Coefficient.B + (L0Coefficient.C*rho)));
 
   //Calculate L1
-  constexpr const int nL1Coefficients = sizeof(g_L1SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double L1 = 0;
-  for (int i=0; i<nL1Coefficients; i++)
-    L1 += g_L1SaturnCoefficients[i].A * cos(g_L1SaturnCoefficients[i].B + g_L1SaturnCoefficients[i].C*rho);
+  for (const auto& L1Coefficient : g_L1SaturnCoefficients)
+    L1 += (L1Coefficient.A * cos(L1Coefficient.B + (L1Coefficient.C*rho)));
 
   //Calculate L2
-  constexpr const int nL2Coefficients = sizeof(g_L2SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double L2 = 0;
-  for (int i=0; i<nL2Coefficients; i++)
-    L2 += g_L2SaturnCoefficients[i].A * cos(g_L2SaturnCoefficients[i].B + g_L2SaturnCoefficients[i].C*rho);
+  for (const auto& L2Coefficient : g_L2SaturnCoefficients)
+    L2 += (L2Coefficient.A * cos(L2Coefficient.B + (L2Coefficient.C*rho)));
 
   //Calculate L3
-  constexpr const int nL3Coefficients = sizeof(g_L3SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double L3 = 0;
-  for (int i=0; i<nL3Coefficients; i++)
-    L3 += g_L3SaturnCoefficients[i].A * cos(g_L3SaturnCoefficients[i].B + g_L3SaturnCoefficients[i].C*rho);
+  for (const auto& L3Coefficient : g_L3SaturnCoefficients)
+    L3 += (L3Coefficient.A * cos(L3Coefficient.B + (L3Coefficient.C*rho)));
 
   //Calculate L4
-  constexpr const int nL4Coefficients = sizeof(g_L4SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double L4 = 0;
-  for (int i=0; i<nL4Coefficients; i++)
-    L4 += g_L4SaturnCoefficients[i].A * cos(g_L4SaturnCoefficients[i].B + g_L4SaturnCoefficients[i].C*rho);
+  for (const auto& L4Coefficient : g_L4SaturnCoefficients)
+    L4 += (L4Coefficient.A * cos(L4Coefficient.B + (L4Coefficient.C*rho)));
 
   //Calculate L5
-  constexpr const int nL5Coefficients = sizeof(g_L5SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double L5 = 0;
-  for (int i=0; i<nL5Coefficients; i++)
-    L5 += g_L5SaturnCoefficients[i].A * cos(g_L5SaturnCoefficients[i].B + g_L5SaturnCoefficients[i].C*rho);
+  for (const auto& L5Coefficient : g_L5SaturnCoefficients)
+    L5 += (L5Coefficient.A * cos(L5Coefficient.B + (L5Coefficient.C*rho)));
 
-  double value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4 + L5*rho5) / 100000000;
+  double value = (L0 + (L1*rho) + (L2*rhosquared) + (L3*rhocubed) + (L4*rho4) + (L5*rho5)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -846,42 +839,36 @@ double CAASaturn::EclipticLatitude(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate B0
-  constexpr const int nB0Coefficients = sizeof(g_B0SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double B0 = 0;
-  for (int i=0; i<nB0Coefficients; i++)
-    B0 += g_B0SaturnCoefficients[i].A * cos(g_B0SaturnCoefficients[i].B + g_B0SaturnCoefficients[i].C*rho);
+  for (const auto& B0Coefficient : g_B0SaturnCoefficients)
+    B0 += (B0Coefficient.A * cos(B0Coefficient.B + (B0Coefficient.C*rho)));
 
   //Calculate B1
-  constexpr const int nB1Coefficients = sizeof(g_B1SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double B1 = 0;
-  for (int i=0; i<nB1Coefficients; i++)
-    B1 += g_B1SaturnCoefficients[i].A * cos(g_B1SaturnCoefficients[i].B + g_B1SaturnCoefficients[i].C*rho);
+  for (const auto& B1Coefficient : g_B1SaturnCoefficients)
+    B1 += (B1Coefficient.A * cos(B1Coefficient.B + (B1Coefficient.C*rho)));
 
   //Calculate B2
-  constexpr const int nB2Coefficients = sizeof(g_B2SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double B2 = 0;
-  for (int i=0; i<nB2Coefficients; i++)
-    B2 += g_B2SaturnCoefficients[i].A * cos(g_B2SaturnCoefficients[i].B + g_B2SaturnCoefficients[i].C*rho);
+  for (const auto& B2Coefficient : g_B2SaturnCoefficients)
+    B2 += (B2Coefficient.A * cos(B2Coefficient.B + (B2Coefficient.C*rho)));
 
   //Calculate B3
-  constexpr const int nB3Coefficients = sizeof(g_B3SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double B3 = 0;
-  for (int i=0; i<nB3Coefficients; i++)
-    B3 += g_B3SaturnCoefficients[i].A * cos(g_B3SaturnCoefficients[i].B + g_B3SaturnCoefficients[i].C*rho);
+  for (const auto& B3Coefficient : g_B3SaturnCoefficients)
+    B3 += (B3Coefficient.A * cos(B3Coefficient.B + (B3Coefficient.C*rho)));
 
   //Calculate B4
-  constexpr const int nB4Coefficients = sizeof(g_B4SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double B4 = 0;
-  for (int i=0; i<nB4Coefficients; i++)
-    B4 += g_B4SaturnCoefficients[i].A * cos(g_B4SaturnCoefficients[i].B + g_B4SaturnCoefficients[i].C*rho);
+  for (const auto& B4Coefficient : g_B4SaturnCoefficients)
+    B4 += (B4Coefficient.A * cos(B4Coefficient.B + (B4Coefficient.C*rho)));
 
   //Calculate B5
-  constexpr const int nB5Coefficients = sizeof(g_B5SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double B5 = 0;
-  for (int i=0; i<nB5Coefficients; i++)
-    B5 += g_B5SaturnCoefficients[i].A * cos(g_B5SaturnCoefficients[i].B + g_B5SaturnCoefficients[i].C*rho);
+  for (const auto& B5Coefficient : g_B5SaturnCoefficients)
+    B5 += (B5Coefficient.A * cos(B5Coefficient.B + (B5Coefficient.C*rho)));
 
-  double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4 + B5*rho5) / 100000000;
+  double value = (B0 + (B1*rho) + (B2*rhosquared) + (B3*rhocubed) + (B4*rho4) + (B5*rho5)) / 100000000;
 
   //convert results back to degrees
   value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
@@ -904,40 +891,34 @@ double CAASaturn::RadiusVector(double JD, bool bHighPrecision) noexcept
   const double rho5 = rho4*rho;
 
   //Calculate R0
-  constexpr const int nR0Coefficients = sizeof(g_R0SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double R0 = 0;
-  for (int i=0; i<nR0Coefficients; i++)
-    R0 += g_R0SaturnCoefficients[i].A * cos(g_R0SaturnCoefficients[i].B + g_R0SaturnCoefficients[i].C*rho);
+  for (const auto& R0Coefficient : g_R0SaturnCoefficients)
+    R0 += (R0Coefficient.A * cos(R0Coefficient.B + (R0Coefficient.C*rho)));
 
   //Calculate R1
-  constexpr const int nR1Coefficients = sizeof(g_R1SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double R1 = 0;
-  for (int i=0; i<nR1Coefficients; i++)
-    R1 += g_R1SaturnCoefficients[i].A * cos(g_R1SaturnCoefficients[i].B + g_R1SaturnCoefficients[i].C*rho);
+  for (const auto& R1Coefficient : g_R1SaturnCoefficients)
+    R1 += (R1Coefficient.A * cos(R1Coefficient.B + (R1Coefficient.C*rho)));
 
   //Calculate R2
-  constexpr const int nR2Coefficients = sizeof(g_R2SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double R2 = 0;
-  for (int i=0; i<nR2Coefficients; i++)
-    R2 += g_R2SaturnCoefficients[i].A * cos(g_R2SaturnCoefficients[i].B + g_R2SaturnCoefficients[i].C*rho);
+  for (const auto& R2Coefficient : g_R2SaturnCoefficients)
+    R2 += (R2Coefficient.A * cos(R2Coefficient.B + (R2Coefficient.C*rho)));
 
   //Calculate R3
-  constexpr const int nR3Coefficients = sizeof(g_R3SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double R3 = 0;
-  for (int i=0; i<nR3Coefficients; i++)
-    R3 += g_R3SaturnCoefficients[i].A * cos(g_R3SaturnCoefficients[i].B + g_R3SaturnCoefficients[i].C*rho);
+  for (const auto& R3Coefficient : g_R3SaturnCoefficients)
+    R3 += (R3Coefficient.A * cos(R3Coefficient.B + (R3Coefficient.C*rho)));
 
   //Calculate R4
-  constexpr const int nR4Coefficients = sizeof(g_R4SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double R4 = 0;
-  for (int i=0; i<nR4Coefficients; i++)
-    R4 += g_R4SaturnCoefficients[i].A * cos(g_R4SaturnCoefficients[i].B + g_R4SaturnCoefficients[i].C*rho);
+  for (const auto& R4Coefficient : g_R4SaturnCoefficients)
+    R4 += (R4Coefficient.A * cos(R4Coefficient.B + (R4Coefficient.C*rho)));
 
   //Calculate R5
-  constexpr const int nR5Coefficients = sizeof(g_R5SaturnCoefficients) / sizeof(VSOP87Coefficient);
   double R5 = 0;
-  for (int i=0; i<nR5Coefficients; i++)
-    R5 += g_R5SaturnCoefficients[i].A * cos(g_R5SaturnCoefficients[i].B + g_R5SaturnCoefficients[i].C*rho);
-  
-  return (R0 + R1*rho + R2*rhosquared + R3*rhocubed + R4*rho4 + R5*rho5) / 100000000;
+  for (const auto& R5Coefficient : g_R5SaturnCoefficients)
+    R5 += (R5Coefficient.A * cos(R5Coefficient.B + (R5Coefficient.C*rho)));
+
+  return (R0 + (R1*rho) + (R2*rhosquared) + (R3*rhocubed) + (R4*rho4) + (R5*rho5)) / 100000000;
 }

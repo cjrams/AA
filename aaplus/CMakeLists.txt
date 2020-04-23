@@ -141,6 +141,7 @@ SET ( INCS
   AABinaryStar.h
   AACoordinateTransformation.h
   AADate.h
+  AADefines.h
   AADiameters.h
   AADynamicalTime.h
   AAEarth.h

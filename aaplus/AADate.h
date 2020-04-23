@@ -32,6 +32,11 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
+/////////////////////// Includes //////////////////////////////////////////////
+
+#include "AADefines.h"
+
+
 /////////////////////// Classes ///////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAACalendarDate
@@ -101,30 +106,30 @@ public:
   static long DaysInMonth(long Month, bool bLeap) noexcept;
 
 //Non Static methods
-  double Julian() const noexcept { return m_dblJulian; };
+  [[nodiscard]] double Julian() const noexcept { return m_dblJulian; };
   operator double() const noexcept { return m_dblJulian; };
-  long Day() const noexcept;
-  long Month() const noexcept;
-  long Year() const noexcept;
-  long Hour() const noexcept;
-  long Minute() const noexcept;
-  double Second() const noexcept;
+  [[nodiscard]] long Day() const noexcept;
+  [[nodiscard]] long Month() const noexcept;
+  [[nodiscard]] long Year() const noexcept;
+  [[nodiscard]] long Hour() const noexcept;
+  [[nodiscard]] long Minute() const noexcept;
+  [[nodiscard]] double Second() const noexcept;
   void Set(long Year, long Month, double Day, double Hour, double Minute, double Second, bool bGregorianCalendar) noexcept;
   void Set(double JD, bool bGregorianCalendar) noexcept;
   void SetInGregorianCalendar(bool bGregorianCalendar) noexcept;
   void Get(long& Year, long& Month, long& Day, long& Hour, long& Minute, double& Second) const noexcept;
-  DAY_OF_WEEK DayOfWeek() const noexcept;
-  double DayOfYear() const noexcept;
-  long DaysInMonth() const noexcept;
-  long DaysInYear() const noexcept;
-  bool Leap() const noexcept;
-  bool InGregorianCalendar() const noexcept { return m_bGregorianCalendar; };
-  double FractionalYear() const noexcept;
+  [[nodiscard]] DAY_OF_WEEK DayOfWeek() const noexcept;
+  [[nodiscard]] double DayOfYear() const noexcept;
+  [[nodiscard]] long DaysInMonth() const noexcept;
+  [[nodiscard]] long DaysInYear() const noexcept;
+  [[nodiscard]] bool Leap() const noexcept;
+  [[nodiscard]] bool InGregorianCalendar() const noexcept { return m_bGregorianCalendar; };
+  [[nodiscard]] double FractionalYear() const noexcept;
 
 protected:
 //Member variables
   double m_dblJulian; //Julian Day number for this date
-  bool   m_bGregorianCalendar; //Is this date in the Gregorian calendar
+  bool m_bGregorianCalendar; //Is this date in the Gregorian calendar
 };
 
 

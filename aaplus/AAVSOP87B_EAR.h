@@ -2,7 +2,6 @@
 Module : AAVSOP87B_EAR.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
-History: PJN / 13-09-2015 1. Initial public release.
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 

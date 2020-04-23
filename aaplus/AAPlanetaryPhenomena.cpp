@@ -13,6 +13,7 @@ History: PJN / 08-05-2011 1. Fixed a compilation issue on GCC where size_t was u
                           CAAPlanetaryPhenomena::Mean, CAAPlanetaryPhenomena::True & 
                           CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes for reporting this issue.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 15-04-2020 1. Reworked C arrays to use std::array
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -37,6 +38,7 @@ to maintain a single distribution point for the source code.
 #include <cmath>
 #include <cassert>
 #include <cstddef>
+#include <array>
 using namespace std;
 
 
@@ -50,8 +52,8 @@ struct PlanetaryPhenomenaCoefficient1
   double M1;
 };
 
-const PlanetaryPhenomenaCoefficient1 g_PlanetaryPhenomenaCoefficient1[] = 
-{
+constexpr array<PlanetaryPhenomenaCoefficient1, 14> g_PlanetaryPhenomenaCoefficient1
+{ {
   { 2451612.023, 115.8774771, 63.5867,  114.2088742 },
   { 2451554.084, 115.8774771, 6.4822,   114.2088742 },
   { 2451996.706, 583.921361,  82.7311,  215.513058  },
@@ -65,8 +67,8 @@ const PlanetaryPhenomenaCoefficient1 g_PlanetaryPhenomenaCoefficient1[] =
   { 2451764.317, 369.656035,  213.6884, 4.333093    },
   { 2451579.489, 369.656035,  31.5219,  4.333093    },
   { 2451753.122, 367.486703,  202.6544, 2.194998    },
-  { 2451569.379, 367.486703,  21.5569,  2.194998    },
-};
+  { 2451569.379, 367.486703,  21.5569,  2.194998    }
+} };
 
 
 /////////////////////////// Implementation ////////////////////////////////////
@@ -92,7 +94,7 @@ double CAAPlanetaryPhenomena::K(double Year, PlanetaryObject object, EventType t
     else
       nCoefficient = static_cast<size_t>(object) * 2 + 1;
   }
-  assert(nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
 #ifdef _MSC_VER
   #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
@@ -121,7 +123,7 @@ double CAAPlanetaryPhenomena::Mean(double k, PlanetaryObject object, EventType t
     else
       nCoefficient = static_cast<size_t>(object) * 2 + 1;
   }
-  assert(nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
 #ifdef _MSC_VER
   #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
@@ -162,7 +164,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     else
       nCoefficient = static_cast<size_t>(object) * 2 + 1;
   }
-  assert(nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
 #ifdef _MSC_VER
   #pragma warning(suppress : 26482 26446)
 #endif //#ifdef _MSC_VER
@@ -622,7 +624,7 @@ double CAAPlanetaryPhenomena::ElongationValue(double k, PlanetaryObject object, 
   assert(object < PlanetaryObject::MARS);
 
   const size_t nCoefficient = static_cast<size_t>(object) * 2;
-  assert(nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
 #ifdef _MSC_VER
   #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER

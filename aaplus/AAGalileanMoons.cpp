@@ -425,19 +425,19 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
   const double X2 = details.Satellite2.r*cos(L2 - psi)*cos(B2);
   const double X3 = details.Satellite3.r*cos(L3 - psi)*cos(B3);
   const double X4 = details.Satellite4.r*cos(L4 - psi)*cos(B4);
-  constexpr const double X5 = 0;
+  constexpr double X5 = 0;
 
   const double Y1 = details.Satellite1.r*sin(L1 - psi)*cos(B1);
   const double Y2 = details.Satellite2.r*sin(L2 - psi)*cos(B2);
   const double Y3 = details.Satellite3.r*sin(L3 - psi)*cos(B3);
   const double Y4 = details.Satellite4.r*sin(L4 - psi)*cos(B4);
-  constexpr const double Y5 = 0;
+  constexpr double Y5 = 0;
 
   const double Z1 = details.Satellite1.r*sin(B1);
   const double Z2 = details.Satellite2.r*sin(B2);
   const double Z3 = details.Satellite3.r*sin(B3);
   const double Z4 = details.Satellite4.r*sin(B4);
-  constexpr const double Z5 = 1;
+  constexpr double Z5 = 1;
 
   //Now do the rotations, first for the ficticious 5th satellite, so that we can calculate D
   const double omega = CAACoordinateTransformation::DegreesToRadians(CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNode(JD));

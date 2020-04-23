@@ -3,6 +3,7 @@ Module : AAVSOP87_VEN.cpp
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
+         PJN / 22-04-2020 1. Reworked C arrays to use std::array.
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -25,6 +26,7 @@ to maintain a single distribution point for the source code.
 #include "AAVSOP87.h"
 #include "AAVSOP87_VEN.h"
 #include <cmath>
+#include <array>
 using namespace std;
 
 
@@ -34,8 +36,8 @@ using namespace std;
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-const VSOP87Coefficient g_VSOP87_A0_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 308> g_VSOP87_A0_VENUS
+{ {
   {        0.72332981996,        0.00000000000,        0.00000000000 },
   {        0.00000432219,        2.84552760786,     7860.41939243920 },
   {        0.00000293981,        5.15392250791,    19367.18916223280 },
@@ -344,10 +346,10 @@ const VSOP87Coefficient g_VSOP87_A0_VENUS[] =
   {        0.00000000028,        4.97657046942,     9411.46461508720 },
   {        0.00000000027,        1.31410802785,    83309.92623193559 },
   {        0.00000000036,        0.69878245136,   106115.66179792916 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_A1_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 168> g_VSOP87_A1_VENUS
+{ {
   {        0.00000009383,        4.54283615945,     1577.34354244780 },
   {        0.00000003422,        5.97031203836,     5507.55323866740 },
   {        0.00000002602,        5.68115989357,    18837.49819713819 },
@@ -516,10 +518,10 @@ const VSOP87Coefficient g_VSOP87_A1_VENUS[] =
   {        0.00000000014,        2.30497466623,    17085.95866572220 },
   {        0.00000000014,        5.38161097951,    23958.63178523340 },
   {        0.00000000014,        2.84542811749,      574.34479833480 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_A2_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 52> g_VSOP87_A2_VENUS
+{ {
   {        0.00000000434,        6.23902557676,     1577.34354244780 },
   {        0.00000000412,        2.42062289972,      775.52261132400 },
   {        0.00000000157,        1.38147987773,     5507.55323866740 },
@@ -572,10 +574,10 @@ const VSOP87Coefficient g_VSOP87_A2_VENUS[] =
   {        0.00000000007,        3.79410387668,    19573.37471066999 },
   {        0.00000000009,        5.87731459817,    11790.62908865880 },
   {        0.00000000007,        0.38058017226,    25934.12433108940 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_L0_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 499> g_VSOP87_L0_VENUS
+{ {
   {        3.17614669689,        0.00000000000,        0.00000000000 },
   {        0.00002003673,        4.41634412285,     7860.41939243920 },
   {        0.00001974219,        2.99373531667,     3930.20969621960 },
@@ -1075,10 +1077,10 @@ const VSOP87Coefficient g_VSOP87_L0_VENUS[] =
   {        0.00000000038,        2.74498790436,    51449.32426327820 },
   {        0.00000000038,        5.86060916971,      625.62513619720 },
   {        0.00000000045,        5.44920090134,        2.96894541660 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_L1_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 201> g_VSOP87_L1_VENUS
+{ {
   {    10213.28554621100,        0.00000000000,        0.00000000000 },
   {        0.00000147221,        6.10436974053,     1577.34354244780 },
   {        0.00000173922,        2.65539758046,       26.29831979980 },
@@ -1280,10 +1282,10 @@ const VSOP87Coefficient g_VSOP87_L1_VENUS[] =
   {        0.00000000035,        2.97358065883,    14919.01785375460 },
   {        0.00000000047,        2.83305128960,    27461.71084806540 },
   {        0.00000000042,        5.78140349359,    37674.99639427640 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_L2_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 43> g_VSOP87_L2_VENUS
+{ {
   {        0.00000287889,        0.00000000000,        0.00000000000 },
   {        0.00000023840,        2.04592287750,       26.29831979980 },
   {        0.00000009926,        3.96998987471,      775.52261132400 },
@@ -1327,15 +1329,15 @@ const VSOP87Coefficient g_VSOP87_L2_VENUS[] =
   {        0.00000000043,        4.89773557933,    28286.99048486120 },
   {        0.00000000037,        4.74267238088,    28521.09277825460 },
   {        0.00000000038,        0.51768730374,     1551.04522264800 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_L3_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_L3_VENUS
+{ {
   {        0.00000003038,        3.14159265359,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_K0_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 442> g_VSOP87_K0_VENUS
+{ {
   {        0.00449282133,        3.14159265359,        0.00000000000 },
   {        0.00002247401,        1.09074471887,     1577.34354244780 },
   {        0.00001705727,        3.47431815156,     2352.86615377180 },
@@ -1778,10 +1780,10 @@ const VSOP87Coefficient g_VSOP87_K0_VENUS[] =
   {        0.00000000038,        1.66827071207,    85034.42002596818 },
   {        0.00000000043,        2.23521917336,    28418.00000403600 },
   {        0.00000000036,        3.21465119311,    48108.71183657840 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_K1_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 158> g_VSOP87_K1_VENUS
+{ {
   {        0.00031259019,        0.00000000000,        0.00000000000 },
   {        0.00000029898,        5.20863208298,      775.52261132400 },
   {        0.00000012622,        4.48811780661,      191.44826611160 },
@@ -1940,10 +1942,10 @@ const VSOP87Coefficient g_VSOP87_K1_VENUS[] =
   {        0.00000000036,        2.26314199065,     9050.81084180320 },
   {        0.00000000035,        6.11210760796,    32243.49850088060 },
   {        0.00000000037,        0.66400423819,     3532.06069281140 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_K2_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 28> g_VSOP87_K2_VENUS
+{ {
   {        0.00000604065,        0.00000000000,        0.00000000000 },
   {        0.00000001386,        3.51906424408,      775.52261132400 },
   {        0.00000000494,        6.07393164435,      191.44826611160 },
@@ -1972,25 +1974,25 @@ const VSOP87Coefficient g_VSOP87_K2_VENUS[] =
   {        0.00000000046,        4.84564953792,     8662.24032356300 },
   {        0.00000000037,        4.62949248708,     5507.55323866740 },
   {        0.00000000045,        5.69096597731,    10988.80815753500 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_K3_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_K3_VENUS
+{ {
   {        0.00000068351,        3.14159265359,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_K4_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_K4_VENUS
+{ {
   {        0.00000000494,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_K5_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_K5_VENUS
+{ {
   {        0.00000000060,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_H0_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 439> g_VSOP87_H0_VENUS
+{ {
   {        0.00506684726,        0.00000000000,        0.00000000000 },
   {        0.00002230653,        2.66432207509,     1577.34354244780 },
   {        0.00001690127,        1.89924451370,     2352.86615377180 },
@@ -2430,10 +2432,10 @@ const VSOP87Coefficient g_VSOP87_H0_VENUS[] =
   {        0.00000000042,        5.43176864862,    41427.48698317880 },
   {        0.00000000036,        2.56592879100,    86143.79857806159 },
   {        0.00000000036,        4.96639815151,    38086.87455647900 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_H1_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 167> g_VSOP87_H1_VENUS
+{ {
   {        0.00036121239,        3.14159265359,        0.00000000000 },
   {        0.00000030055,        3.64543939483,      775.52261132400 },
   {        0.00000012811,        6.04301367201,      191.44826611160 },
@@ -2601,10 +2603,10 @@ const VSOP87Coefficient g_VSOP87_H1_VENUS[] =
   {        0.00000000047,        6.11836706074,     5481.25491886760 },
   {        0.00000000036,        1.84716742290,    19573.37471066999 },
   {        0.00000000049,        1.34156861940,    28286.99048486120 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_H2_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 25> g_VSOP87_H2_VENUS
+{ {
   {        0.00001846764,        0.00000000000,        0.00000000000 },
   {        0.00000001380,        1.93823239419,      775.52261132400 },
   {        0.00000000514,        1.30312465089,      191.44826611160 },
@@ -2630,25 +2632,25 @@ const VSOP87Coefficient g_VSOP87_H2_VENUS[] =
   {        0.00000000067,        5.11428836342,     9153.90361602180 },
   {        0.00000000046,        0.62519044795,    14945.31617355440 },
   {        0.00000000046,        0.14008732870,     8662.24032356300 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_H3_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_H3_VENUS
+{ {
   {        0.00000003281,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_H4_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_H4_VENUS
+{ {
   {        0.00000000614,        3.14159265359,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_H5_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_H5_VENUS
+{ {
   {        0.00000000017,        3.14159265359,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_Q0_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 163> g_VSOP87_Q0_VENUS
+{ {
   {        0.00682410142,        0.00000000000,        0.00000000000 },
   {        0.00000068669,        4.17788909303,      775.52261132400 },
   {        0.00000038043,        0.08593496588,     1059.38193018920 },
@@ -2812,10 +2814,10 @@ const VSOP87Coefficient g_VSOP87_Q0_VENUS[] =
   {        0.00000000043,        0.37119553579,    68050.42387851159 },
   {        0.00000000040,        0.09087085230,     6770.71060124560 },
   {        0.00000000043,        5.35234008369,    28313.28880466100 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_Q1_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 52> g_VSOP87_Q1_VENUS
+{ {
   {        0.00138133826,        0.00000000000,        0.00000000000 },
   {        0.00000006004,        5.68914736726,      775.52261132400 },
   {        0.00000003214,        1.30088159339,     1059.38193018920 },
@@ -2868,10 +2870,10 @@ const VSOP87Coefficient g_VSOP87_Q1_VENUS[] =
   {        0.00000000048,        2.50540091263,    44007.82926973960 },
   {        0.00000000044,        2.94064992792,    22003.91463486980 },
   {        0.00000000037,        1.36554646187,    31441.67756975680 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_Q2_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 10> g_VSOP87_Q2_VENUS
+{ {
   {        0.00001090942,        3.14159265359,        0.00000000000 },
   {        0.00000000223,        1.02858748170,      775.52261132400 },
   {        0.00000000167,        2.98104573330,     3930.20969621960 },
@@ -2882,25 +2884,25 @@ const VSOP87Coefficient g_VSOP87_Q2_VENUS[] =
   {        0.00000000043,        2.23755424860,       26.29831979980 },
   {        0.00000000053,        2.21417479830,      529.69096509460 },
   {        0.00000000042,        3.52522950509,     3154.68708489560 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_Q3_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q3_VENUS
+{ {
   {        0.00000186418,        3.14159265359,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_Q4_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q4_VENUS
+{ {
   {        0.00000000602,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_Q5_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q5_VENUS
+{ {
   {        0.00000000075,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_P0_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 155> g_VSOP87_P0_VENUS
+{ {
   {        0.02882285775,        0.00000000000,        0.00000000000 },
   {        0.00000071320,        2.62014485879,      775.52261132400 },
   {        0.00000037630,        4.80305842460,     1059.38193018920 },
@@ -3056,10 +3058,10 @@ const VSOP87Coefficient g_VSOP87_P0_VENUS[] =
   {        0.00000000038,        4.37098795582,     1581.95934828300 },
   {        0.00000000041,        4.99767352460,    46386.99374331120 },
   {        0.00000000050,        4.43864904072,      316.39186965660 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_P1_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 56> g_VSOP87_P1_VENUS
+{ {
   {        0.00040384791,        3.14159265359,        0.00000000000 },
   {        0.00000006353,        4.16194991617,      775.52261132400 },
   {        0.00000003895,        2.98553634266,     3930.20969621960 },
@@ -3116,10 +3118,10 @@ const VSOP87Coefficient g_VSOP87_P1_VENUS[] =
   {        0.00000000047,        4.16229296574,     3128.38876509580 },
   {        0.00000000044,        1.23848408809,    22805.73556599360 },
   {        0.00000000049,        3.19162512474,    39302.09696219600 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_P2_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 8> g_VSOP87_P2_VENUS
+{ {
   {        0.00006232891,        3.14159265359,        0.00000000000 },
   {        0.00000000287,        5.82597885387,      775.52261132400 },
   {        0.00000000160,        1.16342113482,     1059.38193018920 },
@@ -3128,107 +3130,108 @@ const VSOP87Coefficient g_VSOP87_P2_VENUS[] =
   {        0.00000000048,        0.00441648853,     1577.34354244780 },
   {        0.00000000045,        3.76783130715,       26.29831979980 },
   {        0.00000000040,        2.35649429882,     8635.94200376320 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_P3_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_P3_VENUS
+{ {
   {        0.00000024731,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_P4_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_P4_VENUS
+{ {
   {        0.00000004229,        0.00000000000,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient g_VSOP87_P5_VENUS[] =
-{
+constexpr array<VSOP87Coefficient, 1> g_VSOP87_P5_VENUS
+{ {
   {        0.00000000006,        3.14159265359,        0.00000000000 }
-};
+} };
 
-const VSOP87Coefficient2 g_VSOP87_A_VENUS[] =
-{
-  { g_VSOP87_A0_VENUS, sizeof(g_VSOP87_A0_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_A1_VENUS, sizeof(g_VSOP87_A1_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_A2_VENUS, sizeof(g_VSOP87_A2_VENUS)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 3> g_VSOP87_A_VENUS
+{ {
+  { g_VSOP87_A0_VENUS.data(), g_VSOP87_A0_VENUS.size() },
+  { g_VSOP87_A1_VENUS.data(), g_VSOP87_A1_VENUS.size() },
+  { g_VSOP87_A2_VENUS.data(), g_VSOP87_A2_VENUS.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87_L_VENUS[] =
-{
-  { g_VSOP87_L0_VENUS, sizeof(g_VSOP87_L0_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_L1_VENUS, sizeof(g_VSOP87_L1_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_L2_VENUS, sizeof(g_VSOP87_L2_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_L3_VENUS, sizeof(g_VSOP87_L3_VENUS)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 4> g_VSOP87_L_VENUS
+{ {
+  { g_VSOP87_L0_VENUS.data(), g_VSOP87_L0_VENUS.size() },
+  { g_VSOP87_L1_VENUS.data(), g_VSOP87_L1_VENUS.size() },
+  { g_VSOP87_L2_VENUS.data(), g_VSOP87_L2_VENUS.size() },
+  { g_VSOP87_L3_VENUS.data(), g_VSOP87_L3_VENUS.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87_K_VENUS[] =
-{
-  { g_VSOP87_K0_VENUS, sizeof(g_VSOP87_K0_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_K1_VENUS, sizeof(g_VSOP87_K1_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_K2_VENUS, sizeof(g_VSOP87_K2_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_K3_VENUS, sizeof(g_VSOP87_K3_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_K4_VENUS, sizeof(g_VSOP87_K4_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_K5_VENUS, sizeof(g_VSOP87_K5_VENUS)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87_K_VENUS
+{ {
+  { g_VSOP87_K0_VENUS.data(), g_VSOP87_K0_VENUS.size() },
+  { g_VSOP87_K1_VENUS.data(), g_VSOP87_K1_VENUS.size() },
+  { g_VSOP87_K2_VENUS.data(), g_VSOP87_K2_VENUS.size() },
+  { g_VSOP87_K3_VENUS.data(), g_VSOP87_K3_VENUS.size() },
+  { g_VSOP87_K4_VENUS.data(), g_VSOP87_K4_VENUS.size() },
+  { g_VSOP87_K5_VENUS.data(), g_VSOP87_K5_VENUS.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87_H_VENUS[] =
-{
-  { g_VSOP87_H0_VENUS, sizeof(g_VSOP87_H0_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_H1_VENUS, sizeof(g_VSOP87_H1_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_H2_VENUS, sizeof(g_VSOP87_H2_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_H3_VENUS, sizeof(g_VSOP87_H3_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_H4_VENUS, sizeof(g_VSOP87_H4_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_H5_VENUS, sizeof(g_VSOP87_H5_VENUS)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87_H_VENUS
+{ {
+  { g_VSOP87_H0_VENUS.data(), g_VSOP87_H0_VENUS.size() },
+  { g_VSOP87_H1_VENUS.data(), g_VSOP87_H1_VENUS.size() },
+  { g_VSOP87_H2_VENUS.data(), g_VSOP87_H2_VENUS.size() },
+  { g_VSOP87_H3_VENUS.data(), g_VSOP87_H3_VENUS.size() },
+  { g_VSOP87_H4_VENUS.data(), g_VSOP87_H4_VENUS.size() },
+  { g_VSOP87_H5_VENUS.data(), g_VSOP87_H5_VENUS.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87_Q_VENUS[] =
-{
-  { g_VSOP87_Q0_VENUS, sizeof(g_VSOP87_Q0_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_Q1_VENUS, sizeof(g_VSOP87_Q1_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_Q2_VENUS, sizeof(g_VSOP87_Q2_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_Q3_VENUS, sizeof(g_VSOP87_Q3_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_Q4_VENUS, sizeof(g_VSOP87_Q4_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_Q5_VENUS, sizeof(g_VSOP87_Q5_VENUS)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87_Q_VENUS
+{ {
+  { g_VSOP87_Q0_VENUS.data(), g_VSOP87_Q0_VENUS.size() },
+  { g_VSOP87_Q1_VENUS.data(), g_VSOP87_Q1_VENUS.size() },
+  { g_VSOP87_Q2_VENUS.data(), g_VSOP87_Q2_VENUS.size() },
+  { g_VSOP87_Q3_VENUS.data(), g_VSOP87_Q3_VENUS.size() },
+  { g_VSOP87_Q4_VENUS.data(), g_VSOP87_Q4_VENUS.size() },
+  { g_VSOP87_Q5_VENUS.data(), g_VSOP87_Q5_VENUS.size() }
+} };
 
-const VSOP87Coefficient2 g_VSOP87_P_VENUS[] =
-{
-  { g_VSOP87_P0_VENUS, sizeof(g_VSOP87_P0_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_P1_VENUS, sizeof(g_VSOP87_P1_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_P2_VENUS, sizeof(g_VSOP87_P2_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_P3_VENUS, sizeof(g_VSOP87_P3_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_P4_VENUS, sizeof(g_VSOP87_P4_VENUS)/sizeof(VSOP87Coefficient) },
-  { g_VSOP87_P5_VENUS, sizeof(g_VSOP87_P5_VENUS)/sizeof(VSOP87Coefficient) }
-};
+constexpr array<VSOP87Coefficient2, 6> g_VSOP87_P_VENUS
+{ {
+  { g_VSOP87_P0_VENUS.data(), g_VSOP87_P0_VENUS.size() },
+  { g_VSOP87_P1_VENUS.data(), g_VSOP87_P1_VENUS.size() },
+  { g_VSOP87_P2_VENUS.data(), g_VSOP87_P2_VENUS.size() },
+  { g_VSOP87_P3_VENUS.data(), g_VSOP87_P3_VENUS.size() },
+  { g_VSOP87_P4_VENUS.data(), g_VSOP87_P4_VENUS.size() },
+  { g_VSOP87_P5_VENUS.data(), g_VSOP87_P5_VENUS.size() }
+} };
 
 
 ////////////////////////////// Implementation /////////////////////////////////
 
 double CAAVSOP87_Venus::A(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_A_VENUS, sizeof(g_VSOP87_A_VENUS)/sizeof(VSOP87Coefficient2), false);
+  return CVSOP87::Calculate(JD, g_VSOP87_A_VENUS.data(), g_VSOP87_A_VENUS.size(), false);
 }
 
 double CAAVSOP87_Venus::L(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_L_VENUS, sizeof(g_VSOP87_L_VENUS)/sizeof(VSOP87Coefficient2), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_L_VENUS.data(), g_VSOP87_L_VENUS.size(), true);
 }
 
 double CAAVSOP87_Venus::K(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_K_VENUS, sizeof(g_VSOP87_K_VENUS)/sizeof(VSOP87Coefficient2), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_K_VENUS.data(), g_VSOP87_K_VENUS.size(), true);
 }
 
 double CAAVSOP87_Venus::H(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_H_VENUS, sizeof(g_VSOP87_H_VENUS)/sizeof(VSOP87Coefficient2), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_H_VENUS.data(), g_VSOP87_H_VENUS.size(), true);
 }
 
 double CAAVSOP87_Venus::Q(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_Q_VENUS, sizeof(g_VSOP87_Q_VENUS)/sizeof(VSOP87Coefficient2), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_Q_VENUS.data(), g_VSOP87_Q_VENUS.size(), true);
 }
 
 double CAAVSOP87_Venus::P(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_P_VENUS, sizeof(g_VSOP87_P_VENUS)/sizeof(VSOP87Coefficient2), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_P_VENUS.data(), g_VSOP87_P_VENUS.size(), true);
 }
+
