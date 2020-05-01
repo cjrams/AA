@@ -2,7 +2,6 @@
 Module : AAVSOP87.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 29-08-2015
-History: PJN / 29-08-2015 1. Initial public release.
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -31,6 +30,11 @@ to maintain a single distribution point for the source code.
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
 #endif //#ifndef AAPLUS_EXT_CLASS
+
+
+////////////////////////////// Includes ///////////////////////////////////////
+
+#include <cstddef>
 
 
 ////////////////////////////// Classes ////////////////////////////////////////

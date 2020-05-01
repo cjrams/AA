@@ -4,11 +4,13 @@ Purpose: Implementation for the algorithms which obtain the heliocentric positio
 Created: PJN / 29-12-2003
 History: PJN / 07-02-2009 1. Optimized the layout of the PlutoCoefficient1 structure by making all elements
                           integers instead of doubles.
-         PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
+         PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this
                           issue when compiling AA+ on ARM.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAPluto.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 13-04-2020 1. Reworked C arrays to use std::array
+         PJN / 29-04-2020 1. Fixed a compilation issue on GCC where size_t was undefined in various modules.
+                          Thanks to Bert Devlieghe for reporting this bug.
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -31,6 +33,7 @@ to maintain a single distribution point for the source code.
 #include "AAPluto.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
+#include <cstddef>
 #include <array>
 using namespace std;
 

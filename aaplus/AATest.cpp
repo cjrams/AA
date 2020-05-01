@@ -6,6 +6,7 @@
 #include <cmath>
 #include <memory.h>
 #include <cassert>
+#include <cstddef>
 #include <vector>
 #include <array>
 using namespace std;

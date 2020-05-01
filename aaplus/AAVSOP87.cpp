@@ -4,6 +4,8 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 26-08-2015
 History: PJN / 28-08-2015 1. Initial public release.
          PJN / 08-06-2019 1. Updated the code to clean compile on VC 2019
+         PJN / 29-04-2020 1. Fixed a compilation issue on GCC where size_t was undefined in various modules.
+                          Thanks to Bert Devlieghe for reporting this bug.
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 

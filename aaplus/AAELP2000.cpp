@@ -10,6 +10,8 @@ History: PJN / 31-12-2015 1. Initial public release.
                           2. Updated various CAAELP2000 methods to use "const" parameters.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 18-04-2020 1. Reworked C arrays to use std::array
+         PJN / 29-04-2020 1. Fixed a compilation issue on GCC where size_t was undefined in various modules.
+                          Thanks to Bert Devlieghe for reporting this bug.
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 

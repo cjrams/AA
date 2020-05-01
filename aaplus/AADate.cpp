@@ -44,6 +44,8 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
                           reporting this issue.
          PJN / 18-02-2017 1. Reworked the CAADate::SetInGregorianCalendar method to use the AfterPapalReform method.
          PJN / 18-04-2020 1. Made a number of the CAADate methods [[nodiscard]] when compiled as C++ 17
+         PJN / 29-04-2020 1. Fixed a compilation issue on GCC where size_t was undefined in various modules. Thanks to
+                          Bert Devlieghe for reporting this bug.
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -66,6 +68,7 @@ to maintain a single distribution point for the source code.
 #include "AADate.h"
 #include <cmath>
 #include <cassert>
+#include <cstddef>
 #include <array>
 using namespace std;
 
