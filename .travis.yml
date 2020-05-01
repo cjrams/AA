@@ -6,10 +6,12 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
     packages:
-      - g++-7
+      - clang-9
 
 script:
-  - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake .
+  - CXX=/usr/bin/clang++-9 CC=clang-9 cmake .
   - cmake --build . -- -j2
   - ctest . --verbose
