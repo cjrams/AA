@@ -1,17 +1,22 @@
 dist: xenial
 sudo: false
 language: cpp
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
-        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-    packages:
-      - clang-9
-
 script:
-  - CC=clang-9 CXX=clang++-9 cmake .
+  - cmake .
   - cmake --build . -- -j2
   - ctest . --verbose
+matrix:
+  include:
+    - os: linux
+          addons:
+            apt:
+              sources:
+                - ubuntu-toolchain-r-test
+                - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+                  key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+              packages:
+                - clang-9
+          env:
+            - MATRIX_EVAL="CC=clang-9 CXX=clang++-9"
+before_install:
+  - eval "${MATRIX_EVAL}"
