@@ -15,6 +15,7 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAVenus.cpp module
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 13-04-2020 1. Reworked C arrays to use std::array
+         PJN / 01-06-2020 1. Optimized the code in CAAVenus::EclipticLongitude.
 
 Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -235,32 +236,32 @@ double CAAVenus::EclipticLongitude(double JD, bool bHighPrecision) noexcept
 
   //Calculate L0
   double L0 = 0;
-  for (const auto L0Coefficient : g_L0VenusCoefficients)
+  for (const auto& L0Coefficient : g_L0VenusCoefficients)
     L0 += (L0Coefficient.A * cos(L0Coefficient.B + (L0Coefficient.C*rho)));
 
   //Calculate L1
   double L1 = 0;
-  for (const auto L1Coefficient : g_L1VenusCoefficients)
+  for (const auto& L1Coefficient : g_L1VenusCoefficients)
     L1 += (L1Coefficient.A * cos(L1Coefficient.B + (L1Coefficient.C*rho)));
 
   //Calculate L2
   double L2 = 0;
-  for (const auto L2Coefficient : g_L2VenusCoefficients)
+  for (const auto& L2Coefficient : g_L2VenusCoefficients)
     L2 += (L2Coefficient.A * cos(L2Coefficient.B + (L2Coefficient.C*rho)));
 
   //Calculate L3
   double L3 = 0;
-  for (const auto L3Coefficient : g_L3VenusCoefficients)
+  for (const auto& L3Coefficient : g_L3VenusCoefficients)
     L3 += (L3Coefficient.A * cos(L3Coefficient.B + (L3Coefficient.C*rho)));
 
   //Calculate L4
   double L4 = 0;
-  for (const auto L4Coefficient : g_L4VenusCoefficients)
+  for (const auto& L4Coefficient : g_L4VenusCoefficients)
     L4 += (L4Coefficient.A * cos(L4Coefficient.B + (L4Coefficient.C*rho)));
 
   //Calculate L5
   double L5 = 0;
-  for (const auto L5Coefficient : g_L5VenusCoefficients)
+  for (const auto& L5Coefficient : g_L5VenusCoefficients)
     L5 += (L5Coefficient.A * cos(L5Coefficient.B + (L5Coefficient.C*rho)));
 
   double value = (L0 + (L1*rho) + (L2*rhosquared) + (L3*rhocubed) + (L4*rho4) + (L5*rho5)) / 100000000;

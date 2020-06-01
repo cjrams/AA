@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.14</title>
+<title>AA+ v2.15</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.14</h2>
+<h2>AA+ v2.15</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -92,6 +92,22 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.15 (1 June 2020)</b></p>
+<ul>
+	<li>Fixed a bug in CAAELP2000::SunMeanAnomaly where some local variables 
+	were not initialized. Thanks to &quot;Carlos&quot; for reporting this bug. </li>
+	<li>Optimized the code in CAAVenus::EclipticLongitude.</li>
+	<li>Renamed CAAELP2000::MoonMeanLongitude to 
+	CAAELP2000::MoonMeanMeanLongitude. </li>
+	<li>Renamed CAAELP2000::MoonMeanLongitudeLunarPerigee to 
+	CAAELP2000::MeanLongitudeLunarPerigee. </li>
+	<li>Renamed CAAELP2000::MoonMeanLongitudeLunarAscendingNode to 
+	CAAELP2000::MeanLongitudeLunarAscendingNode. </li>
+	<li>Renamed CAAELP2000::EarthMoonBarycentreMeanLongitude to 
+	CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre. </li>
+	<li>Renamed CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion to 
+	CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre </li>
+</ul>
 <p><b>v2.14 (29 April 2020)</b></p>
 <ul>
 	<li>Fixed a compilation issue on GCC where size_t was undefined in various 
@@ -9871,8 +9887,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>29 April 
-2020</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>1 June 2020</p>
 
 </body>
 

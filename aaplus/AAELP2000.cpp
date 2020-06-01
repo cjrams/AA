@@ -12,6 +12,17 @@ History: PJN / 31-12-2015 1. Initial public release.
          PJN / 18-04-2020 1. Reworked C arrays to use std::array
          PJN / 29-04-2020 1. Fixed a compilation issue on GCC where size_t was undefined in various modules.
                           Thanks to Bert Devlieghe for reporting this bug.
+         PJN / 01-06-2020 1. Fixed a bug in CAAELP2000::SunMeanAnomaly where some local variables were not 
+                          initialized. Thanks to "Carlos" for reporting this bug.
+                          2. Renamed CAAELP2000::MoonMeanLongitude to CAAELP2000::MoonMeanMeanLongitude.
+                          3. Renamed CAAELP2000::MoonMeanLongitudeLunarPerigee to 
+                          CAAELP2000::MeanLongitudeLunarPerigee.
+                          4. Renamed CAAELP2000::MoonMeanLongitudeLunarAscendingNode to 
+                          CAAELP2000::MeanLongitudeLunarAscendingNode.
+                          5. Renamed CAAELP2000::EarthMoonBarycentreMeanLongitude to 
+                          CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre.
+                          6. Renamed CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion to 
+                          CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre
 
 Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -38135,7 +38146,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAELP2000::MoonMeanLongitude(const double* pT, int nTSize) noexcept //Aka W1
+double CAAELP2000::MoonMeanMeanLongitude(const double* pT, int nTSize) noexcept //Aka W1
 {
   //Validate our parameters
   assert(pT);
@@ -38151,7 +38162,7 @@ double CAAELP2000::MoonMeanLongitude(const double* pT, int nTSize) noexcept //Ak
   return fValue;
 }
 
-double CAAELP2000::MoonMeanLongitude(double JD) noexcept //Aka W1
+double CAAELP2000::MoonMeanMeanLongitude(double JD) noexcept //Aka W1
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38161,10 +38172,10 @@ double CAAELP2000::MoonMeanLongitude(double JD) noexcept //Aka W1
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanLongitude(t.data(), 5);
+  return MoonMeanMeanLongitude(t.data(), 5);
 }
 
-double CAAELP2000::MoonMeanLongitudeLunarPerigee(const double* pT, int nTSize) noexcept //Aka W2
+double CAAELP2000::MeanLongitudeLunarPerigee(const double* pT, int nTSize) noexcept //Aka W2
 {
   //Validate our parameters
   assert(pT);
@@ -38180,7 +38191,7 @@ double CAAELP2000::MoonMeanLongitudeLunarPerigee(const double* pT, int nTSize) n
   return fValue;
 }
 
-double CAAELP2000::MoonMeanLongitudeLunarPerigee(double JD) noexcept //Aka W2
+double CAAELP2000::MeanLongitudeLunarPerigee(double JD) noexcept //Aka W2
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38190,10 +38201,10 @@ double CAAELP2000::MoonMeanLongitudeLunarPerigee(double JD) noexcept //Aka W2
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanLongitudeLunarPerigee(t.data(), 5);
+  return MeanLongitudeLunarPerigee(t.data(), 5);
 }
 
-double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(const double* pT, int nTSize) noexcept //Aka W3
+double CAAELP2000::MeanLongitudeLunarAscendingNode(const double* pT, int nTSize) noexcept //Aka W3
 {
   //Validate our parameters
   assert(pT);
@@ -38209,7 +38220,7 @@ double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(const double* pT, int nTS
   return fValue;
 }
 
-double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(double JD) noexcept //Aka W3
+double CAAELP2000::MeanLongitudeLunarAscendingNode(double JD) noexcept //Aka W3
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38219,10 +38230,10 @@ double CAAELP2000::MoonMeanLongitudeLunarAscendingNode(double JD) noexcept //Aka
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return MoonMeanLongitudeLunarAscendingNode(t.data(), 5);
+  return MeanLongitudeLunarAscendingNode(t.data(), 5);
 }
 
-double CAAELP2000::EarthMoonBarycentreMeanLongitude(const double* pT, int nTSize) noexcept //Aka T
+double CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre(const double* pT, int nTSize) noexcept //Aka T
 {
   //Validate our parameters
   assert(pT);
@@ -38238,7 +38249,7 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitude(const double* pT, int nTSize
   return fValue;
 }
 
-double CAAELP2000::EarthMoonBarycentreMeanLongitude(double JD) noexcept //Aka T
+double CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre(double JD) noexcept //Aka T
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38248,10 +38259,10 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitude(double JD) noexcept //Aka T
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return EarthMoonBarycentreMeanLongitude(t.data(), 5);
+  return MeanHeliocentricMeanLongitudeEarthMoonBarycentre(t.data(), 5);
 }
 
-double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(const double* pT, int nTSize) noexcept //Aka Omega'
+double CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(const double* pT, int nTSize) noexcept //Aka Omega'
 {
   //Validate our parameters
   assert(pT);
@@ -38268,7 +38279,7 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(const double* pT
   return fValue;
 }
 
-double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(double JD) noexcept //Aka Omega'
+double CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(double JD) noexcept //Aka Omega'
 {
   //Calculate Julian centuries
   array<double, 5> t;
@@ -38278,13 +38289,13 @@ double CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion(double JD) noexc
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
 
-  return EarthMoonBarycentreMeanLongitudeOfPerihelion(t.data(), 5);
+  return MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(t.data(), 5);
 }
 
 double CAAELP2000::MoonMeanSolarElongation(const double* pT, int nTSize) noexcept //Aka D
 {
   //Implement D in terms of W1 and T
-  return MoonMeanLongitude(pT, nTSize) - EarthMoonBarycentreMeanLongitude(pT, nTSize) + CAACoordinateTransformation::PI();
+  return MoonMeanMeanLongitude(pT, nTSize) - MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, nTSize) + CAACoordinateTransformation::PI();
 }
 
 double CAAELP2000::MoonMeanSolarElongation(double JD) noexcept //Aka D
@@ -38303,7 +38314,7 @@ double CAAELP2000::MoonMeanSolarElongation(double JD) noexcept //Aka D
 double CAAELP2000::SunMeanAnomaly(const double* pT, int nTSize) noexcept //Aka l'
 {
   //Implement l' in terms of T and Omega'
-  return EarthMoonBarycentreMeanLongitude(pT, nTSize) - EarthMoonBarycentreMeanLongitudeOfPerihelion(pT, nTSize);
+  return MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, nTSize) - MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(pT, nTSize);
 }
 
 double CAAELP2000::SunMeanAnomaly(double JD) noexcept //Aka l'
@@ -38315,14 +38326,14 @@ double CAAELP2000::SunMeanAnomaly(double JD) noexcept //Aka l'
   t[2] = t[1] * t[1];
   t[3] = t[2] * t[1];
   t[4] = t[3] * t[1];
-  
+
   return SunMeanAnomaly(t.data(), 5);
 }
 
 double CAAELP2000::MoonMeanAnomaly(const double* pT, int nTSize) noexcept //Aka l
 {
   //Implement L in terms of W1 and W2
-  return MoonMeanLongitude(pT, nTSize) - MoonMeanLongitudeLunarPerigee(pT, nTSize);
+  return MoonMeanMeanLongitude(pT, nTSize) - MeanLongitudeLunarPerigee(pT, nTSize);
 }
 
 double CAAELP2000::MoonMeanAnomaly(double JD) noexcept //Aka l
@@ -38341,7 +38352,7 @@ double CAAELP2000::MoonMeanAnomaly(double JD) noexcept //Aka l
 double CAAELP2000::MoonMeanArgumentOfLatitude(const double* pT, int nTSize) noexcept //Aka F
 {
   //Implement F in terms of W1 and W3
-  return MoonMeanLongitude(pT, nTSize) - MoonMeanLongitudeLunarAscendingNode(pT, nTSize);
+  return MoonMeanMeanLongitude(pT, nTSize) - MeanLongitudeLunarAscendingNode(pT, nTSize);
 }
 
 double CAAELP2000::MoonMeanArgumentOfLatitude(double JD) noexcept //Aka F
@@ -38724,7 +38735,7 @@ double CAAELP2000::EclipticLongitude(const double* pT, int nTSize) noexcept
   //Compute the planet mean longitudes for the specified time
   const double fMe = MercuryMeanLongitude(pT[1]);
   const double fV = VenusMeanLongitude(pT[1]);
-  const double fT = EarthMoonBarycentreMeanLongitude(pT, 2);
+  const double fT = MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2);
   const double fMa = MarsMeanLongitude(pT[1]);
   const double fJ = JupiterMeanLongitude(pT[1]);
   const double fS = SaturnMeanLongitude(pT[1]);
@@ -38744,7 +38755,7 @@ double CAAELP2000::EclipticLongitude(const double* pT, int nTSize) noexcept
                    Accumulate(pT, nTSize, g_ELP28.data(), g_ELP28.size(), fD2, fldash2, fl2, fF2, true) +
                    Accumulate(pT, nTSize, g_ELP31.data(), g_ELP31.size(), fD2, fldash2, fl2, fF2, true) +
                    Accumulate_3(pT, nTSize, g_ELP34.data(), g_ELP34.size(), fD2, fldash2, fl2, fF2);
-  return CAACoordinateTransformation::MapTo0To360Range(A/3600.0 + CAACoordinateTransformation::RadiansToDegrees(MoonMeanLongitude(pT, nTSize)));
+  return CAACoordinateTransformation::MapTo0To360Range(A/3600.0 + CAACoordinateTransformation::RadiansToDegrees(MoonMeanMeanLongitude(pT, nTSize)));
 }
 
 double CAAELP2000::EclipticLongitude(double JD) noexcept
@@ -38782,7 +38793,7 @@ double CAAELP2000::EclipticLatitude(const double* pT, int nTSize) noexcept
   //Compute the planet mean longitudes for the specified time
   const double fMe = MercuryMeanLongitude(pT[1]);
   const double fV = VenusMeanLongitude(pT[1]);
-  const double fT = EarthMoonBarycentreMeanLongitude(pT, 2);
+  const double fT = MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2);
   const double fMa = MarsMeanLongitude(pT[1]);
   const double fJ = JupiterMeanLongitude(pT[1]);
   const double fS = SaturnMeanLongitude(pT[1]);
@@ -38840,7 +38851,7 @@ double CAAELP2000::RadiusVector(const double* pT, int nTSize) noexcept
   //Compute the planet mean longitudes for the specified time
   const double fMe = MercuryMeanLongitude(pT[1]);
   const double fV = VenusMeanLongitude(pT[1]);
-  const double fT = EarthMoonBarycentreMeanLongitude(pT, 2);
+  const double fT = MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2);
   const double fMa = MarsMeanLongitude(pT[1]);
   const double fJ = JupiterMeanLongitude(pT[1]);
   const double fS = SaturnMeanLongitude(pT[1]);
