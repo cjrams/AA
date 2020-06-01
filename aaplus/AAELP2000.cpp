@@ -38314,7 +38314,8 @@ double CAAELP2000::SunMeanAnomaly(double JD) noexcept //Aka l'
   t[1] = (JD - 2451545.0) / 36525.0;
   t[2] = t[1] * t[1];
   t[3] = t[2] * t[1];
-
+  t[4] = t[3] * t[1];
+  
   return SunMeanAnomaly(t.data(), 5);
 }
 
