@@ -2177,32 +2177,464 @@ int main()
   //Test out the CAAPlanetPerihelionAphelion class
   constexpr long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
   const double VenusPerihelion = CAAPlanetPerihelionAphelion::VenusPerihelion(VenusK);
-  UNREFERENCED_PARAMETER(VenusPerihelion);
+  CAADate date_time(CAADynamicalTime::TT2UTC(VenusPerihelion), true);
+  long year = 0;
+  long month = 0;
+  long day = 0;
+  long hour = 0;
+  long minute = 0;
+  double second = 0;
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Venus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   constexpr long MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
   const double MarsAphelion = CAAPlanetPerihelionAphelion::MarsAphelion(MarsK);
-  UNREFERENCED_PARAMETER(MarsAphelion);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(MarsAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Mars (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   long SaturnK = CAAPlanetPerihelionAphelion::SaturnK(1925);
   const double SaturnAphelion = CAAPlanetPerihelionAphelion::SaturnAphelion(SaturnK);
-  UNREFERENCED_PARAMETER(SaturnAphelion);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(SaturnAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Saturn (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
   SaturnK = CAAPlanetPerihelionAphelion::SaturnK(1940);
   const double SaturnPerihelion = CAAPlanetPerihelionAphelion::SaturnPerihelion(SaturnK);
-  UNREFERENCED_PARAMETER(SaturnPerihelion);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(SaturnPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Saturn (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   long UranusK = CAAPlanetPerihelionAphelion::UranusK(1750);
   const double UranusAphelion = CAAPlanetPerihelionAphelion::UranusAphelion(UranusK);
-  UNREFERENCED_PARAMETER(UranusAphelion);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
   UranusK = CAAPlanetPerihelionAphelion::UranusK(1890);
   double UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
   UranusK = CAAPlanetPerihelionAphelion::UranusK(2060);
   UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK);
-  UNREFERENCED_PARAMETER(UranusPerihelion);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   const double EarthPerihelion = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, true);
-  UNREFERENCED_PARAMETER(EarthPerihelion);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(EarthPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Earth-Moon barycenter (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
   const double EarthPerihelion2 = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, false);
-  UNREFERENCED_PARAMETER(EarthPerihelion2);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(EarthPerihelion2), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Earth (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+
+  //Test out the CAAPlanetPerihelionAphelion2 class
+  std::vector<CAAPlanetPerihelionAphelionDetails2> events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2443509.5), CAADynamicalTime::UTC2TT(2443874.5), CAAPlanetPerihelionAphelion2::Object::VENUS, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Venus (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Venus (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2443509.5), CAADynamicalTime::UTC2TT(2443874.5), CAAPlanetPerihelionAphelion2::Object::VENUS, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphhelion of Venus (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Venus (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2463232.5), CAADynamicalTime::UTC2TT(2463900.5), CAAPlanetPerihelionAphelion2::Object::MARS, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Mars (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Mars (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2463232.5), CAADynamicalTime::UTC2TT(2463900.5), CAAPlanetPerihelionAphelion2::Object::MARS, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphhelion of Mars (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Mars (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2447892.5), CAADynamicalTime::UTC2TT(2448257.5), CAAPlanetPerihelionAphelion2::Object::EARTH, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Earth (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Earth (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2447892.5), CAADynamicalTime::UTC2TT(2448257.5), CAAPlanetPerihelionAphelion2::Object::EARTH, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphhelion of Earth (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Earth (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2436569.5), CAADynamicalTime::UTC2TT(2436935.5), CAAPlanetPerihelionAphelion2::Object::SATURN, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Saturn (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Saturn (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2436569.5), CAADynamicalTime::UTC2TT(2436935.5), CAAPlanetPerihelionAphelion2::Object::SATURN, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Saturn (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Saturn (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2393471.5), CAADynamicalTime::UTC2TT(2393837.5), CAAPlanetPerihelionAphelion2::Object::URANUS, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2393471.5), CAADynamicalTime::UTC2TT(2393837.5), CAAPlanetPerihelionAphelion2::Object::URANUS, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2439126.5), CAADynamicalTime::UTC2TT(2439492.5), CAAPlanetPerihelionAphelion2::Object::URANUS, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2439126.5), CAADynamicalTime::UTC2TT(2439492.5), CAAPlanetPerihelionAphelion2::Object::URANUS, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2406254.5), CAADynamicalTime::UTC2TT(2410272.5), CAAPlanetPerihelionAphelion2::Object::NEPTUNE, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Neptune (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Neptune (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2406254.5), CAADynamicalTime::UTC2TT(2410272.5), CAAPlanetPerihelionAphelion2::Object::NEPTUNE, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Neptune (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Neptune (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2436569.5), CAADynamicalTime::UTC2TT(2440222.5), CAAPlanetPerihelionAphelion2::Object::NEPTUNE, 0.007, false);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Neptune (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Neptune (using CAAPlanetPerihelionAphelion2) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2436569.5), CAADynamicalTime::UTC2TT(2440222.5), CAAPlanetPerihelionAphelion2::Object::NEPTUNE, 0.007, true);
+  for (const auto& event : events6)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetPerihelionAphelionDetails2::Type::Aphelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Aphelion of Neptune (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetPerihelionAphelionDetails2::Type::Perihelion:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Perihelion of Neptune (using CAAPlanetPerihelionAphelion2 high precision) (UTC) at distance %f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
 
 
   //Test out the CAAMoonPerigeeApogee
@@ -2828,39 +3260,21 @@ int main()
     {
       case CAARiseTransitSetDetails2::Type::Rise:
       {
-        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
-        long year = 0;
-        long month = 0;
-        long day = 0;
-        long hour = 0;
-        long minute = 0;
-        double second = 0;
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
         date_time.Get(year, month, day, hour, minute, second);
         printf("Palomar Observatory Rise of Moon (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       case CAARiseTransitSetDetails2::Type::Set:
       {
-        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
-        long year = 0;
-        long month = 0;
-        long day = 0;
-        long hour = 0;
-        long minute = 0;
-        double second = 0;
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
         date_time.Get(year, month, day, hour, minute, second);
         printf("Palomar Observatory Set of Moon (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       case CAARiseTransitSetDetails2::Type::SouthernTransit:
       {
-        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
-        long year = 0;
-        long month = 0;
-        long day = 0;
-        long hour = 0;
-        long minute = 0;
-        double second = 0;
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
         date_time.Get(year, month, day, hour, minute, second);
         if (event.bAboveHorizon) //Only bother to report visible transits
           printf("Palomar Observatory Southern Transit of Moon (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
@@ -2868,13 +3282,7 @@ int main()
       }
       case CAARiseTransitSetDetails2::Type::NorthernTransit:
       {
-        const CAADate date_time(CAADynamicalTime::TT2UTC(event.JD), true);
-        long year = 0;
-        long month = 0;
-        long day = 0;
-        long hour = 0;
-        long minute = 0;
-        double second = 0;
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
         date_time.Get(year, month, day, hour, minute, second);
         if (event.bAboveHorizon) //Only bother to report visible transits
           printf("Palomar Observatory Northern Transit of Moon (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
@@ -3265,13 +3673,7 @@ int main()
     EclipseDetails = CAAEclipses::CalculateSolar(K);
     if (EclipseDetails.Flags)
     {
-      const CAADate date_time(EclipseDetails.TimeOfMaximumEclipse, (EclipseDetails.TimeOfMaximumEclipse >= 2299160.5));
-      long year = 0;
-      long month = 0;
-      long day = 0;
-      long hour = 0;
-      long minute = 0;
-      double second = 0;
+      date_time = CAADate(EclipseDetails.TimeOfMaximumEclipse, (EclipseDetails.TimeOfMaximumEclipse >= 2299160.5));
       date_time.Get(year, month, day, hour, minute, second);
       printf("%d-%d-%d %02d:%02d:%02d Gamma:%f", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second), EclipseDetails.gamma);
       if (EclipseDetails.Flags & CAASolarEclipseDetails::TOTAL_ECLIPSE)

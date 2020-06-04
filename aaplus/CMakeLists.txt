@@ -63,6 +63,7 @@ SET ( SRCS_LIB
   AAPhysicalMoon.cpp
   AAPhysicalSun.cpp
   AAPlanetPerihelionAphelion.cpp
+  AAPlanetPerihelionAphelion2.cpp
   AAPlanetaryPhenomena.cpp
   AAPluto.cpp
   AAPrecession.cpp
@@ -180,6 +181,7 @@ SET ( INCS
   AAPhysicalMoon.h
   AAPhysicalSun.h
   AAPlanetPerihelionAphelion.h
+  AAPlanetPerihelionAphelion2.h
   AAPlanetaryPhenomena.h
   AAPluto.h
   AAPrecession.h

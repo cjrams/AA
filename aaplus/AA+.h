@@ -92,6 +92,7 @@ to maintain a single distribution point for the source code.
 #include "AAPhysicalSun.h"
 #include "AAPlanetaryPhenomena.h"
 #include "AAPlanetPerihelionAphelion.h"
+#include "AAPlanetPerihelionAphelion2.h"
 #include "AAPluto.h"
 #include "AAPrecession.h"
 #include "AARefraction.h"

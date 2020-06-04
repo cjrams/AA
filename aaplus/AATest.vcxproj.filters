@@ -369,6 +369,9 @@
     <ClCompile Include="AAMoonPhases2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AAPlanetPerihelionAphelion2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AA+.h">
@@ -732,6 +735,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AADefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AAPlanetPerihelionAphelion2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

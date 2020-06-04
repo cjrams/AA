@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.15</title>
+<title>AA+ v2.16</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.15</h2>
+<h2>AA+ v2.16</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -92,6 +92,10 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.16 (2 June 2020)</b></p>
+<ul>
+	<li>Addition of a new CAAPlanetPerihelionAphelion2 class. </li>
+</ul>
 <p><b>v2.15 (1 June 2020)</b></p>
 <ul>
 	<li>Fixed a bug in CAAELP2000::SunMeanAnomaly where some local variables 
@@ -1503,6 +1507,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p><b><a href="#CAAPhysicalSun">CAAPhysicalSun</a></b></p>
 <p><b><a href="#CAAPlanetaryPhenomena">CAAPlanetaryPhenomena</a></b></p>
 <p><b><a href="#CAAPlanetPerihelionAphelion">CAAPlanetPerihelionAphelion</a></b></p>
+<p><b><a href="#CAAPlanetPerihelionAphelion2">CAAPlanetPerihelionAphelion2</a></b></p>
 <p><b><a href="#CAAPluto">CAAPluto</a></b></p>
 <p><b><a href="#CAAPrecession">CAAPrecession</a></b></p>
 <p><b><a href="#CAARefraction">CAARefraction</a></b></p>
@@ -6116,6 +6121,50 @@ for calculation of the dates of Perihelion or Aphelion.</p>
 <p><i>k</i> The K value to calculate the aphelion for.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+<p><b><a name="CAAPlanetPerihelionAphelion2"></a>CAAPlanetPerihelionAphelion2</b></p>
+<p>This class uses interpolation to calculate the same details as those provided with the existing
+<a href="#CAAPlanetPerihelionAphelion">CAAPlanetPerihelionAphelion</a> class.</p>
+<p>&nbsp;</p>
+<p><b>Functions this class provides include:</b></p>
+<p><a href="#CAAPlanetPerihelionAphelion2_Calculate">Calculate</a></p>
+<p>&nbsp;</p>
+<p><b><a name="CAAPlanetPerihelionAphelion2_Calculate"></a>CAAPlanetPerihelionAphelion2::Calculate</b></p>
+<p><b>static std::vector&lt;CAAPlanetPerihelionAphelionDetails2&gt; Calculate(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>Object </b><em>object</em>,<b> double</b>
+<em>StepInterval</em> <b>= 0.007</b>, <b>bool </b><em>
+bHighPrecision</em> <b>= false)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be Perihelion or Aphelion.</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>Value</i> this will be the 
+distance of the object in AU at time JD.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p>Object The object type you want to calculate for. This is an enum class of 
+type Object inside the CAAPlanetPerihelionAphelionDetails2 class and can be MERCURY, 
+VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE or PLUTO.</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy.</p>
+<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+the truncated version as provided in Meeus's book.</p>
+<p><b>Notes</b></p>
+<p>As mentioned in Meeus's book on page 271, care should be taken for the case 
+of Neptune. This planet has a slow motion and a small orbital eccentricity. On 
+the other hand, the Sun is oscillating around the barycenter of the solar 
+system, mainly due to the actions of Jupiter and Saturn. Consequently, the 
+distance of Neptune to the Sun (not to the barycenter of the solar system) can 
+reach a double maximum or minimum. These double values will be reported by this 
+class as it looks for simple extreme values for the radius vector of the planet. 
+These additional extreme values have been called apheloid and periheloid by Jean 
+Meeus in the book.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p><b><a name="CAAPluto"></a>CAAPluto</b></p>
 <p>This class provides for calculation of the heliocentric position of Pluto. This 
 refers to Chapter 37 in the book.</p>
@@ -9887,7 +9936,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>1 June 2020</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>2 June 2020</p>
 
 </body>
 
