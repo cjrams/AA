@@ -343,12 +343,6 @@ vector<CAARiseTransitSetDetails2> CAARiseTransitSet2::Calculate(double StartJD, 
         Topo = CAAParallax::Equatorial2Topocentric(details.ApparentGeocentricRA, details.ApparentGeocentricDeclination, details.ApparentGeocentricDistance, Longitude, Latitude, Height, JD);
         break;
       }
-      case Object::PLUTO:
-      {
-        details = CAAElliptical::Calculate(JD, CAAElliptical::EllipticalObject::PLUTO, bHighPrecision);
-        Topo = CAAParallax::Equatorial2Topocentric(details.ApparentGeocentricRA, details.ApparentGeocentricDeclination, details.ApparentGeocentricDistance, Longitude, Latitude, Height, JD);
-        break;
-      }
       default:
       {
         assert(false);

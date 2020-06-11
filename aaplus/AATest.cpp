@@ -655,6 +655,7 @@ int main()
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
   //Calculate the Moon's phase for 2019 using CAAMoonPhases
+  /*
   for (int k=235; k<248; k++)
   {
     const double NewMoon = CAAMoonPhases::TruePhase(k);
@@ -1483,6 +1484,7 @@ int main()
       }
     }
   }
+  */
 
   //Print out an ASCII graphic of the moon phase for the month of April 2012 for 
   //the location of Wexford, Ireland. Thanks to Roger Dahl for providing this 
@@ -2235,6 +2237,7 @@ int main()
 
 
   //Test out the CAAPlanetPerihelionAphelion2 class
+  /*
   std::vector<CAAPlanetPerihelionAphelionDetails2> events6 = CAAPlanetPerihelionAphelion2::Calculate(CAADynamicalTime::UTC2TT(2443509.5), CAADynamicalTime::UTC2TT(2443874.5), CAAPlanetPerihelionAphelion2::Object::VENUS, 0.007, false);
   for (const auto& event : events6)
   {
@@ -2635,7 +2638,7 @@ int main()
       }
     }
   }
-
+  */
 
   //Test out the CAAMoonPerigeeApogee
   double MoonK = CAAMoonPerigeeApogee::K(1988.75);
@@ -3238,13 +3241,13 @@ int main()
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SATURN, -0.5667, "Saturn");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::URANUS, -0.5667, "Uranus");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::NEPTUNE, -0.5667, "Neptune");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::PLUTO, -0.5667, "Pluto");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333, "Sun");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::MOON, 0.125, "Moon");
   PrintBostonRiseTransitSetTimesMoon();
   PrintBostonRiseTransitSetTimesSirius();
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
+  /*
   constexpr int YYYY = 2009;
   constexpr int MM = 8;
   constexpr int DD = 11;
@@ -3294,7 +3297,7 @@ int main()
       }
     }
   }
-
+  */
 
   const double Kpp = CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
   const double MercuryInferiorConjunction = CAAPlanetaryPhenomena::Mean(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
@@ -3343,6 +3346,1745 @@ int main()
   const double NeptuneKpp = CAAPlanetaryPhenomena::K(1846.5, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   const double NeptuneOP = CAAPlanetaryPhenomena::True(NeptuneKpp, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
   UNREFERENCED_PARAMETER(NeptuneOP);
+
+  printf("Planet Phenomena for Mercury\n");
+  std::vector<CAAPlanetaryPhenomenaDetails2> events7 = CAAPlanetaryPhenomena2::Calculate(CAADynamicalTime::UTC2TT(2449292.5), CAADynamicalTime::UTC2TT(2449492.5), CAAPlanetaryPhenomena2::Object::MERCURY, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in RA of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in RA of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in RA of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in RA of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Angular Distance of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Angular Distance of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Angular Distance of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Angular Distance of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Mercury (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Mercury (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(CAADynamicalTime::UTC2TT(2449292.5), CAADynamicalTime::UTC2TT(2449492.4), CAAPlanetaryPhenomena2::Object::MERCURY, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in RA of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in RA of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in RA of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in RA of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Angular Distance of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Angular Distance of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Angular Distance of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Angular Distance of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Mercury (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Venus\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(CAADynamicalTime::UTC2TT(2458849.5), CAADynamicalTime::UTC2TT(2459615.5), CAAPlanetaryPhenomena2::Object::VENUS, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction In RA of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in RA of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in RA of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in RA of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Angular Distance of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Angular Distance of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Angular Distance of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Angular Distance of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Venus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Venus (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(CAADynamicalTime::UTC2TT(2458849.5), CAADynamicalTime::UTC2TT(2459615.5), CAAPlanetaryPhenomena2::Object::VENUS, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in RA of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in RA of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in RA of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in RA of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::InferiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Inferior Conjunction in Angular Distance of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::SuperiorConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Superior Conjunction in Angular Distance of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestWesternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Western Elongation in Angular Distance of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::GreatestEasternElongationInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Greatest Eastern Elongation in Angular Distance of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Venus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Mars\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2450449.5, 2452000.5, CAAPlanetaryPhenomena2::Object::MARS, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Mars (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2450449.5, 2452000.5, CAAPlanetaryPhenomena2::Object::MARS, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Mars (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Jupiter\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2371191.5, 2371557.5, CAAPlanetaryPhenomena2::Object::JUPITER, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Jupiter (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2371191.5, 2371557.5, CAAPlanetaryPhenomena2::Object::JUPITER, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Jupiter (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Saturn\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2497200.5, 2497566.5, CAAPlanetaryPhenomena2::Object::SATURN, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Saturn (using CAAPlanetaryPhenomena2) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Saturn (using CAAPlanetaryPhenomena2) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Saturn (using CAAPlanetaryPhenomena2) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Saturn (using CAAPlanetaryPhenomena2) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Saturn (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2497200.5, 2497566.5, CAAPlanetaryPhenomena2::Object::SATURN, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2 high precision) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Saturn (using CAAPlanetaryPhenomena2 high precision) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Saturn (using CAAPlanetaryPhenomena2 high precision) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2 high precision) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Saturn (using CAAPlanetaryPhenomena2 high precision) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(event.JD, true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Saturn (using CAAPlanetaryPhenomena2 high precision) (TT) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Saturn (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Uranus\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2371191.5, 2371557.5, CAAPlanetaryPhenomena2::Object::URANUS, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Uranus (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2371191.5, 2371557.5, CAAPlanetaryPhenomena2::Object::URANUS, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Uranus (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Neptune\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2371191.5, 2371557.5, CAAPlanetaryPhenomena2::Object::NEPTUNE, 0.007, false);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  printf("Planet Phenomena for Neptune (high precision)\n");
+  events7 = CAAPlanetaryPhenomena2::Calculate(2371191.5, 2371557.5, CAAPlanetaryPhenomena2::Object::NEPTUNE, 0.007, true);
+  for (const auto& event : events7)
+  {
+    switch (event.type)
+    {
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in RA of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::ConjunctionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Conjunction in Angular Distance of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in RA of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::OppositionInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Opposition in Angular Distance of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station1InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 1 in RA of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::Station2InRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Station 2 in RA of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in Angular Distance of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInAngularDistance:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Angular Distance of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in RA of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInRA:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in RA of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::WesternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Western Quadrature in EclipticLongitude of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAAPlanetaryPhenomenaDetails2::Type::EasternQuadratureInEclipticLongitude:
+      {
+        date_time = CAADate(CAADynamicalTime::TT2UTC(event.JD), true);
+        date_time.Get(year, month, day, hour, minute, second);
+        printf("Eastern Quadrature in Ecliptic Longitude of Neptune (using CAAPlanetaryPhenomena2 high precision) (UTC) Value:%f, %d-%d-%d %02d:%02d:%02d\n", event.Value, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+
 
   const CAA2DCoordinate TopocentricDelta = CAAParallax::Equatorial2TopocentricDelta(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27)*15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681);
   UNREFERENCED_PARAMETER(TopocentricDelta);

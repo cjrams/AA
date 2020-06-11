@@ -167,13 +167,6 @@ CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObje
           R = CAANeptune::RadiusVector(JD0, bHighPrecision);
           break;
         }
-        case EllipticalObject::PLUTO:
-        {
-          L = CAAPluto::EclipticLongitude(JD0);
-          B = CAAPluto::EclipticLatitude(JD0);
-          R = CAAPluto::RadiusVector(JD0);
-          break;
-        }
         default:
         {
           assert(false);

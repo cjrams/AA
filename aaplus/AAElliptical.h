@@ -155,8 +155,7 @@ public:
     JUPITER,
     SATURN,
     URANUS,
-    NEPTUNE,
-    PLUTO
+    NEPTUNE
   };
 
 //Static methods

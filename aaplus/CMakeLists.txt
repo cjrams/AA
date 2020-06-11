@@ -65,6 +65,7 @@ SET ( SRCS_LIB
   AAPlanetPerihelionAphelion.cpp
   AAPlanetPerihelionAphelion2.cpp
   AAPlanetaryPhenomena.cpp
+  AAPlanetaryPhenomena2.cpp
   AAPluto.cpp
   AAPrecession.cpp
   AARefraction.cpp
@@ -183,6 +184,7 @@ SET ( INCS
   AAPlanetPerihelionAphelion.h
   AAPlanetPerihelionAphelion2.h
   AAPlanetaryPhenomena.h
+  AAPlanetaryPhenomena2.h
   AAPluto.h
   AAPrecession.h
   AARefraction.h

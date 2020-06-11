@@ -98,7 +98,6 @@ public:
     SATURN,
     URANUS,
     NEPTUNE,
-    PLUTO,
     STAR
   };
 

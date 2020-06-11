@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.16</title>
+<title>AA+ v2.17</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.16</h2>
+<h2>AA+ v2.17</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -92,6 +92,16 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.17 (11 June 2020)</b></p>
+<ul>
+	<li>Addition of a new CAAPlanetaryPhenomena2 class. </li>
+	<li>Removed support for Pluto from the CAAElliptical class since the 
+	CAAPluto class returns the coordinates in the equinox of J2000 instead of 
+	the equinox of the date which is required by this class.</li>
+	<li>Removed support for Pluto from the CAARiseTransitSet2 class since the 
+	CAAPluto class returns the coordinates in the equinox of J2000 instead of 
+	the equinox of the date which is required by this class.</li>
+</ul>
 <p><b>v2.16 (2 June 2020)</b></p>
 <ul>
 	<li>Addition of a new CAAPlanetPerihelionAphelion2 class. </li>
@@ -1506,6 +1516,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p><b><a href="#CAAPhysicalMoon">CAAPhysicalMoon</a></b></p>
 <p><b><a href="#CAAPhysicalSun">CAAPhysicalSun</a></b></p>
 <p><b><a href="#CAAPlanetaryPhenomena">CAAPlanetaryPhenomena</a></b></p>
+<p><b><a href="#CAAPlanetaryPhenomena2">CAAPlanetaryPhenomena2</a></b></p>
 <p><b><a href="#CAAPlanetPerihelionAphelion">CAAPlanetPerihelionAphelion</a></b></p>
 <p><b><a href="#CAAPlanetPerihelionAphelion2">CAAPlanetPerihelionAphelion2</a></b></p>
 <p><b><a href="#CAAPluto">CAAPluto</a></b></p>
@@ -5909,6 +5920,274 @@ EventType </b><i>type</i><b>)</b></p>
 otherwise false implies western elongation.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+<p><b><a name="CAAPlanetaryPhenomena2"></a>CAAPlanetaryPhenomena2</b></p>
+<p>This class uses interpolation to calculate the same details as those provided with the existing
+<a href="#CAAPlanetaryPhenomena">CAAPlanetaryPhenomena</a> class.</p>
+<p>&nbsp;</p>
+<p><b>Functions this class provides include:</b></p>
+<p><a href="#CAAPlanetPhenomenaDetails2_Calculate">Calculate</a></p>
+<p>&nbsp;</p>
+<p><b><a name="CAAPlanetPhenomenaDetails2_Calculate"></a>CAAPlanetaryPhenomena2::Calculate</b></p>
+<p><b>static std::vector&lt;CAAPlanetaryPhenomenaDetails2&gt; Calculate(double
+</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>Object </b><em>object</em>,<b> double</b>
+<em>StepInterval</em> <b>= 0.007</b>, <b>bool </b><em>
+bHighPrecision</em> <b>= false)</b></p>
+<p><b>Return Value</b></p>
+<p>A standard C++ array containing a class which itself contains:</p>
+<p><em>type</em> An enum class instance which represents the type of event 
+found. This can be InferiorConjunctionInEclipticLongitude, 
+InferiorConjunctionInRA, InferiorConjunctionInAngularDistance, 
+SuperiorConjunctionInEclipticLongitude, SuperiorConjunctionInRA, 
+SuperiorConjunctionInAngularDistance, 
+GreatestWesternElongationInEclipticLongitude, GreatestWesternElongationInRA, 
+GreatestWesternElongationInAngularDistance, 
+GreatestEasternElongationInEclipticLongitude, GreatestEasternElongationInRA, GreatestEasternElongationInAngularDistance, 
+OppositionInEclipticLongitude, OppositionInRA, OppositionInAngularDistance, ConjunctionInEclipticLongitude, 
+ConjunctionInRA, ConjunctionInAngularDistance, Station1InEclipticLongitude, Station1InRA, Station2InEclipticLongitude, 
+Station2InRA, WesternQuadratureInEclipticLongitude, WesternQuadratureInRA, WesternQuadratureInAngularDistance, 
+EasternQuadratureInEclipticLongitude, EasternQuadratureInRA or EasternQuadratureInAngularDistance.</p>
+<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>Value1</i> this will contain different values depending on the value in 
+&quot;type&quot;. </p>
+<p><em>Value2</em> A second value which will contain different values depending 
+on the value in &quot;type&quot;.</p>
+<p><b>Parameters</b></p>
+<p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to start the calculation for.</p>
+<p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
+date when you want to end the calculation for.</p>
+<p>Object The object type you want to calculate for. This is an enum class of 
+type Object inside the CAAPlanetaryPhenomenaDetails2 class and can be MERCURY, 
+VENUS, MARS, JUPITER, SATURN, URANUS or NEPTUNE.</p>
+<p><em>StepInterval</em> The step interval in fractions of days to do the 
+calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
+which is a reasonable tradeoff between performance and accuracy.</p>
+<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+the truncated version as provided in Meeus's book.</p>
+<p><strong>Notes</strong></p>
+<p>The definition of the &quot;Type&quot;, its meaning, and the meaning of &quot;Value&quot; in the CAAPlanetPhenomenaDetails2 
+struct are as follows:</p>
+<table width="1400">
+	<tr>
+		<td width="236"><em>Type</em></td>
+		<td><em>Meaning</em></td>
+		<td><em>Value</em></td>
+	</tr>
+	<tr>
+		<td width="236">InferiorConjunctionInEclipticLongitude</td>
+		<td>The instant when the object's Apparent Ecliptic Longitude is the 
+		same as the Sun's and the object is between the Sun and Earth. This can 
+		only occur for Mercury or Venus.</td>
+		<td>By definition the value 0.</td>
+	</tr>
+	<tr>
+		<td width="236">InferiorConjunctionInRA</td>
+		<td>The instant when the object's Apparent Right Ascension is the same 
+		as the Sun's and the object is between the Sun and Earth. This can only 
+		occur for Mercury or Venus.</td>
+		<td>By definition the value 0.</td>
+	</tr>
+	<tr>
+		<td width="236">InferiorConjunctionInAngularDistance</td>
+		<td>The instant when the object's apparent elongation from the Sun is a 
+		minimum and the object is between the Sun and Earth. This can only occur 
+		for Mercury or Venus.</td>
+		<td>The apparent elongation between the object and the Sun in degrees 
+		when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">SuperiorConjunctionInEclipticLongitude</td>
+		<td>The instant when the object's Apparent Ecliptic Longitude is the 
+		same as the Sun's and the object is beyond the Sun as seen from Earth. 
+		This can only occur for Mercury or Venus.</td>
+		<td>By definition the value 0.</td>
+	</tr>
+	<tr>
+		<td width="236">SuperiorConjunctionInRA</td>
+		<td>The instant when the object's Apparent Right Ascension is the same 
+		as the Sun's and the object is beyond the Sun as seen from Earth. This 
+		can only occur for Mercury or Venus.</td>
+		<td>By definition the value 0.</td>
+	</tr>
+	<tr>
+		<td width="236">SuperiorConjunctionInAngularDistance</td>
+		<td>The instant when the object's apparent elongation from the Sun is a 
+		minimum and the object is beyond the Sun as seen from Earth. This can 
+		only occur for Mercury or Venus.</td>
+		<td>The apparent elongation between the object and the Sun in degrees 
+		when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">GreatestWesternElongationInEclipticLongitude</td>
+		<td>The instant when the difference in the object's Apparent Ecliptic 
+		Longitude and the Sun's is the greatest and the object is to the west of 
+		the Sun and is visible in the morning sky. This can only occur for 
+		Mercury or Venus.</td>
+		<td>The positive difference between the object's Apparent Ecliptic 
+		Longitude and the Sun's in degrees when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">GreatestWesternElongationInRA</td>
+		<td>The instant when the difference in the object's Apparent Right 
+		Ascension and the Sun's is the greatest and the object is to the west of 
+		the Sun and is visible in the morning sky. This can only occur for 
+		Mercury or Venus.</td>
+		<td>The positive difference between the object's Apparent Right 
+		Ascension and the Sun's in hours when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">GreatestWesternElongationInAngularDistance</td>
+		<td>The instant when the apparent elongation between the object and the 
+		Sun is a maximum and the object is to the west of the Sun and is visible 
+		in the morning sky. This can only occur for Mercury or Venus.</td>
+		<td>The apparent elongation between the object and the Sun in degrees 
+		when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">GreatestEasternElongationInEclipticLongitude</td>
+		<td>The instant when the difference in the object's Apparent Ecliptic 
+		Longitude and the Sun's is a maximum and the object is to the east of 
+		the Sun and is visible in the evening sky. This can only occur for 
+		Mercury or Venus.</td>
+		<td>The positive difference between the object's Apparent Ecliptic 
+		Longitude and the Sun's in degrees when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">GreatestEasternElongationInRA</td>
+		<td>The instant when the difference in the object's Apparent Right 
+		Ascension and the Sun's is a maximum and the object is to the east of 
+		the Sun and is visible in the evening sky. This can only occur for 
+		Mercury or Venus.</td>
+		<td>The positive difference between the object's Apparent Right 
+		Ascension and the Sun's in hours when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">GreatestEasternElongationInAngularDistance</td>
+		<td>The instant when the apparent elongation between the object and the 
+		Sun's is a maximum and the object is to the east of the Sun and is 
+		visible in the evening sky. This can only occur for Mercury or Venus.</td>
+		<td>The apparent elongation between the object and the Sun in degrees 
+		when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">OppositionInEclipticLongitude</td>
+		<td>The instant when the difference between the object's Apparent 
+		Ecliptic Longitude and the Sun's is 180 degrees. This can only occur for 
+		Mars to Neptune.</td>
+		<td>By definition the value 180.</td>
+	</tr>
+	<tr>
+		<td width="236">OppositionInRA</td>
+		<td>The instant when the difference between the object's apparent Right 
+		Ascension and the Sun's is 12 hours. This can only occur for Mars to 
+		Neptune.</td>
+		<td>By defintion the value 12.</td>
+	</tr>
+	<tr>
+		<td width="236">OppositionInAngularDistance</td>
+		<td>The instant when the object's apparent elongation from the Sun is a 
+		maximum. This can only occur for Mars to Neptune.</td>
+		<td>The apparent elongation between the object and the Sun in degrees 
+		when the event occurs. Will be quite close to 180 degrees.</td>
+	</tr>
+	<tr>
+		<td width="236">ConjunctionInEclipticLongitude</td>
+		<td>The instant when the difference between the object's Apparent 
+		Ecliptic Longitude and the Sun's is 0 degrees. This can only occur for 
+		Mars to Neptune.</td>
+		<td>By definition the value 0.</td>
+	</tr>
+	<tr>
+		<td width="236">ConjunctionInRA</td>
+		<td>The instant when the difference between the object's Apparent Right 
+		Ascension and the Sun's is 0 hours. This can only occur for Mars to 
+		Neptune.</td>
+		<td>By definition the value 0.</td>
+	</tr>
+	<tr>
+		<td width="236">ConjunctionInAngularDistance</td>
+		<td>The instant when the object's apparent elongation from the Sun is a 
+		minimum. This can only occur for Mars to Neptune.</td>
+		<td>The apparent elongation between the object and the Sun in degrees 
+		when the event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">Station1InEclipticLongitude</td>
+		<td>The instant when the object starts to move westward (retrograde) in 
+		Ecliptic Longitude. This can only occur for Mars to Neptune.</td>
+		<td>The Apparent Ecliptic Longitude of the object in degrees when the 
+		event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">Station1InRA</td>
+		<td>The instant when the object starts to move westward (retrograde) in 
+		Right Ascension. This can only occur for Mars to Neptune.</td>
+		<td>The Apparent Right Ascension of the object in hours when the event 
+		occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">Station2InEclipticLongitude</td>
+		<td>The instant when the object resumes eastward (prograde) motion in 
+		Ecliptic Longitude. This can only occur for Mars to Neptune.</td>
+		<td>The Apparent Ecliptic Longitude of the object in degrees when the 
+		event occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">Station2InRA</td>
+		<td>The instant when the object resumes eastward (prograde) motion in 
+		Right Ascension. This can only occur for Mars to Neptune.</td>
+		<td>The Apparent Right Ascension of the object in hours when the event 
+		occurs.</td>
+	</tr>
+	<tr>
+		<td width="236">WesternQuadratureInEclipticLongitude</td>
+		<td>The instant when the difference between the object's Apparent 
+		Ecliptic Longitude and the Sun's is 90 degrees and the object is to the 
+		west of the Sun and is visible in the morning sky. This can only occur 
+		for Mars to Neptune.</td>
+		<td>By definition the value 90.</td>
+	</tr>
+	<tr>
+		<td width="236">WesternQuadratureInRA</td>
+		<td>The instant when the difference between the object's Apparent Right 
+		Ascension and the Sun's is 6 hours and the object is to the west of the 
+		Sun and is visible in the morning sky. This can only occur for Mars to 
+		Neptune.</td>
+		<td>By definition the value 6.</td>
+	</tr>
+	<tr>
+		<td width="236">WesternQuadratureInAngularDistance</td>
+		<td>The instant when the objects's apparent elongation from the Sun is 
+		90 degrees and the object is to the west of the Sun and is visible in 
+		the morning sky. This can only occur for Mars to Neptune.</td>
+		<td>By definition the value 90.</td>
+	</tr>
+	<tr>
+		<td width="236">EasternQuadratureInEclipticLongitude</td>
+		<td>The instant when the difference between the object's Apparent 
+		Ecliptic Longitude and the Sun's is 90 degrees and the object is to the 
+		east of the Sun and is visible in the evening sky. This can only occur 
+		for Mars to Neptune.</td>
+		<td>By definition the value 90.</td>
+	</tr>
+	<tr>
+		<td width="236">EasternQuadratureInRA</td>
+		<td>The instant when the difference between the object's Apparent Right 
+		Ascension and the Sun's is 6 hours and the object is to the east of the 
+		Sun and is visible in the evening sky. This can only occur for Mars to 
+		Neptune.</td>
+		<td>By definition the value 6.</td>
+	</tr>
+	<tr>
+		<td width="236">EasternQuadratureInAngularDistance</td>
+		<td>The instant when the objects's apparent elongation from the Sun is 
+		90 degrees and the object is to the east of the Sun and is visible in 
+		the evening sky. This can only occur for Mars to Neptune.</td>
+		<td>By definition the value 90.</td>
+	</tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p><b><a name="CAAPlanetPerihelionAphelion"></a>CAAPlanetPerihelionAphelion</b></p>
 <p>This class provides for the calculation of the time when a planet is in perihelion 
 or in aphelion. This refers to Chapter 38 in the book.</p>
@@ -6534,7 +6813,7 @@ date when you want to start the calculation for.</p>
 date when you want to end the calculation for.</p>
 <p>Object The object type you want to calculate for. This is an enum class of 
 type Object inside the CAARiseTransitSet2 class and can be SUN, MOON, MERCURY, 
-VENUS, MARS, JUPITER, SATURN, URANUS, NEPTUNE or PLUTO.</p>
+VENUS, MARS, JUPITER, SATURN, URANUS, or NEPTUNE.</p>
 <p><i>Longitude </i>The geographic longitude of the observer in degrees 
 (Positive west, negative east from Greenwich).</p>
 <p><i>Latitude</i> The geographic latitude of the observer in degrees.</p>
@@ -9936,7 +10215,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>2 June 2020</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>11 June 2020</p>
 
 </body>
 
