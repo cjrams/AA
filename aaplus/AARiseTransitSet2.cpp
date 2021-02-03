@@ -8,7 +8,7 @@ History: PJN / 13-07-2019 1. Initial implementation
          PJN / 08-09-2019 1. Added support for EndCivilTwilight, EndNauticalTwilight, EndAstronomicalTwilight,
                           StartAstronomicalTwilight, StartNauticalTwilight & StartCivilTwilight event types
 
-Copyright (c) 2019 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

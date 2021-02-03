@@ -24,7 +24,7 @@ History: PJN / 31-12-2015 1. Initial public release.
                           6. Renamed CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion to 
                           CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre
 
-Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -1514,6 +1514,41 @@ int main()
   UTC = CAADynamicalTime::TT2UTC(TT); //NOLINT(clang-analyzer-deadcode.DeadStores)
 
   /*
+  {
+    printf("Calculating the maximum angular separation of Mercury and Venus (From a letter from Jean Meeus in August 2020 of the BAA Journal\n");
+    double JD = 2458849.5; //1 Jan 2020
+    bool bContinue = true;
+    while (bContinue)
+    {
+      const CAAEllipticalPlanetaryDetails VenusDetails = CAAElliptical::Calculate(JD, CAAElliptical::EllipticalObject::VENUS, false);
+      const CAAEllipticalPlanetaryDetails MercuryDetails = CAAElliptical::Calculate(JD, CAAElliptical::EllipticalObject::MERCURY, false);
+      const double AngularSeparation = CAAAngularSeparation::Separation(VenusDetails.ApparentGeocentricRA, VenusDetails.ApparentGeocentricDeclination, MercuryDetails.ApparentGeocentricRA, MercuryDetails.ApparentGeocentricDeclination);
+
+
+      const CAADate date(JD, CAADate::AfterPapalReform(JD));
+      long year = 0;
+      long month = 0;
+      long Day = 0;
+      long Hour = 0;
+      long Minute = 0;
+      double Second = 0;
+      date.Get(year, month, Day, Hour, Minute, Second);
+
+      if ((Day == 1) && (month == 1) && (Hour == 0) && (Minute == 0) && (Second < 20) && ((year % 10) == 0))
+        printf("%04d\n", static_cast<int>(year));
+      if (AngularSeparation > 73.85)
+        printf("%04d/%02d/%02d %0d:%02d %f\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), AngularSeparation);
+
+      //Prepare for the next loop
+      JD += 6.944E-3;
+      if (JD >= 3547272.5)
+        bContinue = false;
+    }
+  }
+  */
+
+
+  /*
   //Code to write out all the JD of year values from 2012 to 2023
   {
     long year = 2012;

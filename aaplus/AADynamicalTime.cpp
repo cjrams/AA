@@ -93,8 +93,19 @@ History: PJN / 01-02-2005 1. Fixed a problem with the declaration of the variabl
          PJN / 22-04-2020 1. Updated the observed DeltaT values from ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.data to 1st February 2020
                           2. Reworked C arrays to use std::array
                           3. Fixed more Clang-Tidy static code analysis warnings in the code.
+         PJN / 22-11-2020 1. Updated the observed DeltaT values from https://datacenter.iers.org/eop.php to 1st November 2020. The IERS web site
+                          is the definitive source for these values as the USNO websites which I have previously used are offline at the moment for
+                          modernization efforts (See https://www.usno.navy.mil/ for the details). To obtain values for DeltaT to add to the 
+                          g_DeltaTValues table below, the value "UT1-UTC" was taken from Bulletin A and the formula: 
+                          DeltaT = AccumulatedLeapsSeconds + 32.184 - (UT1-UTC) was used. The "AccumulatedLeapsSeconds" for 2020 is currently 37 
+                          seconds. If you plot the values for DeltaT for 2020 you will see that around June 2020 the value for DeltaT has started to
+                          decrease instead of the long term increasing trend for DeltaT. If this trend continues we may see the first negative leap 
+                          second occur in the next few years.
+         PJN / 23-11-2020 1. Reworked CAADynamicalTime::TT2UTC & CAADynamicalTime::UTC2TT methods to use std::array::size instead of sizeof.
+         PJN / 04-12-2020 1. Updated the observed DeltaT values from https://datacenter.iers.org/eop.php to 1st December 2020.
+         PJN / 09-01-2021 1. Updated the observed DeltaT values from https://datacenter.iers.org/eop.php to 1st January 2021.
 
-Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -104,7 +115,7 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
@@ -132,9 +143,9 @@ struct DeltaTValue
   double DeltaT;
 };
 
-constexpr array<DeltaTValue, 596> g_DeltaTValues
+constexpr array<DeltaTValue, 603> g_DeltaTValues
 { {
-  //All the initial values are observed values from 1 February 1973 to 1 June 2017 as taken from http://maia.usno.navy.mil/ser7/deltat.data or ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.data
+  //All the initial values are observed values from 1 February 1973 to 1 January 2021 are calculated from IERS Bulletin A from https://datacenter.iers.org/eop.php using the formula DeltaT = AccumulatedLeapsSeconds + 32.184 - (UT1-UTC)
   { 2441714.5,  43.4724 },
   { 2441742.5,  43.5648 },
   { 2441773.5,  43.6737 },
@@ -605,7 +616,7 @@ constexpr array<DeltaTValue, 596> g_DeltaTValues
   { 2455927.5,  66.6030 },
   { 2455958.5,  66.6340 },
   { 2455987.5,  66.6569 },
-  { 2456018.5,  66.6925 }, //1 April 2012
+  { 2456018.5,  66.6925 },
   { 2456048.5,  66.7289 },
   { 2456079.5,  66.7579 },
   { 2456109.5,  66.7708 },
@@ -699,13 +710,20 @@ constexpr array<DeltaTValue, 596> g_DeltaTValues
   { 2458788.5,  69.3432 }, //1 November 2019
   { 2458818.5,  69.3540 }, //1 December 2019
   { 2458849.5,  69.3612 }, //1 January 2020
-  { 2458880.5,  69.3752 }, //1 February 2020
+  { 2458880.5,  69.375171 }, //1 February 2020
+  { 2458909.5,  69.388976 }, //1 March 2020
+  { 2458940.5,  69.409153 }, //1 April 2020
+  { 2458970.5,  69.426462 }, //1 May 2020
+  { 2459001.5,  69.438635 }, //1 June 2020
+  { 2459031.5,  69.424129 }, //1 July 2020
+  { 2459062.5,  69.392126 }, //1 August 2020
+  { 2459093.5,  69.369342 }, //1 September 2020
+  { 2459123.5,  69.357504 }, //1 October 2020
+  { 2459154.5,  69.359329 }, //1 November 2020
+  { 2459184.5,  69.363007 }, //1 December 2020
+  { 2459215.5,  69.359360 }, //1 January 2021
 
-//All these final values are predicted values from Year 2020.25 to 2027.75 are taken from ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.preds
-  { 2458940.5,  70.03   }, //2020.25
-  { 2459032.5,  70.16   }, //2020.50
-  { 2459123.5,  70.24   }, //2020.75
-  { 2459214.5,  70.39   }, //2021.00
+//All these final values are predicted values from Year 2021.00 to 2027.75 are taken from https://cddis.nasa.gov/archive/products/iers/deltat.preds
   { 2459306.5,  70.55   }, //2021.25
   { 2459397.5,  70.68   }, //2021.50
   { 2459488.5,  70.76   }, //2021.75
@@ -989,7 +1007,7 @@ double CAADynamicalTime::TT2UTC(double JD) noexcept
 {
   //Outside of the range 1 January 1961 to 500 days after the last leap second,
   //we implement TT2UTC as TT2UT1
-  constexpr size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr size_t nLookupElements = g_LeapSecondCoefficients.size();
   if ((JD < g_LeapSecondCoefficients[0].JD) || (JD > (g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
     return TT2UT1(JD);
 
@@ -1003,7 +1021,7 @@ double CAADynamicalTime::UTC2TT(double JD) noexcept
 {
   //Outside of the range 1 January 1961 to 500 days after the last leap second,
   //we implement TT2UTC as TT2UT1
-  constexpr size_t nLookupElements = sizeof(g_LeapSecondCoefficients) / sizeof(LeapSecondCoefficient);
+  constexpr size_t nLookupElements = g_LeapSecondCoefficients.size();
   if ((JD < g_LeapSecondCoefficients[0].JD) || (JD >(g_LeapSecondCoefficients[nLookupElements - 1].JD + 500)))
     return UT12TT(JD);
 

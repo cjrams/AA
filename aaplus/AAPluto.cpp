@@ -12,7 +12,7 @@ History: PJN / 07-02-2009 1. Optimized the layout of the PlutoCoefficient1 struc
          PJN / 29-04-2020 1. Fixed a compilation issue on GCC where size_t was undefined in various modules.
                           Thanks to Bert Devlieghe for reporting this bug.
 
-Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

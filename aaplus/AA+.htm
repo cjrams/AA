@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.17</title>
+<title>AA+ v2.23</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.17</h2>
+<h2>AA+ v2.23</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -92,6 +92,59 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.23 (10 January 2021)</b></p>
+<ul>
+	<li>Reworked the K, H, Q and P methods in the 
+	AAVSOP87_&quot;Planetname&quot;.cpp modules to pass false for bAngle to 
+	CVSOP87::Calculate. These values are not angular values in the true sense of 
+	the word and by passing false, the values returned are now in exact 
+	agreement with the vsop87.chk test values. Thanks to Cao Yu for reporting 
+	this issue. </li>
+</ul>
+<p><b>v2.22 (9 January 2021)</b></p>
+<ul>
+	<li>Updated copyright details.</li>
+	<li>Updated the observed DeltaT values from
+	<a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a> to 1st January 2021. </li>
+</ul>
+<p><b>v2.21 (4 December 2020)</b></p>
+<ul>
+	<li>Updated the observed DeltaT values from
+	<a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a> to 1st December 2020. </li>
+</ul>
+<p><b>v2.20 (23 November 2020)</b></p>
+<ul>
+	<li>Reworked CAADynamicalTime::TT2UTC &amp; CAADynamicalTime::UTC2TT methods to 
+	use std::array::size instead of sizeof.</li>
+	<li>Reworked CAAELPMPP02::EclipticLatitude &amp; CAAELPMPP02::RadiusVector 
+	methods to use std::array::size instead of sizeof.</li>
+</ul>
+<p><b>v2.19 (22 November 2020)</b></p>
+<ul>
+	<li>Updated the observed DeltaT values from
+	<a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a> to 1st November 2020. The IERS web 
+	site is the definitive source for these values as the USNO websites which I 
+	have previously used are offline at the moment for modernization efforts 
+	(See <a href="https://www.usno.navy.mil/">https://www.usno.navy.mil/</a> for 
+	the details). To obtain values for DeltaT to add to the g_DeltaTValues table in 
+	AADynamicalTime.cpp, the value &quot;UT1-UTC&quot; was taken from Bulletin A and the 
+	formula: DeltaT = AccumulatedLeapsSeconds + 32.184 - (UT1-UTC) was used. The 
+	&quot;AccumulatedLeapsSeconds&quot; for 2020 is currently 37 seconds. If you plot the 
+	values for DeltaT for 2020 you will see that around June 2020 the value for 
+	DeltaT has started to decrease instead of the long term increasing trend for 
+	DeltaT. If this trend continues we may see the first negative leap second 
+	occur in the next few years. </li>
+</ul>
+<p><b>v2.18 (21 November 2020)</b></p>
+<ul>
+	<li>Update the CMake project file for AA+ to require C++ 17 compilation. 
+	This fixes a compile issue when using CMake to build AA++ as the code 
+	requires C++ 17 
+	compilation as of v2.13. Thanks to Kirill Dunko for reporting this issue.</li>
+</ul>
 <p><b>v2.17 (11 June 2020)</b></p>
 <ul>
 	<li>Addition of a new CAAPlanetaryPhenomena2 class. </li>
@@ -3737,7 +3790,7 @@ ftp://cyrano-se.obspm.fr/pub/2_lunar_solutions/2_elpmpp02/</a> for further detai
 <p><b><a name="CAAELPMPP02_EclipticLongitude"></a>CAAELPMPP02::EclipticLongitude</b></p>
 <p><b>static double EclipticLongitude(double </b><i>JD, </i><b>
 Correction </b><i>correction</i> = LLR<i>, </i><b>double*</b><i> 
-pDerivative</i> = NULL<b>)</b></p>
+pDerivative</i> = nullptr<b>)</b></p>
 <p><b>Return Value</b></p>
 <p>the ecliptic longitude in degrees referred to the ecliptic and 
 equinox of the ELP/MPP02 theory.</p>
@@ -3751,7 +3804,7 @@ derivative of the ecliptic longitude in degrees per day.</p>
 <p><b><a name="CAAELPMPP02_EclipticLatitude"></a>CAAELPMPP02::EclipticLatitude</b></p>
 <p><b>static double EclipticLatitude(double </b><i>JD</i><b><i>, </i>
 Correction </b><i>correction</i><b> </b>= LLR<b><i>, </i>
-double*<i> </i></b><i>pDerivative</i><b> = </b>NULL<b>)</b></p>
+double*<i> </i></b><i>pDerivative</i><b> = </b>nullptr<b>)</b></p>
 <p><b>Return Value</b></p>
 <p>the ecliptic latitude in degrees referred to the ecliptic and 
 equinox of the ELP/MPP02 theory.</p>
@@ -3765,7 +3818,7 @@ derivative of the ecliptic latitude in degrees per day.</p>
 <p><b><a name="CAAELPMPP02_RadiusVector"></a>CAAELPMPP02::RadiusVector</b></p>
 <p><b>static double RadiusVector(double </b><i>JD</i><b><i>, </i>
 Correction </b><i>correction</i><b> </b>= LLR<b><i>, </i>
-double*<i> </i></b><i>pDerivative</i> = NULL<b>)</b></p>
+double*<i> </i></b><i>pDerivative</i> = nullptr<b>)</b></p>
 <p><b>Return Value</b></p>
 <p>the radius vector in kilometers.</p>
 <p><b>Parameters</b></p>
@@ -3778,7 +3831,7 @@ derivative of the radius vector in kilometers per day.</p>
 <p><b><a name="CAAELPMPP02_EclipticlRectangularCoordinates"></a>CAAELPMPP02::EclipticRectangularCoordinates</b></p>
 <p><b>static CAA3DCoordinate EclipticRectangularCoordinates(double
 </b><i>JD, <b>Correction </b> </i>correction = LLR<i><b>, 
-CAA3DCoordinate*</b> pDerivative</i> = NULL<b>)</b></p>
+CAA3DCoordinate*</b> pDerivative</i> = nullptr<b>)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing the ecliptic 3D rectangular coordinates in kilometers referred to the ecliptic and equinox of the 
 ELP/MPP02 theory.</p>
@@ -3792,7 +3845,7 @@ and equinox of the ELP/MPP02 theory.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAELPMPP02_EclipticlRectangularCoordinatesJ2000"></a>CAAELPMPP02::EclipticRectangularCoordinatesJ2000</b></p>
 <p><b>static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double
-</b><i>JD</i><i><b>, CAA3DCoordinate*</b> pDerivative</i> = NULL<b>)</b></p>
+</b><i>JD</i><i><b>, CAA3DCoordinate*</b> pDerivative</i> = nullptr<b>)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing the ecliptic 3D rectangular coordinates in kilometers referred to the 
 J2000 ecliptic and equinox.</p>
@@ -10188,12 +10241,12 @@ ftp://cdsarc.u-strasbg.fr/pub/cats/VI/81/</a> for further details.</p>
 </ul>
 <ul>
 	<li>CAADynamicalTime::DeltaT uses lookup values provided by IERS Rapid Service/Prediction 
-	Center at <a href="http://maia.usno.navy.mil/ser7/deltat.data">http://maia.usno.navy.mil/ser7/deltat.data</a> 
-	and <a href="http://maia.usno.navy.mil/ser7/deltat.preds">http://maia.usno.navy.mil/ser7/deltat.preds</a>.
+	Center at <a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a>.
 	</li>
 	<li>CAADynamicalTime::CumulativeLeapSeconds uses values provided by IERS Rapid Service/Prediction 
-	Center at <a href="http://maia.usno.navy.mil/ser7/tai-utc.dat">
-	http://maia.usno.navy.mil/ser7/tai-utc.dat</a><a href="http://maia.usno.navy.mil/ser7/tai-utc.dat">.</a>
+	Center at <a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a><a href="http://maia.usno.navy.mil/ser7/tai-utc.dat">.</a>
 	</li>
 	<li>The full VSOP87 theory at
 	<a href="ftp://cdsarc.u-strasbg.fr/pub/cats/VI/81/">ftp://cdsarc.u-strasbg.fr/pub/cats/VI/81/</a> 
@@ -10215,7 +10268,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>11 June 2020</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>10 January 2021</p>
 
 </body>
 

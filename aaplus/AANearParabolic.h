@@ -3,7 +3,7 @@ Module : AANearParabolic.h
 Purpose: Implementation for the algorithms for a near parabolic orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

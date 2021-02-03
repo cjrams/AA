@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms which obtain the dates of various pla
 Created: PJN / 11-06-2020
 History: PJN / 11-06-2020 1. Initial implementation
 
-Copyright (c) 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2020 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

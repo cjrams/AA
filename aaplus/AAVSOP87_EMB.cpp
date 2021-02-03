@@ -4,8 +4,12 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
          PJN / 22-04-2020 1. Reworked C arrays to use std::array.
+         PJN / 10-01-2021 1. Reworked the K, H, Q and P methods to pass false for bAngle to CVSOP87::Calculate.
+                          These values are not angular values in the true sense of the word and by passing
+                          false, the values returned are now in exact agreement with the vsop87.chk test
+                          values. Thanks to Cao Yu for reporting this issue.
 
-Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -4440,21 +4444,20 @@ double CAAVSOP87_EMB::L(double JD) noexcept
 
 double CAAVSOP87_EMB::K(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_K_EMB.data(), g_VSOP87_K_EMB.size(), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_K_EMB.data(), g_VSOP87_K_EMB.size(), false);
 }
 
 double CAAVSOP87_EMB::H(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_H_EMB.data(), g_VSOP87_H_EMB.size(), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_H_EMB.data(), g_VSOP87_H_EMB.size(), false);
 }
 
 double CAAVSOP87_EMB::Q(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_Q_EMB.data(), g_VSOP87_Q_EMB.size(), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_Q_EMB.data(), g_VSOP87_Q_EMB.size(), false);
 }
 
 double CAAVSOP87_EMB::P(double JD) noexcept
 {
-  return CVSOP87::Calculate(JD, g_VSOP87_P_EMB.data(), g_VSOP87_P_EMB.size(), true);
+  return CVSOP87::Calculate(JD, g_VSOP87_P_EMB.data(), g_VSOP87_P_EMB.size(), false);
 }
-

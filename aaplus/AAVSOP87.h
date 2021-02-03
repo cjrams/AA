@@ -3,7 +3,7 @@ Module : AAVSOP87.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 29-08-2015
 
-Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

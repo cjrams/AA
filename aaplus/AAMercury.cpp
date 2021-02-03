@@ -34,7 +34,7 @@ History: PJN / 16-11-2005 1. Fixed a transcription error in the second coefficie
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAMercury.cpp module
          PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
-Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

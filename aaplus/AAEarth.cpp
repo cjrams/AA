@@ -24,7 +24,7 @@ History: PJN / 03-10-2009 1. Fixed a copy and paste gremlin in the CAAEarth::Ecl
       PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
       PJN / 13-04-2020 1. Reworked C arrays to use std::array
 
-Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

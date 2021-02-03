@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms which obtain the dates of Perihelion 
 Created: PJN / 02-06-2020
 History: PJN / 02-06-2020 1. Initial implementation
 
-Copyright (c) 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2020 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

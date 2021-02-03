@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms to calculate the dates of the Equinox
 Created: PJN / 28-09-2019
 History: PJN / 28-09-2019 1. Initial implementation
 
-Copyright (c) 2019 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

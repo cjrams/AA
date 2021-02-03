@@ -3,7 +3,7 @@ Module : AAELPMPP02.h
 Purpose: Implementation for the algorithms for ELP/MPP02
 Created: PJN / 30-07-2017
 
-Copyright (c) 2017 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2017 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
