@@ -69,7 +69,7 @@ class AAPLUS_EXT_CLASS CAARiseTransitSet
 {
 public:
 //Static methods
-  static CAARiseTransitSetDetails Calculate(double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0) noexcept;
+  static CAARiseTransitSetDetails Calculate(double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0);
   static void CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3) noexcept;
 
 protected:

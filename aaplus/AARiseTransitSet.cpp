@@ -227,7 +227,7 @@ void CAARiseTransitSet::CalculateTransitHelper(CAARiseTransitSetDetails& details
   }
 }
 
-CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0) noexcept
+CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0)
 {
   //What will be the return value
   CAARiseTransitSetDetails details;

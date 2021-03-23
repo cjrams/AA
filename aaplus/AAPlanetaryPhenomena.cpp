@@ -14,6 +14,10 @@ History: PJN / 08-05-2011 1. Fixed a compilation issue on GCC where size_t was u
                           CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes for reporting this issue.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 15-04-2020 1. Reworked C arrays to use std::array
+         PJN / 12-03-2021 1. Changed the behavior of the CAAPlanetaryPhenomena::K method to now return the K value before 
+                          it is rounded. This new behaviour is now consistent with all the other methods in the AA+ 
+                          framework which return so called "K" values. This means that client code must round this value 
+                          to an integer before calling other methods in this class with this K value.
 
 Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -98,8 +102,7 @@ double CAAPlanetaryPhenomena::K(double Year, PlanetaryObject object, EventType t
 #ifdef _MSC_VER
   #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
-  const double k = (365.2425*Year + 1721060 - g_PlanetaryPhenomenaCoefficient1[nCoefficient].A) / g_PlanetaryPhenomenaCoefficient1[nCoefficient].B;
-  return floor(k + 0.5);
+  return (365.2425*Year + 1721060 - g_PlanetaryPhenomenaCoefficient1[nCoefficient].A) / g_PlanetaryPhenomenaCoefficient1[nCoefficient].B;
 }
 
 double CAAPlanetaryPhenomena::Mean(double k, PlanetaryObject object, EventType type) noexcept

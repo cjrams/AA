@@ -38,11 +38,15 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAADynamicalTime
 {
 public:
+//Typedefs
+  using DELTAT_PROC = double (*) (double JD);
+
 //Static methods
-  static double DeltaT(double JD) noexcept;
-  static double CumulativeLeapSeconds(double JD) noexcept;
-  static double TT2UTC(double JD) noexcept;
-  static double UTC2TT(double JD) noexcept;
+  static DELTAT_PROC SetUserDefinedDeltaT(DELTAT_PROC pProc) noexcept;
+  static double DeltaT(double JD);
+  static double CumulativeLeapSeconds(double JD);
+  static double TT2UTC(double JD);
+  static double UTC2TT(double JD);
 
   constexpr static double TT2TAI(double JD)
   {
@@ -54,9 +58,13 @@ public:
     return JD + (32.184 / 86400.0);
   }
 
-  static double TT2UT1(double JD) noexcept;
-  static double UT12TT(double JD) noexcept;
-  static double UT1MinusUTC(double JD) noexcept;
+  static double TT2UT1(double JD);
+  static double UT12TT(double JD);
+  static double UT1MinusUTC(double JD);
+
+protected:
+//Member variables
+  static DELTAT_PROC sm_pDeltaTProc;
 };
 
 

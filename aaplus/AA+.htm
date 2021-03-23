@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.23</title>
+<title>AA+ v2.26</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.23</h2>
+<h2>AA+ v2.26</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -92,6 +92,76 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>17 March 2021</b></p>
+<ul>
+	<li>Fixed a minor typo in AATest.cpp. Thanks to Roger House for reporting 
+	this issue.</li>
+</ul>
+<p><b>v2.26 (12 March 2021)</b></p>
+<ul>
+	<li>Reworked CAADynamicalTime::DeltaT to use std::upper_bound to speed up 
+	logic to find correct entry in the g_DeltaTValues lookup table. </li>
+	<li>Reworked CAADynamicalTime::CumulativeLeapSeconds to use std::upper_bound 
+	to speed up logic to find correct entry in the g_LeapSecondCoefficients 
+	lookup table. </li>
+	<li>Updated the g_DeltaTValues lookup table to use values from the year 1657 
+	to 1972.50 to use data from
+	<a href="https://cddis.nasa.gov/archive/products/iers/historic_deltat.data">
+	https://cddis.nasa.gov/archive/products/iers/historic_deltat.data</a> which 
+	provides a granularity of 0.5 of a year. Also updated the same array to use 
+	values from 2 January 1973 to 19 March 2022 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a> which 
+	provides a granularity of 1 day. Also updated the same array to use values 
+	from the year 2022.25 to 2027.75 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/deltat.preds">
+	https://cddis.nasa.gov/archive/products/iers/deltat.preds</a> which provides 
+	a granularity of 0.25 of a year. All of this was implemented using a program 
+	which machine generates the lookup table using custom code. This new lookup 
+	table now includes &gt; 18k elements and provides 1 - 1 precision with all the 
+	data released by IERS. The machine generated code will also make it easier 
+	to update this data as new data is published by IERS going forward. Using 
+	this new lookup array we now have a discontinuity of c. 3.7 seconds in 
+	January 1657 and a discontinuity of c. 2.5 seconds in October 2027 for the 
+	CAADynamicalTime::DeltaT method. With these updates AA+ is now 29.7 
+	Megabytes and 416 thousand lines of C++ source code.</li>
+	<li>Implemented a CAADynamicalTime::SetUserDefinedDeltaT method which allows 
+	a user provided DeltaT function to be provided. By default the 
+	CAADynamicalTime::DeltaT function uses its own lookup tables and 
+	polynomials to calculate DeltaT, but if 
+	CAADynamicalTime::SetUserDefinedDeltaT has been called to provide a custom 
+	DeltaT function then the callback function provided to this method will be used instead. Setting 
+	the parameter to SetUserDefinedDeltaT to a nullptr will restore the default 
+	DeltaT method behavior.</li>
+	<li>Changed the behavior of the CAAPlanetaryPhenomena::K method to now return the K 
+	value before it is rounded. This new behaviour is now consistent with all 
+	the other methods in the AA+ framework which return so called &quot;K&quot; values. 
+	This means that client code must round this value to an integer before 
+	calling other methods in this class with this K value.</li>
+	<li>Changed the behavior of the CAAPlanetPerihelionAphelion::*K methods to 
+	now return the K value before it is rounded. This new behaviour is now 
+	consistent with all the other methods in the AA+ framework which return so 
+	called &quot;K&quot; values. This means that client code must round this value before calling other methods in this class with 
+	this K value.</li>
+	<li>Merged the separate perihelion and aphelion methods for all the planets 
+	except Earth in CAAPlanetPerihelionAphelion into one method per planet. This 
+	new behaviour is now consistent with all the other methods in the AA+ 
+	framework which work with so called &quot;K&quot; values.</li>
+	<li>Fixed a bug in CAAPlanetPerihelionAphelion::EarthAphelion where the 
+	kdash and ksquared values were not being calculated correctly.</li>
+</ul>
+<p><b>v2.25 (7 March 2021)</b></p>
+<ul>
+	<li>Updated the observed DeltaT values from
+	<a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a> to 1st March 2021. </li>
+</ul>
+<p><b>v2.24 (5 February 2021)</b></p>
+<ul>
+	<li>Updated the observed DeltaT values from
+	<a href="https://datacenter.iers.org/eop.php">
+	https://datacenter.iers.org/eop.php</a> to 1st February 2021. </li>
+</ul>
 <p><b>v2.23 (10 January 2021)</b></p>
 <ul>
 	<li>Reworked the K, H, Q and P methods in the 
@@ -2543,6 +2613,7 @@ and Terrestrial Time (TT) aka Terrestrial Dynamical Time (TDT) aka Ephemeris Tim
 <p><b>Functions this class provides include:</b></p>
 <p><a href="#CAADynamicalTime_DeltaT">DeltaT</a></p>
 <p><a href="#CAADynamicalTime_CumulativeLeapSeconds">CumulativeLeapSeconds</a></p>
+<p><a href="#CAADynamicalTime_SetUserDefinedDeltaT">SetUserDefinedDeltaT</a></p>
 <p><a href="#CAADynamicalTime_TT2UTC">TT2UTC</a></p>
 <p><a href="#CAADynamicalTime_UTC2TT">UTC2TT</a></p>
 <p><a href="#CAADynamicalTime_TT2TAI">TT2TAI</a></p>
@@ -2551,7 +2622,7 @@ and Terrestrial Time (TT) aka Terrestrial Dynamical Time (TDT) aka Ephemeris Tim
 <p><a href="#CAADynamicalTime_UT12TT">UT12TT</a></p>
 <p><a href="#CAADynamicalTime_UT1MinusUTC">UT1MinusUTC</a></p>
 <p>&nbsp;</p>
-<p><b><a name="CAADynamicalTime_DeltaT"></a>CAADynamicalTime::</b></p>
+<p><b><a name="CAADynamicalTime_DeltaT"></a>CAADynamicalTime::DeltaT</b></p>
 <p><b>static double DeltaT(double</b> <i>JD</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>The difference DeltaT which is equal to TT - UT1 in seconds of time.</p>
@@ -2568,6 +2639,29 @@ seconds of time.</p>
 <p><i>date</i> The Julian day to calculate Cumulative leap seconds for. Because 
 Leap seconds change so slowly, the time used can be in the TT, the UTC or UT1 timeframes 
 although technically leap seconds are only relevant to the UTC timescale.</p>
+<p>&nbsp;</p>
+<p><b><a name="CAADynamicalTime_SetUserDefinedDeltaT"></a>CAADynamicalTime::SetUserDefinedDeltaT</b></p>
+<p><b>static CAADynamicalTime::DELTAT_PROC SetUserDefinedDeltaT (DELTAT_PROC </b>
+<em>pProc</em><b>)</b></p>
+<p><b>Return Value</b></p>
+<p>The previous DeltaT function in use. If the CAADynamicalTime::DeltaT method 
+was using its own lookup tables and polynomials prior to calling this method, 
+then the return value from this method will be &quot;nullptr&quot;.</p>
+<p><b>Parameters</b></p>
+<p><i>pProc</i> The new function to use for calculating DeltaT through calls to 
+the method <a href="#CAADynamicalTime_DeltaT">CAADynamicalTime::DeltaT</a>. The 
+function signature of this parameter is &quot;double (*) (double JD)&quot; which is the 
+same as the CAADynamicalTime::DeltaT function signature.</p>
+<p><b>Remarks</b></p>
+<p>This method allows the logic used by the <a href="#CAADynamicalTime_DeltaT">
+CAADynamicalTime::DeltaT</a> method to determine the DeltaT value to be changed 
+by a user defined function. This advanced routine could prove useful where you 
+have knowledge of the value for DeltaT for times far in the past or the future 
+which is not included in the built-in tables provided by CAADynamicalTime class. 
+Please note that changing the underlying function pointer by this method is not 
+thread protected. This means that application code should provide appropriate 
+thread protection if you are potentially calling this method from multiple 
+threads at the same time.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAADynamicalTime_TT2UTC"></a>CAADynamicalTime::TT2UTC</b></p>
 <p><b>static double TT2UTC(double</b> <i>JD</i><b>)</b></p>
@@ -4920,6 +5014,10 @@ maximum Northerly and Southerly declinations. This refers to Chapter 52 in the b
 for calculation of the Moon&#39;s max declination.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded to an 
+integer by client code before calling other methods in this class with this K 
+value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonMaxDeclinations_MeanGreatestDeclination"></a>CAAMoonMaxDeclinations::MeanGreatestDeclination</b></p>
 <p><b>static double MeanGreatestDeclination(double </b><i>k</i><b>, 
@@ -4927,7 +5025,8 @@ bool bNortherly)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the mean maximum declination occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the max declination for.</p>
+<p><i>k</i> The K value to calculate the max declination for. This K value must 
+be an integer value. Any other value of K will give meaningless values.</p>
 <p><i>bNortherly</i> true if this is a calculation for a maximum northerly declination, 
 false implies a calculation of the a maximum southerly declination.</p>
 <p>&nbsp;</p>
@@ -4936,7 +5035,8 @@ false implies a calculation of the a maximum southerly declination.</p>
 <p><b>Return Value</b></p>
 <p>Returns the mean maximum declination in degrees.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the max declination for.</p>
+<p><i>k</i> The K value to calculate the max declination for. This K value must 
+be an integer value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonMaxDeclinations_TrueGreatestDeclination"></a>CAAMoonMaxDeclinations::TrueGreatestDeclination</b></p>
 <p><b>static double TrueGreatestDeclination(double </b><i>k</i><b>, 
@@ -4944,7 +5044,8 @@ bool bNortherly)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the true maximum declination occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the max declination for.</p>
+<p><i>k</i> The K value to calculate the max declination for. This K value must 
+be an integer value. Any other value of K will give meaningless values.</p>
 <p><i>bNortherly</i> true if this is a calculation for a maximum northerly declination, 
 false implies a calculation of the a maximum southerly declination.</p>
 <p>&nbsp;</p>
@@ -4953,7 +5054,8 @@ false implies a calculation of the a maximum southerly declination.</p>
 <p><b>Return Value</b></p>
 <p>Returns the true maximum declination in degrees.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the max declination for.</p>
+<p><i>k</i> The K value to calculate the max declination for. This K value must 
+be an integer value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonMaxDeclinations2"></a>CAAMoonMaxDeclinations2</b></p>
@@ -5007,13 +5109,19 @@ its nodes. This refers to Chapter 51 in the book.</p>
 for calculation of the specified passage thro the node.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded to an 
+integer or an integer + 0.5 by client code before calling other methods in this 
+class with this K value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonNodes_PassageThroNode"></a>CAAMoonNodes::PassageThroNode</b></p>
 <p><b>static double PassageThroNode(</b><b>double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the specified passage thro the node occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the passage thro the node for.</p>
+<p><i>k</i> The K value to calculate the passage thro the node for. This K value 
+must be an integer value or an integer value + 0.5. Any other value of K will 
+give meaningless values.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonNodes2"></a>CAAMoonNodes2</b></p>
@@ -5070,48 +5178,58 @@ refers to Chapter 50 in the book.</p>
 for calculation of the specified phase.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded to an 
+integer or an integer + 0.5 by client code before calling other methods in this 
+class with this K value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerApo_MeanPer"></a>CAAMoonPerigeeApogee::MeanPerigee</b></p>
 <p><b>static double MeanPerigee(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the mean perigee occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The integer value which gives a perigee.</p>
+<p><i>k</i> The K value to calculate the perigee for. This K value must be an 
+integer value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerApo_MeanApogee"></a>CAAMoonPerigeeApogee::MeanApogee</b></p>
 <p><b>static double MeanApogee(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the specified mean apogee occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the apogee for.</p>
+<p><i>k</i> The K value to calculate the apogee for. This K value must be an 
+integer value + 0.5. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerApo_TruePer"></a>CAAMoonPerigeeApogee::TruePerigee</b></p>
 <p><b>static double TruePerigee(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the specified true perigee occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perigee for.</p>
+<p><i>k</i> The K value to calculate the perigee for. This K value must be an 
+integer value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerApo_TrueApog"></a>CAAMoonPerigeeApogee::TrueApogee</b></p>
 <p><b>static double TrueApogee(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the specified true apogee occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the apogee for.</p>
+<p><i>k</i> The K value to calculate the apogee for. This K value must be an 
+integer value + 0.5. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerApo_PerParallax"></a>CAAMoonPerigeeApogee::PerigeeParallax</b></p>
 <p><b>static double PerigeeParallax(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the parallax at the specified perigee in degrees.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perigee parallax for</p>
+<p><i>k</i> The K value to calculate the perigee parallax for. This K value must 
+be an integer value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerApo_ApoParallax"></a>CAAMoonPerigeeApogee::ApogeeParallax</b></p>
 <p><b>static double ApogeeParallax(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the parallax at the specified apogee in degrees.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the apogee parallax for.</p>
+<p><i>k</i> The K value to calculate the apogee parallax for. This K value must 
+be an integer value + 0.5. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerigeeApogee2"></a>CAAMoonPerigeeApogee2</b></p>
@@ -5165,20 +5283,30 @@ This refers to Chapter 49 in the book.</p>
 for calculation of the specified phase.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded to an 
+integer, an integer + 0.25, an integer + 0.5 or an integer + 0.75 by client code before calling other methods in this 
+class with this K value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPhases_MeanPhase"></a>CAAMoonPhases::MeanPhase</b></p>
 <p><b>static double MeanPhase(</b><b>double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the specified mean moon phase occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the phase for.</p>
+<p><i>k</i> The K value to calculate the phase for. This K value must be an 
+integer value for New Moon, an integer value + 0.25 for First Quarter, an integer value + 0.5 
+for Full Moon or an integer 
+value + 0.75 fr Last Quarter. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPhase_TruePhase"></a>CAAMoonPhases::TruePhase</b></p>
 <p><b>static double TruePhase(</b><b>double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the specified true moon phase occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the phase for.</p>
+<p><i>k</i> The K value to calculate the phase for. This K value must be an 
+integer value for New Moon, an integer value + 0.25 for First Quarter, an integer value + 0.5 
+for Full Moon or an integer 
+value + 0.75 fr Last Quarter. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPhases2"></a>CAAMoonPhases2</b></p>
@@ -5939,6 +6067,13 @@ for calculation of the various event types.</p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
 <p><i>object </i>An enum specifying the planet to calculate for.</p>
 <p><i>type</i> An enum to specify the event type to calculate.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded to an 
+integer by client code before calling other methods in this class with this K 
+value. Any other value of K will give meaningless values. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAPlanetaryPhenomena_Mean"></a>CAAPlanetaryPhenomena::Mean</b></p>
 <p><b>static double Mean(double</b><i> k</i><b>, PlanetaryObject </b><i>object</i><b>, 
@@ -5947,7 +6082,8 @@ EventType </b><i>type</i><b>)</b></p>
 <p>Returns the date in Dynamical time when the specified mean planetary configuration 
 occurs (that is, calculated from circular orbits and uniform planetary motions).</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the phenomena for.</p>
+<p><i>k</i> The K value to calculate the phenomena for. This K value must be an 
+integer value. Any other value of K will give meaningless values.</p>
 <p><i>object </i>An enum specifying the planet to calculate for.</p>
 <p><i>type</i> An enum to specify the event type to calculate.</p>
 <p>&nbsp;</p>
@@ -5957,7 +6093,8 @@ EventType </b><i>type</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the date in Dynamical time when the true planetary configuration occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the phenomena for.</p>
+<p><i>k</i> The K value to calculate the phenomena for. This K value must be an 
+integer value. Any other value of K will give meaningless values.</p>
 <p><i>object </i>An enum specifying the planet to calculate for.</p>
 <p><i>type</i> An enum to specify the event type to calculate.</p>
 <p>&nbsp;</p>
@@ -5967,7 +6104,8 @@ EventType </b><i>type</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>the value of the greatest elongation of a planet.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the phenomena for.</p>
+<p><i>k</i> The K value to calculate the phenomena for. This K value must be an 
+integer value. Any other value of K will give meaningless values.</p>
 <p><i>object </i>An enum specifying the planet to calculate for.</p>
 <p><i>bEastern</i> true if you want the elongation value for the eastern elongation, 
 otherwise false implies western elongation.</p>
@@ -6017,7 +6155,7 @@ calculation for. The default value of 0.007 corresponds to roughly 10 minutes
 which is a reasonable tradeoff between performance and accuracy.</p>
 <p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
-<p><strong>Notes</strong></p>
+<p><b>Notes</b></p>
 <p>The definition of the &quot;Type&quot;, its meaning, and the meaning of &quot;Value&quot; in the CAAPlanetPhenomenaDetails2 
 struct are as follows:</p>
 <table width="1400">
@@ -6134,7 +6272,7 @@ struct are as follows:</p>
 		<td>The instant when the difference between the object's apparent Right 
 		Ascension and the Sun's is 12 hours. This can only occur for Mars to 
 		Neptune.</td>
-		<td>By defintion the value 12.</td>
+		<td>By definition the value 12.</td>
 	</tr>
 	<tr>
 		<td width="236">OppositionInAngularDistance</td>
@@ -6247,210 +6385,226 @@ or in aphelion. This refers to Chapter 38 in the book.</p>
 <p>&nbsp;</p>
 <p><b>Functions this class provides include:</b></p>
 <p><a href="#PlanetPerAph_MercuryK">MercuryK</a></p>
-<p><a href="#PlanetPerAph_MercuryPer">MercuryPerihelion</a></p>
-<p><a href="#PlanetPerAph_MercuryAph">MercuryAphelion</a></p>
+<p><a href="#PlanetPerAph_Mercury">Mercury</a></p>
 <p><a href="#PlanetPerAph_VenusK">VenusK</a></p>
-<p><a href="#PlanetPerAph_VenusPer">VenusPerihelion</a></p>
-<p><a href="#PlanetPerAph_VenusAph">VenusAphelion</a></p>
+<p><a href="#PlanetPerAph_Venus">Venus</a></p>
 <p><a href="#PlanetPerAph_EarthK">EarthK</a></p>
 <p><a href="#PlanetPerAph_EarthPer">EarthPerihelion</a></p>
 <p><a href="#PlanetPerAph_EarthAph">EarthAphelion</a></p>
 <p><a href="#PlanetPerAph_MarsK">MarsK</a></p>
-<p><a href="#PlanetPerAph_MarsPer">MarsPerihelion</a></p>
-<p><a href="#PlanetPerAph_MarsAph">MarsAphelion</a></p>
+<p><a href="#PlanetPerAph_Mars">Mars</a></p>
 <p><a href="#PlanetPerAph_JupiterK">JupiterK</a></p>
-<p><a href="#PlanetPerAph_JupiterPer">JupiterPerihelion</a></p>
-<p><a href="#PlanetPerAph_JupiterAph">JupiterAphelion</a></p>
+<p><a href="#PlanetPerAph_Jupiter">Jupiter</a></p>
 <p><a href="#PlanetPerAph_SaturnK">SaturnK</a></p>
-<p><a href="#PlanetPerAph_SaturnPer">SaturnPerihelion</a></p>
-<p><a href="#PlanetPerAph_SaturnAph">SaturnAphelion</a></p>
+<p><a href="#PlanetPerAph_Saturn">Saturn</a></p>
 <p><a href="#PlanetPerAph_UranusK">UranusK</a></p>
-<p><a href="#PlanetPerAph_UranusPer">UranusPerihelion</a></p>
-<p><a href="#PlanetPerAph_UranusAph">UranusAphelion</a></p>
+<p><a href="#PlanetPerAph_Uranus">Uranus</a></p>
 <p><a href="#PlanetPerAph_NeptuneK">NeptuneK</a></p>
-<p><a href="#PlanetPerAph_NeptunePer">NeptunePerihelion</a></p>
-<p><a href="#PlanetPerAph_NeptuneAph">NeptuneAphelion</a></p>
+<p><a href="#PlanetPerAph_Neptune">Neptune</a></p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_MercuryK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>MercuryK</b></p>
-<p><b>static long MercuryK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double MercuryK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by
+<a href="#PlanetPerAph_Mercury">CAAPlanetPerihelionAphelion::Mercury</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_MercuryPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>MercuryPerihelion</b></p>
-<p><b>static double MercuryPerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Mercury"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Mercury</b></p>
+<p><b>static double Mercury(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_MercuryAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>MercuryAphelion</b></p>
-<p><b>static double MercuryAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_VenusK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>VenusK</b></p>
-<p><b>static long VenusK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double VenusK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by <a href="#PlanetPerAph_Venus">CAAPlanetPerihelionAphelion::Venus</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_VenusPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>VenusPerihelion</b></p>
-<p><b>static double VenusPerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Venus"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Venus</b></p>
+<p><b>static double Venus(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_VenusAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>VenusAphelion</b></p>
-<p><b>static double VenusAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_EarthK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>EarthK</b></p>
-<p><b>static long EarthK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double EarthK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by
+<a href="#PlanetPerAph_EarthPer">CAAPlanetPerihelionAphelion::EarthPerihelion</a> 
+&amp; <a href="#PlanetPerAph_EarthAph">CAAPlanetPerihelionAphelion::EarthAphehelion</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_EarthPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>EarthPerihelion</b></p>
-<p><b>static double EarthPerihelion(long </b><i>k</i><b>,
-</b><b>bool</b><b> bBarycentric = </b><i>false</i><b>) </b></p>
+<p><b>static double EarthPerihelion(double </b><i>k</i><b>,
+</b><b>bool</b><i> bBarycentric = </i><b>false</b>)</p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion for. This K value must be an 
+integer value. Any other value of K will give meaningless values.</p>
 <p><i>bBarycentric&nbsp; </i>If true, the calculation is for the barycenter of the 
 Earth - Moon system, false implies the Earth itself.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_EarthAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>EarthAphelion</b></p>
-<p><b>static double EarthAphelion(long </b><i>k, </i><b>bool</b><b> bBarycentric 
-= </b><i>false</i><b>)</b></p>
+<p><b>static double EarthAphelion(double </b><i>k, </i><b>bool </b><i>bBarycentric 
+= </i><b>false</b><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Aphelion for. This K value must be an 
+integer value + 0.5. Any other value of K will give meaningless values.</p>
 <p><i>bBarycentric&nbsp; </i>If true, the calculation is for the barycenter of the 
 Earth - Moon system, false implies the Earth itself</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_MarsK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>MarsK</b></p>
-<p><b>static long MarsK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double MarsK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by <a href="#PlanetPerAph_Mars">CAAPlanetPerihelionAphelion::Mars</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_MarsPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>MarsPerihelion</b></p>
-<p><b>static double MarsPerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Mars"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Mars</b></p>
+<p><b>static double Mars(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_MarsAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>MarsAphelion</b></p>
-<p><b>static double MarsAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_JupiterK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::Jupiter</b><b>K</b></p>
-<p><b>static long JupiterK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double JupiterK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by
+<a href="#PlanetPerAph_Jupiter">CAAPlanetPerihelionAphelion::Jupiter</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_JupiterPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>JupiterPerihelion</b></p>
-<p><b>static double JupiterPerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Jupiter"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Jupiter</b></p>
+<p><b>static double Jupiter(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs. 
+This K value must be an integer value for Perihelion or an integer value + 0.5 
+for Aphelion. Any other value of K will give meaningless values.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_JupiterAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>JupiterAphelion</b></p>
-<p><b>static double JupiterAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_SaturnK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>SaturnK</b></p>
-<p><b>static long SaturnK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double SaturnK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by <a href="#PlanetPerAph_Saturn">CAAPlanetPerihelionAphelion::Saturn</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_SaturnPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>SaturnPerihelion</b></p>
-<p><b>static double SaturnPerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Saturn"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Saturn</b></p>
+<p><b>static double Saturn(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_SaturnAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>SaturnAphelion</b></p>
-<p><b>static double SaturnAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_UranusK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>UranusK</b></p>
+<p><b>static double UranusK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by <a href="#PlanetPerAph_Uranus">CAAPlanetPerihelionAphelion::Uranus</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_UranusPer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>UranusPerihelion</b></p>
-<p><b>static double UranusPerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Uranus"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Uranus</b></p>
+<p><b>static double Uranus(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_UranusAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>UranusAphelion</b></p>
-<p><b>static double UranusAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="PlanetPerAph_NeptuneK"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>NeptuneK</b></p>
-<p><b>static long NeptuneK(double </b><i>Year</i><b>)</b></p>
+<p><b>static double NeptuneK(double </b><i>Year</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the approximate value of K (required by the other methods of CAAPlanetPerihelionAphelion) 
+<p>Returns the approximate value of K required by
+<a href="#PlanetPerAph_Neptune">CAAPlanetPerihelionAphelion::Neptune</a> 
 for calculation of the dates of Perihelion or Aphelion.</p>
 <p><b>Parameters</b></p>
 <p><i>Year</i> The Year including decimals to calculate the K value for.</p>
+<p><b>Remarks</b></p>
+<p>Please note that the return value from this method must be rounded by client code before calling other methods in this class with this K 
+value. Prior to v2.26 of AA+, 
+this method would return the K value already rounded. This change was made to 
+make this method's behavior consistent with all the other methods in the AA+ 
+framework which return so called &quot;K&quot; values.</p>
 <p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_NeptunePer"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>NeptunePerihelion</b></p>
-<p><b>static double NeptunePerihelion(long </b><i>k</i><b>)</b></p>
+<p><b><a name="PlanetPerAph_Neptune"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>Neptune</b></p>
+<p><b>static double NeptunePerihelion(double </b><i>k</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified perihelion occurs.</p>
+<p>Returns the date in Dynamical time when the specified Perihelion or Aphelion occurs.</p>
 <p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the perihelion for.</p>
-<p>&nbsp;</p>
-<p><b><a name="PlanetPerAph_NeptuneAph"></a>CAA</b><b>PlanetPerihelionAphelion</b><b>::</b><b>NeptuneAphelion</b></p>
-<p><b>static double NeptuneAphelion(long </b><i>k</i><b>)</b></p>
-<p><b>Return Value</b></p>
-<p>Returns the date in Dynamical time when the specified aphelion occurs.</p>
-<p><b>Parameters</b></p>
-<p><i>k</i> The K value to calculate the aphelion for.</p>
+<p><i>k</i> The K value to calculate the Perihelion or Aphelion for. This K 
+value must be an integer value for Perihelion or an integer value + 0.5 for 
+Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAPlanetPerihelionAphelion2"></a>CAAPlanetPerihelionAphelion2</b></p>
@@ -10268,7 +10422,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>10 January 2021</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>17 March 2021</p>
 
 </body>
 

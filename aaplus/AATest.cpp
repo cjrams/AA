@@ -17,7 +17,7 @@ using namespace std;
 #endif //#ifdef _MSC_VER
 
 
-void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec) noexcept
+void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
 {
   const double JDSun = CAADynamicalTime::UTC2TT(JD);
   const double lambda = CAASun::ApparentEclipticLongitude(JDSun, bHighPrecision);
@@ -28,7 +28,7 @@ void GetSolarRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& D
   Dec = Solarcoord.Y;
 }
 
-void GetLunarRaDecByJulian(double JD, double& RA, double& Dec) noexcept
+void GetLunarRaDecByJulian(double JD, double& RA, double& Dec)
 {
   const double JDMoon = CAADynamicalTime::UTC2TT(JD);
   const double lambda = CAAMoon::EclipticLongitude(JDMoon);
@@ -52,7 +52,7 @@ void PrintTime(double JD, const char* msg) noexcept
   printf("%s: %d-%d-%d %02d:%02d:%02d\n", msg, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 }
 
-void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fraction, double& position_angle, double& phase_angle) noexcept
+void GetMoonIllumination(double JD, bool bHighPrecision, double& illuminated_fraction, double& position_angle, double& phase_angle)
 {
   double moon_alpha = 0;
   double moon_delta = 0;
@@ -202,7 +202,7 @@ void PrintMoonIlluminationAndPhase(int year, int month, int day, bool bHighPreci
   PrintMoonPhase(position_angle, phase_angle);
 }
 
-void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec) noexcept
+void GetMercuryRaDecByJulian(double JD, bool bHighPrecision, double& RA, double& Dec)
 {
   const double JDMercury = CAADynamicalTime::UTC2TT(JD);
   const double lambda = CAAMercury::EclipticLongitude(JDMercury, bHighPrecision);
@@ -1575,7 +1575,7 @@ int main()
   /*
   //Code to write out the values of TT-UTC for a specific range
   {
-    double JDUT1 = 2325882.5;
+    double JDUT1 = 2325000.5;
     bool bContinue2 = true;
     while (bContinue2)
     {
@@ -1592,8 +1592,8 @@ int main()
       printf("%04d/%02d/%02d\t%f\t%f\t%f\t%f\t%f\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(Day), JDUT1, (TT - JDUT1) * 86400, (TT - TT2) * 86400, CAADynamicalTime::UT1MinusUTC(TT), CAADynamicalTime::DeltaT(TT));
 
       //Prepare for the next loop
-      JDUT1 += 10;
-      if (JDUT1 >= 2473682)
+      JDUT1 += 1;
+      if (JDUT1 >= 2461700.5)
         bContinue2 = false;
     }
     return 0;
@@ -2212,9 +2212,10 @@ int main()
 
 
   //Test out the CAAPlanetPerihelionAphelion class
-  constexpr long VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
-  const double VenusPerihelion = CAAPlanetPerihelionAphelion::VenusPerihelion(VenusK);
-  CAADate date_time(CAADynamicalTime::TT2UTC(VenusPerihelion), true);
+  constexpr double MercuryKp = CAAPlanetPerihelionAphelion::MercuryK(2021);
+  printf("Mercury K: %f\n", MercuryKp);
+  constexpr double MercuryPerihelion = CAAPlanetPerihelionAphelion::Mercury(static_cast<long>(MercuryKp));
+  CAADate date_time(CAADynamicalTime::TT2UTC(MercuryPerihelion), true);
   long year = 0;
   long month = 0;
   long day = 0;
@@ -2222,43 +2223,24 @@ int main()
   long minute = 0;
   double second = 0;
   date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Mercury (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double MercuryAphelion = CAAPlanetPerihelionAphelion::Mercury(static_cast<long>(MercuryKp) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(MercuryAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Mercury (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double VenusK = CAAPlanetPerihelionAphelion::VenusK(1978.79);
+  printf("Venus K: %f\n", VenusK);
+  constexpr double VenusPerihelion = CAAPlanetPerihelionAphelion::Venus(static_cast<long>(VenusK));
+  date_time = CAADate(CAADynamicalTime::TT2UTC(VenusPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
   printf("Perihelion of Venus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
-  constexpr long MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
-  const double MarsAphelion = CAAPlanetPerihelionAphelion::MarsAphelion(MarsK);
-  date_time = CAADate(CAADynamicalTime::TT2UTC(MarsAphelion), true);
+  constexpr double VenusAphelion = CAAPlanetPerihelionAphelion::Venus(static_cast<long>(VenusK) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(VenusAphelion), true);
   date_time.Get(year, month, day, hour, minute, second);
-  printf("Aphelion of Mars (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-
-  long SaturnK = CAAPlanetPerihelionAphelion::SaturnK(1925);
-  const double SaturnAphelion = CAAPlanetPerihelionAphelion::SaturnAphelion(SaturnK);
-  date_time = CAADate(CAADynamicalTime::TT2UTC(SaturnAphelion), true);
-  date_time.Get(year, month, day, hour, minute, second);
-  printf("Aphelion of Saturn (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-
-  SaturnK = CAAPlanetPerihelionAphelion::SaturnK(1940);
-  const double SaturnPerihelion = CAAPlanetPerihelionAphelion::SaturnPerihelion(SaturnK);
-  date_time = CAADate(CAADynamicalTime::TT2UTC(SaturnPerihelion), true);
-  date_time.Get(year, month, day, hour, minute, second);
-  printf("Perihelion of Saturn (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-
-  long UranusK = CAAPlanetPerihelionAphelion::UranusK(1750);
-  const double UranusAphelion = CAAPlanetPerihelionAphelion::UranusAphelion(UranusK);
-  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusAphelion), true);
-  date_time.Get(year, month, day, hour, minute, second);
-  printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-
-  UranusK = CAAPlanetPerihelionAphelion::UranusK(1890);
-  double UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusPerihelion), true);
-  date_time.Get(year, month, day, hour, minute, second);
-  printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-
-  UranusK = CAAPlanetPerihelionAphelion::UranusK(2060);
-  UranusPerihelion = CAAPlanetPerihelionAphelion::UranusPerihelion(UranusK);
-  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusPerihelion), true);
-  date_time.Get(year, month, day, hour, minute, second);
-  printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+  printf("Aphelion of Venus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   const double EarthPerihelion = CAAPlanetPerihelionAphelion::EarthPerihelion(-10, true);
   date_time = CAADate(CAADynamicalTime::TT2UTC(EarthPerihelion), true);
@@ -2270,6 +2252,94 @@ int main()
   date_time.Get(year, month, day, hour, minute, second);
   printf("Perihelion of Earth (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
+  constexpr double EarthK = CAAPlanetPerihelionAphelion::EarthK(2021);
+  printf("Earth K: %f\n", EarthK);
+  const double EarthPerihelion3 = CAAPlanetPerihelionAphelion::EarthPerihelion(static_cast<long>(EarthK), false);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(EarthPerihelion3), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Earth (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  const double EarthAphelion1 = CAAPlanetPerihelionAphelion::EarthAphelion(static_cast<long>(EarthK) + 0.5, false);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(EarthAphelion1), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Earth (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double EarthK2 = CAAPlanetPerihelionAphelion::EarthK(2000.5);
+  const double EarthAphelion2 = CAAPlanetPerihelionAphelion::EarthAphelion(static_cast<long>(EarthK2) + 0.5, false);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(EarthAphelion2), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Earth (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double MarsK = CAAPlanetPerihelionAphelion::MarsK(2032);
+  printf("Mars K: %f\n", MarsK);
+  constexpr double MarsPerihelion = CAAPlanetPerihelionAphelion::Mars(static_cast<long>(MarsK));
+  date_time = CAADate(CAADynamicalTime::TT2UTC(MarsPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Mars (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double MarsAphelion = CAAPlanetPerihelionAphelion::Mars(static_cast<long>(MarsK) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(MarsAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Mars (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double JupiterK = CAAPlanetPerihelionAphelion::JupiterK(2021);
+  printf("Jupiter K: %f\n", JupiterK);
+  constexpr double JupiterPerihelion = CAAPlanetPerihelionAphelion::Jupiter(static_cast<long>(JupiterK));
+  date_time = CAADate(CAADynamicalTime::TT2UTC(JupiterPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Jupiter (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double JupiterAphelion = CAAPlanetPerihelionAphelion::Jupiter(static_cast<long>(JupiterK) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(JupiterAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Jupiter (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double SaturnK1 = CAAPlanetPerihelionAphelion::SaturnK(1925);
+  printf("Saturn K: %f\n", SaturnK1);
+  constexpr double SaturnK2 = CAAPlanetPerihelionAphelion::SaturnK(1940);
+  printf("Saturn K: %f\n", SaturnK2);
+  constexpr double SaturnPerihelion = CAAPlanetPerihelionAphelion::Saturn(static_cast<long>(SaturnK2));
+  date_time = CAADate(CAADynamicalTime::TT2UTC(SaturnPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Saturn (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double SaturnAphelion = CAAPlanetPerihelionAphelion::Saturn(static_cast<long>(SaturnK2) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(SaturnAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Saturn (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double UranusK1 = CAAPlanetPerihelionAphelion::UranusK(1750);
+  printf("Uranus K: %f\n", UranusK1);
+  constexpr double UranusAphelion = CAAPlanetPerihelionAphelion::Uranus(static_cast<long>(UranusK1) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double UranusK2 = CAAPlanetPerihelionAphelion::UranusK(1890);
+  printf("Uranus K: %f\n", UranusK2);
+  constexpr double UranusPerihelion = CAAPlanetPerihelionAphelion::Uranus(static_cast<long>(UranusK2)); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusPerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double UranusK3 = CAAPlanetPerihelionAphelion::UranusK(2060);
+  printf("Uranus K: %f\n", UranusK3);
+  constexpr double UranusPerihelion3 = CAAPlanetPerihelionAphelion::Uranus(static_cast<long>(UranusK3));
+  date_time = CAADate(CAADynamicalTime::TT2UTC(UranusPerihelion3), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Uranus (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double NeptuneK = CAAPlanetPerihelionAphelion::NeptuneK(1850);
+  printf("Neptune K: %f\n", NeptuneK);
+  constexpr double NeptunePerihelion = CAAPlanetPerihelionAphelion::Neptune(static_cast<long>(NeptuneK));
+  date_time = CAADate(CAADynamicalTime::TT2UTC(NeptunePerihelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Perihelion of Neptune (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+
+  constexpr double NeptuneAphelion = CAAPlanetPerihelionAphelion::Neptune(static_cast<long>(NeptuneK) + 0.5);
+  date_time = CAADate(CAADynamicalTime::TT2UTC(NeptuneAphelion), true);
+  date_time.Get(year, month, day, hour, minute, second);
+  printf("Aphelion of Neptune (using CAAPlanetPerihelionAphelion) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   //Test out the CAAPlanetPerihelionAphelion2 class
   /*
@@ -3334,53 +3404,71 @@ int main()
   }
   */
 
-  const double Kpp = CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  double Kpp = CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  Kpp = floor(Kpp + 0.5);
+  printf("Mercury K: %f\n", Kpp);
   const double MercuryInferiorConjunction = CAAPlanetaryPhenomena::Mean(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
-  UNREFERENCED_PARAMETER(MercuryInferiorConjunction);
+  printf("Mercury Mean Inferior Conjunction: %f\n", MercuryInferiorConjunction);
   const double MercuryInferiorConjunction2 = CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
-  UNREFERENCED_PARAMETER(MercuryInferiorConjunction2);
+  printf("Mercury True Inferior Conjunction: %f\n", MercuryInferiorConjunction2);
 
-  const double Kpp2 = CAAPlanetaryPhenomena::K(2125.5, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
+  double Kpp2 = CAAPlanetaryPhenomena::K(2125.5, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
+  Kpp2 = floor(Kpp2 + 0.5);
+  printf("Saturn K: %f\n", Kpp2);
   const double SaturnConjunction = CAAPlanetaryPhenomena::Mean(Kpp2, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
-  UNREFERENCED_PARAMETER(SaturnConjunction);
+  printf("Saturn Mean Conjuction: %f\n", SaturnConjunction);
   const double SaturnConjunction2 = CAAPlanetaryPhenomena::True(Kpp2, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::CONJUNCTION);
-  UNREFERENCED_PARAMETER(SaturnConjunction2);
+  printf("Saturn True Conjuction: %f\n", SaturnConjunction2);
 
   const double MercuryWesternElongation = CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::WESTERN_ELONGATION);
-  UNREFERENCED_PARAMETER(MercuryWesternElongation);
+  printf("Mercury Mean Western Elongation: %f\n", MercuryWesternElongation);
   const double MercuryWesternElongationValue = CAAPlanetaryPhenomena::ElongationValue(Kpp, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, false);
-  UNREFERENCED_PARAMETER(MercuryWesternElongationValue);
+  printf("Mercury Elongation Value: %f\n", MercuryWesternElongationValue);
 
   const double MarsStation2 = CAAPlanetaryPhenomena::True(-2, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::STATION2);
-  UNREFERENCED_PARAMETER(MarsStation2);
+  printf("Mars true in station2: %f\n", MarsStation2);
 
-  const double MercuryK = CAAPlanetaryPhenomena::K(1631.8, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  double MercuryK = CAAPlanetaryPhenomena::K(1631.8, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  MercuryK = floor(MercuryK + 0.5);
+  printf("Mercury K: %f\n", MercuryK);
   const double MercuryIC = CAAPlanetaryPhenomena::True(MercuryK, CAAPlanetaryPhenomena::PlanetaryObject::MERCURY, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
-  UNREFERENCED_PARAMETER(MercuryIC);
+  printf("Mercury True Inferior Conjunction: %f\n", MercuryIC);
 
-  const double VenusKpp = CAAPlanetaryPhenomena::K(1882.9, CAAPlanetaryPhenomena::PlanetaryObject::VENUS, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  double VenusKpp = CAAPlanetaryPhenomena::K(1882.9, CAAPlanetaryPhenomena::PlanetaryObject::VENUS, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
+  VenusKpp = floor(VenusKpp + 0.5);
+  printf("Venus K: %f\n", VenusKpp);
   const double VenusIC = CAAPlanetaryPhenomena::True(VenusKpp, CAAPlanetaryPhenomena::PlanetaryObject::VENUS, CAAPlanetaryPhenomena::EventType::INFERIOR_CONJUNCTION);
-  UNREFERENCED_PARAMETER(VenusIC);
+  printf("Venus True Inferior Conjunction: %f\n", VenusIC);
 
-  const double MarsKpp = CAAPlanetaryPhenomena::K(2729.65, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  double MarsKpp = CAAPlanetaryPhenomena::K(2729.65, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  MarsKpp = floor(MarsKpp + 0.5);
+  printf("Mars K: %f\n", MarsKpp);
   const double MarsOP = CAAPlanetaryPhenomena::True(MarsKpp, CAAPlanetaryPhenomena::PlanetaryObject::MARS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
-  UNREFERENCED_PARAMETER(MarsOP);
+  printf("Mars True Opposition: %f\n", MarsOP);
 
-  const double JupiterKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::PlanetaryObject::JUPITER, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  double JupiterKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::PlanetaryObject::JUPITER, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  JupiterKpp = floor(JupiterKpp + 0.5);
+  printf("Jupiter K: %f\n", JupiterKpp);
   const double JupiterOP = CAAPlanetaryPhenomena::True(JupiterKpp, CAAPlanetaryPhenomena::PlanetaryObject::JUPITER, CAAPlanetaryPhenomena::EventType::OPPOSITION);
-  UNREFERENCED_PARAMETER(JupiterOP);
+  printf("Jupiter True Opposition: %f\n", JupiterOP);
 
-  const double SaturnKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  double SaturnKpp = CAAPlanetaryPhenomena::K(-5, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  SaturnKpp = floor(SaturnKpp + 0.5);
+  printf("Saturn K: %f\n", SaturnKpp);
   const double SaturnOP = CAAPlanetaryPhenomena::True(SaturnKpp, CAAPlanetaryPhenomena::PlanetaryObject::SATURN, CAAPlanetaryPhenomena::EventType::OPPOSITION);
-  UNREFERENCED_PARAMETER(SaturnOP);
+  printf("Saturn True Opposition: %f\n", SaturnOP);
 
-  const double UranusKpp = CAAPlanetaryPhenomena::K(1780.6, CAAPlanetaryPhenomena::PlanetaryObject::URANUS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  double UranusKpp = CAAPlanetaryPhenomena::K(1780.6, CAAPlanetaryPhenomena::PlanetaryObject::URANUS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  UranusKpp = floor(UranusKpp + 0.5);
+  printf("Uranus K: %f\n", UranusKpp);
   const double UranusOP = CAAPlanetaryPhenomena::True(UranusKpp, CAAPlanetaryPhenomena::PlanetaryObject::URANUS, CAAPlanetaryPhenomena::EventType::OPPOSITION);
-  UNREFERENCED_PARAMETER(UranusOP);
+  printf("Uranus True Opposition: %f\n", UranusOP);
 
-  const double NeptuneKpp = CAAPlanetaryPhenomena::K(1846.5, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  double NeptuneKpp = CAAPlanetaryPhenomena::K(1846.5, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
+  NeptuneKpp = floor(NeptuneKpp + 0.5);
+  printf("Neptune K: %f\n", NeptuneKpp);
   const double NeptuneOP = CAAPlanetaryPhenomena::True(NeptuneKpp, CAAPlanetaryPhenomena::PlanetaryObject::NEPTUNE, CAAPlanetaryPhenomena::EventType::OPPOSITION);
-  UNREFERENCED_PARAMETER(NeptuneOP);
+  printf("Neptune True Opposition: %f\n", NeptuneOP);
 
   printf("Planet Phenomena for Mercury\n");
   std::vector<CAAPlanetaryPhenomenaDetails2> events7 = CAAPlanetaryPhenomena2::Calculate(CAADynamicalTime::UTC2TT(2449292.5), CAADynamicalTime::UTC2TT(2449492.5), CAAPlanetaryPhenomena2::Object::MERCURY, 0.007, false);
